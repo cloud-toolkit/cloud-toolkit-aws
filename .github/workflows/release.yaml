@@ -1,0 +1,43 @@
+name: release
+on:
+  push:
+    tags:
+      - v*.*.*
+permissions:
+  contents: write
+env:
+  GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+jobs:
+  publish_binary:
+    name: publish
+    runs-on: macos-12
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Unshallow clone for tags
+        run: git fetch --prune --unshallow --tags
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.nodeversion}}
+      - name: Install pulumictl
+        uses: jaxxstorm/action-install-gh-release@v1.5.0
+        with:
+          repo: pulumi/pulumictl
+      - name: Install Pulumi CLI
+        uses: pulumi/action-install-pulumi-cli@v1.0.1
+      - run: make build_provider
+      - name: Create Provider Binaries
+        run: make dist
+      - name: Create GH Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+    strategy:
+      fail-fast: true
+      matrix:
+        nodeversion:
+          - 16.x

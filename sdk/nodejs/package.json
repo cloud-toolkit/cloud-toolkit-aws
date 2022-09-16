@@ -24,6 +24,7 @@
     },
     "pulumi": {
         "resource": true,
-        "name": "cloud-toolkit-aws"
+        "name": "cloud-toolkit-aws",
+        "server": "github://api.github.com/cloud-toolkit/pulumi-cloud-toolkit-aws"
     }
 }

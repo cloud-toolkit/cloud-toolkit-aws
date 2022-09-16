@@ -20,7 +20,7 @@ build_provider::
 		npm ci && \
 		npx tsc && \
 		cp package.json ../../../schema.yaml ./bin && \
-		sed -i .back -e "s/\$${VERSION}/$(VERSION)/g" bin/package.json
+		sed -i.back -e "s/\$${VERSION}/$(VERSION)/g" bin/package.json
 
 install_provider:: PKG_ARGS := --no-bytecode --public-packages "*" --public
 install_provider:: build_provider

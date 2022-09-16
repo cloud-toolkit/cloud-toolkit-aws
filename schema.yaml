@@ -10,6 +10,7 @@ keywords:
   - cloud-toolkit
   - category/cloud
   - kind/component
+pluginDownloadURL: github://api.github.com/cloud-toolkit/pulumi-cloud-toolkit-aws
 types: {}
 resources:
   cloud-toolkit-aws:index:Example:
