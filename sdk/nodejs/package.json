@@ -1,0 +1,29 @@
+{
+    "name": "@cloud-toolkit/cloud-toolkit-aws",
+    "version": "${VERSION}",
+    "keywords": [
+        "pulumi",
+        "aws",
+        "cloud-toolkit",
+        "category/cloud",
+        "kind/component"
+    ],
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "tsc",
+        "install": "node scripts/install-pulumi-plugin.js resource cloud-toolkit-aws ${VERSION}"
+    },
+    "dependencies": {
+        "@pulumi/aws": "^5.10.0"
+    },
+    "devDependencies": {
+        "typescript": "^4.0.0"
+    },
+    "peerDependencies": {
+        "@pulumi/pulumi": "latest"
+    },
+    "pulumi": {
+        "resource": true,
+        "name": "cloud-toolkit-aws"
+    }
+}
