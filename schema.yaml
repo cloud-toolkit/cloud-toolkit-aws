@@ -1,0 +1,42 @@
+---
+name: cloud-toolkit-aws
+license: Apache-2.0
+logoUrl: 
+displayName: Cloud Toolkit AWS
+publisher: AstroKube
+keywords:
+  - pulumi
+  - aws
+  - cloud-toolkit
+  - category/cloud
+  - kind/component
+types: {}
+resources:
+  cloud-toolkit-aws:index:Example:
+    isComponent: true
+    inputProperties:
+      name:
+        type: string
+        description: |
+          A Swagger specification already in string form to use to initialize the APIGateway.  Note
+          that you must manually provide permission for any route targets to be invoked by API Gateway
+          when using `swaggerString`.
+
+          Either `swaggerString` or `routes` must be specified.
+    properties:
+      bucket:
+        "$ref": "/aws/v5.13.0/schema.json#/resources/aws:s3%2FbucketV2:BucketV2"
+        description: |
+          The underlying Bucket resource.
+    required:
+    - bucket
+    description: |
+      This is just an example.
+language:
+  nodejs:
+    dependencies:
+      "@pulumi/aws": "^5.10.0"
+    devDependencies:
+      typescript: "^4.0.0"
+    respectSchemaVersion: true
+    packageName: "@cloud-toolkit/cloud-toolkit-aws"
