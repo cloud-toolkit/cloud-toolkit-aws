@@ -11,7 +11,7 @@ SCHEMA_PATH     := ${WORKING_DIR}/schema.yaml
 
 generate:: gen_nodejs_sdk
 
-build:: build_provider
+build:: build_provider build_nodejs_sdk
 
 install:: install_provider
 
@@ -31,3 +31,14 @@ install_provider:: build_provider
 gen_nodejs_sdk::
 	rm -rf sdk/nodejs
 	cd provider/cmd/${CODEGEN} && go run . nodejs ../../../sdk/nodejs ${SCHEMA_PATH}
+
+build_nodejs_sdk:: VERSION := $(shell pulumictl get version --language javascript)
+build_nodejs_sdk:: gen_nodejs_sdk
+	cd sdk/nodejs/ && \
+		echo "module fake_nodejs_module // Exclude this directory from Go tools\n\ngo 1.17" > go.mod && \
+		npm install && \
+		npm run build && \
+		cp -R scripts bin/ && \
+		cp ../../README.md ../../LICENSE package.json package-lock.json ./bin/ && \
+		sed -i.bak -e "s/\$${VERSION}/$(VERSION)/g" ./bin/package.json && \
+		rm ./bin/package.json.bak
