@@ -40,3 +40,9 @@ language:
       typescript: "^4.0.0"
     respectSchemaVersion: true
     packageName: "@cloud-toolkit/cloud-toolkit-aws"
+  python:
+    requires:
+      pulumi: ">=3.0.0,<4.0.0"
+      pulumi-aws: ">=5.10.0,<6.0.0"
+    respectSchemaVersion: true
+    packageName: cloud_toolkit_aws

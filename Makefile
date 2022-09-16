@@ -9,7 +9,7 @@ CODEGEN         := pulumi-gen-${PACK}
 WORKING_DIR     := $(shell pwd)
 SCHEMA_PATH     := ${WORKING_DIR}/schema.yaml
 
-generate:: gen_nodejs_sdk
+generate:: gen_nodejs_sdk gen_python_sdk
 
 build:: build_provider build_nodejs_sdk
 
@@ -42,3 +42,8 @@ build_nodejs_sdk:: gen_nodejs_sdk
 		cp ../../README.md ../../LICENSE package.json package-lock.json ./bin/ && \
 		sed -i.bak -e "s/\$${VERSION}/$(VERSION)/g" ./bin/package.json && \
 		rm ./bin/package.json.bak
+
+gen_python_sdk::
+	rm -rf sdk/python
+	cd provider/cmd/${CODEGEN} && go run . python ../../../sdk/python ${SCHEMA_PATH}
+	cp ${WORKING_DIR}/README.md sdk/python
