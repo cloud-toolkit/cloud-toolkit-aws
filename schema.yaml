@@ -25,6 +25,12 @@ types:
       - value: Bounce
       - value: Complaint
       - value: Delivery
+  cloud-toolkit-aws:kubernetes:ClusterSubnetsType:
+    description: The subnet type
+    type: string
+    enum:
+      - value: private
+      - value: public
   cloud-toolkit-aws:serverless:DeadLetterQueueTypes:
     description: >-
       Dead Letter Queue type that will receive the faulty messages from
@@ -97,6 +103,138 @@ types:
       name:
         description: ""
         type: string
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterArgs:
+    properties:
+      vpcId:
+        description: The VPC ID where the cluster will be deployed
+        type: string
+      privateSubnetIds:
+        description: The list of private subnet ids where for the EKS cluster. These
+          subnets will be tagged for Kubernetes purposes.
+        type: array
+        items:
+          description: The list of private subnet ids where for the EKS cluster. These
+            subnets will be tagged for Kubernetes purposes.
+          type: string
+      publicSubnetIds:
+        description: The list of public subnet ids where for the EKS cluster. These
+          subnets will be tagged for Kubernetes purposes.
+        type: array
+        items:
+          description: The list of public subnet ids where for the EKS cluster. These
+            subnets will be tagged for Kubernetes purposes.
+          type: string
+      version:
+        description: Desired Kubernetes version for control plane. Defaults to '1.22'.
+        type: string
+      api:
+        description: Configure the Kubernetes cluster API.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterApiArgs"
+      nodeGroups:
+        description: The NodeGroups to be assigned to this cluster.
+        type: array
+        items:
+          description: The NodeGroups to be assigned to this cluster.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs"
+      oidcProviders:
+        description: The OIDC Providers configuration.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterApiArgs:
+    properties:
+      public:
+        description: Configure the public endpoint for the Kubernetes API.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPublicApiArgs"
+      private:
+        description: Configure the private endpoint for the Kubernetes API.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPrivateApiArgs"
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterPublicApiArgs:
+    properties:
+      enabled:
+        description: Enable the public endpoint for Kubernetes API.
+        type: boolean
+      whitelist:
+        description: The list of CIDR that will be allowed to reach the public endpoint
+          for Kubernetes API.
+        type: array
+        items:
+          description: The list of CIDR that will be allowed to reach the public endpoint
+            for Kubernetes API.
+          type: string
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterPrivateApiArgs:
+    properties:
+      enabled:
+        description: Enable the private endpoint for Kubernetes API.
+        type: boolean
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs:
+    properties:
+      name:
+        description: The Node Group name.
+        type: string
+      subnetsType:
+        description: The subnets type to be used to deploy the Node Groups.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterSubnetsType"
+      instanceType:
+        description: The EC2 Instance Type to be used to create the Nodes.
+        type: string
+      minCount:
+        description: The minimum number of nodes running in the node group. Defaults to 1.
+        type: number
+      maxCount:
+        description: The maxium number of nodes running in the node group. Defaults to 2.
+        type: number
+      maxUnavailable:
+        description: The maximum number of nodes unavailable at once during a version
+          update. Defaults to 1.
+        type: number
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs:
+    properties:
+      enableDefaultProvider:
+        description: Enable the default OIDC Provider that is used in the cluster to let
+          Service Accounts to authenticate against AWS with a given IAM Role.
+        type: boolean
+    type: object
+  cloud-toolkit-aws:kubernetes:NodeGroupArgs:
+    properties:
+      name:
+        description: The name that identies the resource.
+        type: string
+      clusterVersion:
+        description: The Kubernetes cluster version.
+        type: string
+      clusterEndpoint:
+        description: The Kubernetes cluster endpoint.
+        type: string
+      clusterCA:
+        description: The CA used by the Kubernetes cluster.
+        type: string
+      clusterName:
+        description: The Kubernetes cluster name.
+        type: string
+      subnetIds:
+        description: The list of subnets ids where the nodes will be deployed.
+        type: array
+        items:
+          description: The list of subnets ids where the nodes will be deployed.
+          type: string
+      instanceType:
+        description: The aws instance type to use for the nodes. Defaults to "t3.medium".
+        type: string
+      minCount:
+        description: The minimum number of nodes running in the node group. Defaults to 1.
+        type: number
+      maxCount:
+        description: The maxium number of nodes running in the node group. Defaults to 2.
+        type: number
+      maxUnavailable:
+        description: The maximum number of nodes unavailable at once during a version
+          update. Defaults to 1.
+        type: number
     type: object
   cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs:
     properties:
@@ -414,6 +552,177 @@ resources:
       - name
     isComponent: true
     type: object
+  cloud-toolkit-aws:kubernetes:Cluster:
+    description: Cluster is a component that deploy a production-ready Kubernetes
+      cluster. It setups the AWS IAM and netwokring, as well many Kubernetes
+      services to run application in production.
+    properties:
+      subnetTags:
+        description: EC2 Tags used for provisioning Load Balancers.
+        type: array
+        items:
+          description: EC2 Tags used for provisioning Load Balancers.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2ftag:Tag
+      provisionerRole:
+        description: The IAM Role to provision EKS cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      provisionerRolePolicy:
+        description: The IAM Role Polity to provision EKS cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicy:RolePolicy
+      provisionerProvider:
+        description: The Provider to provision EKS cluster.
+        $ref: /aws/v5.10.0/schema.json#/provider
+      role:
+        description: The IAM Role assumed by the EKS Cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      rolePolicyAttachment:
+        description: The IAM Role Policy Attachment to assign the IAM Policies to the
+          IAM Role.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+      securityGroup:
+        description: The Security Group associated to the EKS Cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2fsecurityGroup:SecurityGroup
+      cluster:
+        description: The EKS Cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:eks%2fcluster:Cluster
+      kubeconfig:
+        description: The kubeconfig content for this cluster.
+        type: string
+      provider:
+        description: The Kubernetes provider for this cluster.
+        $ref: /kubernetes/v3.21.2/schema.json#/provider
+      nodeGroups:
+        description: The Node Groups associated to the cluster.
+        type: array
+        items:
+          description: The Node Groups associated to the cluster.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:NodeGroup"
+      defaultOidcProvider:
+        description: The default OIDC Provider.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fopenIdConnectProvider:OpenIdConnectProvider
+      cniChart:
+        description: The VPC CNI Chart installed in the cluster.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:helm.sh/v3:Release
+    required:
+      - subnetTags
+      - provisionerRole
+      - provisionerRolePolicy
+      - provisionerProvider
+      - role
+      - rolePolicyAttachment
+      - securityGroup
+      - cluster
+      - kubeconfig
+      - provider
+      - nodeGroups
+      - cniChart
+    inputProperties:
+      vpcId:
+        description: The VPC ID where the cluster will be deployed
+        type: string
+      privateSubnetIds:
+        description: The list of private subnet ids where for the EKS cluster. These
+          subnets will be tagged for Kubernetes purposes.
+        type: array
+        items:
+          description: The list of private subnet ids where for the EKS cluster. These
+            subnets will be tagged for Kubernetes purposes.
+          type: string
+      publicSubnetIds:
+        description: The list of public subnet ids where for the EKS cluster. These
+          subnets will be tagged for Kubernetes purposes.
+        type: array
+        items:
+          description: The list of public subnet ids where for the EKS cluster. These
+            subnets will be tagged for Kubernetes purposes.
+          type: string
+      version:
+        description: Desired Kubernetes version for control plane. Defaults to '1.22'.
+        type: string
+      api:
+        description: Configure the Kubernetes cluster API.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterApiArgs"
+      nodeGroups:
+        description: The NodeGroups to be assigned to this cluster.
+        type: array
+        items:
+          description: The NodeGroups to be assigned to this cluster.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs"
+      oidcProviders:
+        description: The OIDC Providers configuration.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
+    requiredInputs: []
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:kubernetes:NodeGroup:
+    description: NodeGroup is a component that deploy a Node Group for a Kubernetes cluster.
+    properties:
+      role:
+        description: The IAM Role assumed by the EKS Nodes.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      rolePolicyAttachments:
+        description: The list of IAM Role Policy Attachment used to attach IAM Roles to
+          the EKS Node Group.
+        type: array
+        items:
+          description: The list of IAM Role Policy Attachment used to attach IAM Roles to
+            the EKS Node Group.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+      launchTemplate:
+        description: The EC2 Launch Template used to provision nodes.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2flaunchTemplate:LaunchTemplate
+      nodeGroup:
+        description: The EKS Node Group.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:eks%2fnodeGroup:NodeGroup
+    required:
+      - role
+      - rolePolicyAttachments
+      - launchTemplate
+      - nodeGroup
+    inputProperties:
+      name:
+        description: The name that identies the resource.
+        type: string
+      clusterVersion:
+        description: The Kubernetes cluster version.
+        type: string
+      clusterEndpoint:
+        description: The Kubernetes cluster endpoint.
+        type: string
+      clusterCA:
+        description: The CA used by the Kubernetes cluster.
+        type: string
+      clusterName:
+        description: The Kubernetes cluster name.
+        type: string
+      subnetIds:
+        description: The list of subnets ids where the nodes will be deployed.
+        type: array
+        items:
+          description: The list of subnets ids where the nodes will be deployed.
+          type: string
+      instanceType:
+        description: The aws instance type to use for the nodes. Defaults to "t3.medium".
+        type: string
+      minCount:
+        description: The minimum number of nodes running in the node group. Defaults to 1.
+        type: number
+      maxCount:
+        description: The maxium number of nodes running in the node group. Defaults to 2.
+        type: number
+      maxUnavailable:
+        description: The maximum number of nodes unavailable at once during a version
+          update. Defaults to 1.
+        type: number
+    requiredInputs:
+      - name
+      - clusterVersion
+      - clusterEndpoint
+      - clusterCA
+      - clusterName
+      - subnetIds
+    isComponent: true
+    type: object
   cloud-toolkit-aws:serverless:Queue:
     description: Cloud Toolkit component for Queues. Creates a Simple Queue Service
       Queue alongside a Dead Letter Queue for faulty message deliveries.
@@ -454,6 +763,7 @@ language:
   nodejs:
     dependencies:
       "@pulumi/aws": ^5.10.0
+      "@pulumi/kubernetes": ^3.20.2
     devDependencies:
       typescript: ^4.0.0
     respectSchemaVersion: true
@@ -462,6 +772,7 @@ language:
     requires:
       pulumi: ">=3.0.0,<4.0.0"
       pulumi-aws: ">=5.10.0,<6.0.0"
+      pulumi-kubernetes: ">=3.20.2,<4.0.0"
     respectSchemaVersion: true
     packageName: cloud_toolkit_aws
 
