@@ -1,0 +1,17 @@
+name: pull-request
+
+on:
+  pull_request: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: NPM ci
+        run: npm ci
+        working-directory: provider/cmd/pulumi-resource-cloud-toolkit-aws
+      - name: NPM test
+        run: npm run test
+        working-directory: provider/cmd/pulumi-resource-cloud-toolkit-aws
