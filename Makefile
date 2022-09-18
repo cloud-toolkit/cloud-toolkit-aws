@@ -9,7 +9,7 @@ CODEGEN         := pulumi-gen-${PACK}
 WORKING_DIR     := $(shell pwd)
 SCHEMA_PATH     := ${WORKING_DIR}/schema.yaml
 
-generate:: gen_nodejs_sdk gen_python_sdk
+generate:: gen_nodejs_sdk gen_python_sdk gen_go_sdk
 
 build:: build_provider build_nodejs_sdk build_python_sdk
 
@@ -56,6 +56,10 @@ build_python_sdk:: gen_python_sdk
 		sed -i.bak -e "s/\$${VERSION}/${PYPI_VERSION}/g" -e "s/\$${PLUGIN_VERSION}/${VERSION}/g" ./bin/setup.py && \
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
+
+gen_go_sdk::
+	rm -rf sdk/go
+	cd provider/cmd/${CODEGEN} && go run . go ../../../sdk/go ${SCHEMA_PATH}
 
 dist:: PKG_ARGS := --no-bytecode --public-packages "*" --public
 dist:: build_provider
