@@ -3,9 +3,11 @@
 
 // Export sub-modules:
 import * as email from "./email";
+import * as kubernetes from "./kubernetes";
 import * as serverless from "./serverless";
 
 export {
     email,
+    kubernetes,
     serverless,
 };

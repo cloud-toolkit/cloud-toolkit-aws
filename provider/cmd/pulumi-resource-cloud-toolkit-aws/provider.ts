@@ -2,6 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
+import { Cluster, ClusterArgs, NodeGroup, NodeGroupArgs } from "./kubernetes";
 import { Example, ExampleArgs } from "./example";
 
 export class Provider implements pulumi.provider.Provider {
@@ -20,10 +21,57 @@ export class Provider implements pulumi.provider.Provider {
         return await constructQueue(name, inputs, options);
       case "cloud-toolkit-aws:email:EmailSender":
         return await constructEmailSender(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:Cluster":
+        return await constructKubernetesCluster(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:NodeGroup":
+        return await constructKubernetesNodeGroup(name, inputs, options);
       default:
         throw new Error(`unknown resource type ${type}`);
     }
   }
+}
+async function constructKubernetesCluster(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new Cluster(name, inputs as ClusterArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      cluster: resource.cluster,
+      cniChart: resource.cniChart,
+      defaultOidcProvider: resource.defaultOidcProvider,
+      kubeconfig: resource.kubeconfig,
+      nodeGroups: resource.nodeGroups,
+      provider: resource.provider,
+      provisionerRole: resource.provisionerRole,
+      provisionerRolePolicy: resource.provisionerRolePolicy,
+      provisionerProvider: resource.provisionerProvider,
+      role: resource.role,
+      rolePolicyAttachment: resource.rolePolicyAttachment,
+      securityGroup: resource.securityGroup,
+      subnetTags: resource.subnetTags,
+    },
+  };
+}
+
+async function constructKubernetesNodeGroup(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new NodeGroup(name, inputs as NodeGroupArgs, options);
+  return {
+    urn: resource.urn,
+    state: {
+      role: resource.role,
+      rolePolcyAttachments: resource.rolePolicyAttachments,
+      launchTemplate: resource.launchTemplate,
+      nodeGroup: resource.nodeGroup,
+    },
+  };
 }
 
 async function constructExample(

@@ -50,6 +50,72 @@ export namespace email {
     }
 }
 
+export namespace kubernetes {
+    export interface ClusterApiArgsArgs {
+        /**
+         * Configure the private endpoint for the Kubernetes API.
+         */
+        private?: pulumi.Input<inputs.kubernetes.ClusterPrivateApiArgsArgs>;
+        /**
+         * Configure the public endpoint for the Kubernetes API.
+         */
+        public?: pulumi.Input<inputs.kubernetes.ClusterPublicApiArgsArgs>;
+    }
+
+    export interface ClusterNodeGroupArgsArgs {
+        /**
+         * The EC2 Instance Type to be used to create the Nodes.
+         */
+        instanceType?: pulumi.Input<string>;
+        /**
+         * The maxium number of nodes running in the node group. Defaults to 2.
+         */
+        maxCount?: pulumi.Input<number>;
+        /**
+         * The maximum number of nodes unavailable at once during a version update. Defaults to 1.
+         */
+        maxUnavailable?: pulumi.Input<number>;
+        /**
+         * The minimum number of nodes running in the node group. Defaults to 1.
+         */
+        minCount?: pulumi.Input<number>;
+        /**
+         * The Node Group name.
+         */
+        name?: pulumi.Input<string>;
+        /**
+         * The subnets type to be used to deploy the Node Groups.
+         */
+        subnetsType?: pulumi.Input<enums.kubernetes.ClusterSubnetsType>;
+    }
+
+    export interface ClusterOidcProvidersArgsArgs {
+        /**
+         * Enable the default OIDC Provider that is used in the cluster to let Service Accounts to authenticate against AWS with a given IAM Role.
+         */
+        enableDefaultProvider?: pulumi.Input<boolean>;
+    }
+
+    export interface ClusterPrivateApiArgsArgs {
+        /**
+         * Enable the private endpoint for Kubernetes API.
+         */
+        enabled?: pulumi.Input<boolean>;
+    }
+
+    export interface ClusterPublicApiArgsArgs {
+        /**
+         * Enable the public endpoint for Kubernetes API.
+         */
+        enabled?: pulumi.Input<boolean>;
+        /**
+         * The list of CIDR that will be allowed to reach the public endpoint for Kubernetes API.
+         */
+        whitelist?: pulumi.Input<pulumi.Input<string>[]>;
+    }
+
+}
+
 export namespace serverless {
     export interface DeadLetterQueueTypeArgsArgs {
         /**

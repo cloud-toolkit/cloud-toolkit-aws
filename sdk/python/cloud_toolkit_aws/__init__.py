@@ -12,10 +12,13 @@ from .provider import *
 if typing.TYPE_CHECKING:
     import cloud_toolkit_aws.email as __email
     email = __email
+    import cloud_toolkit_aws.kubernetes as __kubernetes
+    kubernetes = __kubernetes
     import cloud_toolkit_aws.serverless as __serverless
     serverless = __serverless
 else:
     email = _utilities.lazy_import('cloud_toolkit_aws.email')
+    kubernetes = _utilities.lazy_import('cloud_toolkit_aws.kubernetes')
     serverless = _utilities.lazy_import('cloud_toolkit_aws.serverless')
 
 _utilities.register(
@@ -35,6 +38,15 @@ _utilities.register(
   "fqn": "cloud_toolkit_aws",
   "classes": {
    "cloud-toolkit-aws:index:Example": "Example"
+  }
+ },
+ {
+  "pkg": "cloud-toolkit-aws",
+  "mod": "kubernetes",
+  "fqn": "cloud_toolkit_aws.kubernetes",
+  "classes": {
+   "cloud-toolkit-aws:kubernetes:Cluster": "Cluster",
+   "cloud-toolkit-aws:kubernetes:NodeGroup": "NodeGroup"
   }
  },
  {

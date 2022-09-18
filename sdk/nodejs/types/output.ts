@@ -31,5 +31,8 @@ export namespace email {
 
 }
 
+export namespace kubernetes {
+}
+
 export namespace serverless {
 }
