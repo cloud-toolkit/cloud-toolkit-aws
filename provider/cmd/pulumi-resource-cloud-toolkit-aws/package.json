@@ -3,7 +3,9 @@
   "bin": "bin/index.js",
   "dependencies": {
     "@pulumi/aws": "^5.10.0",
+    "@pulumi/kubernetes": "^3.21.2",
     "@pulumi/pulumi": "^3.34.1",
+    "@pulumi/tls": "^4.6.1",
     "lodash.defaultsdeep": "^4.6.1",
     "yaml": "^2.1.1"
   },
@@ -23,6 +25,7 @@
   "scripts": {
     "formatter": "prettier --write .",
     "formatter:check": "prettier --check .",
-    "test": "jest"
+    "test": "jest",
+    "generate-schema": "ts-node generate-schema.ts"
   }
 }

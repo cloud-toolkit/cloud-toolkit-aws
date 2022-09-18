@@ -8,20 +8,21 @@ function GetValue<T>(output: pulumi.Output<T>) {
   });
 }
 
-pulumi.runtime.setMocks({
-  newResource: function (args: pulumi.runtime.MockResourceArgs): {
-    id: string;
-    state: any;
-  } {
-    return {
-      id: args.inputs.name + "_id",
-      state: args.inputs,
-    };
+pulumi.runtime.setMocks(
+  {
+    newResource: function (args: pulumi.runtime.MockResourceArgs): {
+      id: string;
+      state: any;
+    } {
+      return {
+        id: args.inputs.name + "_id",
+        state: args.inputs,
+      };
+    },
+    call: function (args: pulumi.runtime.MockCallArgs) {
+      return args.inputs;
+    },
   },
-  call: function (args: pulumi.runtime.MockCallArgs) {
-    return args.inputs;
-  },
-},
   "project",
   "stack",
   false
@@ -39,7 +40,7 @@ describe("Minimal configuration", function () {
     const instance = new component.Example(
       componentName,
       {
-        name: "test"
+        name: "test",
       },
       {}
     );

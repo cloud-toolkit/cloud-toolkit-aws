@@ -18,11 +18,13 @@ utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
 // Export sub-modules:
 import * as email from "./email";
+import * as kubernetes from "./kubernetes";
 import * as serverless from "./serverless";
 import * as types from "./types";
 
 export {
     email,
+    kubernetes,
     serverless,
     types,
 };
@@ -49,3 +51,4 @@ pulumi.runtime.registerResourcePackage("cloud-toolkit-aws", {
     },
 });
 import "@pulumi/aws";
+import "@pulumi/kubernetes";
