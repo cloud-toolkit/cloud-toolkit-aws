@@ -10,6 +10,7 @@ import (
 
 	"github.com/ghodss/yaml"
 	"github.com/pkg/errors"
+	gogen "github.com/pulumi/pulumi/pkg/v3/codegen/go"
 	nodejsgen "github.com/pulumi/pulumi/pkg/v3/codegen/nodejs"
 	pythongen "github.com/pulumi/pulumi/pkg/v3/codegen/python"
 	"github.com/pulumi/pulumi/pkg/v3/codegen/schema"
@@ -44,6 +45,8 @@ func emitSDK(language, outdir, schemaPath string) error {
 		generator = func() (map[string][]byte, error) { return nodejsgen.GeneratePackage(tool, pkg, extraFiles) }
 	case "python":
 		generator = func() (map[string][]byte, error) { return pythongen.GeneratePackage(tool, pkg, extraFiles) }
+	case "go":
+		generator = func() (map[string][]byte, error) { return gogen.GeneratePackage(tool, pkg) }
 	default:
 		return errors.Errorf("Unrecognized language %q", language)
 	}

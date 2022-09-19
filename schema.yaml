@@ -47,3 +47,8 @@ language:
       pulumi-aws: ">=5.10.0,<6.0.0"
     respectSchemaVersion: true
     packageName: cloud_toolkit_aws
+  go:
+    generateResourceContainerTypes: true
+    importBasePath: github.com/cloud-toolkit/cloud-toolkit-aws/sdk/go/aws
+    liftSingleValueMethodReturns: true
+    respectSchemaVersion: true
