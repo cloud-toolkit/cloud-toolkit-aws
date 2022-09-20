@@ -116,6 +116,58 @@ export namespace kubernetes {
 
 }
 
+export namespace landingZone {
+    export interface AccountPasswordPolicyArgsArgs {
+        /**
+         * Enable the creation of IAM Password Policy. Defaults to 'true'.
+         */
+        enabled?: pulumi.Input<boolean>;
+        /**
+         * The rules to be applied to the IAM Password Policy
+         */
+        rules?: pulumi.Input<inputs.landingZone.AccountPasswordPolicyRulesArgsArgs>;
+    }
+
+    export interface AccountPasswordPolicyRulesArgsArgs {
+        /**
+         * Whether to allow users to change their own password. Defaults to 'true'.
+         */
+        allowUsersToChangePassword?: pulumi.Input<boolean>;
+        /**
+         * Whether users are prevented from setting a new password after their password has expired (i.e., require administrator reset). Defaults to 'true'.
+         */
+        hardExpiry?: pulumi.Input<boolean>;
+        /**
+         * The number of days that an user password is valid. Defaults to '90'.
+         */
+        maxPasswordAge?: pulumi.Input<number>;
+        /**
+         * Minimum length to require for user passwords. Defaults to '14'.
+         */
+        minimumPasswordLength?: pulumi.Input<number>;
+        /**
+         * The number of previous passwords that users are prevented from reusing. Defaults to '0'.
+         */
+        passwordReusePrevention?: pulumi.Input<number>;
+        /**
+         * Whether to require lowercase characters for user passwords. Defaults to 'true'.
+         */
+        requireLowercaseCharacters?: pulumi.Input<boolean>;
+        /**
+         * Whether to require numbers for user passwords. Defaults to 'true'.
+         */
+        requireNumbers?: pulumi.Input<boolean>;
+        /**
+         * Whether to require symbols for user passwords. Defaults to 'true'.
+         */
+        requireSymbols?: pulumi.Input<boolean>;
+        /**
+         * Whether to require uppercase characters for user passwords. Defaults to 'true'.
+         */
+        requireUppercaseCharacters?: pulumi.Input<boolean>;
+    }
+}
+
 export namespace serverless {
     export interface DeadLetterQueueTypeArgsArgs {
         /**

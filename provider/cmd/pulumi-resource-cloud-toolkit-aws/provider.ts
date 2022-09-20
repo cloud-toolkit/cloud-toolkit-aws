@@ -3,6 +3,7 @@ import * as pulumi from "@pulumi/pulumi";
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
 import { Cluster, ClusterArgs, NodeGroup, NodeGroupArgs } from "./kubernetes";
+import { AccountIam, AccountIamArgs } from "./landingZone";
 import { Example, ExampleArgs } from "./example";
 
 export class Provider implements pulumi.provider.Provider {
@@ -25,6 +26,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesCluster(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:NodeGroup":
         return await constructKubernetesNodeGroup(name, inputs, options);
+      case "cloud-toolkit-aws:landingZone:AccountIam":
+        return await constructLandingZoneAccountIam(name, inputs, options);
       default:
         throw new Error(`unknown resource type ${type}`);
     }
@@ -143,6 +146,22 @@ async function constructEmailSender(
       deliveryTopicSubscriptions: emailSender.deliveryTopicSubscriptions,
       senderPolicy: emailSender.senderPolicy,
       notificationsPolicy: emailSender.notificationsPolicy,
+    },
+  };
+}
+
+async function constructLandingZoneAccountIam(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const component = new AccountIam(name, inputs as AccountIamArgs, options);
+
+  return {
+    urn: component.urn,
+    state: {
+      alias: component.alias,
+      passwordPolicy: component.passwordPolicy,
     },
   };
 }
