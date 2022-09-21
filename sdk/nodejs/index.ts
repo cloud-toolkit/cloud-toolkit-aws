@@ -16,6 +16,15 @@ export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Example"], () => require("./example"));
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
+// Export sub-modules:
+import * as serverless from "./serverless";
+import * as types from "./types";
+
+export {
+    serverless,
+    types,
+};
+
 const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
