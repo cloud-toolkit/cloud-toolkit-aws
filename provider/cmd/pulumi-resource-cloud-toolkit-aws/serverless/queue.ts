@@ -1,6 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import { QueueArgs, deadLetterQueueTypes, validateConfig } from "./queueArgs";
+import { QueueArgs, DeadLetterQueueTypes, validateConfig } from "./queueArgs";
+
 import { UnsupportedTypeError } from "./errors";
 
 export { QueueArgs };
@@ -12,9 +13,9 @@ export const TYPENAME = "cloud-toolkit-aws:serverless:Queue";
 
 const PERMISSIVE_MAX_RECEIVED_COUNT = 10;
 const RESTRICTIVE_MAX_RECEIVED_COUNT = 1;
-const MAX_RECEIVED_COUNT = new Map<deadLetterQueueTypes, number>([
-  [deadLetterQueueTypes.PERMISSIVE, PERMISSIVE_MAX_RECEIVED_COUNT],
-  [deadLetterQueueTypes.RESTRICTIVE, RESTRICTIVE_MAX_RECEIVED_COUNT],
+const MAX_RECEIVED_COUNT = new Map<DeadLetterQueueTypes, number>([
+  [DeadLetterQueueTypes.PERMISSIVE, PERMISSIVE_MAX_RECEIVED_COUNT],
+  [DeadLetterQueueTypes.RESTRICTIVE, RESTRICTIVE_MAX_RECEIVED_COUNT],
 ]);
 
 const STANDARD_SUFFIX = "-standard";
@@ -37,6 +38,7 @@ export class Queue extends pulumi.ComponentResource {
    * Dead Letter Queue associated with the component. Messages that were not delivered will be sent here.
    */
   public readonly deadLetterQueue?: aws.sqs.Queue;
+
   /**
    * Dead Letter Queues configuration to allow for incoming redrived messages from other queues.
    */
@@ -139,15 +141,15 @@ export class Queue extends pulumi.ComponentResource {
   /**
    * Sets the configuration to redrive messages to a Dead Letter Queue.
    * @param {Output<string> | string} dlArn
-   * @param {deadLetterQueueTypes} dlType
+   * @param {DeadLetterQueueTypes} dlType
    * @returns {Output<string>}
    */
   private getAdjustedRedrivePolicy(
     dlArn: pulumi.Input<string>,
-    dlType: deadLetterQueueTypes
+    dlType: DeadLetterQueueTypes
   ) {
-    if (!Object.values(deadLetterQueueTypes).includes(dlType)) {
-      throw new UnsupportedTypeError(dlType, deadLetterQueueTypes);
+    if (!Object.values(DeadLetterQueueTypes).includes(dlType)) {
+      throw new UnsupportedTypeError(dlType, DeadLetterQueueTypes);
     }
 
     return pulumi.interpolate`{ "deadLetterTargetArn": "${dlArn}", "maxReceiveCount": ${MAX_RECEIVED_COUNT.get(

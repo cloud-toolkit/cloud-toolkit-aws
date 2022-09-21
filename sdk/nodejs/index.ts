@@ -17,10 +17,12 @@ utilities.lazyLoad(exports, ["Example"], () => require("./example"));
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
 // Export sub-modules:
+import * as email from "./email";
 import * as serverless from "./serverless";
 import * as types from "./types";
 
 export {
+    email,
     serverless,
     types,
 };
@@ -46,3 +48,4 @@ pulumi.runtime.registerResourcePackage("cloud-toolkit-aws", {
         return new Provider(name, <any>undefined, { urn });
     },
 });
+import "@pulumi/aws";

@@ -32,7 +32,6 @@ gen_nodejs_sdk::
 	rm -rf sdk/nodejs
 	cd provider/cmd/${CODEGEN} && go run . nodejs ../../../sdk/nodejs ${SCHEMA_PATH}
 	echo 'import "@pulumi/aws";' >> sdk/nodejs/index.ts
-	echo 'import "@pulumi/kubernetes";' >> sdk/nodejs/index.ts
 
 build_nodejs_sdk:: VERSION := $(shell pulumictl get version --language javascript)
 build_nodejs_sdk:: gen_nodejs_sdk
