@@ -1,7 +1,6 @@
----
 name: cloud-toolkit-aws
 license: Apache-2.0
-logoUrl: 
+logoUrl: null
 displayName: Cloud Toolkit AWS
 publisher: AstroKube
 keywords:
@@ -11,34 +10,125 @@ keywords:
   - category/cloud
   - kind/component
 pluginDownloadURL: github://api.github.com/cloud-toolkit/pulumi-cloud-toolkit-aws
-types: {}
+types:
+  cloud-toolkit-aws:serverless:deadLetterQueueTypes:
+    description: >-
+      Dead Letter Queue type that will receive the faulty messages from
+      the base Queue.
+
+      Permissive - Messages will be sent to the Dead Letter Queue after 10 failed delivery attempts.
+
+      Restrictive - Messages will be sent to the Dead Letter Queue after the first failed delivery attempt.
+    type: string
+    enum:
+      - value: PERMISSIVE
+      - value: RESTRICTIVE
+  cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs:
+    properties:
+      enable:
+        description: Enables the feature.
+        type: boolean
+      type:
+        description: Dead Letter Queue type attached to the component to create.
+        $ref: "#/types/cloud-toolkit-aws:serverless:deadLetterQueueTypes"
+      existingDeadLetterQueueArn:
+        description: Placing a Queue ARN will set said already existing Queue as a Dead
+          Letter Queue for the new one.
+        type: string
+      messageRetentionSeconds:
+        description: The amount of time that a message will be stored in the Dead Letter
+          Queue without being deleted. Minimum is 60 seconds (1 minutes) and
+          Maximum 1,209,600 (14 days) seconds. By default a message is retained
+          4 days.
+        type: number
+    type: object
+  cloud-toolkit-aws:serverless:QueueArgs:
+    properties:
+      isFifo:
+        description: Set to true to create the Queue as FiFo. False for a Standard Queue.
+        type: boolean
+      DeadLetterQueueTypeArgs:
+        description: Dead Letter Queue attached to the component to create.
+        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs"
+      maxMessageSize:
+        description: The limit for a Queue message size in bytes. Minimum is 1 byte (1
+          character) and Maximum 262,144 bytes (256 KiB). By default a message
+          can be 256 KiB large.
+        type: number
+      messageRetentionSeconds:
+        description: The amount of time that a message will be stored in the Queue
+          without being deleted. Minimum is 60 seconds (1 minutes) and Maximum
+          1,209,600 (14 days) seconds. By default a message is retained 4 days.
+        type: number
+      policy:
+        description: Custom policy for the Queue.
+        type: string
+    type: object
+  cloud-toolkit-aws:index:ExampleArgs:
+    properties:
+      name:
+        description: ""
+        type: string
+    type: object
 resources:
   cloud-toolkit-aws:index:Example:
-    isComponent: true
-    inputProperties:
-      name:
-        type: string
-        description: |
-          A Swagger specification already in string form to use to initialize the APIGateway.  Note
-          that you must manually provide permission for any route targets to be invoked by API Gateway
-          when using `swaggerString`.
-
-          Either `swaggerString` or `routes` must be specified.
+    description: ""
     properties:
       bucket:
-        "$ref": "/aws/v5.13.0/schema.json#/resources/aws:s3%2FbucketV2:BucketV2"
-        description: |
-          The underlying Bucket resource.
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketV2:BucketV2
     required:
-    - bucket
-    description: |
-      This is just an example.
+      - bucket
+    inputProperties:
+      name:
+        description: ""
+        type: string
+    requiredInputs:
+      - name
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:serverless:Queue:
+    description: Cloud Toolkit component for Queues. Creates a Simple Queue Service
+      Queue alongside a Dead Letter Queue for faulty message deliveries.
+    properties:
+      sqsQueue:
+        description: Simple Queue Service Queue underline the component.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:sqs%2fqueue:Queue
+      deadLetterQueue:
+        description: Dead Letter Queue associated with the component. Messages that were
+          not delivered will be sent here.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:sqs%2fqueue:Queue
+    required:
+      - sqsQueue
+    inputProperties:
+      isFifo:
+        description: Set to true to create the Queue as FiFo. False for a Standard Queue.
+        type: boolean
+      DeadLetterQueueTypeArgs:
+        description: Dead Letter Queue attached to the component to create.
+        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs"
+      maxMessageSize:
+        description: The limit for a Queue message size in bytes. Minimum is 1 byte (1
+          character) and Maximum 262,144 bytes (256 KiB). By default a message
+          can be 256 KiB large.
+        type: number
+      messageRetentionSeconds:
+        description: The amount of time that a message will be stored in the Queue
+          without being deleted. Minimum is 60 seconds (1 minutes) and Maximum
+          1,209,600 (14 days) seconds. By default a message is retained 4 days.
+        type: number
+      policy:
+        description: Custom policy for the Queue.
+        type: string
+    requiredInputs: []
+    isComponent: true
+    type: object
 language:
   nodejs:
     dependencies:
-      "@pulumi/aws": "^5.10.0"
+      "@pulumi/aws": ^5.10.0
     devDependencies:
-      typescript: "^4.0.0"
+      typescript: ^4.0.0
     respectSchemaVersion: true
     packageName: "@cloud-toolkit/cloud-toolkit-aws"
   python:
@@ -47,3 +137,4 @@ language:
       pulumi-aws: ">=5.10.0,<6.0.0"
     respectSchemaVersion: true
     packageName: cloud_toolkit_aws
+
