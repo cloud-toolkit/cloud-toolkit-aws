@@ -12,6 +12,7 @@ from ._enums import *
 
 __all__ = [
     'DeadLetterQueueTypeArgsArgs',
+    'QueueArgsArgs',
 ]
 
 @pulumi.input_type
@@ -83,5 +84,92 @@ class DeadLetterQueueTypeArgsArgs:
     @type.setter
     def type(self, value: Optional[pulumi.Input['DeadLetterQueueTypes']]):
         pulumi.set(self, "type", value)
+
+
+@pulumi.input_type
+class QueueArgsArgs:
+    def __init__(__self__, *,
+                 dead_letter_queue_type_args: Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']] = None,
+                 is_fifo: Optional[pulumi.Input[bool]] = None,
+                 max_message_size: Optional[pulumi.Input[float]] = None,
+                 message_retention_seconds: Optional[pulumi.Input[float]] = None,
+                 policy: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input['DeadLetterQueueTypeArgsArgs'] dead_letter_queue_type_args: Dead Letter Queue attached to the component to create.
+        :param pulumi.Input[bool] is_fifo: Set to true to create the Queue as FiFo. False for a Standard Queue.
+        :param pulumi.Input[float] max_message_size: The limit for a Queue message size in bytes. Minimum is 1 byte (1 character) and Maximum 262,144 bytes (256 KiB). By default a message can be 256 KiB large.
+        :param pulumi.Input[float] message_retention_seconds: The amount of time that a message will be stored in the Queue without being deleted. Minimum is 60 seconds (1 minutes) and Maximum 1,209,600 (14 days) seconds. By default a message is retained 4 days.
+        :param pulumi.Input[str] policy: Custom policy for the Queue.
+        """
+        if dead_letter_queue_type_args is not None:
+            pulumi.set(__self__, "dead_letter_queue_type_args", dead_letter_queue_type_args)
+        if is_fifo is not None:
+            pulumi.set(__self__, "is_fifo", is_fifo)
+        if max_message_size is not None:
+            pulumi.set(__self__, "max_message_size", max_message_size)
+        if message_retention_seconds is not None:
+            pulumi.set(__self__, "message_retention_seconds", message_retention_seconds)
+        if policy is not None:
+            pulumi.set(__self__, "policy", policy)
+
+    @property
+    @pulumi.getter(name="DeadLetterQueueTypeArgs")
+    def dead_letter_queue_type_args(self) -> Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']]:
+        """
+        Dead Letter Queue attached to the component to create.
+        """
+        return pulumi.get(self, "dead_letter_queue_type_args")
+
+    @dead_letter_queue_type_args.setter
+    def dead_letter_queue_type_args(self, value: Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']]):
+        pulumi.set(self, "dead_letter_queue_type_args", value)
+
+    @property
+    @pulumi.getter(name="isFifo")
+    def is_fifo(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Set to true to create the Queue as FiFo. False for a Standard Queue.
+        """
+        return pulumi.get(self, "is_fifo")
+
+    @is_fifo.setter
+    def is_fifo(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "is_fifo", value)
+
+    @property
+    @pulumi.getter(name="maxMessageSize")
+    def max_message_size(self) -> Optional[pulumi.Input[float]]:
+        """
+        The limit for a Queue message size in bytes. Minimum is 1 byte (1 character) and Maximum 262,144 bytes (256 KiB). By default a message can be 256 KiB large.
+        """
+        return pulumi.get(self, "max_message_size")
+
+    @max_message_size.setter
+    def max_message_size(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "max_message_size", value)
+
+    @property
+    @pulumi.getter(name="messageRetentionSeconds")
+    def message_retention_seconds(self) -> Optional[pulumi.Input[float]]:
+        """
+        The amount of time that a message will be stored in the Queue without being deleted. Minimum is 60 seconds (1 minutes) and Maximum 1,209,600 (14 days) seconds. By default a message is retained 4 days.
+        """
+        return pulumi.get(self, "message_retention_seconds")
+
+    @message_retention_seconds.setter
+    def message_retention_seconds(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "message_retention_seconds", value)
+
+    @property
+    @pulumi.getter
+    def policy(self) -> Optional[pulumi.Input[str]]:
+        """
+        Custom policy for the Queue.
+        """
+        return pulumi.get(self, "policy")
+
+    @policy.setter
+    def policy(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "policy", value)
 
 

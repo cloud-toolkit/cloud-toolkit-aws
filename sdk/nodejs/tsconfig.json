@@ -13,11 +13,14 @@
         "strict": true
     },
     "files": [
+        "email/emailSender.ts",
+        "email/index.ts",
         "example.ts",
         "index.ts",
         "provider.ts",
         "serverless/index.ts",
         "serverless/queue.ts",
+        "types/enums/email/index.ts",
         "types/enums/index.ts",
         "types/enums/serverless/index.ts",
         "types/index.ts",
