@@ -10,14 +10,25 @@ from .provider import *
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
+    import cloud_toolkit_aws.email as __email
+    email = __email
     import cloud_toolkit_aws.serverless as __serverless
     serverless = __serverless
 else:
+    email = _utilities.lazy_import('cloud_toolkit_aws.email')
     serverless = _utilities.lazy_import('cloud_toolkit_aws.serverless')
 
 _utilities.register(
     resource_modules="""
 [
+ {
+  "pkg": "cloud-toolkit-aws",
+  "mod": "email",
+  "fqn": "cloud_toolkit_aws.email",
+  "classes": {
+   "cloud-toolkit-aws:email:EmailSender": "EmailSender"
+  }
+ },
  {
   "pkg": "cloud-toolkit-aws",
   "mod": "index",

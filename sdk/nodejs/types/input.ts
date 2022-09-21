@@ -6,6 +6,50 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 import * as enums from "../types/enums";
 
+export namespace email {
+    export interface AdditionalQueueArgsArgs {
+        /**
+         * Amazon Resource Name for the Queue component.
+         */
+        arn?: pulumi.Input<string>;
+        /**
+         * Endpoint of the Queue component in AWS.
+         */
+        url?: pulumi.Input<string>;
+    }
+
+    export interface NotificationTypeArgsArgs {
+        /**
+         * Enables the feature.
+         */
+        enabled?: pulumi.Input<boolean>;
+        /**
+         * Include original headers on the stored messages in the Queue(s).
+         */
+        includeOriginalHeaders?: pulumi.Input<boolean>;
+        /**
+         * Arguments to configure the Queues subscribed to the Notification Type Topic.
+         * If left blank, a default standard, non-fifo, Queue and a Dead Letter Queue that is attached to the former will be created.
+         */
+        queues?: pulumi.Input<inputs.email.NotificationTypeQueuesArgsArgs>;
+    }
+
+    export interface NotificationTypeQueuesArgsArgs {
+        /**
+         * Arguments to include Queues built and implemented outside of the Email Sender Component. Useful when subscribing a single Queue to two or more Topics or when migrating existing ones.
+         */
+        additionalQueues?: pulumi.Input<pulumi.Input<inputs.email.AdditionalQueueArgsArgs>[]>;
+        /**
+         * Configuration for the Default Queues. If left blank, Queues created for this Notification Type will be standard, non-fifo, with a Dead Letter Queue attached to them.
+         */
+        defaultQueuesConfig?: pulumi.Input<inputs.serverless.QueueArgsArgs>;
+        /**
+         * Number of default Queues that will be created and attached to a Topic.
+         */
+        numberOfDefaultQueues?: pulumi.Input<number>;
+    }
+}
+
 export namespace serverless {
     export interface DeadLetterQueueTypeArgsArgs {
         /**
@@ -26,4 +70,26 @@ export namespace serverless {
         type?: pulumi.Input<enums.serverless.DeadLetterQueueTypes>;
     }
 
+    export interface QueueArgsArgs {
+        /**
+         * Dead Letter Queue attached to the component to create.
+         */
+        DeadLetterQueueTypeArgs?: pulumi.Input<inputs.serverless.DeadLetterQueueTypeArgsArgs>;
+        /**
+         * Set to true to create the Queue as FiFo. False for a Standard Queue.
+         */
+        isFifo?: pulumi.Input<boolean>;
+        /**
+         * The limit for a Queue message size in bytes. Minimum is 1 byte (1 character) and Maximum 262,144 bytes (256 KiB). By default a message can be 256 KiB large.
+         */
+        maxMessageSize?: pulumi.Input<number>;
+        /**
+         * The amount of time that a message will be stored in the Queue without being deleted. Minimum is 60 seconds (1 minutes) and Maximum 1,209,600 (14 days) seconds. By default a message is retained 4 days.
+         */
+        messageRetentionSeconds?: pulumi.Input<number>;
+        /**
+         * Custom policy for the Queue.
+         */
+        policy?: pulumi.Input<string>;
+    }
 }

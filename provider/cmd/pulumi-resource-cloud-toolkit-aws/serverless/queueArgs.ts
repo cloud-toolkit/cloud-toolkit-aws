@@ -6,7 +6,7 @@ import defaultsDeep from "lodash.defaultsdeep";
  * Permissive - Messages will be sent to the Dead Letter Queue after 10 failed delivery attempts.
  * Restrictive - Messages will be sent to the Dead Letter Queue after the first failed delivery attempt.
  */
-export enum deadLetterQueueTypes {
+export enum DeadLetterQueueTypes {
   PERMISSIVE = "permissive",
   RESTRICTIVE = "restrictive",
 }
@@ -25,7 +25,7 @@ interface DeadLetterQueueTypeArgs {
   /**
    * Dead Letter Queue type attached to the component to create.
    */
-  type: deadLetterQueueTypes;
+  type: DeadLetterQueueTypes;
   /**
    * Placing a Queue ARN will set said already existing Queue as a Dead Letter Queue for the new one.
    */
@@ -68,7 +68,7 @@ export const defaultConfig = <QueueArgs>{
   messageRetentionSeconds: 345600,
   DeadLetterQueueTypeArgs: {
     enable: true,
-    type: deadLetterQueueTypes.PERMISSIVE,
+    type: DeadLetterQueueTypes.PERMISSIVE,
     messageRetentionSeconds: 345600
   },
 };
