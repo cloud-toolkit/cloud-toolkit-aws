@@ -26,7 +26,7 @@ install_provider:: PKG_ARGS := --no-bytecode --public-packages "*" --public
 install_provider:: build_provider
 	rm -rf bin && \
 	    cd provider/cmd/${PROVIDER}/ && \
-        yarn run pkg . ${PKG_ARGS} --target node16 --output ../../../bin/${PROVIDER}
+        npx pkg . ${PKG_ARGS} --target node16 --output ../../../bin/${PROVIDER}
 
 gen_nodejs_sdk::
 	rm -rf sdk/nodejs
