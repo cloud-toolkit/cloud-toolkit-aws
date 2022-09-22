@@ -1,4 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
+import * as bucket from "./storage/bucket";
 
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
@@ -28,11 +29,14 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesNodeGroup(name, inputs, options);
       case "cloud-toolkit-aws:landingZone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
+      case "cloud-toolkit-aws:storage:Bucket":
+        return await constructBucket(name, inputs, options);
       default:
         throw new Error(`unknown resource type ${type}`);
     }
   }
 }
+
 async function constructKubernetesCluster(
   name: string,
   inputs: pulumi.Inputs,
@@ -162,6 +166,32 @@ async function constructLandingZoneAccountIam(
     state: {
       alias: component.alias,
       passwordPolicy: component.passwordPolicy,
+    }
+  };
+}
+
+async function constructBucket(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const q = new bucket.Bucket(name, inputs as bucket.BucketArgs, options);
+
+  return {
+    urn: q.urn,
+    state: {
+      role: q.role,
+      bucket: q.bucket,
+      bucketVersioning: q.bucketVersioning,
+      writeBucketPolicy: q.writeBucketPolicy,
+      readOnlyBucketPolicy: q.readOnlyBucketPolicy,
+      website: q.website,
+      bucketPublicAccess: q.bucketPublicAccess,
+      bucketPublicAccessPolicy: q.bucketPublicAccessPolicy,
+      bucketOwnership: q.bucketOwnership,
+      replicationPolicyAttachment: q.replicationPolicyAttachment,
+      replicationConfig: q.replicationConfig,
+      bucketEncryption: q.bucketEncryption
     },
   };
 }
