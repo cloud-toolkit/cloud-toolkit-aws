@@ -11,6 +11,7 @@ keywords:
   - kind/component
 pluginDownloadURL: github://api.github.com/cloud-toolkit/pulumi-cloud-toolkit-aws
 types:
+<<<<<<< HEAD
   cloud-toolkit-aws:email:NotificationTypes:
     description: >-
       Types of Email Notifications that are covered by Email Sender.
@@ -52,11 +53,16 @@ types:
       Disabled - Bucket does not keep track of object versioning. Once versioning is Enabled we cannot Disabled versioning.
 
       Suspended - Once versioning is Enabled, this feature can be suspended
+=======
+  cloud-toolkit-aws:storage:BucketVersioningStateArgs:
+    description: ""
+>>>>>>> 7109358 (Created nodejs sdk for bucket)
     type: string
     enum:
       - value: Enabled
       - value: Disabled
       - value: Suspended
+<<<<<<< HEAD
   cloud-toolkit-aws:email:AdditionalQueueArgs:
     properties:
       arn:
@@ -361,6 +367,24 @@ types:
         $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
       website:
         description: Configures a static webpage using bucket files
+=======
+  cloud-toolkit-aws:storage:BucketArgs:
+    properties:
+      public:
+        description: ""
+        type: boolean
+      versioning:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
+      encryption:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
+      replication:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
+      website:
+        description: ""
+>>>>>>> 7109358 (Created nodejs sdk for bucket)
         $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
     type: object
   cloud-toolkit-aws:storage:BucketEncryptionArgs:
@@ -387,6 +411,7 @@ types:
         description: ""
         type: string
     type: object
+<<<<<<< HEAD
   cloud-toolkit-aws:email:EmailSenderArgs:
     properties:
       identity:
@@ -646,6 +671,15 @@ resources:
       - identity
     isComponent: true
     type: object
+=======
+  cloud-toolkit-aws:index:ExampleArgs:
+    properties:
+      name:
+        description: ""
+        type: string
+    type: object
+resources:
+>>>>>>> 7109358 (Created nodejs sdk for bucket)
   cloud-toolkit-aws:index:Example:
     description: ""
     properties:
@@ -662,6 +696,7 @@ resources:
       - name
     isComponent: true
     type: object
+<<<<<<< HEAD
   cloud-toolkit-aws:kubernetes:Cluster:
     description: Cluster is a component that deploy a production-ready Kubernetes
       cluster. It setups the AWS IAM and netwokring, as well many Kubernetes
@@ -929,6 +964,46 @@ resources:
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
       writeBucketPolicy:
         description: Policy for write users
+=======
+  cloud-toolkit-aws:storage:Bucket:
+    description: Bucket component
+    properties:
+      role:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      bucket:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketV2:BucketV2
+      bucketPublicAccess:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPublicAccessBlock:BucketPublicAccessBlock
+      bucketPublicAccessPolicy:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPolicy:BucketPolicy
+      bucketOwnership:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketOwnershipControls:BucketOwnershipControls
+      bucketVersioning:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketVersioningV2:BucketVersioningV2
+      bucketEncryption:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketServerSideEncryptionConfigurationV2:BucketServerSideEncryptionConfigurationV2
+      replicationPolicyAttachment:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+      replicationConfig:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketReplicationConfig:BucketReplicationConfig
+      website:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketWebsiteConfigurationV2:BucketWebsiteConfigurationV2
+      readOnlyBucketPolicy:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
+      writeBucketPolicy:
+        description: ""
+>>>>>>> 7109358 (Created nodejs sdk for bucket)
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
     required:
       - role
@@ -936,10 +1011,15 @@ resources:
       - bucketPublicAccess
       - bucketOwnership
       - bucketVersioning
+<<<<<<< HEAD
+=======
+      - bucketEncryption
+>>>>>>> 7109358 (Created nodejs sdk for bucket)
       - readOnlyBucketPolicy
       - writeBucketPolicy
     inputProperties:
       public:
+<<<<<<< HEAD
         description: Set to true to allow policies that may provide access to anyone.
         type: boolean
       versioning:
@@ -953,6 +1033,21 @@ resources:
         $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
       website:
         description: Configures a static webpage using bucket files
+=======
+        description: ""
+        type: boolean
+      versioning:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
+      encryption:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
+      replication:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
+      website:
+        description: ""
+>>>>>>> 7109358 (Created nodejs sdk for bucket)
         $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
     requiredInputs:
       - public
@@ -962,7 +1057,10 @@ language:
   nodejs:
     dependencies:
       "@pulumi/aws": ^5.10.0
+<<<<<<< HEAD
       "@pulumi/kubernetes": ^3.20.2
+=======
+>>>>>>> 7109358 (Created nodejs sdk for bucket)
     devDependencies:
       typescript: ^4.0.0
     respectSchemaVersion: true

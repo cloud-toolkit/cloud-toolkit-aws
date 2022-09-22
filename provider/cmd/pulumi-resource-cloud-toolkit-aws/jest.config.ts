@@ -4,7 +4,11 @@ import type { Config } from "@jest/types";
 const config: Config.InitialOptions = {
   roots: ["./"],
   verbose: true,
-  testPathIgnorePatterns: ["/node_modules/", "/fixtures/", "/bin/"],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/bin/",
+    "fixtures"
+  ],
   modulePathIgnorePatterns: ["/bin/"],
 };
 

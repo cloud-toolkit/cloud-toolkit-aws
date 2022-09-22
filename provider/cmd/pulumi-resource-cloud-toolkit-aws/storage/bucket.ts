@@ -4,9 +4,9 @@ import { BucketArgs, validateConfig } from "./bucketArgs";
 
 export { BucketArgs };
 
-
 /**
  * Cloud Toolkit component for Bcukets. Creates a Simple Bucket for object storage
+ * 
  * @extends {pulumi.ComponentResource}
  */
 export class Bucket extends pulumi.ComponentResource {
@@ -203,6 +203,7 @@ export class Bucket extends pulumi.ComponentResource {
    *
    * @return {aws.iam.Policy}
    */
+
   private setupBucketWritePolicy(opts: pulumi.ResourceOptions): aws.iam.Policy {
     return new aws.iam.Policy(
       `${this.name}-write`,
@@ -252,6 +253,7 @@ export class Bucket extends pulumi.ComponentResource {
    *
    * @return {aws.iam.Policy}
    */
+
   private setupBucketReadPolicy(opts: pulumi.ResourceOptions): aws.iam.Policy {
     return new aws.iam.Policy(
       `${this.name}-read`,
@@ -478,6 +480,7 @@ export class Bucket extends pulumi.ComponentResource {
    *
    * @return {aws.iam.RolePolicyAttachment | undefined}
    */
+
   private setupBucketReplicationPolicyAttachment(
     opts: pulumi.ResourceOptions
   ): aws.iam.RolePolicyAttachment | undefined {
@@ -552,6 +555,7 @@ export class Bucket extends pulumi.ComponentResource {
    *
    * @return {aws.s3.BucketVersioningV2}
    */
+
   private setupBucketVersioning(
     opts: pulumi.ResourceOptions
   ): aws.s3.BucketVersioningV2 {
