@@ -7,6 +7,7 @@ const config: Config.InitialOptions = {
   testPathIgnorePatterns: [
     "/node_modules/",
     "/bin/",
+    "fixtures"
   ],
   modulePathIgnorePatterns: ["/bin/"],
 };
