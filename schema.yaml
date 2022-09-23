@@ -1,7 +1,6 @@
----
 name: cloud-toolkit-aws
 license: Apache-2.0
-logoUrl: 
+logoUrl: null
 displayName: Cloud Toolkit AWS
 publisher: AstroKube
 keywords:
@@ -11,34 +10,153 @@ keywords:
   - category/cloud
   - kind/component
 pluginDownloadURL: github://api.github.com/cloud-toolkit/pulumi-cloud-toolkit-aws
-types: {}
+types:
+  cloud-toolkit-aws:storage:BucketVersioningStateArgs:
+    description: ""
+    type: string
+    enum:
+      - value: Enabled
+      - value: Disabled
+      - value: Suspended
+  cloud-toolkit-aws:storage:BucketArgs:
+    properties:
+      public:
+        description: ""
+        type: boolean
+      versioning:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
+      encryption:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
+      replication:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
+      website:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
+    type: object
+  cloud-toolkit-aws:storage:BucketEncryptionArgs:
+    properties:
+      enabled:
+        description: ""
+        type: boolean
+      customKeyId:
+        description: ""
+        type: string
+    type: object
+  cloud-toolkit-aws:storage:BucketReplicationArgs:
+    properties:
+      bucketArn:
+        description: ""
+        type: string
+    type: object
+  cloud-toolkit-aws:storage:BucketWebsiteArgs:
+    properties:
+      errorDocument:
+        description: ""
+        type: string
+      indexDocument:
+        description: ""
+        type: string
+    type: object
+  cloud-toolkit-aws:index:ExampleArgs:
+    properties:
+      name:
+        description: ""
+        type: string
+    type: object
 resources:
   cloud-toolkit-aws:index:Example:
-    isComponent: true
-    inputProperties:
-      name:
-        type: string
-        description: |
-          A Swagger specification already in string form to use to initialize the APIGateway.  Note
-          that you must manually provide permission for any route targets to be invoked by API Gateway
-          when using `swaggerString`.
-
-          Either `swaggerString` or `routes` must be specified.
+    description: ""
     properties:
       bucket:
-        "$ref": "/aws/v5.13.0/schema.json#/resources/aws:s3%2FbucketV2:BucketV2"
-        description: |
-          The underlying Bucket resource.
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketV2:BucketV2
     required:
-    - bucket
-    description: |
-      This is just an example.
+      - bucket
+    inputProperties:
+      name:
+        description: ""
+        type: string
+    requiredInputs:
+      - name
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:storage:Bucket:
+    description: Bucket component
+    properties:
+      role:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      bucket:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketV2:BucketV2
+      bucketPublicAccess:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPublicAccessBlock:BucketPublicAccessBlock
+      bucketPublicAccessPolicy:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPolicy:BucketPolicy
+      bucketOwnership:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketOwnershipControls:BucketOwnershipControls
+      bucketVersioning:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketVersioningV2:BucketVersioningV2
+      bucketEncryption:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketServerSideEncryptionConfigurationV2:BucketServerSideEncryptionConfigurationV2
+      replicationPolicyAttachment:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+      replicationConfig:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketReplicationConfig:BucketReplicationConfig
+      website:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketWebsiteConfigurationV2:BucketWebsiteConfigurationV2
+      readOnlyBucketPolicy:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
+      writeBucketPolicy:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
+    required:
+      - role
+      - bucket
+      - bucketPublicAccess
+      - bucketOwnership
+      - bucketVersioning
+      - bucketEncryption
+      - readOnlyBucketPolicy
+      - writeBucketPolicy
+    inputProperties:
+      public:
+        description: ""
+        type: boolean
+      versioning:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
+      encryption:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
+      replication:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
+      website:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
+    requiredInputs:
+      - public
+    isComponent: true
+    type: object
 language:
   nodejs:
     dependencies:
-      "@pulumi/aws": "^5.10.0"
+      "@pulumi/aws": ^5.10.0
     devDependencies:
-      typescript: "^4.0.0"
+      typescript: ^4.0.0
     respectSchemaVersion: true
     packageName: "@cloud-toolkit/cloud-toolkit-aws"
   python:
@@ -47,3 +165,4 @@ language:
       pulumi-aws: ">=5.10.0,<6.0.0"
     respectSchemaVersion: true
     packageName: cloud_toolkit_aws
+
