@@ -7,6 +7,14 @@ import typing
 # Export this package's modules as members:
 from .example import *
 from .provider import *
+
+# Make subpackages available:
+if typing.TYPE_CHECKING:
+    import cloud_toolkit_aws.storage as __storage
+    storage = __storage
+else:
+    storage = _utilities.lazy_import('cloud_toolkit_aws.storage')
+
 _utilities.register(
     resource_modules="""
 [
@@ -16,6 +24,14 @@ _utilities.register(
   "fqn": "cloud_toolkit_aws",
   "classes": {
    "cloud-toolkit-aws:index:Example": "Example"
+  }
+ },
+ {
+  "pkg": "cloud-toolkit-aws",
+  "mod": "storage",
+  "fqn": "cloud_toolkit_aws.storage",
+  "classes": {
+   "cloud-toolkit-aws:storage:Bucket": "Bucket"
   }
  }
 ]
