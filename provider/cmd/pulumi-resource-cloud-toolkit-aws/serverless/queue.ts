@@ -88,6 +88,11 @@ export class Queue extends pulumi.ComponentResource {
       ? `${name}${FIFO_SUFFIX}`
       : `${name}${STANDARD_SUFFIX}`;
     this.sqsQueue = this.createQueue(this.name, QueueArgs, resourceOpts);
+
+    this.registerOutputs({
+      sqsQueue: this.sqsQueue,
+      deadLetterQueue: this.deadLetterQueue,
+    })
   }
 
   /**
