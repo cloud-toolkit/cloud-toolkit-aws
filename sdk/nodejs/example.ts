@@ -6,9 +6,6 @@ import * as utilities from "./utilities";
 
 import * as pulumiAws from "@pulumi/aws";
 
-/**
- * This is just an example.
- */
 export class Example extends pulumi.ComponentResource {
     /** @internal */
     public static readonly __pulumiType = 'cloud-toolkit-aws:index:Example';
@@ -24,9 +21,6 @@ export class Example extends pulumi.ComponentResource {
         return obj['__pulumiType'] === Example.__pulumiType;
     }
 
-    /**
-     * The underlying Bucket resource.
-     */
     public /*out*/ readonly bucket!: pulumi.Output<pulumiAws.s3.BucketV2>;
 
     /**
@@ -36,10 +30,13 @@ export class Example extends pulumi.ComponentResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args?: ExampleArgs, opts?: pulumi.ComponentResourceOptions) {
+    constructor(name: string, args: ExampleArgs, opts?: pulumi.ComponentResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
+            if ((!args || args.name === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'name'");
+            }
             resourceInputs["name"] = args ? args.name : undefined;
             resourceInputs["bucket"] = undefined /*out*/;
         } else {
@@ -54,12 +51,5 @@ export class Example extends pulumi.ComponentResource {
  * The set of arguments for constructing a Example resource.
  */
 export interface ExampleArgs {
-    /**
-     * A Swagger specification already in string form to use to initialize the APIGateway.  Note
-     * that you must manually provide permission for any route targets to be invoked by API Gateway
-     * when using `swaggerString`.
-     *
-     * Either `swaggerString` or `routes` must be specified.
-     */
-    name?: pulumi.Input<string>;
+    name: pulumi.Input<string>;
 }

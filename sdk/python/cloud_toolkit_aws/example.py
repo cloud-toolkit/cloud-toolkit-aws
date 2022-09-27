@@ -15,32 +15,19 @@ __all__ = ['ExampleArgs', 'Example']
 @pulumi.input_type
 class ExampleArgs:
     def __init__(__self__, *,
-                 name: Optional[pulumi.Input[str]] = None):
+                 name: pulumi.Input[str]):
         """
         The set of arguments for constructing a Example resource.
-        :param pulumi.Input[str] name: A Swagger specification already in string form to use to initialize the APIGateway.  Note
-               that you must manually provide permission for any route targets to be invoked by API Gateway
-               when using `swaggerString`.
-               
-               Either `swaggerString` or `routes` must be specified.
         """
-        if name is not None:
-            pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "name", name)
 
     @property
     @pulumi.getter
-    def name(self) -> Optional[pulumi.Input[str]]:
-        """
-        A Swagger specification already in string form to use to initialize the APIGateway.  Note
-        that you must manually provide permission for any route targets to be invoked by API Gateway
-        when using `swaggerString`.
-
-        Either `swaggerString` or `routes` must be specified.
-        """
+    def name(self) -> pulumi.Input[str]:
         return pulumi.get(self, "name")
 
     @name.setter
-    def name(self, value: Optional[pulumi.Input[str]]):
+    def name(self, value: pulumi.Input[str]):
         pulumi.set(self, "name", value)
 
 
@@ -52,25 +39,18 @@ class Example(pulumi.ComponentResource):
                  name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        This is just an example.
-
+        Create a Example resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[str] name: A Swagger specification already in string form to use to initialize the APIGateway.  Note
-               that you must manually provide permission for any route targets to be invoked by API Gateway
-               when using `swaggerString`.
-               
-               Either `swaggerString` or `routes` must be specified.
         """
         ...
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: Optional[ExampleArgs] = None,
+                 args: ExampleArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        This is just an example.
-
+        Create a Example resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param ExampleArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -98,6 +78,8 @@ class Example(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = ExampleArgs.__new__(ExampleArgs)
 
+            if name is None and not opts.urn:
+                raise TypeError("Missing required property 'name'")
             __props__.__dict__["name"] = name
             __props__.__dict__["bucket"] = None
         super(Example, __self__).__init__(
@@ -110,8 +92,5 @@ class Example(pulumi.ComponentResource):
     @property
     @pulumi.getter
     def bucket(self) -> pulumi.Output['pulumi_aws.s3.BucketV2']:
-        """
-        The underlying Bucket resource.
-        """
         return pulumi.get(self, "bucket")
 

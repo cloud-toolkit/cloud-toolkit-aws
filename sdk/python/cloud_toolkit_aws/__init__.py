@@ -7,6 +7,14 @@ import typing
 # Export this package's modules as members:
 from .example import *
 from .provider import *
+
+# Make subpackages available:
+if typing.TYPE_CHECKING:
+    import cloud_toolkit_aws.serverless as __serverless
+    serverless = __serverless
+else:
+    serverless = _utilities.lazy_import('cloud_toolkit_aws.serverless')
+
 _utilities.register(
     resource_modules="""
 [
@@ -16,6 +24,14 @@ _utilities.register(
   "fqn": "cloud_toolkit_aws",
   "classes": {
    "cloud-toolkit-aws:index:Example": "Example"
+  }
+ },
+ {
+  "pkg": "cloud-toolkit-aws",
+  "mod": "serverless",
+  "fqn": "cloud_toolkit_aws.serverless",
+  "classes": {
+   "cloud-toolkit-aws:serverless:Queue": "Queue"
   }
  }
 ]
