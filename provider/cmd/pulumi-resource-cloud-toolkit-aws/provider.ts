@@ -48,7 +48,7 @@ async function constructQueue(
   return {
     urn: q.sqsQueue.urn,
     state: {
-      queue: q.sqsQueue,
+      sqsQueue: q.sqsQueue,
       deadLetterQueue: q.deadLetterQueue
     },
   };
