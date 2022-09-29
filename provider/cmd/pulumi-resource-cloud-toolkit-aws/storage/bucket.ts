@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import { BucketArgs, validateConfig } from "./config";
+import { BucketArgs, validateConfig } from "./bucketArgs";
 
 export { BucketArgs };
 

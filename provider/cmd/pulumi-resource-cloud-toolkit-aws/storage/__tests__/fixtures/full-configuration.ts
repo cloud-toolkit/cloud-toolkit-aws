@@ -1,4 +1,4 @@
-import { BucketVersioningStateArgs } from "../../config";
+import { BucketVersioningStateArgs } from "../../bucketArgs";
 
 export default {
   public: true,
