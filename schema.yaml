@@ -12,6 +12,7 @@ keywords:
 pluginDownloadURL: github://api.github.com/cloud-toolkit/pulumi-cloud-toolkit-aws
 types:
 <<<<<<< HEAD
+<<<<<<< HEAD
   cloud-toolkit-aws:email:NotificationTypes:
     description: >-
       Types of Email Notifications that are covered by Email Sender.
@@ -54,6 +55,21 @@ types:
 
       Suspended - Once versioning is Enabled, this feature can be suspended
 =======
+=======
+  cloud-toolkit-aws:databases:MysqlVersionArgs:
+    description: ""
+    type: string
+    enum:
+      - value: v8_0
+      - value: v5_7
+  cloud-toolkit-aws:databases:MysqlStorageTypeArgs:
+    description: ""
+    type: string
+    enum:
+      - value: standard
+      - value: io1
+      - value: gp2
+>>>>>>> e6b542d (First compilation)
   cloud-toolkit-aws:storage:BucketVersioningStateArgs:
     description: ""
 >>>>>>> 7109358 (Created nodejs sdk for bucket)
@@ -62,6 +78,7 @@ types:
       - value: Enabled
       - value: Disabled
       - value: Suspended
+<<<<<<< HEAD
 <<<<<<< HEAD
   cloud-toolkit-aws:email:AdditionalQueueArgs:
     properties:
@@ -117,6 +134,55 @@ types:
       token:
         description: Token of the Record.
         type: string
+=======
+  cloud-toolkit-aws:databases:MysqlDatabaseArgs:
+    properties:
+      name:
+        description: ""
+        type: string
+      username:
+        description: ""
+        type: string
+      passwordLength:
+        description: ""
+        type: number
+    type: object
+  cloud-toolkit-aws:databases:MysqlBackupArgs:
+    properties:
+      preferredWindow:
+        description: ""
+        type: string
+      retentionDays:
+        description: ""
+        type: number
+    type: object
+  cloud-toolkit-aws:databases:MysqlStorageArgs:
+    properties:
+      size:
+        description: ""
+        type: number
+      type:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageTypeArgs"
+    type: object
+  cloud-toolkit-aws:databases:MysqlNetworkingArgs:
+    properties:
+      vpc:
+        description: ""
+        type: string
+      subnetIds:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+      allowedCidr:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+>>>>>>> e6b542d (First compilation)
     type: object
   cloud-toolkit-aws:index:ExampleArgs:
     properties:
@@ -124,6 +190,7 @@ types:
         description: ""
         type: string
     type: object
+<<<<<<< HEAD
   cloud-toolkit-aws:kubernetes:ClusterArgs:
     properties:
       vpcId:
@@ -368,6 +435,8 @@ types:
       website:
         description: Configures a static webpage using bucket files
 =======
+=======
+>>>>>>> e6b542d (First compilation)
   cloud-toolkit-aws:storage:BucketArgs:
     properties:
       public:
@@ -411,6 +480,7 @@ types:
         description: ""
         type: string
     type: object
+<<<<<<< HEAD
 <<<<<<< HEAD
   cloud-toolkit-aws:email:EmailSenderArgs:
     properties:
@@ -673,13 +743,94 @@ resources:
     type: object
 =======
   cloud-toolkit-aws:index:ExampleArgs:
+=======
+  cloud-toolkit-aws:databases:MysqlArgs:
+>>>>>>> e6b542d (First compilation)
     properties:
-      name:
+      instance:
         description: ""
         type: string
+      version:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlVersionArgs"
+      database:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
+      storage:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageArgs"
+      networking:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworkingArgs"
+      backup:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
     type: object
 resources:
+<<<<<<< HEAD
 >>>>>>> 7109358 (Created nodejs sdk for bucket)
+=======
+  cloud-toolkit-aws:databases:Mysql:
+    description: Virtual Machine configure the EC2 Instance, the SecurityGroup and
+      the optional ElastcIp.
+    properties:
+      instancePassword:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:random.RandomPassword"
+      instance:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:rds%2finstance:Instance
+      securityGroup:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2fsecurityGroup:SecurityGroup
+      ingressSecurityGroupRules:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2fsecurityGroupRule:SecurityGroupRule
+      subnetGroup:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:rds%2fsubnetGroup:SubnetGroup
+      secret:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:secretsmanager%2fsecret:Secret
+      secretVersion:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:secretsmanager%2fsecretVersion:SecretVersion
+    required:
+      - instancePassword
+      - instance
+      - securityGroup
+      - ingressSecurityGroupRules
+      - subnetGroup
+      - secret
+      - secretVersion
+    inputProperties:
+      instance:
+        description: ""
+        type: string
+      version:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlVersionArgs"
+      database:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
+      storage:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageArgs"
+      networking:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworkingArgs"
+      backup:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
+    requiredInputs:
+      - version
+      - database
+    isComponent: true
+    type: object
+>>>>>>> e6b542d (First compilation)
   cloud-toolkit-aws:index:Example:
     description: ""
     properties:

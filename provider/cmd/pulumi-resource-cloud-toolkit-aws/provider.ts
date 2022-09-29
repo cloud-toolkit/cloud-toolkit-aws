@@ -1,5 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as bucket from "./storage/bucket";
+import * as mysql from "./databases/mysql";
 
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
@@ -192,6 +193,21 @@ async function constructBucket(
       replicationPolicyAttachment: q.replicationPolicyAttachment,
       replicationConfig: q.replicationConfig,
       bucketEncryption: q.bucketEncryption
+    },
+  };
+}
+
+async function constructEMysql(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const mysqldb = new mysql.Mysql(name, inputs as mysql.MysqlArgs, options);
+
+  return {
+    urn: mysqldb.instance.urn,
+    state: {
+      mysql: mysqldb.instance,
     },
   };
 }

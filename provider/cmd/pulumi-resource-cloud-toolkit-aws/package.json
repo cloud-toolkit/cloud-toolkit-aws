@@ -14,6 +14,7 @@
     "@babel/core": "^7.19.1",
     "@babel/preset-env": "^7.19.1",
     "@babel/preset-typescript": "^7.18.6",
+    "@pulumi/random": "^4.8.2",
     "@types/jest": "^29.0.3",
     "@types/lodash.defaultsdeep": "^4.6.7",
     "@types/node": "^10.0.0",
