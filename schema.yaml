@@ -11,53 +11,91 @@ keywords:
   - kind/component
 pluginDownloadURL: github://api.github.com/cloud-toolkit/pulumi-cloud-toolkit-aws
 types:
-  cloud-toolkit-aws:storage:BucketVersioningStateArgs:
-    description: ""
+  cloud-toolkit-aws:email:NotificationTypes:
+    description: >-
+      Types of Email Notifications that are covered by Email Sender.
+
+      * Bounce usually occurs when the recipient address does not exist, their inbox is full, the content of the message if flagged or other casuistics.
+
+      * Complaint indicates that the recipient does not want the email that was sent to them. It is usually a proactive action and it is best to remove the recipient address from the mailing list whenever it is.
+
+      * Delivery marks an email as correctly delivered.
     type: string
     enum:
-      - value: Enabled
-      - value: Disabled
-      - value: Suspended
-  cloud-toolkit-aws:storage:BucketArgs:
+      - value: Bounce
+      - value: Complaint
+      - value: Delivery
+  cloud-toolkit-aws:kubernetes:ClusterSubnetsType:
+    description: The subnet type
+    type: string
+    enum:
+      - value: private
+      - value: public
+  cloud-toolkit-aws:serverless:DeadLetterQueueTypes:
+    description: >-
+      Dead Letter Queue type that will receive the faulty messages from
+      the base Queue.
+
+      Permissive - Messages will be sent to the Dead Letter Queue after 10 failed delivery attempts.
+
+      Restrictive - Messages will be sent to the Dead Letter Queue after the first failed delivery attempt.
+    type: string
+    enum:
+      - value: PERMISSIVE
+      - value: RESTRICTIVE
+  cloud-toolkit-aws:email:AdditionalQueueArgs:
     properties:
-      public:
-        description: ""
-        type: boolean
-      versioning:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
-      encryption:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
-      replication:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
-      website:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
+      arn:
+        description: Amazon Resource Name for the Queue component.
+        type: string
+      url:
+        description: Endpoint of the Queue component in AWS.
+        type: string
     type: object
-  cloud-toolkit-aws:storage:BucketEncryptionArgs:
+  cloud-toolkit-aws:email:NotificationTypeQueuesArgs:
+    properties:
+      numberOfDefaultQueues:
+        description: Number of default Queues that will be created and attached to a Topic.
+        type: number
+      defaultQueuesConfig:
+        description: Configuration for the Default Queues. If left blank, Queues created
+          for this Notification Type will be standard, non-fifo, with a Dead
+          Letter Queue attached to them.
+        $ref: "#/types/cloud-toolkit-aws:serverless:QueueArgs"
+      additionalQueues:
+        description: Arguments to include Queues built and implemented outside of the
+          Email Sender Component. Useful when subscribing a single Queue to two
+          or more Topics or when migrating existing ones.
+        type: array
+        items:
+          description: Arguments to include Queues built and implemented outside of the
+            Email Sender Component. Useful when subscribing a single Queue to
+            two or more Topics or when migrating existing ones.
+          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
+    type: object
+  cloud-toolkit-aws:email:NotificationTypeArgs:
     properties:
       enabled:
-        description: ""
+        description: Enables the feature.
         type: boolean
-      customKeyId:
-        description: ""
-        type: string
+      includeOriginalHeaders:
+        description: Include original headers on the stored messages in the Queue(s).
+        type: boolean
+      queues:
+        description: >-
+          Arguments to configure the Queues subscribed to the Notification
+          Type Topic.
+
+          If left blank, a default standard, non-fifo, Queue and a Dead Letter Queue that is attached to the former will be created.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeQueuesArgs"
     type: object
-  cloud-toolkit-aws:storage:BucketReplicationArgs:
+  cloud-toolkit-aws:email:DnsDkimRecordArgs:
     properties:
-      bucketArn:
-        description: ""
+      name:
+        description: Name of the Record.
         type: string
-    type: object
-  cloud-toolkit-aws:storage:BucketWebsiteArgs:
-    properties:
-      errorDocument:
-        description: ""
-        type: string
-      indexDocument:
-        description: ""
+      token:
+        description: Token of the Record.
         type: string
     type: object
   cloud-toolkit-aws:index:ExampleArgs:
@@ -66,7 +104,492 @@ types:
         description: ""
         type: string
     type: object
+  cloud-toolkit-aws:kubernetes:ClusterArgs:
+    properties:
+      vpcId:
+        description: The VPC ID where the cluster will be deployed
+        type: string
+      privateSubnetIds:
+        description: The list of private subnet ids where for the EKS cluster. These
+          subnets will be tagged for Kubernetes purposes.
+        type: array
+        items:
+          description: The list of private subnet ids where for the EKS cluster. These
+            subnets will be tagged for Kubernetes purposes.
+          type: string
+      publicSubnetIds:
+        description: The list of public subnet ids where for the EKS cluster. These
+          subnets will be tagged for Kubernetes purposes.
+        type: array
+        items:
+          description: The list of public subnet ids where for the EKS cluster. These
+            subnets will be tagged for Kubernetes purposes.
+          type: string
+      version:
+        description: Desired Kubernetes version for control plane. Defaults to '1.22'.
+        type: string
+      api:
+        description: Configure the Kubernetes cluster API.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterApiArgs"
+      nodeGroups:
+        description: The NodeGroups to be assigned to this cluster.
+        type: array
+        items:
+          description: The NodeGroups to be assigned to this cluster.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs"
+      oidcProviders:
+        description: The OIDC Providers configuration.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterApiArgs:
+    properties:
+      public:
+        description: Configure the public endpoint for the Kubernetes API.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPublicApiArgs"
+      private:
+        description: Configure the private endpoint for the Kubernetes API.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPrivateApiArgs"
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterPublicApiArgs:
+    properties:
+      enabled:
+        description: Enable the public endpoint for Kubernetes API.
+        type: boolean
+      whitelist:
+        description: The list of CIDR that will be allowed to reach the public endpoint
+          for Kubernetes API.
+        type: array
+        items:
+          description: The list of CIDR that will be allowed to reach the public endpoint
+            for Kubernetes API.
+          type: string
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterPrivateApiArgs:
+    properties:
+      enabled:
+        description: Enable the private endpoint for Kubernetes API.
+        type: boolean
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs:
+    properties:
+      name:
+        description: The Node Group name.
+        type: string
+      subnetsType:
+        description: The subnets type to be used to deploy the Node Groups.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterSubnetsType"
+      instanceType:
+        description: The EC2 Instance Type to be used to create the Nodes.
+        type: string
+      minCount:
+        description: The minimum number of nodes running in the node group. Defaults to 1.
+        type: number
+      maxCount:
+        description: The maxium number of nodes running in the node group. Defaults to 2.
+        type: number
+      maxUnavailable:
+        description: The maximum number of nodes unavailable at once during a version
+          update. Defaults to 1.
+        type: number
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs:
+    properties:
+      enableDefaultProvider:
+        description: Enable the default OIDC Provider that is used in the cluster to let
+          Service Accounts to authenticate against AWS with a given IAM Role.
+        type: boolean
+    type: object
+  cloud-toolkit-aws:kubernetes:NodeGroupArgs:
+    properties:
+      name:
+        description: The name that identies the resource.
+        type: string
+      clusterVersion:
+        description: The Kubernetes cluster version.
+        type: string
+      clusterEndpoint:
+        description: The Kubernetes cluster endpoint.
+        type: string
+      clusterCA:
+        description: The CA used by the Kubernetes cluster.
+        type: string
+      clusterName:
+        description: The Kubernetes cluster name.
+        type: string
+      subnetIds:
+        description: The list of subnets ids where the nodes will be deployed.
+        type: array
+        items:
+          description: The list of subnets ids where the nodes will be deployed.
+          type: string
+      instanceType:
+        description: The aws instance type to use for the nodes. Defaults to "t3.medium".
+        type: string
+      minCount:
+        description: The minimum number of nodes running in the node group. Defaults to 1.
+        type: number
+      maxCount:
+        description: The maxium number of nodes running in the node group. Defaults to 2.
+        type: number
+      maxUnavailable:
+        description: The maximum number of nodes unavailable at once during a version
+          update. Defaults to 1.
+        type: number
+    type: object
+  cloud-toolkit-aws:landingZone:AccountIamArgs:
+    properties:
+      alias:
+        description: The alias to be used for IAM.
+        type: string
+      passwordPolicy:
+        description: The IAM password policy configuration.
+        $ref: "#/types/cloud-toolkit-aws:landingZone:AccountPasswordPolicyArgs"
+    type: object
+  cloud-toolkit-aws:landingZone:AccountPasswordPolicyArgs:
+    properties:
+      enabled:
+        description: Enable the creation of IAM Password Policy. Defaults to 'true'.
+        type: boolean
+      rules:
+        description: The rules to be applied to the IAM Password Policy
+        $ref: "#/types/cloud-toolkit-aws:landingZone:AccountPasswordPolicyRulesArgs"
+    type: object
+  cloud-toolkit-aws:landingZone:AccountPasswordPolicyRulesArgs:
+    properties:
+      allowUsersToChangePassword:
+        description: Whether to allow users to change their own password. Defaults to
+          'true'.
+        type: boolean
+      hardExpiry:
+        description: Whether users are prevented from setting a new password after their
+          password has expired (i.e., require administrator reset). Defaults to
+          'true'.
+        type: boolean
+      maxPasswordAge:
+        description: The number of days that an user password is valid. Defaults to '90'.
+        type: number
+      minimumPasswordLength:
+        description: Minimum length to require for user passwords. Defaults to '14'.
+        type: number
+      passwordReusePrevention:
+        description: The number of previous passwords that users are prevented from
+          reusing. Defaults to '0'.
+        type: number
+      requireLowercaseCharacters:
+        description: Whether to require lowercase characters for user passwords.
+          Defaults to 'true'.
+        type: boolean
+      requireNumbers:
+        description: Whether to require numbers for user passwords. Defaults to 'true'.
+        type: boolean
+      requireSymbols:
+        description: Whether to require symbols for user passwords. Defaults to 'true'.
+        type: boolean
+      requireUppercaseCharacters:
+        description: Whether to require uppercase characters for user passwords.
+          Defaults to 'true'.
+        type: boolean
+    type: object
+  cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs:
+    properties:
+      enable:
+        description: Enables the feature.
+        type: boolean
+      type:
+        description: Dead Letter Queue type attached to the component to create.
+        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueTypes"
+      existingDeadLetterQueueArn:
+        description: Placing a Queue ARN will set said already existing Queue as a Dead
+          Letter Queue for the new one.
+        type: string
+      messageRetentionSeconds:
+        description: The amount of time that a message will be stored in the Dead Letter
+          Queue without being deleted. Minimum is 60 seconds (1 minutes) and
+          Maximum 1,209,600 (14 days) seconds. By default a message is retained
+          4 days.
+        type: number
+    type: object
+  cloud-toolkit-aws:serverless:QueueArgs:
+    properties:
+      isFifo:
+        description: Set to true to create the Queue as FiFo. False for a Standard Queue.
+        type: boolean
+      DeadLetterQueueTypeArgs:
+        description: Dead Letter Queue attached to the component to create.
+        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs"
+      maxMessageSize:
+        description: The limit for a Queue message size in bytes. Minimum is 1 byte (1
+          character) and Maximum 262,144 bytes (256 KiB). By default a message
+          can be 256 KiB large.
+        type: number
+      messageRetentionSeconds:
+        description: The amount of time that a message will be stored in the Queue
+          without being deleted. Minimum is 60 seconds (1 minutes) and Maximum
+          1,209,600 (14 days) seconds. By default a message is retained 4 days.
+        type: number
+      policy:
+        description: Custom policy for the Queue.
+        type: string
+    type: object
+  cloud-toolkit-aws:email:EmailSenderArgs:
+    properties:
+      identity:
+        description: >-
+          Address of the Domain or Email used to send the emails through
+          Email Sender.
+
+          If an Email address is provided, Email Sender will set a Simple Email Service Email Identity. Verification will need to be manual.
+
+          Else, if a Domain address is configured, Email Sender will create a Simple Email Service Domain Identity. 
+
+          By default, it will attempt to verify the Domain by looking the Route 53 Domain Registry in the AWS account that is applying the infrastructure changes.
+
+          If the Domain is registered elsewhere, verification needs to be manual.
+        type: string
+      configureDNS:
+        description: >-
+          In the case of a Domain Identity, enables automatic verification by
+          creating DKIM DNS Records in the domain registration on Route 53.
+
+          If the domain is not registered in the Route 53 on the same AWS account that is applying the infrastructure changes, the process will fail unless this flag is set to False.
+        type: boolean
+      bounce:
+        description: Arguments to manage incoming Bounce notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+      complaint:
+        description: Arguments to manage incoming Complaint notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+      delivery:
+        description: Arguments to manage incoming Delivery notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+    type: object
 resources:
+  cloud-toolkit-aws:email:EmailSender:
+    description: >-
+      Cloud Toolkit component for an Email Sender. Creates a Simple Email
+      Service Email or Domain Identity alongside Simple Notification Service
+      Topics and Simple Queue Service Queues to manage bounce, complaints or
+      delivered messages.
+
+      In the case of building a Domain Identity, if it is registered in the Route 53 on the AWS account that is applying the infrastructure changes, Cloud Toolkit can verify it automatically by creating the DKIM DNS Records.
+    properties:
+      resourceGroups:
+        description: Resource Groups that contain the underlying components such as
+          Topics or Queues that belong to the Email Sender.
+        type: array
+        items:
+          description: Resource Groups that contain the underlying components such as
+            Topics or Queues that belong to the Email Sender.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:resourcegroups%2fgroup:Group
+      domainIdentity:
+        description: Domain Identity component. Left blank if an Email Identity was used
+          instead.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ses%2fdomainIdentity:DomainIdentity
+      emailIdentity:
+        description: Email Identity component. Left blank if a Domain Identity was used
+          instead.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ses%2femailIdentity:EmailIdentity
+      address:
+        description: Address of the Identity, regardless if it is a Domain or an Email.
+        type: string
+      domainDKIM:
+        description: Domain DKIM. Only applies for Domain Identities.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ses%2fdomainDkim:DomainDkim
+      dnsDkimRecords:
+        description: DNS DKIM Records. Only applies for Domain Identities.
+        type: array
+        items:
+          description: DNS DKIM Records. Only applies for Domain Identities.
+          $ref: "#/types/cloud-toolkit-aws:email:DnsDkimRecordArgs"
+      dnsZoneId:
+        description: DNS zone identifier in Route 53 for the Domain. Only applies for
+          Domain Identities that are registered using Route 53.
+        type: string
+      dnsRecords:
+        description: DNS records stored in the Domain registration in Route 53. Only
+          applies for Domain Identities that are registered using Route 53.
+        type: array
+        items:
+          description: DNS records stored in the Domain registration in Route 53. Only
+            applies for Domain Identities that are registered using Route 53.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:route53%2frecord:Record
+      bounceTopic:
+        description: SNS Topic for bounced emails.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:sns%2ftopic:Topic
+      bounceIdentityNotificationTopic:
+        description: Identity Notification Topic for bounced emails.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ses%2fidentityNotificationTopic:IdentityNotificationTopic
+      bounceQueues:
+        description: SQS Queues subscribed to the SNS Topic that receives bounced
+          emails. These Queues were created automatically by the Email Sender
+          component.
+        type: array
+        items:
+          description: SQS Queues subscribed to the SNS Topic that receives bounced
+            emails. These Queues were created automatically by the Email Sender
+            component.
+          $ref: "#/types/cloud-toolkit-aws:serverless:Queue"
+      bounceAdditionalQueues:
+        description: Additional SQS Queues subscribed to the SNS Topic that receives
+          bounced emails. These Queues were created outside the Email Sender
+          component.
+        type: array
+        items:
+          description: Additional SQS Queues subscribed to the SNS Topic that receives
+            bounced emails. These Queues were created outside the Email Sender
+            component.
+          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
+      bounceAdditionalQueuesPolicies:
+        description: Queue Policies attached to the externally provided Bounce SQS Queues.
+        type: array
+        items:
+          description: Queue Policies attached to the externally provided Bounce SQS Queues.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:sqs%2fqueuePolicy:QueuePolicy
+      bounceTopicSubscriptions:
+        description: SNS subscriptions of the SQS Queues to the Bounce SNS Topic.
+        type: array
+        items:
+          description: SNS subscriptions of the SQS Queues to the Bounce SNS Topic.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:sns%2ftopicSubscription:TopicSubscription
+      complaintTopic:
+        description: SNS Topic for complained emails.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:sns%2ftopic:Topic
+      complaintIdentityNotificationTopic:
+        description: Identity Notification Topic for complained emails.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ses%2fidentityNotificationTopic:IdentityNotificationTopic
+      complaintQueues:
+        description: SQS Queues subscribed to the SNS Topic that receives complained
+          emails. These Queues were created automatically by the Email Sender
+          component.
+        type: array
+        items:
+          description: SQS Queues subscribed to the SNS Topic that receives complained
+            emails. These Queues were created automatically by the Email Sender
+            component.
+          $ref: "#/types/cloud-toolkit-aws:serverless:Queue"
+      complaintAdditionalQueues:
+        description: Additional SQS Queues subscribed to the SNS Topic that receives
+          complained emails. These Queues were created outside the Email Sender
+          component.
+        type: array
+        items:
+          description: Additional SQS Queues subscribed to the SNS Topic that receives
+            complained emails. These Queues were created outside the Email
+            Sender component.
+          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
+      complaintAdditionalQueuesPolicies:
+        description: Queue Policies attached to the externally provided Complaint SQS
+          Queues.
+        type: array
+        items:
+          description: Queue Policies attached to the externally provided Complaint SQS
+            Queues.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:sqs%2fqueuePolicy:QueuePolicy
+      complaintTopicSubscriptions:
+        description: SNS subscriptions of the SQS Queues to the Complaint SNS Topic.
+        type: array
+        items:
+          description: SNS subscriptions of the SQS Queues to the Complaint SNS Topic.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:sns%2ftopicSubscription:TopicSubscription
+      deliveryTopic:
+        description: SNS Topic for delivered emails.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:sns%2ftopic:Topic
+      deliveryIdentityNotificationTopic:
+        description: Identity Notification Topic for delivered emails.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ses%2fidentityNotificationTopic:IdentityNotificationTopic
+      deliveryQueues:
+        description: SQS Queues subscribed to the SNS Topic that receives delivered
+          emails. These Queues were created automatically by the Email Sender
+          component.
+        type: array
+        items:
+          description: SQS Queues subscribed to the SNS Topic that receives delivered
+            emails. These Queues were created automatically by the Email Sender
+            component.
+          $ref: "#/types/cloud-toolkit-aws:serverless:Queue"
+      deliveryAdditionalQueues:
+        description: Additional SQS Queues subscribed to the SNS Topic that receives
+          delivered emails. These Queues were created outside the Email Sender
+          component.
+        type: array
+        items:
+          description: Additional SQS Queues subscribed to the SNS Topic that receives
+            delivered emails. These Queues were created outside the Email Sender
+            component.
+          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
+      deliveryAdditionalQueuesPolicies:
+        description: Queue Policies attached to the externally provided Delivery SQS Queues.
+        type: array
+        items:
+          description: Queue Policies attached to the externally provided Delivery SQS
+            Queues.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:sqs%2fqueuePolicy:QueuePolicy
+      deliveryTopicSubscriptions:
+        description: SNS subscriptions of the SQS Queues to the Delivery SNS Topic.
+        type: array
+        items:
+          description: SNS subscriptions of the SQS Queues to the Delivery SNS Topic.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:sns%2ftopicSubscription:TopicSubscription
+      senderPolicy:
+        description: Policy that when attached to an user, allows them to send messages
+          using the Email Sender Identity.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
+      notificationsPolicy:
+        description: Policy that when attached to an user, allows them to read the
+          notification messages in the Queues.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
+    required:
+      - resourceGroups
+      - address
+      - dnsDkimRecords
+      - dnsRecords
+      - bounceQueues
+      - bounceAdditionalQueues
+      - bounceAdditionalQueuesPolicies
+      - bounceTopicSubscriptions
+      - complaintQueues
+      - complaintAdditionalQueues
+      - complaintAdditionalQueuesPolicies
+      - complaintTopicSubscriptions
+      - deliveryQueues
+      - deliveryAdditionalQueues
+      - deliveryAdditionalQueuesPolicies
+      - deliveryTopicSubscriptions
+      - senderPolicy
+    inputProperties:
+      identity:
+        description: >-
+          Address of the Domain or Email used to send the emails through
+          Email Sender.
+
+          If an Email address is provided, Email Sender will set a Simple Email Service Email Identity. Verification will need to be manual.
+
+          Else, if a Domain address is configured, Email Sender will create a Simple Email Service Domain Identity. 
+
+          By default, it will attempt to verify the Domain by looking the Route 53 Domain Registry in the AWS account that is applying the infrastructure changes.
+
+          If the Domain is registered elsewhere, verification needs to be manual.
+        type: string
+      configureDNS:
+        description: >-
+          In the case of a Domain Identity, enables automatic verification by
+          creating DKIM DNS Records in the domain registration on Route 53.
+
+          If the domain is not registered in the Route 53 on the same AWS account that is applying the infrastructure changes, the process will fail unless this flag is set to False.
+        type: boolean
+      bounce:
+        description: Arguments to manage incoming Bounce notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+      complaint:
+        description: Arguments to manage incoming Complaint notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+      delivery:
+        description: Arguments to manage incoming Delivery notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+    requiredInputs:
+      - identity
+    isComponent: true
+    type: object
   cloud-toolkit-aws:index:Example:
     description: ""
     properties:
@@ -83,78 +606,238 @@ resources:
       - name
     isComponent: true
     type: object
-  cloud-toolkit-aws:storage:Bucket:
-    description: Bucket component
+  cloud-toolkit-aws:kubernetes:Cluster:
+    description: Cluster is a component that deploy a production-ready Kubernetes
+      cluster. It setups the AWS IAM and netwokring, as well many Kubernetes
+      services to run application in production.
+    properties:
+      subnetTags:
+        description: EC2 Tags used for provisioning Load Balancers.
+        type: array
+        items:
+          description: EC2 Tags used for provisioning Load Balancers.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2ftag:Tag
+      provisionerRole:
+        description: The IAM Role to provision EKS cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      provisionerRolePolicy:
+        description: The IAM Role Polity to provision EKS cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicy:RolePolicy
+      provisionerProvider:
+        description: The Provider to provision EKS cluster.
+        $ref: /aws/v5.10.0/schema.json#/provider
+      role:
+        description: The IAM Role assumed by the EKS Cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      rolePolicyAttachment:
+        description: The IAM Role Policy Attachment to assign the IAM Policies to the
+          IAM Role.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+      securityGroup:
+        description: The Security Group associated to the EKS Cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2fsecurityGroup:SecurityGroup
+      cluster:
+        description: The EKS Cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:eks%2fcluster:Cluster
+      kubeconfig:
+        description: The kubeconfig content for this cluster.
+        type: string
+      provider:
+        description: The Kubernetes provider for this cluster.
+        $ref: /kubernetes/v3.21.2/schema.json#/provider
+      nodeGroups:
+        description: The Node Groups associated to the cluster.
+        type: array
+        items:
+          description: The Node Groups associated to the cluster.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:NodeGroup"
+      defaultOidcProvider:
+        description: The default OIDC Provider.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fopenIdConnectProvider:OpenIdConnectProvider
+      cniChart:
+        description: The VPC CNI Chart installed in the cluster.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:helm.sh/v3:Release
+    required:
+      - subnetTags
+      - provisionerRole
+      - provisionerRolePolicy
+      - provisionerProvider
+      - role
+      - rolePolicyAttachment
+      - securityGroup
+      - cluster
+      - kubeconfig
+      - provider
+      - nodeGroups
+      - cniChart
+    inputProperties:
+      vpcId:
+        description: The VPC ID where the cluster will be deployed
+        type: string
+      privateSubnetIds:
+        description: The list of private subnet ids where for the EKS cluster. These
+          subnets will be tagged for Kubernetes purposes.
+        type: array
+        items:
+          description: The list of private subnet ids where for the EKS cluster. These
+            subnets will be tagged for Kubernetes purposes.
+          type: string
+      publicSubnetIds:
+        description: The list of public subnet ids where for the EKS cluster. These
+          subnets will be tagged for Kubernetes purposes.
+        type: array
+        items:
+          description: The list of public subnet ids where for the EKS cluster. These
+            subnets will be tagged for Kubernetes purposes.
+          type: string
+      version:
+        description: Desired Kubernetes version for control plane. Defaults to '1.22'.
+        type: string
+      api:
+        description: Configure the Kubernetes cluster API.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterApiArgs"
+      nodeGroups:
+        description: The NodeGroups to be assigned to this cluster.
+        type: array
+        items:
+          description: The NodeGroups to be assigned to this cluster.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs"
+      oidcProviders:
+        description: The OIDC Providers configuration.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
+    requiredInputs: []
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:kubernetes:NodeGroup:
+    description: NodeGroup is a component that deploy a Node Group for a Kubernetes cluster.
     properties:
       role:
-        description: ""
+        description: The IAM Role assumed by the EKS Nodes.
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
-      bucket:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketV2:BucketV2
-      bucketPublicAccess:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPublicAccessBlock:BucketPublicAccessBlock
-      bucketPublicAccessPolicy:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPolicy:BucketPolicy
-      bucketOwnership:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketOwnershipControls:BucketOwnershipControls
-      bucketVersioning:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketVersioningV2:BucketVersioningV2
-      bucketEncryption:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketServerSideEncryptionConfigurationV2:BucketServerSideEncryptionConfigurationV2
-      replicationPolicyAttachment:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
-      replicationConfig:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketReplicationConfig:BucketReplicationConfig
-      website:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketWebsiteConfigurationV2:BucketWebsiteConfigurationV2
-      readOnlyBucketPolicy:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
-      writeBucketPolicy:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
+      rolePolicyAttachments:
+        description: The list of IAM Role Policy Attachment used to attach IAM Roles to
+          the EKS Node Group.
+        type: array
+        items:
+          description: The list of IAM Role Policy Attachment used to attach IAM Roles to
+            the EKS Node Group.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+      launchTemplate:
+        description: The EC2 Launch Template used to provision nodes.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2flaunchTemplate:LaunchTemplate
+      nodeGroup:
+        description: The EKS Node Group.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:eks%2fnodeGroup:NodeGroup
     required:
       - role
-      - bucket
-      - bucketPublicAccess
-      - bucketOwnership
-      - bucketVersioning
-      - bucketEncryption
-      - readOnlyBucketPolicy
-      - writeBucketPolicy
+      - rolePolicyAttachments
+      - launchTemplate
+      - nodeGroup
     inputProperties:
-      public:
-        description: ""
-        type: boolean
-      versioning:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
-      encryption:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
-      replication:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
-      website:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
+      name:
+        description: The name that identies the resource.
+        type: string
+      clusterVersion:
+        description: The Kubernetes cluster version.
+        type: string
+      clusterEndpoint:
+        description: The Kubernetes cluster endpoint.
+        type: string
+      clusterCA:
+        description: The CA used by the Kubernetes cluster.
+        type: string
+      clusterName:
+        description: The Kubernetes cluster name.
+        type: string
+      subnetIds:
+        description: The list of subnets ids where the nodes will be deployed.
+        type: array
+        items:
+          description: The list of subnets ids where the nodes will be deployed.
+          type: string
+      instanceType:
+        description: The aws instance type to use for the nodes. Defaults to "t3.medium".
+        type: string
+      minCount:
+        description: The minimum number of nodes running in the node group. Defaults to 1.
+        type: number
+      maxCount:
+        description: The maxium number of nodes running in the node group. Defaults to 2.
+        type: number
+      maxUnavailable:
+        description: The maximum number of nodes unavailable at once during a version
+          update. Defaults to 1.
+        type: number
     requiredInputs:
-      - public
+      - name
+      - clusterVersion
+      - clusterEndpoint
+      - clusterCA
+      - clusterName
+      - subnetIds
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:landingZone:AccountIam:
+    description: Cluster is a component that configure the IAM service for a given account.
+    properties:
+      alias:
+        description: The IAM Account Alias.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2faccountAlias:AccountAlias
+      passwordPolicy:
+        description: The IAM Account Password policy.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2faccountPasswordPolicy:AccountPasswordPolicy
+    required: []
+    inputProperties:
+      alias:
+        description: The alias to be used for IAM.
+        type: string
+      passwordPolicy:
+        description: The IAM password policy configuration.
+        $ref: "#/types/cloud-toolkit-aws:landingZone:AccountPasswordPolicyArgs"
+    requiredInputs: []
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:serverless:Queue:
+    description: Cloud Toolkit component for Queues. Creates a Simple Queue Service
+      Queue alongside a Dead Letter Queue for faulty message deliveries.
+    properties:
+      sqsQueue:
+        description: Simple Queue Service Queue underline the component.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:sqs%2fqueue:Queue
+      deadLetterQueue:
+        description: Dead Letter Queue associated with the component. Messages that were
+          not delivered will be sent here.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:sqs%2fqueue:Queue
+    required:
+      - sqsQueue
+    inputProperties:
+      isFifo:
+        description: Set to true to create the Queue as FiFo. False for a Standard Queue.
+        type: boolean
+      DeadLetterQueueTypeArgs:
+        description: Dead Letter Queue attached to the component to create.
+        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs"
+      maxMessageSize:
+        description: The limit for a Queue message size in bytes. Minimum is 1 byte (1
+          character) and Maximum 262,144 bytes (256 KiB). By default a message
+          can be 256 KiB large.
+        type: number
+      messageRetentionSeconds:
+        description: The amount of time that a message will be stored in the Queue
+          without being deleted. Minimum is 60 seconds (1 minutes) and Maximum
+          1,209,600 (14 days) seconds. By default a message is retained 4 days.
+        type: number
+      policy:
+        description: Custom policy for the Queue.
+        type: string
+    requiredInputs: []
     isComponent: true
     type: object
 language:
   nodejs:
     dependencies:
       "@pulumi/aws": ^5.10.0
+      "@pulumi/kubernetes": ^3.20.2
     devDependencies:
       typescript: ^4.0.0
     respectSchemaVersion: true
@@ -163,6 +846,7 @@ language:
     requires:
       pulumi: ">=3.0.0,<4.0.0"
       pulumi-aws: ">=5.10.0,<6.0.0"
+      pulumi-kubernetes: ">=3.20.2,<4.0.0"
     respectSchemaVersion: true
     packageName: cloud_toolkit_aws
 

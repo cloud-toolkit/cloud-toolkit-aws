@@ -6,5 +6,36 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 import * as enums from "../types/enums";
 
-export namespace storage {
+export namespace email {
+    export interface AdditionalQueueArgs {
+        /**
+         * Amazon Resource Name for the Queue component.
+         */
+        arn?: string;
+        /**
+         * Endpoint of the Queue component in AWS.
+         */
+        url?: string;
+    }
+
+    export interface DnsDkimRecordArgs {
+        /**
+         * Name of the Record.
+         */
+        name?: string;
+        /**
+         * Token of the Record.
+         */
+        token?: string;
+    }
+
+}
+
+export namespace kubernetes {
+}
+
+export namespace landingZone {
+}
+
+export namespace serverless {
 }

@@ -10,14 +10,28 @@ from .provider import *
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
-    import cloud_toolkit_aws.storage as __storage
-    storage = __storage
+    import cloud_toolkit_aws.email as __email
+    email = __email
+    import cloud_toolkit_aws.kubernetes as __kubernetes
+    kubernetes = __kubernetes
+    import cloud_toolkit_aws.serverless as __serverless
+    serverless = __serverless
 else:
-    storage = _utilities.lazy_import('cloud_toolkit_aws.storage')
+    email = _utilities.lazy_import('cloud_toolkit_aws.email')
+    kubernetes = _utilities.lazy_import('cloud_toolkit_aws.kubernetes')
+    serverless = _utilities.lazy_import('cloud_toolkit_aws.serverless')
 
 _utilities.register(
     resource_modules="""
 [
+ {
+  "pkg": "cloud-toolkit-aws",
+  "mod": "email",
+  "fqn": "cloud_toolkit_aws.email",
+  "classes": {
+   "cloud-toolkit-aws:email:EmailSender": "EmailSender"
+  }
+ },
  {
   "pkg": "cloud-toolkit-aws",
   "mod": "index",
@@ -28,10 +42,19 @@ _utilities.register(
  },
  {
   "pkg": "cloud-toolkit-aws",
-  "mod": "storage",
-  "fqn": "cloud_toolkit_aws.storage",
+  "mod": "kubernetes",
+  "fqn": "cloud_toolkit_aws.kubernetes",
   "classes": {
-   "cloud-toolkit-aws:storage:Bucket": "Bucket"
+   "cloud-toolkit-aws:kubernetes:Cluster": "Cluster",
+   "cloud-toolkit-aws:kubernetes:NodeGroup": "NodeGroup"
+  }
+ },
+ {
+  "pkg": "cloud-toolkit-aws",
+  "mod": "serverless",
+  "fqn": "cloud_toolkit_aws.serverless",
+  "classes": {
+   "cloud-toolkit-aws:serverless:Queue": "Queue"
   }
  }
 ]

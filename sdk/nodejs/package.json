@@ -14,7 +14,8 @@
         "install": "node scripts/install-pulumi-plugin.js resource cloud-toolkit-aws ${VERSION}"
     },
     "dependencies": {
-        "@pulumi/aws": "^5.10.0"
+        "@pulumi/aws": "^5.10.0",
+        "@pulumi/kubernetes": "^3.20.2"
     },
     "devDependencies": {
         "typescript": "^4.0.0"
