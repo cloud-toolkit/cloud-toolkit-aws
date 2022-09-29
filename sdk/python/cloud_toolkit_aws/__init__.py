@@ -60,7 +60,8 @@ _utilities.register(
   "mod": "landingZone",
   "fqn": "cloud_toolkit_aws.landingzone",
   "classes": {
-   "cloud-toolkit-aws:landingZone:AccountIam": "AccountIam"
+   "cloud-toolkit-aws:landingZone:AccountIam": "AccountIam",
+   "cloud-toolkit-aws:landingZone:Organization": "Organization"
   }
  },
  {

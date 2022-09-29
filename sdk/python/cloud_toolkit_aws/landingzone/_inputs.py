@@ -12,6 +12,9 @@ from .. import _utilities
 __all__ = [
     'AccountPasswordPolicyArgsArgs',
     'AccountPasswordPolicyRulesArgsArgs',
+    'OrganizationAccountArgsArgs',
+    'OrganizationPoliciesArgsArgs',
+    'OrganizationPolicyArgsArgs',
 ]
 
 @pulumi.input_type
@@ -202,5 +205,166 @@ class AccountPasswordPolicyRulesArgsArgs:
     @require_uppercase_characters.setter
     def require_uppercase_characters(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "require_uppercase_characters", value)
+
+
+@pulumi.input_type
+class OrganizationAccountArgsArgs:
+    def __init__(__self__, *,
+                 account_id: Optional[pulumi.Input[str]] = None,
+                 admin_role_name: Optional[pulumi.Input[str]] = None,
+                 email: Optional[pulumi.Input[str]] = None,
+                 name: Optional[pulumi.Input[str]] = None,
+                 ou: Optional[pulumi.Input[str]] = None,
+                 parent_id: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[str] account_id: The AWS Account ID to be used to import the Account in the Organization. If not set, a new AWS Account will be created.
+        :param pulumi.Input[str] admin_role_name: Admin role for the IAM Account.
+        :param pulumi.Input[str] email: The email associated to the IAM Account.
+        :param pulumi.Input[str] name: The name of the IAM Account.
+        :param pulumi.Input[str] parent_id: The parentId of the imported account.
+        """
+        if account_id is not None:
+            pulumi.set(__self__, "account_id", account_id)
+        if admin_role_name is not None:
+            pulumi.set(__self__, "admin_role_name", admin_role_name)
+        if email is not None:
+            pulumi.set(__self__, "email", email)
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if ou is not None:
+            pulumi.set(__self__, "ou", ou)
+        if parent_id is not None:
+            pulumi.set(__self__, "parent_id", parent_id)
+
+    @property
+    @pulumi.getter(name="accountId")
+    def account_id(self) -> Optional[pulumi.Input[str]]:
+        """
+        The AWS Account ID to be used to import the Account in the Organization. If not set, a new AWS Account will be created.
+        """
+        return pulumi.get(self, "account_id")
+
+    @account_id.setter
+    def account_id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "account_id", value)
+
+    @property
+    @pulumi.getter(name="adminRoleName")
+    def admin_role_name(self) -> Optional[pulumi.Input[str]]:
+        """
+        Admin role for the IAM Account.
+        """
+        return pulumi.get(self, "admin_role_name")
+
+    @admin_role_name.setter
+    def admin_role_name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "admin_role_name", value)
+
+    @property
+    @pulumi.getter
+    def email(self) -> Optional[pulumi.Input[str]]:
+        """
+        The email associated to the IAM Account.
+        """
+        return pulumi.get(self, "email")
+
+    @email.setter
+    def email(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "email", value)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        """
+        The name of the IAM Account.
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter
+    def ou(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "ou")
+
+    @ou.setter
+    def ou(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "ou", value)
+
+    @property
+    @pulumi.getter(name="parentId")
+    def parent_id(self) -> Optional[pulumi.Input[str]]:
+        """
+        The parentId of the imported account.
+        """
+        return pulumi.get(self, "parent_id")
+
+    @parent_id.setter
+    def parent_id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "parent_id", value)
+
+
+@pulumi.input_type
+class OrganizationPoliciesArgsArgs:
+    def __init__(__self__, *,
+                 deny_leave_organization: Optional[pulumi.Input['OrganizationPolicyArgsArgs']] = None):
+        """
+        :param pulumi.Input['OrganizationPolicyArgsArgs'] deny_leave_organization: Deny IAM Account to leave the organization. Enabled by default.
+        """
+        if deny_leave_organization is not None:
+            pulumi.set(__self__, "deny_leave_organization", deny_leave_organization)
+
+    @property
+    @pulumi.getter(name="denyLeaveOrganization")
+    def deny_leave_organization(self) -> Optional[pulumi.Input['OrganizationPolicyArgsArgs']]:
+        """
+        Deny IAM Account to leave the organization. Enabled by default.
+        """
+        return pulumi.get(self, "deny_leave_organization")
+
+    @deny_leave_organization.setter
+    def deny_leave_organization(self, value: Optional[pulumi.Input['OrganizationPolicyArgsArgs']]):
+        pulumi.set(self, "deny_leave_organization", value)
+
+
+@pulumi.input_type
+class OrganizationPolicyArgsArgs:
+    def __init__(__self__, *,
+                 enabled: Optional[pulumi.Input[bool]] = None,
+                 policy_id: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[bool] enabled: Enable the policy/
+        :param pulumi.Input[str] policy_id: Import the policy with the given id
+        """
+        if enabled is not None:
+            pulumi.set(__self__, "enabled", enabled)
+        if policy_id is not None:
+            pulumi.set(__self__, "policy_id", policy_id)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable the policy/
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enabled", value)
+
+    @property
+    @pulumi.getter(name="policyId")
+    def policy_id(self) -> Optional[pulumi.Input[str]]:
+        """
+        Import the policy with the given id
+        """
+        return pulumi.get(self, "policy_id")
+
+    @policy_id.setter
+    def policy_id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "policy_id", value)
 
 
