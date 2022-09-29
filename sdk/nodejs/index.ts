@@ -16,6 +16,21 @@ export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Example"], () => require("./example"));
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
+// Export sub-modules:
+import * as email from "./email";
+import * as kubernetes from "./kubernetes";
+import * as landingzone from "./landingzone";
+import * as serverless from "./serverless";
+import * as types from "./types";
+
+export {
+    email,
+    kubernetes,
+    landingzone,
+    serverless,
+    types,
+};
+
 const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
@@ -37,3 +52,5 @@ pulumi.runtime.registerResourcePackage("cloud-toolkit-aws", {
         return new Provider(name, <any>undefined, { urn });
     },
 });
+import "@pulumi/aws";
+import "@pulumi/kubernetes";
