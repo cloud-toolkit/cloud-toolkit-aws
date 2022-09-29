@@ -4,7 +4,7 @@ import * as bucket from "./storage/bucket";
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
 import { Cluster, ClusterArgs, NodeGroup, NodeGroupArgs } from "./kubernetes";
-import { AccountIam, AccountIamArgs } from "./landingZone";
+import { AccountIam, AccountIamArgs, Organization, OrganizationArgs } from "./landingZone";
 import { Example, ExampleArgs } from "./example";
 
 export class Provider implements pulumi.provider.Provider {
@@ -29,6 +29,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesNodeGroup(name, inputs, options);
       case "cloud-toolkit-aws:landingZone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
+      case "cloud-toolkit-aws:landingZone:Organization":
+        return await constructLandingZoneOranization(name, inputs, options);
       case "cloud-toolkit-aws:storage:Bucket":
         return await constructBucket(name, inputs, options);
       default:
@@ -192,6 +194,26 @@ async function constructBucket(
       replicationPolicyAttachment: q.replicationPolicyAttachment,
       replicationConfig: q.replicationConfig,
       bucketEncryption: q.bucketEncryption
+    },
+  };
+}
+
+async function constructLandingZoneOranization(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const component = new Organization(name, inputs as OrganizationArgs, options);
+
+  return {
+    urn: component.urn,
+    state: {
+      accountIds: component.accountIds,
+      accounts: component.accounts,
+      organization: component.organization,
+      organizationalUnits: component.organizationalUnits,
+      policies: component.policies,
+      policyAttachments: component.policyAttachments,
     },
   };
 }
