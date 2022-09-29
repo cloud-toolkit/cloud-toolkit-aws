@@ -304,6 +304,18 @@ types:
           Defaults to 'true'.
         type: boolean
     type: object
+  cloud-toolkit-aws:landingZone:AuditLoggingArgs:
+    properties:
+      retentionDays:
+        description: The data retention in days. Defaults to '7'.
+        type: number
+      region:
+        description: The region to be used to store the data.
+        type: string
+      bucketProvider:
+        description: The AWS provider to used to create the Bucket.
+        $ref: /aws/v5.10.0/schema.json#/provider
+    type: object
   cloud-toolkit-aws:landingZone:OrganizationArgs:
     properties:
       organizationId:
@@ -921,6 +933,77 @@ resources:
       passwordPolicy:
         description: The IAM password policy configuration.
         $ref: "#/types/cloud-toolkit-aws:landingZone:AccountPasswordPolicyArgs"
+    requiredInputs: []
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:landingZone:AuditLogging:
+    description: ""
+    properties:
+      cloudWatchLogGroup:
+        description: The CloudWatch Log Group used to store the data.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
+      cloudWatchRole:
+        description: The IAM Role used by Cloud Trail to write to CloudWatch..
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      cloudWatchPolicy:
+        description: The IAM Policy used by the IAM Role for Cloud Trail.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
+      cloudWatchRolePolicyAttachment:
+        description: The IAM Role Policy Attachments that attach the IAM Role with the
+          IAM Policy.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+      cloudWatchDashboard:
+        description: The CloudWatch dashboard to review the audit logs.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2fdashboard:Dashboard
+      bucket:
+        description: The S3 Bucket used to store the data.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketV2:BucketV2
+      bucketAcl:
+        description: The S3 Bucket ACL.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketAclV2:BucketAclV2
+      bucketPublicAccessBlock:
+        description: The S3 Bucket Public Access Block to make data private.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPublicAccessBlock:BucketPublicAccessBlock
+      bucketLifecycleConfiguration:
+        description: The S3 Bucket Lifecycle Configuration to configure data retention
+          on S3 Bucket.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketLifecycleConfigurationV2:BucketLifecycleConfigurationV2
+      bucketPolicy:
+        description: The S3 Bucket policy.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPolicy:BucketPolicy
+      trail:
+        description: The Cloud Trail.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudtrail%2ftrail:Trail
+      organizationId:
+        description: The AWS Organization id.
+        type: string
+      organizationMasterAccountId:
+        description: The AWS Organization master account id.
+        type: string
+    required:
+      - cloudWatchLogGroup
+      - cloudWatchRole
+      - cloudWatchPolicy
+      - cloudWatchRolePolicyAttachment
+      - cloudWatchDashboard
+      - bucket
+      - bucketAcl
+      - bucketPublicAccessBlock
+      - bucketLifecycleConfiguration
+      - bucketPolicy
+      - trail
+      - organizationId
+      - organizationMasterAccountId
+    inputProperties:
+      retentionDays:
+        description: The data retention in days. Defaults to '7'.
+        type: number
+      region:
+        description: The region to be used to store the data.
+        type: string
+      bucketProvider:
+        description: The AWS provider to used to create the Bucket.
+        $ref: /aws/v5.10.0/schema.json#/provider
     requiredInputs: []
     isComponent: true
     type: object

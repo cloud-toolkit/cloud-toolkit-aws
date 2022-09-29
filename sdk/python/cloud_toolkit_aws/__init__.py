@@ -61,6 +61,7 @@ _utilities.register(
   "fqn": "cloud_toolkit_aws.landingzone",
   "classes": {
    "cloud-toolkit-aws:landingZone:AccountIam": "AccountIam",
+   "cloud-toolkit-aws:landingZone:AuditLogging": "AuditLogging",
    "cloud-toolkit-aws:landingZone:Organization": "Organization"
   }
  },

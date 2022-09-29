@@ -4,7 +4,7 @@ import * as bucket from "./storage/bucket";
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
 import { Cluster, ClusterArgs, NodeGroup, NodeGroupArgs } from "./kubernetes";
-import { AccountIam, AccountIamArgs, Organization, OrganizationArgs } from "./landingZone";
+import { AccountIam, AccountIamArgs, AuditLogging, AuditLoggingArgs, Organization, OrganizationArgs } from "./landingZone";
 import { Example, ExampleArgs } from "./example";
 
 export class Provider implements pulumi.provider.Provider {
@@ -31,6 +31,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingZone:Organization":
         return await constructLandingZoneOranization(name, inputs, options);
+      case "cloud-toolkit-aws:landingZone:AuditLogging":
+        return await constructLandingZoneAuditLogging(name, inputs, options);
       case "cloud-toolkit-aws:storage:Bucket":
         return await constructBucket(name, inputs, options);
       default:
@@ -214,6 +216,30 @@ async function constructLandingZoneOranization(
       organizationalUnits: component.organizationalUnits,
       policies: component.policies,
       policyAttachments: component.policyAttachments,
+    },
+  };
+}
+
+async function constructLandingZoneAuditLogging(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const component = new AuditLogging(name, inputs as AuditLoggingArgs, options);
+
+  return {
+    urn: component.urn,
+    state: {
+      cloudWatchLogGroup: component.cloudWatchLogGroup,
+      cloudWatchRole: component.cloudWatchRole,
+      cloudWatchPolicy: component.cloudWatchPolicy,
+      cloudWatchRolePolicyAttachment: component.cloudWatchRolePolicyAttachment,
+      cloudWatchDashboard: component.cloudWatchDashboard,
+      bucket: component.bucket,
+      bucketPublicAccessBlock: component.bucketPublicAccessBlock,
+      bucketLifecycleConfiguration: component.bucketLifecycleConfiguration,
+      bucketPolicy: component.bucketPolicy,
+      trail: component.trail,
     },
   };
 }
