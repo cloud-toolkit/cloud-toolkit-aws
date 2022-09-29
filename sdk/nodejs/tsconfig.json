@@ -21,6 +21,7 @@
         "kubernetes/index.ts",
         "kubernetes/nodeGroup.ts",
         "landingzone/accountIam.ts",
+        "landingzone/auditLogging.ts",
         "landingzone/index.ts",
         "landingzone/organization.ts",
         "provider.ts",

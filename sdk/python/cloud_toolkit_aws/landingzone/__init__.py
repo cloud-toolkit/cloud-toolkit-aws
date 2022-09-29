@@ -6,6 +6,7 @@ from .. import _utilities
 import typing
 # Export this package's modules as members:
 from .account_iam import *
+from .audit_logging import *
 from .organization import *
 from ._inputs import *
 from . import outputs
