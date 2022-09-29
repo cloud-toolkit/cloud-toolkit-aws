@@ -22,6 +22,7 @@
         "kubernetes/nodeGroup.ts",
         "landingzone/accountIam.ts",
         "landingzone/index.ts",
+        "landingzone/organization.ts",
         "provider.ts",
         "serverless/index.ts",
         "serverless/queue.ts",

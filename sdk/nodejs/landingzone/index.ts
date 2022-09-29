@@ -9,7 +9,12 @@ export { AccountIamArgs } from "./accountIam";
 export type AccountIam = import("./accountIam").AccountIam;
 export const AccountIam: typeof import("./accountIam").AccountIam = null as any;
 
+export { OrganizationArgs } from "./organization";
+export type Organization = import("./organization").Organization;
+export const Organization: typeof import("./organization").Organization = null as any;
+
 utilities.lazyLoad(exports, ["AccountIam"], () => require("./accountIam"));
+utilities.lazyLoad(exports, ["Organization"], () => require("./organization"));
 
 const _module = {
     version: utilities.getVersion(),
@@ -17,6 +22,8 @@ const _module = {
         switch (type) {
             case "cloud-toolkit-aws:landingZone:AccountIam":
                 return new AccountIam(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:landingZone:Organization":
+                return new Organization(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }

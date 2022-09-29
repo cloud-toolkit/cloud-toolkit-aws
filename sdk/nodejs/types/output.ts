@@ -6,6 +6,8 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 import * as enums from "../types/enums";
 
+import * as pulumiAws from "@pulumi/aws";
+
 export namespace email {
     export interface AdditionalQueueArgs {
         /**
@@ -35,6 +37,16 @@ export namespace kubernetes {
 }
 
 export namespace landingZone {
+    export interface AccountMappingArgs {
+        account?: pulumiAws.organizations.Account;
+        accountName?: string;
+    }
+
+    export interface OrganizationalUnitMapping {
+        accountName?: string;
+        organizationalUnit?: pulumiAws.organizations.OrganizationalUnit;
+    }
+
 }
 
 export namespace serverless {
