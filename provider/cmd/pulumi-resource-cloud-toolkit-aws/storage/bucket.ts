@@ -4,80 +4,108 @@ import { BucketArgs, validateConfig } from "./bucketArgs";
 
 export { BucketArgs };
 
+
 /**
- * Bucket component
- *
+ * Cloud Toolkit component for Bcukets. Creates a Simple Bucket for object storage
  * @extends {pulumi.ComponentResource}
  */
 export class Bucket extends pulumi.ComponentResource {
   /**
+   * Configuration for Bucket
+   * 
    * @type {BucketArgs}
    */
   private config: BucketArgs;
 
   /**
+   * Establish Bucket name
+   * 
    * @type {string}
    */
   private name: string;
 
   /**
+   * Required role for managing bucket
+   * 
    * @type {aws.iam.Role}
    */
   public readonly role: aws.iam.Role;
 
   /**
+   * Instance of our Bucket
+   * 
    * @type {aws.s3.BucketV2}
    */
   public readonly bucket: aws.s3.BucketV2;
 
   /**
+   * Controls that IAM policies complies with bucket visibility (public or private)
+   * 
    * @type {aws.s3.BucketPublicAccessBlock}
    */
   public readonly bucketPublicAccess: aws.s3.BucketPublicAccessBlock;
 
   /**
+   *Policy to make public all objects if bucket visibility is public
+   * 
    * @type {aws.s3.BucketPolicy}
    */
   public readonly bucketPublicAccessPolicy?: aws.s3.BucketPolicy;
 
   /**
+   * Enforce that bucket owner is all bucket objects
+   * 
    * @type {aws.s3.BucketOwnershipControls}
    */
   public bucketOwnership: aws.s3.BucketOwnershipControls;
 
   /**
+   * Configuration for controlling bucket versioning
+   * 
    * @type {aws.s3.BucketVersioningV2}
    */
   public readonly bucketVersioning: aws.s3.BucketVersioningV2;
 
   /**
+   * Configuration for controlling bucket encryption
+   * 
    * @type {aws.s3.BucketServerSideEncryptionConfigurationV2}
-   */
+  */
   public readonly bucketEncryption:
     | aws.s3.BucketServerSideEncryptionConfigurationV2
     | undefined;
 
   /**
+   * Policy attachments to perform bucket replication
+   * 
    * @type {aws.iam.PolicyAttachment[]}
    */
   public readonly replicationPolicyAttachment?: aws.iam.RolePolicyAttachment;
 
   /**
+   * Configuration to perform bucket replication
+   * 
    * @type {aws.iam.BucketReplicationConfig}
    */
   public readonly replicationConfig?: aws.s3.BucketReplicationConfig;
 
   /**
+   * Configuration to setup a website
+   * 
    * @type {aws.s3.BucketWebsiteConfigurationV2}
    */
   public readonly website?: aws.s3.BucketWebsiteConfigurationV2;
 
   /**
+   * Policy for read-only users
+   * 
    * @type {aws.iam.Policy}
    */
   public readonly readOnlyBucketPolicy: aws.iam.Policy;
 
   /**
+   * Policy for write users
+   * 
    * @type {aws.iam.Policy}
    */
   public readonly writeBucketPolicy: aws.iam.Policy;
@@ -123,6 +151,21 @@ export class Bucket extends pulumi.ComponentResource {
     this.replicationConfig = this.setupBucketReplication(resourceOpts);
 
     this.bucketEncryption = this.setupBucketEncryption(resourceOpts);
+
+    this.registerOutputs({
+      role: this.role,
+      bucket: this.bucket,
+      bucketVersioning: this.bucketVersioning,
+      writeBucketPolicy: this.writeBucketPolicy,
+      readOnlyBucketPolicy: this.readOnlyBucketPolicy,
+      website: this.website,
+      bucketPublicAccess: this.bucketPublicAccess,
+      bucketPublicAccessPolicy: this.bucketPublicAccessPolicy,
+      bucketOwnership: this.bucketOwnership,
+      replicationPolicyAttachment: this.replicationPolicyAttachment,
+      replicationConfig: this.replicationConfig,
+      bucketEncryption: this.bucketEncryption
+    });
   }
 
   /**
@@ -155,6 +198,13 @@ export class Bucket extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Setup write policy for users
+   *
+   * @param {pulumi.ResourceOptions}
+   *
+   * @return {aws.iam.Policy}
+   */
   private setupBucketWritePolicy(opts: pulumi.ResourceOptions): aws.iam.Policy {
     return new aws.iam.Policy(
       `${this.name}-write`,
@@ -197,6 +247,13 @@ export class Bucket extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Setup read-only policy for users
+   *
+   * @param {pulumi.ResourceOptions}
+   *
+   * @return {aws.iam.Policy}
+   */
   private setupBucketReadPolicy(opts: pulumi.ResourceOptions): aws.iam.Policy {
     return new aws.iam.Policy(
       `${this.name}-read`,
@@ -288,6 +345,7 @@ export class Bucket extends pulumi.ComponentResource {
       return undefined;
     }
   }
+
   /**
    * Blocks by default any public policy for bucket unless bucket is defined as public
    *
@@ -415,6 +473,13 @@ export class Bucket extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Setup a replication policy for performing bucket replication 
+   *
+   * @param {pulumi.ResourceOptions}
+   *
+   * @return {aws.iam.RolePolicyAttachment | undefined}
+   */
   private setupBucketReplicationPolicyAttachment(
     opts: pulumi.ResourceOptions
   ): aws.iam.RolePolicyAttachment | undefined {
@@ -482,6 +547,13 @@ export class Bucket extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Setup versioning for Bucket
+   *
+   * @param {pulumi.ResourceOptions}
+   *
+   * @return {aws.s3.BucketVersioningV2}
+   */
   private setupBucketVersioning(
     opts: pulumi.ResourceOptions
   ): aws.s3.BucketVersioningV2 {
@@ -500,6 +572,13 @@ export class Bucket extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Enables Bucket replication
+   *
+   * @param {pulumi.ResourceOptions}
+   *
+   * @return {aws.s3.BucketReplicationConfig | undefined}
+   */
   private setupBucketReplication(
     opts: pulumi.ResourceOptions
   ): aws.s3.BucketReplicationConfig | undefined {

@@ -46,9 +46,20 @@ async function constructBucket(
   const q = new bucket.Bucket(name, inputs as bucket.BucketArgs, options);
 
   return {
-    urn: q.bucket.urn,
+    urn: q.urn,
     state: {
+      role: q.role,
       bucket: q.bucket,
+      bucketVersioning: q.bucketVersioning,
+      writeBucketPolicy: q.writeBucketPolicy,
+      readOnlyBucketPolicy: q.readOnlyBucketPolicy,
+      website: q.website,
+      bucketPublicAccess: q.bucketPublicAccess,
+      bucketPublicAccessPolicy: q.bucketPublicAccessPolicy,
+      bucketOwnership: q.bucketOwnership,
+      replicationPolicyAttachment: q.replicationPolicyAttachment,
+      replicationConfig: q.replicationConfig,
+      bucketEncryption: q.bucketEncryption
     },
   };
 }
