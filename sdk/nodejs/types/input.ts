@@ -6,6 +6,8 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 import * as enums from "../types/enums";
 
+import * as pulumiAws from "@pulumi/aws";
+
 export namespace email {
     export interface AdditionalQueueArgsArgs {
         /**
@@ -166,6 +168,49 @@ export namespace landingZone {
          */
         requireUppercaseCharacters?: pulumi.Input<boolean>;
     }
+
+    export interface OrganizationAccountArgsArgs {
+        /**
+         * The AWS Account ID to be used to import the Account in the Organization. If not set, a new AWS Account will be created.
+         */
+        accountId?: pulumi.Input<string>;
+        /**
+         * Admin role for the IAM Account.
+         */
+        adminRoleName?: pulumi.Input<string>;
+        /**
+         * The email associated to the IAM Account.
+         */
+        email?: pulumi.Input<string>;
+        /**
+         * The name of the IAM Account.
+         */
+        name?: pulumi.Input<string>;
+        ou?: pulumi.Input<string>;
+        /**
+         * The parentId of the imported account.
+         */
+        parentId?: pulumi.Input<string>;
+    }
+
+    export interface OrganizationPoliciesArgsArgs {
+        /**
+         * Deny IAM Account to leave the organization. Enabled by default.
+         */
+        denyLeaveOrganization?: pulumi.Input<inputs.landingZone.OrganizationPolicyArgsArgs>;
+    }
+
+    export interface OrganizationPolicyArgsArgs {
+        /**
+         * Enable the policy/
+         */
+        enabled?: pulumi.Input<boolean>;
+        /**
+         * Import the policy with the given id
+         */
+        policyId?: pulumi.Input<string>;
+    }
+
 }
 
 export namespace serverless {

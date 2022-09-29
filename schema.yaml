@@ -304,6 +304,77 @@ types:
           Defaults to 'true'.
         type: boolean
     type: object
+  cloud-toolkit-aws:landingZone:OrganizationArgs:
+    properties:
+      organizationId:
+        description: The organization ID to import the Organization in the stack. If not
+          set a new AWS Organization will be created. Defaults to undefined.
+        type: string
+      policies:
+        description: The Organization policies to be applied.
+        $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationPoliciesArgs"
+      accounts:
+        description: The list of AWS Account to be configured in the Organization.
+        type: array
+        items:
+          description: The list of AWS Account to be configured in the Organization.
+          $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationAccountArgs"
+    type: object
+  cloud-toolkit-aws:landingZone:OrganizationPoliciesArgs:
+    properties:
+      denyLeaveOrganization:
+        description: Deny IAM Account to leave the organization. Enabled by default.
+        $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationPolicyArgs"
+    type: object
+  cloud-toolkit-aws:landingZone:OrganizationPolicyArgs:
+    properties:
+      enabled:
+        description: Enable the policy/
+        type: boolean
+      policyId:
+        description: Import the policy with the given id
+        type: string
+    type: object
+  cloud-toolkit-aws:landingZone:OrganizationAccountArgs:
+    properties:
+      name:
+        description: The name of the IAM Account.
+        type: string
+      email:
+        description: The email associated to the IAM Account.
+        type: string
+      adminRoleName:
+        description: Admin role for the IAM Account.
+        type: string
+      ou:
+        description: ""
+        type: string
+      accountId:
+        description: The AWS Account ID to be used to import the Account in the
+          Organization. If not set, a new AWS Account will be created.
+        type: string
+      parentId:
+        description: The parentId of the imported account.
+        type: string
+    type: object
+  cloud-toolkit-aws:landingZone:OrganizationalUnitMapping:
+    properties:
+      accountName:
+        description: ""
+        type: string
+      organizationalUnit:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:organizations%2forganizationalUnit:OrganizationalUnit
+    type: object
+  cloud-toolkit-aws:landingZone:AccountMappingArgs:
+    properties:
+      accountName:
+        description: ""
+        type: string
+      account:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:organizations%2faccount:Account
+    type: object
   cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs:
     properties:
       enable:
@@ -850,6 +921,67 @@ resources:
       passwordPolicy:
         description: The IAM password policy configuration.
         $ref: "#/types/cloud-toolkit-aws:landingZone:AccountPasswordPolicyArgs"
+    requiredInputs: []
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:landingZone:Organization:
+    description: Organization is the component that configure the AWS Orgazination,
+      AWS Accounts and AWS Organization Policies.
+    properties:
+      organization:
+        description: The AWS Organization.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:organizations%2forganization:Organization
+      accountIds:
+        description: The list of AWS Accounts inside the Organization.
+        type: array
+        items:
+          description: The list of AWS Accounts inside the Organization.
+          type: string
+      policies:
+        description: The list of Policies used in the Organization.
+        type: array
+        items:
+          description: The list of Policies used in the Organization.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:organizations%2fpolicy:Policy
+      policyAttachments:
+        description: The list of Policy Attachments used in the Organization.
+        type: array
+        items:
+          description: The list of Policy Attachments used in the Organization.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:organizations%2fpolicyAttachment:PolicyAttachment
+      organizationalUnits:
+        description: The list Organizatoinal Units.
+        type: array
+        items:
+          description: The list Organizatoinal Units.
+          $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationalUnitMapping"
+      accounts:
+        description: The list of Accounts.
+        type: array
+        items:
+          description: The list of Accounts.
+          $ref: "#/types/cloud-toolkit-aws:landingZone:AccountMappingArgs"
+    required:
+      - organization
+      - accountIds
+      - policies
+      - policyAttachments
+      - organizationalUnits
+      - accounts
+    inputProperties:
+      organizationId:
+        description: The organization ID to import the Organization in the stack. If not
+          set a new AWS Organization will be created. Defaults to undefined.
+        type: string
+      policies:
+        description: The Organization policies to be applied.
+        $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationPoliciesArgs"
+      accounts:
+        description: The list of AWS Account to be configured in the Organization.
+        type: array
+        items:
+          description: The list of AWS Account to be configured in the Organization.
+          $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationAccountArgs"
     requiredInputs: []
     isComponent: true
     type: object
