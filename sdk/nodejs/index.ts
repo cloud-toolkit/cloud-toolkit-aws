@@ -17,17 +17,11 @@ utilities.lazyLoad(exports, ["Example"], () => require("./example"));
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
 // Export sub-modules:
-import * as email from "./email";
-import * as kubernetes from "./kubernetes";
-import * as landingzone from "./landingzone";
-import * as serverless from "./serverless";
+import * as storage from "./storage";
 import * as types from "./types";
 
 export {
-    email,
-    kubernetes,
-    landingzone,
-    serverless,
+    storage,
     types,
 };
 
