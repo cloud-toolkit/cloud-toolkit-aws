@@ -71,9 +71,7 @@ export class Bucket extends pulumi.ComponentResource {
    * 
    * @type {aws.s3.BucketServerSideEncryptionConfigurationV2}
   */
-  public readonly bucketEncryption:
-    | aws.s3.BucketServerSideEncryptionConfigurationV2
-    | undefined;
+  public readonly bucketEncryption?: aws.s3.BucketServerSideEncryptionConfigurationV2;
 
   /**
    * Policy attachments to perform bucket replication

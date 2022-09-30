@@ -44,7 +44,14 @@ types:
       - value: PERMISSIVE
       - value: RESTRICTIVE
   cloud-toolkit-aws:storage:BucketVersioningStateArgs:
-    description: ""
+    description: >-
+      Versioning object mode that is selected for the bucket.
+
+      Enabled - Bucket keeps track of object versioning.
+
+      Disabled - Bucket does not keep track of object versioning. Once versioning is Enabled we cannot Disabled versioning.
+
+      Suspended - Once versioning is Enabled, this feature can be suspended
     type: string
     enum:
       - value: Enabled
@@ -341,19 +348,19 @@ types:
   cloud-toolkit-aws:storage:BucketArgs:
     properties:
       public:
-        description: ""
+        description: Set to true to allow policies that may provide access to anyone.
         type: boolean
       versioning:
-        description: ""
+        description: Set a certain versioning mode for bucket objects
         $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
       encryption:
-        description: ""
+        description: Configures encryption parameters for the bucket
         $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
       replication:
-        description: ""
+        description: Configures replication parameters for the bucket
         $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
       website:
-        description: ""
+        description: Configures a static webpage using bucket files
         $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
     type: object
   cloud-toolkit-aws:storage:BucketEncryptionArgs:
@@ -369,7 +376,7 @@ types:
     properties:
       bucketArn:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:any"
+        type: string
     type: object
   cloud-toolkit-aws:storage:BucketWebsiteArgs:
     properties:
@@ -883,43 +890,45 @@ resources:
     isComponent: true
     type: object
   cloud-toolkit-aws:storage:Bucket:
-    description: Bucket component
+    description: Cloud Toolkit component for Bcukets. Creates a Simple Bucket for
+      object storage
     properties:
       role:
-        description: ""
+        description: Required role for managing bucket
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
       bucket:
-        description: ""
+        description: Instance of our Bucket
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketV2:BucketV2
       bucketPublicAccess:
-        description: ""
+        description: Controls that IAM policies complies with bucket visibility (public
+          or private)
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPublicAccessBlock:BucketPublicAccessBlock
       bucketPublicAccessPolicy:
-        description: ""
+        description: Policy to make public all objects if bucket visibility is public
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPolicy:BucketPolicy
       bucketOwnership:
-        description: ""
+        description: Enforce that bucket owner is all bucket objects
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketOwnershipControls:BucketOwnershipControls
       bucketVersioning:
-        description: ""
+        description: Configuration for controlling bucket versioning
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketVersioningV2:BucketVersioningV2
       bucketEncryption:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:storage:any"
+        description: Configuration for controlling bucket encryption
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketServerSideEncryptionConfigurationV2:BucketServerSideEncryptionConfigurationV2
       replicationPolicyAttachment:
-        description: ""
+        description: Policy attachments to perform bucket replication
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
       replicationConfig:
-        description: ""
+        description: Configuration to perform bucket replication
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketReplicationConfig:BucketReplicationConfig
       website:
-        description: ""
+        description: Configuration to setup a website
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketWebsiteConfigurationV2:BucketWebsiteConfigurationV2
       readOnlyBucketPolicy:
-        description: ""
+        description: Policy for read-only users
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
       writeBucketPolicy:
-        description: ""
+        description: Policy for write users
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
     required:
       - role
@@ -927,24 +936,23 @@ resources:
       - bucketPublicAccess
       - bucketOwnership
       - bucketVersioning
-      - bucketEncryption
       - readOnlyBucketPolicy
       - writeBucketPolicy
     inputProperties:
       public:
-        description: ""
+        description: Set to true to allow policies that may provide access to anyone.
         type: boolean
       versioning:
-        description: ""
+        description: Set a certain versioning mode for bucket objects
         $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
       encryption:
-        description: ""
+        description: Configures encryption parameters for the bucket
         $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
       replication:
-        description: ""
+        description: Configures replication parameters for the bucket
         $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
       website:
-        description: ""
+        description: Configures a static webpage using bucket files
         $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
     requiredInputs:
       - public

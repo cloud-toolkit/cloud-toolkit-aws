@@ -21,6 +21,7 @@ import * as email from "./email";
 import * as kubernetes from "./kubernetes";
 import * as landingzone from "./landingzone";
 import * as serverless from "./serverless";
+import * as storage from "./storage";
 import * as types from "./types";
 
 export {
@@ -28,6 +29,7 @@ export {
     kubernetes,
     landingzone,
     serverless,
+    storage,
     types,
 };
 
