@@ -197,7 +197,7 @@ async function constructBucket(
   };
 }
 
-async function constructEMysql(
+async function constructMysql(
   name: string,
   inputs: pulumi.Inputs,
   options: pulumi.ComponentResourceOptions
