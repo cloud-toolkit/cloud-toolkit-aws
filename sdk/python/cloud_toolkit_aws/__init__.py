@@ -14,12 +14,18 @@ if typing.TYPE_CHECKING:
     email = __email
     import cloud_toolkit_aws.kubernetes as __kubernetes
     kubernetes = __kubernetes
+    import cloud_toolkit_aws.landingzone as __landingzone
+    landingzone = __landingzone
     import cloud_toolkit_aws.serverless as __serverless
     serverless = __serverless
+    import cloud_toolkit_aws.storage as __storage
+    storage = __storage
 else:
     email = _utilities.lazy_import('cloud_toolkit_aws.email')
     kubernetes = _utilities.lazy_import('cloud_toolkit_aws.kubernetes')
+    landingzone = _utilities.lazy_import('cloud_toolkit_aws.landingzone')
     serverless = _utilities.lazy_import('cloud_toolkit_aws.serverless')
+    storage = _utilities.lazy_import('cloud_toolkit_aws.storage')
 
 _utilities.register(
     resource_modules="""
@@ -51,10 +57,26 @@ _utilities.register(
  },
  {
   "pkg": "cloud-toolkit-aws",
+  "mod": "landingZone",
+  "fqn": "cloud_toolkit_aws.landingzone",
+  "classes": {
+   "cloud-toolkit-aws:landingZone:AccountIam": "AccountIam"
+  }
+ },
+ {
+  "pkg": "cloud-toolkit-aws",
   "mod": "serverless",
   "fqn": "cloud_toolkit_aws.serverless",
   "classes": {
    "cloud-toolkit-aws:serverless:Queue": "Queue"
+  }
+ },
+ {
+  "pkg": "cloud-toolkit-aws",
+  "mod": "storage",
+  "fqn": "cloud_toolkit_aws.storage",
+  "classes": {
+   "cloud-toolkit-aws:storage:Bucket": "Bucket"
   }
  }
 ]

@@ -46,7 +46,7 @@ export interface BucketEncryptionArgs {
  * bucketArn - Destination bucket where replicas are stored.
  */
 export interface BucketReplicationArgs {
-  bucketArn: pulumi.Input<string> | string;
+  bucketArn: pulumi.Input<string>;
 }
 
 /**

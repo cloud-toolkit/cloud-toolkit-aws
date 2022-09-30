@@ -18,18 +18,22 @@ __all__ = [
 class AccountPasswordPolicyArgsArgs:
     def __init__(__self__, *,
                  enabled: Optional[pulumi.Input[bool]] = None,
-                 import_: Optional[pulumi.Input[bool]] = None,
                  rules: Optional[pulumi.Input['AccountPasswordPolicyRulesArgsArgs']] = None):
+        """
+        :param pulumi.Input[bool] enabled: Enable the creation of IAM Password Policy. Defaults to 'true'.
+        :param pulumi.Input['AccountPasswordPolicyRulesArgsArgs'] rules: The rules to be applied to the IAM Password Policy
+        """
         if enabled is not None:
             pulumi.set(__self__, "enabled", enabled)
-        if import_ is not None:
-            pulumi.set(__self__, "import_", import_)
         if rules is not None:
             pulumi.set(__self__, "rules", rules)
 
     @property
     @pulumi.getter
     def enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable the creation of IAM Password Policy. Defaults to 'true'.
+        """
         return pulumi.get(self, "enabled")
 
     @enabled.setter
@@ -37,17 +41,11 @@ class AccountPasswordPolicyArgsArgs:
         pulumi.set(self, "enabled", value)
 
     @property
-    @pulumi.getter(name="import")
-    def import_(self) -> Optional[pulumi.Input[bool]]:
-        return pulumi.get(self, "import_")
-
-    @import_.setter
-    def import_(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "import_", value)
-
-    @property
     @pulumi.getter
     def rules(self) -> Optional[pulumi.Input['AccountPasswordPolicyRulesArgsArgs']]:
+        """
+        The rules to be applied to the IAM Password Policy
+        """
         return pulumi.get(self, "rules")
 
     @rules.setter
@@ -67,6 +65,17 @@ class AccountPasswordPolicyRulesArgsArgs:
                  require_numbers: Optional[pulumi.Input[bool]] = None,
                  require_symbols: Optional[pulumi.Input[bool]] = None,
                  require_uppercase_characters: Optional[pulumi.Input[bool]] = None):
+        """
+        :param pulumi.Input[bool] allow_users_to_change_password: Whether to allow users to change their own password. Defaults to 'true'.
+        :param pulumi.Input[bool] hard_expiry: Whether users are prevented from setting a new password after their password has expired (i.e., require administrator reset). Defaults to 'true'.
+        :param pulumi.Input[float] max_password_age: The number of days that an user password is valid. Defaults to '90'.
+        :param pulumi.Input[float] minimum_password_length: Minimum length to require for user passwords. Defaults to '14'.
+        :param pulumi.Input[float] password_reuse_prevention: The number of previous passwords that users are prevented from reusing. Defaults to '0'.
+        :param pulumi.Input[bool] require_lowercase_characters: Whether to require lowercase characters for user passwords. Defaults to 'true'.
+        :param pulumi.Input[bool] require_numbers: Whether to require numbers for user passwords. Defaults to 'true'.
+        :param pulumi.Input[bool] require_symbols: Whether to require symbols for user passwords. Defaults to 'true'.
+        :param pulumi.Input[bool] require_uppercase_characters: Whether to require uppercase characters for user passwords. Defaults to 'true'.
+        """
         if allow_users_to_change_password is not None:
             pulumi.set(__self__, "allow_users_to_change_password", allow_users_to_change_password)
         if hard_expiry is not None:
@@ -89,6 +98,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="allowUsersToChangePassword")
     def allow_users_to_change_password(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether to allow users to change their own password. Defaults to 'true'.
+        """
         return pulumi.get(self, "allow_users_to_change_password")
 
     @allow_users_to_change_password.setter
@@ -98,6 +110,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="hardExpiry")
     def hard_expiry(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether users are prevented from setting a new password after their password has expired (i.e., require administrator reset). Defaults to 'true'.
+        """
         return pulumi.get(self, "hard_expiry")
 
     @hard_expiry.setter
@@ -107,6 +122,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="maxPasswordAge")
     def max_password_age(self) -> Optional[pulumi.Input[float]]:
+        """
+        The number of days that an user password is valid. Defaults to '90'.
+        """
         return pulumi.get(self, "max_password_age")
 
     @max_password_age.setter
@@ -116,6 +134,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="minimumPasswordLength")
     def minimum_password_length(self) -> Optional[pulumi.Input[float]]:
+        """
+        Minimum length to require for user passwords. Defaults to '14'.
+        """
         return pulumi.get(self, "minimum_password_length")
 
     @minimum_password_length.setter
@@ -125,6 +146,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="passwordReusePrevention")
     def password_reuse_prevention(self) -> Optional[pulumi.Input[float]]:
+        """
+        The number of previous passwords that users are prevented from reusing. Defaults to '0'.
+        """
         return pulumi.get(self, "password_reuse_prevention")
 
     @password_reuse_prevention.setter
@@ -134,6 +158,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="requireLowercaseCharacters")
     def require_lowercase_characters(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether to require lowercase characters for user passwords. Defaults to 'true'.
+        """
         return pulumi.get(self, "require_lowercase_characters")
 
     @require_lowercase_characters.setter
@@ -143,6 +170,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="requireNumbers")
     def require_numbers(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether to require numbers for user passwords. Defaults to 'true'.
+        """
         return pulumi.get(self, "require_numbers")
 
     @require_numbers.setter
@@ -152,6 +182,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="requireSymbols")
     def require_symbols(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether to require symbols for user passwords. Defaults to 'true'.
+        """
         return pulumi.get(self, "require_symbols")
 
     @require_symbols.setter
@@ -161,6 +194,9 @@ class AccountPasswordPolicyRulesArgsArgs:
     @property
     @pulumi.getter(name="requireUppercaseCharacters")
     def require_uppercase_characters(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether to require uppercase characters for user passwords. Defaults to 'true'.
+        """
         return pulumi.get(self, "require_uppercase_characters")
 
     @require_uppercase_characters.setter
