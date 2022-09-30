@@ -94,7 +94,7 @@ export class Mysql extends pulumi.ComponentResource {
    * @param {pulumi.ResourceOptions} opts
    */
   constructor(name: string, args: MysqlArgs, opts?: pulumi.ResourceOptions) {
-    super("cloudToolkit:aws:databases:myqsl", name, args, opts);
+    super("cloudToolkit:aws:databases:Myqsl", name, args, opts);
     this.name = name;
     this.args = validateConfig(args);
 
@@ -110,6 +110,19 @@ export class Mysql extends pulumi.ComponentResource {
     this.securityGroup = this.setupSecurityGroup(resourceOpts);
 
     this.instance = this.setupSingleInstance(resourceOpts);
+
+
+    this.registerOutputs({
+      instancePassword: this.instancePassword,
+      secret: this.secret,
+      secretVersion: this.secretVersion,
+      subnetGroup: this.subnetGroup,
+      securityGroup: this.securityGroup,
+      instance: this.instance,
+      ingressSecurityGroupRules: this.ingressSecurityGroupRules
+    });
+
+
   }
 
   /**
