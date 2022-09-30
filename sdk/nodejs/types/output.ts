@@ -39,3 +39,6 @@ export namespace landingZone {
 
 export namespace serverless {
 }
+
+export namespace storage {
+}

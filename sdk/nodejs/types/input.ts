@@ -211,3 +211,19 @@ export namespace serverless {
         policy?: pulumi.Input<string>;
     }
 }
+
+export namespace storage {
+    export interface BucketEncryptionArgsArgs {
+        customKeyId?: pulumi.Input<string>;
+        enabled?: pulumi.Input<boolean>;
+    }
+
+    export interface BucketReplicationArgsArgs {
+        bucketArn?: pulumi.Input<string>;
+    }
+
+    export interface BucketWebsiteArgsArgs {
+        errorDocument?: pulumi.Input<string>;
+        indexDocument?: pulumi.Input<string>;
+    }
+}

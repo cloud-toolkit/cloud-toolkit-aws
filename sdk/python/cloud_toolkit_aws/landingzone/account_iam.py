@@ -20,6 +20,8 @@ class AccountIamArgs:
                  password_policy: Optional[pulumi.Input['AccountPasswordPolicyArgsArgs']] = None):
         """
         The set of arguments for constructing a AccountIam resource.
+        :param pulumi.Input[str] alias: The alias to be used for IAM.
+        :param pulumi.Input['AccountPasswordPolicyArgsArgs'] password_policy: The IAM password policy configuration.
         """
         if alias is not None:
             pulumi.set(__self__, "alias", alias)
@@ -29,6 +31,9 @@ class AccountIamArgs:
     @property
     @pulumi.getter
     def alias(self) -> Optional[pulumi.Input[str]]:
+        """
+        The alias to be used for IAM.
+        """
         return pulumi.get(self, "alias")
 
     @alias.setter
@@ -38,6 +43,9 @@ class AccountIamArgs:
     @property
     @pulumi.getter(name="passwordPolicy")
     def password_policy(self) -> Optional[pulumi.Input['AccountPasswordPolicyArgsArgs']]:
+        """
+        The IAM password policy configuration.
+        """
         return pulumi.get(self, "password_policy")
 
     @password_policy.setter
@@ -54,9 +62,12 @@ class AccountIam(pulumi.ComponentResource):
                  password_policy: Optional[pulumi.Input[pulumi.InputType['AccountPasswordPolicyArgsArgs']]] = None,
                  __props__=None):
         """
-        Create a AccountIam resource with the given unique name, props, and options.
+        Cluster is a component that configure the IAM service for a given account.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] alias: The alias to be used for IAM.
+        :param pulumi.Input[pulumi.InputType['AccountPasswordPolicyArgsArgs']] password_policy: The IAM password policy configuration.
         """
         ...
     @overload
@@ -65,7 +76,8 @@ class AccountIam(pulumi.ComponentResource):
                  args: Optional[AccountIamArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a AccountIam resource with the given unique name, props, and options.
+        Cluster is a component that configure the IAM service for a given account.
+
         :param str resource_name: The name of the resource.
         :param AccountIamArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -106,10 +118,16 @@ class AccountIam(pulumi.ComponentResource):
     @property
     @pulumi.getter
     def alias(self) -> pulumi.Output[Optional['pulumi_aws.iam.AccountAlias']]:
+        """
+        The IAM Account Alias.
+        """
         return pulumi.get(self, "alias")
 
     @property
     @pulumi.getter(name="passwordPolicy")
     def password_policy(self) -> pulumi.Output[Optional['pulumi_aws.iam.AccountPasswordPolicy']]:
+        """
+        The IAM Account Password policy.
+        """
         return pulumi.get(self, "password_policy")
 
