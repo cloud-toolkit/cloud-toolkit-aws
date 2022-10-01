@@ -1,7 +1,7 @@
 VERSION         := $(shell pulumictl get version)
 
 PACK            := cloud-toolkit-aws
-PROJECT         := github.com/cloud-toolkit/pulumi-${PACK}
+PROJECT         := github.com/cloud-toolkit/${PACK}
 
 PROVIDER        := pulumi-resource-${PACK}
 CODEGEN         := pulumi-gen-${PACK}
