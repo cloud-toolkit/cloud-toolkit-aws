@@ -11,7 +11,9 @@ SCHEMA_PATH     := ${WORKING_DIR}/schema.yaml
 
 generate:: gen_nodejs_sdk gen_python_sdk
 
-build:: build_provider build_nodejs_sdk build_python_sdk
+build_sdk:: build_nodejs_sdk build_python_sdk
+
+build:: build_provider 
 
 install:: install_provider
 
@@ -73,3 +75,6 @@ dist:: build_provider
 	tar --gzip -cf ./dist/pulumi-resource-${PACK}-v${VERSION}-darwin-amd64.tar.gz README.md LICENSE -C bin/darwin-amd64/ .
 	tar --gzip -cf ./dist/pulumi-resource-${PACK}-v${VERSION}-darwin-arm64.tar.gz README.md LICENSE -C bin/darwin-arm64/ .
 	tar --gzip -cf ./dist/pulumi-resource-${PACK}-v${VERSION}-windows-amd64.tar.gz README.md LICENSE -C bin/windows-amd64/ .
+
+version::
+	@echo ${VERSION}
