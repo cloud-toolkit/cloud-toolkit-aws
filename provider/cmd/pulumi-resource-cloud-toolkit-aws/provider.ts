@@ -18,6 +18,7 @@ import {
   Organization,
   OrganizationArgs
 } from "./landingzone";
+import {Mysql, MysqlArgs} from "./databases/mysql";
 import { Example, ExampleArgs } from "./example";
 
 export class Provider implements pulumi.provider.Provider {
@@ -54,6 +55,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructLandingZoneLandingZone(name, inputs, options);
       case "cloud-toolkit-aws:storage:Bucket":
         return await constructBucket(name, inputs, options);
+      case "cloud-toolkit-aws:databases:Mysql":
+        return await constructMysql(name, inputs, options);
       default:
         throw new Error(`unknown resource type ${type}`);
     }
@@ -304,6 +307,28 @@ async function constructLandingZoneLandingZone(
   return {
     urn: component.urn,
     state: {
+    },
+  };
+}
+
+async function constructMysql(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const mysqldb = new Mysql(name, inputs as MysqlArgs, options);
+
+  return {
+    urn: mysqldb.urn,
+    state: {
+      mysql: mysqldb.instance,
+      instancePassword: mysqldb.instancePassword,
+      secret: mysqldb.secret,
+      secretVersion: mysqldb.secretVersion,
+      subnetGroup: mysqldb.subnetGroup,
+      securityGroup: mysqldb.securityGroup,
+      instance: mysqldb.instance,
+      ingressSecurityGroupRules: mysqldb.ingressSecurityGroupRules
     },
   };
 }

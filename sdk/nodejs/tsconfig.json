@@ -13,6 +13,8 @@
         "strict": true
     },
     "files": [
+        "databases/index.ts",
+        "databases/mysql.ts",
         "email/emailSender.ts",
         "email/index.ts",
         "example.ts",
@@ -32,6 +34,7 @@
         "serverless/queue.ts",
         "storage/bucket.ts",
         "storage/index.ts",
+        "types/enums/databases/index.ts",
         "types/enums/email/index.ts",
         "types/enums/index.ts",
         "types/enums/kubernetes/index.ts",

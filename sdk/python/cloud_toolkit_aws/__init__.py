@@ -10,6 +10,8 @@ from .provider import *
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
+    import cloud_toolkit_aws.databases as __databases
+    databases = __databases
     import cloud_toolkit_aws.email as __email
     email = __email
     import cloud_toolkit_aws.kubernetes as __kubernetes
@@ -21,6 +23,7 @@ if typing.TYPE_CHECKING:
     import cloud_toolkit_aws.storage as __storage
     storage = __storage
 else:
+    databases = _utilities.lazy_import('cloud_toolkit_aws.databases')
     email = _utilities.lazy_import('cloud_toolkit_aws.email')
     kubernetes = _utilities.lazy_import('cloud_toolkit_aws.kubernetes')
     landingzone = _utilities.lazy_import('cloud_toolkit_aws.landingzone')
@@ -30,6 +33,14 @@ else:
 _utilities.register(
     resource_modules="""
 [
+ {
+  "pkg": "cloud-toolkit-aws",
+  "mod": "databases",
+  "fqn": "cloud_toolkit_aws.databases",
+  "classes": {
+   "cloud-toolkit-aws:databases:Mysql": "Mysql"
+  }
+ },
  {
   "pkg": "cloud-toolkit-aws",
   "mod": "email",

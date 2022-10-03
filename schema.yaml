@@ -11,6 +11,21 @@ keywords:
   - kind/component
 pluginDownloadURL: github://api.github.com/cloud-toolkit/cloud-toolkit-aws
 types:
+  cloud-toolkit-aws:databases:MysqlVersionArgs:
+    description: Backup configuration parameters for the database instance
+    type: string
+    enum:
+      - value: "8.0"
+        name: V8_0
+      - value: "5.7"
+        name: "V5_7"
+  cloud-toolkit-aws:databases:MysqlStorageTypeArgs:
+    description: Set of storage type classes for database instance
+    type: string
+    enum:
+      - value: standard
+      - value: io1
+      - value: gp2
   cloud-toolkit-aws:email:NotificationTypes:
     description: >-
       Types of Email Notifications that are covered by Email Sender.
@@ -112,6 +127,38 @@ types:
 
           If left blank, a default standard, non-fifo, Queue and a Dead Letter Queue that is attached to the former will be created.
         $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeQueuesArgs"
+    type: object
+  cloud-toolkit-aws:email:EmailSenderArgs:
+    properties:
+      identity:
+        description: >-
+          Address of the Domain or Email used to send the emails through
+          Email Sender.
+
+          If an Email address is provided, Email Sender will set a Simple Email Service Email Identity. Verification will need to be manual.
+
+          Else, if a Domain address is configured, Email Sender will create a Simple Email Service Domain Identity. 
+
+          By default, it will attempt to verify the Domain by looking the Route 53 Domain Registry in the AWS account that is applying the infrastructure changes.
+
+          If the Domain is registered elsewhere, verification needs to be manual.
+        type: string
+      configureDNS:
+        description: >-
+          In the case of a Domain Identity, enables automatic verification by
+          creating DKIM DNS Records in the domain registration on Route 53.
+
+          If the domain is not registered in the Route 53 on the same AWS account that is applying the infrastructure changes, the process will fail unless this flag is set to False.
+        type: boolean
+      bounce:
+        description: Arguments to manage incoming Bounce notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+      complaint:
+        description: Arguments to manage incoming Complaint notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+      delivery:
+        description: Arguments to manage incoming Delivery notifications.
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
     type: object
   cloud-toolkit-aws:email:DnsDkimRecordArgs:
     properties:
@@ -643,39 +690,88 @@ types:
         description: ""
         type: string
     type: object
-  cloud-toolkit-aws:email:EmailSenderArgs:
+  cloud-toolkit-aws:databases:MysqlArgs:
     properties:
-      identity:
-        description: >-
-          Address of the Domain or Email used to send the emails through
-          Email Sender.
-
-          If an Email address is provided, Email Sender will set a Simple Email Service Email Identity. Verification will need to be manual.
-
-          Else, if a Domain address is configured, Email Sender will create a Simple Email Service Domain Identity. 
-
-          By default, it will attempt to verify the Domain by looking the Route 53 Domain Registry in the AWS account that is applying the infrastructure changes.
-
-          If the Domain is registered elsewhere, verification needs to be manual.
+      instance:
+        description: Instance type to run the database instance
         type: string
-      configureDNS:
-        description: >-
-          In the case of a Domain Identity, enables automatic verification by
-          creating DKIM DNS Records in the domain registration on Route 53.
-
-          If the domain is not registered in the Route 53 on the same AWS account that is applying the infrastructure changes, the process will fail unless this flag is set to False.
-        type: boolean
-      bounce:
-        description: Arguments to manage incoming Bounce notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
-      complaint:
-        description: Arguments to manage incoming Complaint notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
-      delivery:
-        description: Arguments to manage incoming Delivery notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+      version:
+        description: Version for database instance
+        type: string
+      database:
+        description: Configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
+      storage:
+        description: Storage configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageArgs"
+      networking:
+        description: Network configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworkingArgs"
+      backup:
+        description: Backup configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
     type: object
 resources:
+  cloud-toolkit-aws:databases:Mysql:
+    description: Cloud Toolkit component for Mysql instances.
+    properties:
+      instancePassword:
+        description: Random password generated for admin user
+        $ref: /random/v4.8.2/schema.json#/resources/random:index/randomPassword:RandomPassword
+      instance:
+        description: Underlying database instance for this component
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:rds%2finstance:Instance
+      securityGroup:
+        description: Security Group attached to this database instance
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2fsecurityGroup:SecurityGroup
+      ingressSecurityGroupRules:
+        description: Security rules to allow connections to this databse instance
+        type: array
+        items:
+          description: Security rules to allow connections to this databse instance
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2fsecurityGroupRule:SecurityGroupRule
+      subnetGroup:
+        description: Set of subnets in which database instance will be deployed
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:rds%2fsubnetGroup:SubnetGroup
+      secret:
+        description: Component that protects and stores admin password in AWS
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:secretsmanager%2fsecret:Secret
+      secretVersion:
+        description: |-
+          
+          Component that updates secrets in AWS
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:secretsmanager%2fsecretVersion:SecretVersion
+    required:
+      - instancePassword
+      - instance
+      - securityGroup
+      - ingressSecurityGroupRules
+      - secret
+      - secretVersion
+    inputProperties:
+      instance:
+        description: Instance type to run the database instance
+        type: string
+      version:
+        description: Version for database instance
+        type: string
+      database:
+        description: Configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
+      storage:
+        description: Storage configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageArgs"
+      networking:
+        description: Network configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworkingArgs"
+      backup:
+        description: Backup configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
+    requiredInputs:
+      - version
+      - database
+    isComponent: true
+    type: object
   cloud-toolkit-aws:email:EmailSender:
     description: >-
       Cloud Toolkit component for an Email Sender. Creates a Simple Email
@@ -1473,6 +1569,7 @@ language:
     dependencies:
       "@pulumi/aws": ^5.10.0
       "@pulumi/kubernetes": ^3.20.2
+      "@pulumi/random": 4.8.2
     devDependencies:
       typescript: ^4.0.0
     respectSchemaVersion: true
