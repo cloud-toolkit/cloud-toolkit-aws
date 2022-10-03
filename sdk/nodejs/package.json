@@ -15,7 +15,8 @@
     },
     "dependencies": {
         "@pulumi/aws": "^5.10.0",
-        "@pulumi/kubernetes": "^3.20.2"
+        "@pulumi/kubernetes": "^3.20.2",
+        "@pulumi/random": "4.8.2"
     },
     "devDependencies": {
         "typescript": "^4.0.0"
