@@ -8,6 +8,60 @@ import * as enums from "../types/enums";
 
 import * as pulumiAws from "@pulumi/aws";
 
+export namespace databases {
+    export interface MysqlBackupArgsArgs {
+        /**
+         * Time window in which backups should be taken
+         */
+        preferredWindow?: pulumi.Input<string>;
+        /**
+         * Retention days for backups
+         */
+        retentionDays?: pulumi.Input<number>;
+    }
+
+    export interface MysqlDatabaseArgsArgs {
+        /**
+         * The name of the database to create when the DB instance is created
+         */
+        name?: pulumi.Input<string>;
+        /**
+         * Password length to login in the database instance
+         */
+        passwordLength?: pulumi.Input<number>;
+        /**
+         * Username for database admin user
+         */
+        username?: pulumi.Input<string>;
+    }
+
+    export interface MysqlNetworkingArgsArgs {
+        /**
+         * Allowed CIDRs that connect to the database instance
+         */
+        allowedCidr?: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * Subnets belonging to a Virtual Private Cloud where database instance must be deployed
+         */
+        subnetIds?: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * Virtual Private Cloud where database instance must be deployed
+         */
+        vpc?: pulumi.Input<string>;
+    }
+
+    export interface MysqlStorageArgsArgs {
+        /**
+         * Storage size allocated for database instance
+         */
+        size?: pulumi.Input<number>;
+        /**
+         * Storage type class for database instance
+         */
+        type?: pulumi.Input<enums.databases.MysqlStorageTypeArgs>;
+    }
+}
+
 export namespace email {
     export interface AdditionalQueueArgsArgs {
         /**
