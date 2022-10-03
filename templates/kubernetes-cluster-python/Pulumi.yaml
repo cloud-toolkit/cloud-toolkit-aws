@@ -1,0 +1,12 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A Kubernetes cluster configuration
+  important: true
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-east-1
+    cluster_name: 
+      description: The name for your cluster
