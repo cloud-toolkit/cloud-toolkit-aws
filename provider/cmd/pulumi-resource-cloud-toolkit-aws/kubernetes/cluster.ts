@@ -385,6 +385,8 @@ export class Cluster extends pulumi.ComponentResource {
     return new aws.Provider(
       `${this.name}-provisioner`,
       {
+        // https://github.com/pulumi/pulumi-aws/issues/2144
+        skipCredentialsValidation: true,
         assumeRole: {
           roleArn: this.provisionerRole.arn.apply(async (arn) => {
             // Wait 30 seconds to assume the IAM Role
