@@ -183,6 +183,7 @@ export class Cluster extends pulumi.ComponentResource {
     const addonsOpts = pulumi.mergeOptions(resourceOpts, {
       dependsOn: [this.cniChart],
     });
+
     if (this.config.addons?.enabled) {
       this.clusterAddons = this.setupClusterAddons(zoneArn, addonsOpts);
     }
@@ -773,4 +774,5 @@ users:
       throw error;
     }
   }
+
 }

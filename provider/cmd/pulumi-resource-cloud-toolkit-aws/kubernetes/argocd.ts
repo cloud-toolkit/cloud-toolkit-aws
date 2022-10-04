@@ -27,6 +27,7 @@ export class ArgoCD extends pulumi.ComponentResource {
   /**
    * The Namespace used to deploy the component.
    */
+
   public readonly namespace: kubernetes.core.v1.Namespace;
 
   constructor(name: string, args: ArgoCDArgs, opts?: pulumi.ResourceOptions) {
@@ -46,6 +47,7 @@ export class ArgoCD extends pulumi.ComponentResource {
       provider: this.args.k8sProvider,
     };
 
+    this.adminPassword = this.setupAdminPassword(resourceOpts);
     this.namespace = this.setupNamespace("system-argocd", resourceOpts);
     const values = this.getChartValues();
     this.chart = this.deployHelmChart(
@@ -55,7 +57,6 @@ export class ArgoCD extends pulumi.ComponentResource {
       values,
       resourceOpts,
     );
-
     this.registerOutputs({
       adminPassword: this.adminPassword,
       chart: this.chart,
@@ -149,5 +150,25 @@ export class ArgoCD extends pulumi.ComponentResource {
     );
 
     return helmChart;
+  }
+
+  protected deployHelmApplication(
+    filepath: string,
+    helmValues: any
+  ): kubernetes.yaml.ConfigFile {
+    return new kubernetes.yaml.ConfigFile(
+      `${this.name}`,
+      {
+        file: filepath,
+        transformations: [
+          (obj: any, opts: pulumi.CustomResourceOptions) => {
+            obj.spec.source.helm.values = yaml.stringify(helmValues).toString();
+          },
+        ],
+      },
+      {
+        provider: this.args.k8sProvider,
+      }
+    );
   }
 }
