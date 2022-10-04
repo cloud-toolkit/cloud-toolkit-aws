@@ -1,5 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 
+import { ClusterAddonsArgs } from "./clusterAddonsArgs";
+
 export interface ClusterArgs {
   /**
    * The VPC ID where the cluster will be deployed
@@ -35,6 +37,11 @@ export interface ClusterArgs {
    * The OIDC Providers configuration.
    */
   oidcProviders?: ClusterOidcProvidersArgs;
+
+  /**
+   * The addons installed in the cluster.
+   */
+  addons: ClusterAddonsArgs;
 }
 
 export interface ClusterApiArgs {
