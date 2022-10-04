@@ -42,6 +42,11 @@ export interface ClusterArgs {
    * The addons installed in the cluster.
    */
   addons: ClusterAddonsArgs;
+
+  /**
+   * The base domain.
+   */
+  baseDomain?: string;
 }
 
 export interface ClusterApiArgs {
@@ -150,6 +155,7 @@ export const defaultClusterArgs = {
       enabled: defaultPrivateApiEnabled,
     },
   },
+  baseDomain: "kubernetes.cluster",
   nodeGroups: defaultNodeGroups,
   oidcProviders: defaultOidcProviders,
   version: defaultVersion,

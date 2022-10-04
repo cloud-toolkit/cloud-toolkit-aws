@@ -92,6 +92,16 @@ export class Cluster extends pulumi.ComponentResource {
    */
   public readonly clusterAddons: ClusterAddons;
 
+  /**
+   * The cluster base domain.
+   */
+  public readonly domain: string;
+
+  /**
+   * The DNS Zone used for the cluster domain.
+   */
+  public readonly dnsZone: aws.route53.Zone;
+
   private vpcId: pulumi.Input<string>;
   private allSubnetIds: pulumi.Input<pulumi.Input<string>[]> | pulumi.Input<pulumi.Input<string>[]>;
   private publicSubnetIds: Promise<pulumi.Input<string>[]> | undefined;
@@ -132,6 +142,9 @@ export class Cluster extends pulumi.ComponentResource {
     const resourceOpts = pulumi.mergeOptions(opts, {
       parent: this,
     });
+
+    this.domain = this.setupClusterDomain();
+    this.dnsZone = this.setupZone(resourceOpts);
 
     // Provisioner
     this.provisionerRole = this.setupProvisionerRole(resourceOpts);
@@ -189,6 +202,7 @@ export class Cluster extends pulumi.ComponentResource {
       cniChart: this.cniChart,
       clusterAddons: this.clusterAddons,
       defaultOidcProvider: this.defaultOidcProvider,
+      domain: this.domain,
       kubeconfig: this.kubeconfig,
       nodeGroups: this.nodeGroups,
       provider: this.provider,
@@ -210,6 +224,10 @@ export class Cluster extends pulumi.ComponentResource {
     }
 
     return args;
+  }
+
+  private setupClusterDomain(): string {
+    return `${this.name}.${this.config.baseDomain}`;
   }
 
   private setupSubnetTags(
@@ -722,8 +740,26 @@ users:
 
   private setupClusterAddons(opts: pulumi.ResourceOptions): ClusterAddons {
     return new ClusterAddons(`${this.name}`, {
-      ...this.config.addons,
       k8sProvider: this.provider,
+      identityProvidersArn: [this.defaultOidcProvider?.arn || ""],
+      issuerUrl: this.defaultOidcProvider?.url || "",
+      domain: this.domain,
+      zones: [this.dnsZone],
     }, opts);
   }
+
+  private setupZone(opts?: pulumi.ResourceOptions): aws.route53.Zone {
+    return new aws.route53.Zone(
+      this.name,
+      {
+        name: this.domain,
+        forceDestroy: true,
+        vpcs: [{
+          vpcId: this.vpcId,
+        }],
+      },
+      opts
+    );
+  }
+
 }

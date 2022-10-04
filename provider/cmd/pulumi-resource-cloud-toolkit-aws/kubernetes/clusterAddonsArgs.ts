@@ -1,9 +1,14 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
+import * as aws from "@pulumi/aws";
 
 export interface ClusterAddonsArgs {
   k8sProvider: kubernetes.Provider;
-  ingress: ClusterAddonsIngressArgs;
+  identityProvidersArn: pulumi.Input<string>[];
+  issuerUrl: pulumi.Input<string>;
+  domain: string;
+  ingress?: ClusterAddonsIngressArgs;
+  zones: aws.route53.Zone[];
 }
 
 export interface ClusterAddonsIngressArgs {
