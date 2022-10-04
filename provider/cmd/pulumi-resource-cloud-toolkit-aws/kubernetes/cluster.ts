@@ -4,6 +4,7 @@ import * as kubernetes from "@pulumi/kubernetes";
 import * as tls from "@pulumi/tls";
 import defaultsDeep from "lodash.defaultsdeep";
 import { NodeGroup } from "./nodeGroup";
+import { ClusterAddons } from "./clusterAddons";
 import {
   ClusterArgs,
   ClusterSubnetsType,
@@ -85,6 +86,11 @@ export class Cluster extends pulumi.ComponentResource {
    * The VPC CNI Chart installed in the cluster.
    */
   public readonly cniChart: kubernetes.helm.v3.Release;
+
+  /**
+   * The VPC CNI Chart installed in the cluster.
+   */
+  public readonly clusterAddons: ClusterAddons;
 
   private vpcId: pulumi.Input<string>;
   private allSubnetIds: pulumi.Input<pulumi.Input<string>[]> | pulumi.Input<pulumi.Input<string>[]>;
@@ -173,9 +179,15 @@ export class Cluster extends pulumi.ComponentResource {
     };
     this.cniChart = this.setupCni(chartsOpts);
 
+    const addonsOpts = pulumi.mergeOptions(resourceOpts, {
+      dependsOn: [this.cniChart],
+    });
+    this.clusterAddons = this.setupClusterAddons(addonsOpts);
+
     this.registerOutputs({
       cluster: this.cluster,
       cniChart: this.cniChart,
+      clusterAddons: this.clusterAddons,
       defaultOidcProvider: this.defaultOidcProvider,
       kubeconfig: this.kubeconfig,
       nodeGroups: this.nodeGroups,
@@ -334,9 +346,9 @@ export class Cluster extends pulumi.ComponentResource {
       `${this.name}-provisioner`,
       {
         assumeRolePolicy: aws
-          .getCallerIdentity({ parent: this, async: true })
-          .then(
-            (id) => `{
+        .getCallerIdentity({ parent: this, async: true })
+        .then(
+          (id) => `{
             "Version": "2012-10-17",
             "Statement": [
                 {
@@ -348,7 +360,7 @@ export class Cluster extends pulumi.ComponentResource {
                 }
             ]
             }`
-          ),
+        ),
       },
       opts
     );
@@ -382,6 +394,7 @@ export class Cluster extends pulumi.ComponentResource {
   }
 
   private setupProvisionerProvider(opts: pulumi.ResourceOptions): aws.Provider {
+    const baseprovider = opts.provider as aws.Provider;
     return new aws.Provider(
       `${this.name}-provisioner`,
       {
@@ -436,8 +449,8 @@ export class Cluster extends pulumi.ComponentResource {
 
       const subnetIds =
         nodeGroupClusterArgs.subnetsType == ClusterSubnetsType.private
-          ? this.privateSubnetIds || this.config.privateSubnetIds || []
-          : this.publicSubnetIds || this.config.publicSubnetIds || [];
+        ? this.privateSubnetIds || this.config.privateSubnetIds || []
+        : this.publicSubnetIds || this.config.publicSubnetIds || [];
 
       const ng = new NodeGroup(
         `${this.name}-${nodeGroupClusterArgs.name}`,
@@ -502,32 +515,32 @@ export class Cluster extends pulumi.ComponentResource {
     const vpcId = await Promise.resolve(this.vpcId);
 
     const subnetIds = await aws.ec2
-      .getSubnets(
-        {
-          filters: [
-            {
-              name: "vpc-id",
-              values: [vpcId.toString()],
-            },
-          ],
-        },
-        invokeOpts
-      )
-      .then((subnets) => subnets.ids);
+    .getSubnets(
+      {
+        filters: [
+          {
+            name: "vpc-id",
+            values: [vpcId.toString()],
+          },
+        ],
+      },
+      invokeOpts
+    )
+    .then((subnets) => subnets.ids);
 
     const internetGatewayId = await aws.ec2
-      .getInternetGateway(
-        {
-          filters: [
-            {
-              name: "attachment.vpc-id",
-              values: [vpcId.toString()],
-            },
-          ],
-        },
-        invokeOpts
-      )
-      .then((igw) => igw.id);
+    .getInternetGateway(
+      {
+        filters: [
+          {
+            name: "attachment.vpc-id",
+            values: [vpcId.toString()],
+          },
+        ],
+      },
+      invokeOpts
+    )
+    .then((igw) => igw.id);
 
     const allList: pulumi.Input<pulumi.Input<string>[]> = [];
     const privateList: pulumi.Input<pulumi.Input<string>[]> = [];
@@ -705,5 +718,12 @@ users:
       },
       opts
     );
+  }
+
+  private setupClusterAddons(opts: pulumi.ResourceOptions): ClusterAddons {
+    return new ClusterAddons(`${this.name}`, {
+      ...this.config.addons,
+      k8sProvider: this.provider,
+    }, opts);
   }
 }
