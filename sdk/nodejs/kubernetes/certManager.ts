@@ -23,17 +23,8 @@ export class CertManager extends pulumi.ComponentResource {
         return obj['__pulumiType'] === CertManager.__pulumiType;
     }
 
-    /**
-     * The ArgoCD Application to deploy the component.
-     */
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
-    /**
-     * The IAM roles for service accounts.
-     */
     public /*out*/ readonly irsa!: pulumi.Output<Irsa>;
-    /**
-     * The Namespace used to deploy the component.
-     */
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
 
     /**
@@ -68,8 +59,5 @@ export class CertManager extends pulumi.ComponentResource {
  * The set of arguments for constructing a CertManager resource.
  */
 export interface CertManagerArgs {
-    /**
-     * The list of DNS Zone arn to be used by CertManager.
-     */
     zoneArns: pulumi.Input<pulumi.Input<string>[]>;
 }

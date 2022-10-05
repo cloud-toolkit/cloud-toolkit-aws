@@ -275,87 +275,102 @@ types:
         description: The Service Account name used in Kubernetes.
         type: string
     type: object
-    required:
-      - identityProvidersArn
-      - issuerUrl
-      - serviceAccountName
+  cloud-toolkit-aws:kubernetes:ApplicationAddonArgs:
+    properties:
+      k8sProvider:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/provider
+      name:
+        description: ""
+        type: string
+      namespace:
+        description: ""
+        type: string
+      createNamespace:
+        description: ""
+        type: boolean
+    type: object
+  cloud-toolkit-aws:kubernetes:IrsaApplicationAddonArgs:
+    properties:
+      identityProvidersArn:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+      issuerUrl:
+        description: ""
+        type: string
+      serviceAccountName:
+        description: ""
+        type: string
+    type: object
   cloud-toolkit-aws:kubernetes:ArgoCDArgs:
     properties:
       hostname:
-        description: The hostname to be used to expose ArgoCD with an Ingress.
+        description: ""
         type: string
     type: object
-    required: []
   cloud-toolkit-aws:kubernetes:CertManagerArgs:
     properties:
       zoneArns:
-        description: The list of DNS Zone arn to be used by CertManager.
+        description: ""
         type: array
         items:
-          description: The list of DNS Zone arn to be used by CertManager.
+          description: ""
           type: string
     type: object
-    required:
-      - zoneArns
   cloud-toolkit-aws:kubernetes:ClusterAddonsArgs:
     properties:
       k8sProvider:
-        description: The Pulumi provider used for Kubernetes resources.
+        description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/provider
       identityProvidersArn:
-        description: The OIDC Identity Provider arn.
+        description: ""
         type: array
         items:
-          description: The OIDC Identity Provider arn.
+          description: ""
           type: string
       issuerUrl:
-        description: The OIDC Identity Provider url.
+        description: ""
         type: string
       domain:
-        description: The domain used by the cluster.
+        description: ""
         type: string
       ingress:
-        description: The configuration for Ingress Controller.
+        description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
       zoneArns:
-        description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+        description: ""
         type: array
         items:
-          description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+          description: ""
           type: string
     type: object
-    required:
-      - k8sProvider
-      - identityProvidersArn
-      - issuerUrl
-      - domain
-      - zoneArns
   cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs:
     properties:
       enabled:
-        description: Enable the IngressControllers.
+        description: ""
         type: boolean
       admin:
-        description: Configure the admin IngressController.
+        description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs"
       global:
-        description: Configure the global IngressController.
+        description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs"
     type: object
-    required: []
   cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs:
     properties:
       public:
-        description: Use a public Load Balancer to expose the IngressController.
+        description: ""
         type: boolean
       whitelist:
-        description: Set a whitelist to access the IngressController.
+        description: ""
         type: array
         items:
-          description: Set a whitelist to access the IngressController.
+          description: ""
           type: string
     type: object
-    required: []
   cloud-toolkit-aws:kubernetes:ClusterArgs:
     properties:
       vpcId:
@@ -394,7 +409,7 @@ types:
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
       addons:
         description: The addons installed in the cluster.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsArgs"
       baseDomain:
         description: The base domain.
         type: string
@@ -474,70 +489,48 @@ types:
           Service Accounts to authenticate against AWS with a given IAM Role.
         type: boolean
     type: object
-    required:
-      - enableDefaultProvider
-  cloud-toolkit-aws:kubernetes:ExternalDnsArgs:
-    properties:
-      zoneArns:
-        description: The list of DNS Zone arn to be used by ExternalDns.
-        type: array
-        items:
-          description: The list of DNS Zone arn to be used by ExternalDns.
-          type: string
-    type: object
-    required:
-      - zoneArns
   cloud-toolkit-aws:kubernetes:IngressNginxArgs:
     properties:
       className:
-        description: The Ingress class name.
+        description: ""
         type: string
       whitelist:
-        description: The whitelist of CIDR to access to the Ingress Controller.
+        description: ""
         type: array
         items:
-          description: The whitelist of CIDR to access to the Ingress Controller.
+          description: ""
           type: string
       public:
-        description: Expose the IngressController with a public Load Balancer.
+        description: ""
         type: boolean
     type: object
-    required:
-      - className
   cloud-toolkit-aws:kubernetes:IrsaArgs:
     properties:
       identityProvidersArn:
-        description: The OIDC Identity Provider arn used by the IRSA.
+        description: ""
         type: array
         items:
-          description: The OIDC Identity Provider arn used by the IRSA.
+          description: ""
           type: string
       issuerUrl:
-        description: The OIDC Identity Provider url used by the IRSA.
+        description: ""
         type: string
       k8sProvider:
-        description: Kubernetes provider used by Pulumi.
+        description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/provider
       namespace:
-        description: The Namespace name where the addon will be installed.
+        description: ""
         type: string
       serviceAccountName:
-        description: The Service Account name used in Kubernetes.
+        description: ""
         type: string
       policies:
-        description: The list of Policies to be associated to the Irsa.
+        description: ""
         type: array
         items:
-          description: The list of Policies to be associated to the Irsa.
+          description: ""
           type: string
     type: object
-    required:
-      - identityProvidersArn
-      - issuerUrl
-      - k8sProvider
-      - namespace
-      - serviceAccountName
-      - policies
   cloud-toolkit-aws:kubernetes:NodeGroupArgs:
     properties:
       name:
@@ -1438,6 +1431,78 @@ resources:
       - zoneArns
     isComponent: true
     type: object
+  cloud-toolkit-aws:kubernetes:ApplicationAddon:
+    description: IRSAAddon is a component that deploy an HelmChart as ArgoCD Application.
+    properties: {}
+    required: []
+    inputProperties:
+      k8sProvider:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/provider
+      name:
+        description: ""
+        type: string
+      namespace:
+        description: ""
+        type: string
+      createNamespace:
+        description: ""
+        type: boolean
+    requiredInputs:
+      - k8sProvider
+      - name
+      - namespace
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:kubernetes:ArgoCD:
+    description: ""
+    properties:
+      adminPassword:
+        description: ""
+        $ref: /random/v4.8.2/schema.json#/resources/random:index/randomPassword:RandomPassword
+      chart:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:helm.sh/v3:Chart
+      namespace:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
+    required:
+      - adminPassword
+      - chart
+      - namespace
+    inputProperties:
+      hostname:
+        description: ""
+        type: string
+    requiredInputs: []
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:kubernetes:CertManager:
+    description: ""
+    properties:
+      namespace:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
+      application:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
+      irsa:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:Irsa"
+    required:
+      - application
+      - irsa
+    inputProperties:
+      zoneArns:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+    requiredInputs:
+      - zoneArns
+    isComponent: true
+    type: object
   cloud-toolkit-aws:kubernetes:Cluster:
     description: Cluster is a component that deploys a production-ready Kubernetes
       cluster. It setups the AWS IAM and netwokring, as well many Kubernetes
@@ -1511,6 +1576,7 @@ resources:
       - provider
       - nodeGroups
       - cniChart
+      - clusterAddons
       - domain
     inputProperties:
       vpcId:
@@ -1549,7 +1615,7 @@ resources:
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
       addons:
         description: The addons installed in the cluster.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsArgs"
       baseDomain:
         description: The base domain.
         type: string
@@ -1561,46 +1627,42 @@ resources:
       setup a production-ready cluster.
     properties:
       argocd:
-        description: The ArgoCD addon.
+        description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ArgoCD"
       certManager:
-        description: The CertManager addon.
+        description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:CertManager"
       adminIngressNginx:
-        description: The IngressNginx addon used for admin access.
+        description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginx"
-      externalDns:
-        description: The ExternalDns addon.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ExternalDns"
     required:
       - argocd
       - certManager
       - adminIngressNginx
-      - externalDns
     inputProperties:
       k8sProvider:
-        description: The Pulumi provider used for Kubernetes resources.
+        description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/provider
       identityProvidersArn:
-        description: The OIDC Identity Provider arn.
+        description: ""
         type: array
         items:
-          description: The OIDC Identity Provider arn.
+          description: ""
           type: string
       issuerUrl:
-        description: The OIDC Identity Provider url.
+        description: ""
         type: string
       domain:
-        description: The domain used by the cluster.
+        description: ""
         type: string
       ingress:
-        description: The configuration for Ingress Controller.
+        description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
       zoneArns:
-        description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+        description: ""
         type: array
         items:
-          description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+          description: ""
           type: string
     requiredInputs:
       - k8sProvider
@@ -1610,87 +1672,57 @@ resources:
       - zoneArns
     isComponent: true
     type: object
-  cloud-toolkit-aws:kubernetes:ExternalDns:
-    description: ExternalDns is a component to manage DNS records according to the
-      Ingresses created in the cluster.
-    properties:
-      namespace:
-        description: The Namespace used to deploy the component.
-        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
-      application:
-        description: The Namespace used to deploy the component.
-        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
-      irsa:
-        description: The IAM roles for service accounts.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:Irsa"
-    required:
-      - application
-      - irsa
-    inputProperties:
-      zoneArns:
-        description: The list of DNS Zone arn to be used by ExternalDns.
-        type: array
-        items:
-          description: The list of DNS Zone arn to be used by ExternalDns.
-          type: string
-    requiredInputs:
-      - zoneArns
-    isComponent: true
-    type: object
   cloud-toolkit-aws:kubernetes:IngressNginx:
-    description: IngressNginx is a component that deploy the Nginx IngressController
-      to expose applications over HTTP/HTTPS.
+    description: ""
     properties:
       namespace:
-        description: The Namespace used to deploy the component.
+        description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
       application:
-        description: The ArgoCD Application to deploy the component.
+        description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
     required:
       - application
     inputProperties:
       className:
-        description: The Ingress class name.
+        description: ""
         type: string
       whitelist:
-        description: The whitelist of CIDR to access to the Ingress Controller.
+        description: ""
         type: array
         items:
-          description: The whitelist of CIDR to access to the Ingress Controller.
+          description: ""
           type: string
       public:
-        description: Expose the IngressController with a public Load Balancer.
+        description: ""
         type: boolean
     requiredInputs:
       - className
     isComponent: true
     type: object
   cloud-toolkit-aws:kubernetes:Irsa:
-    description: The Irsa component create an IAM roles for service accounts on AWS
-      and Kubernetes.
+    description: ""
     properties:
       name:
         description: ""
         type: string
       role:
-        description: The IAM Role.
+        description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
       policies:
-        description: The list of IAM Policies.
+        description: ""
         type: array
         items:
-          description: The list of IAM Policies.
+          description: ""
           $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
       rolePolicyAttachments:
-        description: The list of IAM Policy Attachments to associate the Roles and Policies.
+        description: ""
         type: array
         items:
-          description: The list of IAM Policy Attachments to associate the Roles and
-            Policies.
+          description: ""
           $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
       serviceAccount:
-        description: The ServiceAccount created in Kubernetes.
+        description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:ServiceAccount
     required:
       - name
@@ -1700,28 +1732,28 @@ resources:
       - serviceAccount
     inputProperties:
       identityProvidersArn:
-        description: The OIDC Identity Provider arn used by the IRSA.
+        description: ""
         type: array
         items:
-          description: The OIDC Identity Provider arn used by the IRSA.
+          description: ""
           type: string
       issuerUrl:
-        description: The OIDC Identity Provider url used by the IRSA.
+        description: ""
         type: string
       k8sProvider:
-        description: Kubernetes provider used by Pulumi.
+        description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/provider
       namespace:
-        description: The Namespace name where the addon will be installed.
+        description: ""
         type: string
       serviceAccountName:
-        description: The Service Account name used in Kubernetes.
+        description: ""
         type: string
       policies:
-        description: The list of Policies to be associated to the Irsa.
+        description: ""
         type: array
         items:
-          description: The list of Policies to be associated to the Irsa.
+          description: ""
           type: string
     requiredInputs:
       - identityProvidersArn
@@ -2173,7 +2205,7 @@ language:
     dependencies:
       "@pulumi/aws": ^5.10.0
       "@pulumi/kubernetes": ^3.20.2
-      "@pulumi/random": 4.8.2
+      "@pulumi/random": ^4.8.2
     devDependencies:
       typescript: ^4.0.0
     respectSchemaVersion: true

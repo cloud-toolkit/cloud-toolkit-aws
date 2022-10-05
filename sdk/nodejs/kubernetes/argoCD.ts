@@ -7,9 +7,6 @@ import * as utilities from "../utilities";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 import * as pulumiRandom from "@pulumi/random";
 
-/**
- * ArgoCD is a component that deploy the ArgoCD application in the cluster.
- */
 export class ArgoCD extends pulumi.ComponentResource {
     /** @internal */
     public static readonly __pulumiType = 'cloud-toolkit-aws:kubernetes:ArgoCD';
@@ -25,17 +22,8 @@ export class ArgoCD extends pulumi.ComponentResource {
         return obj['__pulumiType'] === ArgoCD.__pulumiType;
     }
 
-    /**
-     * The inital admin password.
-     */
     public /*out*/ readonly adminPassword!: pulumi.Output<pulumiRandom.RandomPassword>;
-    /**
-     * The Helm Chart used to deploy ArgoCD.
-     */
     public /*out*/ readonly chart!: pulumi.Output<pulumiKubernetes.helm.v3.Chart>;
-    /**
-     * The Namespace used to deploy the component.
-     */
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace>;
 
     /**
@@ -67,8 +55,5 @@ export class ArgoCD extends pulumi.ComponentResource {
  * The set of arguments for constructing a ArgoCD resource.
  */
 export interface ArgoCDArgs {
-    /**
-     * The hostname to be used to expose ArgoCD with an Ingress.
-     */
     hostname?: pulumi.Input<string>;
 }

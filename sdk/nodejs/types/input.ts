@@ -9,60 +9,6 @@ import * as enums from "../types/enums";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export namespace databases {
-    export interface MysqlBackupArgsArgs {
-        /**
-         * Time window in which backups should be taken
-         */
-        preferredWindow?: pulumi.Input<string>;
-        /**
-         * Retention days for backups
-         */
-        retentionDays?: pulumi.Input<number>;
-    }
-
-    export interface MysqlDatabaseArgsArgs {
-        /**
-         * The name of the database to create when the DB instance is created
-         */
-        name: pulumi.Input<string>;
-        /**
-         * Password length to login in the database instance
-         */
-        passwordLength?: pulumi.Input<number>;
-        /**
-         * Username for database admin user
-         */
-        username: pulumi.Input<string>;
-    }
-
-    export interface MysqlNetworkingArgsArgs {
-        /**
-         * Allowed CIDRs that connect to the database instance
-         */
-        allowedCidr?: pulumi.Input<pulumi.Input<string>[]>;
-        /**
-         * Subnets belonging to a Virtual Private Cloud where database instance must be deployed
-         */
-        subnetIds?: pulumi.Input<pulumi.Input<string>[]>;
-        /**
-         * Virtual Private Cloud where database instance must be deployed
-         */
-        vpc?: pulumi.Input<string>;
-    }
-
-    export interface MysqlStorageArgsArgs {
-        /**
-         * Storage size allocated for database instance
-         */
-        size?: pulumi.Input<number>;
-        /**
-         * Storage type class for database instance
-         */
-        type?: pulumi.Input<enums.databases.MysqlStorageTypeArgs>;
-    }
-}
-
 export namespace email {
     export interface AdditionalQueueArgsArgs {
         /**
@@ -108,36 +54,23 @@ export namespace email {
 }
 
 export namespace kubernetes {
-    export interface AddonsArgsArgs {
-        /**
-         * Enable the ClusterAddons.
-         */
-        enabled: pulumi.Input<boolean>;
+    export interface ClusterAddonsArgsArgs {
+        domain?: pulumi.Input<string>;
+        identityProvidersArn?: pulumi.Input<pulumi.Input<string>[]>;
+        ingress?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressArgsArgs>;
+        issuerUrl?: pulumi.Input<string>;
+        k8sProvider?: pulumi.Input<pulumiKubernetes.Provider>;
+        zoneArns?: pulumi.Input<pulumi.Input<string>[]>;
     }
 
     export interface ClusterAddonsIngressArgsArgs {
-        /**
-         * Configure the admin IngressController.
-         */
         admin?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
-        /**
-         * Enable the IngressControllers.
-         */
         enabled?: pulumi.Input<boolean>;
-        /**
-         * Configure the global IngressController.
-         */
         global?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
     }
 
     export interface ClusterAddonsIngressItemArgsArgs {
-        /**
-         * Use a public Load Balancer to expose the IngressController.
-         */
         public?: pulumi.Input<boolean>;
-        /**
-         * Set a whitelist to access the IngressController.
-         */
         whitelist?: pulumi.Input<pulumi.Input<string>[]>;
     }
 
