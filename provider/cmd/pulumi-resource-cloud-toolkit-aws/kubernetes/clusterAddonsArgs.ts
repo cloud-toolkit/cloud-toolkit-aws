@@ -8,7 +8,7 @@ export interface ClusterAddonsArgs {
   issuerUrl: pulumi.Input<string>;
   domain: string;
   ingress?: ClusterAddonsIngressArgs;
-  zones: aws.route53.Zone[];
+  zoneArns: pulumi.Input<string>[];
 }
 
 export interface ClusterAddonsIngressArgs {

@@ -5,15 +5,45 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "../utilities";
 
 // Export members:
+export { ApplicationAddonArgs } from "./applicationAddon";
+export type ApplicationAddon = import("./applicationAddon").ApplicationAddon;
+export const ApplicationAddon: typeof import("./applicationAddon").ApplicationAddon = null as any;
+
+export { ArgoCDArgs } from "./argoCD";
+export type ArgoCD = import("./argoCD").ArgoCD;
+export const ArgoCD: typeof import("./argoCD").ArgoCD = null as any;
+
+export { CertManagerArgs } from "./certManager";
+export type CertManager = import("./certManager").CertManager;
+export const CertManager: typeof import("./certManager").CertManager = null as any;
+
 export { ClusterArgs } from "./cluster";
 export type Cluster = import("./cluster").Cluster;
 export const Cluster: typeof import("./cluster").Cluster = null as any;
+
+export { ClusterAddonsArgs } from "./clusterAddons";
+export type ClusterAddons = import("./clusterAddons").ClusterAddons;
+export const ClusterAddons: typeof import("./clusterAddons").ClusterAddons = null as any;
+
+export { IngressNginxArgs } from "./ingressNginx";
+export type IngressNginx = import("./ingressNginx").IngressNginx;
+export const IngressNginx: typeof import("./ingressNginx").IngressNginx = null as any;
+
+export { IrsaArgs } from "./irsa";
+export type Irsa = import("./irsa").Irsa;
+export const Irsa: typeof import("./irsa").Irsa = null as any;
 
 export { NodeGroupArgs } from "./nodeGroup";
 export type NodeGroup = import("./nodeGroup").NodeGroup;
 export const NodeGroup: typeof import("./nodeGroup").NodeGroup = null as any;
 
+utilities.lazyLoad(exports, ["ApplicationAddon"], () => require("./applicationAddon"));
+utilities.lazyLoad(exports, ["ArgoCD"], () => require("./argoCD"));
+utilities.lazyLoad(exports, ["CertManager"], () => require("./certManager"));
 utilities.lazyLoad(exports, ["Cluster"], () => require("./cluster"));
+utilities.lazyLoad(exports, ["ClusterAddons"], () => require("./clusterAddons"));
+utilities.lazyLoad(exports, ["IngressNginx"], () => require("./ingressNginx"));
+utilities.lazyLoad(exports, ["Irsa"], () => require("./irsa"));
 utilities.lazyLoad(exports, ["NodeGroup"], () => require("./nodeGroup"));
 
 // Export enums:
@@ -23,8 +53,20 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
+            case "cloud-toolkit-aws:kubernetes:ApplicationAddon":
+                return new ApplicationAddon(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:ArgoCD":
+                return new ArgoCD(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:CertManager":
+                return new CertManager(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Cluster":
                 return new Cluster(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:ClusterAddons":
+                return new ClusterAddons(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:IngressNginx":
+                return new IngressNginx(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:Irsa":
+                return new Irsa(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:NodeGroup":
                 return new NodeGroup(name, <any>undefined, { urn })
             default:

@@ -93,14 +93,14 @@ export class Cluster extends pulumi.ComponentResource {
   public readonly clusterAddons: ClusterAddons;
 
   /**
-   * The cluster base domain.
-   */
-  public readonly domain: string;
-
-  /**
    * The DNS Zone used for the cluster domain.
    */
-  public readonly dnsZone: aws.route53.Zone;
+  public readonly dnsZone?: aws.route53.Zone;
+
+  /**
+   * The VPC CNI Chart installed in the cluster.
+   */
+  public readonly domain: string;
 
   private vpcId: pulumi.Input<string>;
   private allSubnetIds: pulumi.Input<pulumi.Input<string>[]> | pulumi.Input<pulumi.Input<string>[]>;
@@ -143,8 +143,11 @@ export class Cluster extends pulumi.ComponentResource {
       parent: this,
     });
 
+    // DNS
     this.domain = this.setupClusterDomain();
-    this.dnsZone = this.setupZone(resourceOpts);
+    const dnsZoneData = this.getZoneData(resourceOpts);
+    const zoneArn = pulumi.output(dnsZoneData.then(zone => zone.arn));
+    const zoneId = pulumi.output(dnsZoneData.then(zone => zone.id));
 
     // Provisioner
     this.provisionerRole = this.setupProvisionerRole(resourceOpts);
@@ -195,14 +198,14 @@ export class Cluster extends pulumi.ComponentResource {
     const addonsOpts = pulumi.mergeOptions(resourceOpts, {
       dependsOn: [this.cniChart],
     });
-    this.clusterAddons = this.setupClusterAddons(addonsOpts);
+    this.clusterAddons = this.setupClusterAddons(zoneArn, addonsOpts);
 
     this.registerOutputs({
       cluster: this.cluster,
       cniChart: this.cniChart,
       clusterAddons: this.clusterAddons,
       defaultOidcProvider: this.defaultOidcProvider,
-      domain: this.domain,
+      //domain: this.domain,
       kubeconfig: this.kubeconfig,
       nodeGroups: this.nodeGroups,
       provider: this.provider,
@@ -738,28 +741,59 @@ users:
     );
   }
 
-  private setupClusterAddons(opts: pulumi.ResourceOptions): ClusterAddons {
+  private setupClusterAddons(zoneArn: pulumi.Input<string>, opts: pulumi.ResourceOptions): ClusterAddons {
     return new ClusterAddons(`${this.name}`, {
       k8sProvider: this.provider,
       identityProvidersArn: [this.defaultOidcProvider?.arn || ""],
       issuerUrl: this.defaultOidcProvider?.url || "",
       domain: this.domain,
-      zones: [this.dnsZone],
+      zoneArns: [zoneArn],
     }, opts);
   }
 
-  private setupZone(opts?: pulumi.ResourceOptions): aws.route53.Zone {
-    return new aws.route53.Zone(
-      this.name,
-      {
-        name: this.domain,
-        forceDestroy: true,
-        vpcs: [{
-          vpcId: this.vpcId,
-        }],
-      },
-      opts
-    );
+  private getZoneData(opts: pulumi.ResourceOptions): Promise<{
+    id: pulumi.Input<string>,
+    arn: pulumi.Input<string>,
+  }> {
+    const data = this.getExternalZoneData();
+    const result = data.then(d => {
+      return {
+        id: data.then(d => d.id),
+        arn: data.then(d => d?.arn),
+      };
+    }, (error) => {
+      const msg = error.message;
+      if (!msg.includes("no matching Route53Zone found")) {
+        throw error;
+      }
+      const zone = new aws.route53.Zone(
+        this.name,
+        {
+          name: this.domain,
+          forceDestroy: true,
+          vpcs: [{
+            vpcId: this.vpcId,
+          }],
+        },
+        opts
+      );
+      return {
+        id: zone.id,
+        arn: zone.arn,
+      }
+    });
+    return result;
   }
 
+  private async getExternalZoneData(): Promise<{id: string, arn: string}> {
+      const invokeOpts = {parent: this, async: true};
+      const zone = await aws.route53.getZone({
+        name: this.config.baseDomain,
+      }, invokeOpts);
+
+      return {
+        id: zone.id,
+        arn: zone.arn,
+      }
+  }
 }

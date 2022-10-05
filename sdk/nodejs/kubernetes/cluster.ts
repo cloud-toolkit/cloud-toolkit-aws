@@ -10,7 +10,7 @@ import * as utilities from "../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {NodeGroup} from "./index";
+import {ClusterAddons, NodeGroup} from "./index";
 
 /**
  * Cluster is a component that deploy a production-ready Kubernetes cluster. It setups the AWS IAM and netwokring, as well many Kubernetes services to run application in production.
@@ -37,11 +37,23 @@ export class Cluster extends pulumi.ComponentResource {
     /**
      * The VPC CNI Chart installed in the cluster.
      */
+    public /*out*/ readonly clusterAddons!: pulumi.Output<ClusterAddons>;
+    /**
+     * The VPC CNI Chart installed in the cluster.
+     */
     public /*out*/ readonly cniChart!: pulumi.Output<pulumiKubernetes.helm.v3.Release>;
     /**
      * The default OIDC Provider.
      */
     public /*out*/ readonly defaultOidcProvider!: pulumi.Output<pulumiAws.iam.OpenIdConnectProvider | undefined>;
+    /**
+     * The DNS Zone used for the cluster domain.
+     */
+    public /*out*/ readonly dnsZone!: pulumi.Output<pulumiAws.route53.Zone | undefined>;
+    /**
+     * The cluster base domain.
+     */
+    public /*out*/ readonly domain!: pulumi.Output<string>;
     /**
      * The kubeconfig content for this cluster.
      */
@@ -94,16 +106,22 @@ export class Cluster extends pulumi.ComponentResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
+            resourceInputs["addons"] = args ? args.addons : undefined;
             resourceInputs["api"] = args ? args.api : undefined;
+            resourceInputs["baseDomain"] = args ? args.baseDomain : undefined;
             resourceInputs["nodeGroups"] = args ? args.nodeGroups : undefined;
             resourceInputs["oidcProviders"] = args ? args.oidcProviders : undefined;
             resourceInputs["privateSubnetIds"] = args ? args.privateSubnetIds : undefined;
             resourceInputs["publicSubnetIds"] = args ? args.publicSubnetIds : undefined;
             resourceInputs["version"] = args ? args.version : undefined;
             resourceInputs["vpcId"] = args ? args.vpcId : undefined;
+            resourceInputs["zoneId"] = args ? args.zoneId : undefined;
             resourceInputs["cluster"] = undefined /*out*/;
+            resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
             resourceInputs["defaultOidcProvider"] = undefined /*out*/;
+            resourceInputs["dnsZone"] = undefined /*out*/;
+            resourceInputs["domain"] = undefined /*out*/;
             resourceInputs["kubeconfig"] = undefined /*out*/;
             resourceInputs["provider"] = undefined /*out*/;
             resourceInputs["provisionerProvider"] = undefined /*out*/;
@@ -115,8 +133,11 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["subnetTags"] = undefined /*out*/;
         } else {
             resourceInputs["cluster"] = undefined /*out*/;
+            resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
             resourceInputs["defaultOidcProvider"] = undefined /*out*/;
+            resourceInputs["dnsZone"] = undefined /*out*/;
+            resourceInputs["domain"] = undefined /*out*/;
             resourceInputs["kubeconfig"] = undefined /*out*/;
             resourceInputs["nodeGroups"] = undefined /*out*/;
             resourceInputs["provider"] = undefined /*out*/;
@@ -138,9 +159,17 @@ export class Cluster extends pulumi.ComponentResource {
  */
 export interface ClusterArgs {
     /**
+     * The addons installed in the cluster.
+     */
+    addons?: pulumi.Input<inputs.kubernetes.ClusterAddonsArgsArgs>;
+    /**
      * Configure the Kubernetes cluster API.
      */
     api?: pulumi.Input<inputs.kubernetes.ClusterApiArgsArgs>;
+    /**
+     * The base domain.
+     */
+    baseDomain?: pulumi.Input<string>;
     /**
      * The NodeGroups to be assigned to this cluster.
      */
@@ -165,4 +194,8 @@ export interface ClusterArgs {
      * The VPC ID where the cluster will be deployed
      */
     vpcId?: pulumi.Input<string>;
+    /**
+     * Zone ID.
+     */
+    zoneId?: pulumi.Input<string>;
 }
