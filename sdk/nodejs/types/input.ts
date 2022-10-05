@@ -7,6 +7,7 @@ import * as outputs from "../types/output";
 import * as enums from "../types/enums";
 
 import * as pulumiAws from "@pulumi/aws";
+import * as pulumiKubernetes from "@pulumi/kubernetes";
 
 export namespace databases {
     export interface MysqlBackupArgsArgs {
@@ -107,6 +108,26 @@ export namespace email {
 }
 
 export namespace kubernetes {
+    export interface ClusterAddonsArgsArgs {
+        domain?: pulumi.Input<string>;
+        identityProvidersArn?: pulumi.Input<pulumi.Input<string>[]>;
+        ingress?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressArgsArgs>;
+        issuerUrl?: pulumi.Input<string>;
+        k8sProvider?: pulumi.Input<pulumiKubernetes.Provider>;
+        zoneArns?: pulumi.Input<pulumi.Input<string>[]>;
+    }
+
+    export interface ClusterAddonsIngressArgsArgs {
+        admin?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
+        enabled?: pulumi.Input<boolean>;
+        global?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
+    }
+
+    export interface ClusterAddonsIngressItemArgsArgs {
+        public?: pulumi.Input<boolean>;
+        whitelist?: pulumi.Input<pulumi.Input<string>[]>;
+    }
+
     export interface ClusterApiArgsArgs {
         /**
          * Configure the private endpoint for the Kubernetes API.

@@ -84,7 +84,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
       identityProvidersArn: [...this.args.identityProvidersArn],
       serviceAccountName: "cert-manager",
       issuerUrl: this.args.issuerUrl,
-      zones: this.args.zones,
+      zoneArns: this.args.zoneArns,
     }, opts);
   }
 

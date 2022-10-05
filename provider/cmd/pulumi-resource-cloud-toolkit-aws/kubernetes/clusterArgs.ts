@@ -41,7 +41,7 @@ export interface ClusterArgs {
   /**
    * The addons installed in the cluster.
    */
-  addons: ClusterAddonsArgs;
+  addons?: ClusterAddonsArgs;
 
   /**
    * The base domain.

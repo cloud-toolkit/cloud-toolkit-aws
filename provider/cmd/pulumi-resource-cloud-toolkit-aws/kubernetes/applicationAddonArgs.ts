@@ -1,8 +1,8 @@
-import * as k8s from "@pulumi/kubernetes";
+import * as kubernetes from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 
 export interface ApplicationAddonArgs {
-  k8sProvider: k8s.Provider;
+  k8sProvider: kubernetes.Provider;
   name: string;
   namespace: string;
   createNamespace?: boolean;
