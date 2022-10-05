@@ -60,16 +60,14 @@ export class CertManager extends ApplicationAddon<CertManagerArgs> {
       ],
     };
 
-    for (const zone of this.args.zones) {
-      zone.name.apply((zoneName) => {
-        policyObject.statements.push({
-          effect: "Allow",
-          resources: [zoneName],
-          actions: [
-            "route53:ChangeresourceRecordSets",
-            "route53:ListresourceRecordSets",
-          ],
-        });
+    for (const zoneArn of this.args.zoneArns) {
+      policyObject.statements.push({
+        effect: "Allow",
+        resources: [zoneArn as string],
+        actions: [
+          "route53:ChangeresourceRecordSets",
+          "route53:ListresourceRecordSets",
+        ],
       });
     }
 

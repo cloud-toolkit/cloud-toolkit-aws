@@ -52,6 +52,7 @@ export class ArgoCD extends pulumi.ComponentResource {
       upper: true,
     });
   }
+
   private setupNamespace(
     name: string,
     opts?: pulumi.CustomResourceOptions
@@ -123,25 +124,5 @@ export class ArgoCD extends pulumi.ComponentResource {
     );
 
     return helmChart;
-  }
-
-  protected deployHelmApplication(
-    filepath: string,
-    helmValues: any
-  ): kubernetes.yaml.ConfigFile {
-    return new kubernetes.yaml.ConfigFile(
-      `${this.name}`,
-      {
-        file: filepath,
-        transformations: [
-          (obj: any, opts: pulumi.CustomResourceOptions) => {
-            obj.spec.source.helm.values = yaml.stringify(helmValues).toString();
-          },
-        ],
-      },
-      {
-        provider: this.args.k8sProvider,
-      }
-    );
   }
 }
