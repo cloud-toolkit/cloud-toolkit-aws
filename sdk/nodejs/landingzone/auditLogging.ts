@@ -8,7 +8,7 @@ import * as pulumiAws from "@pulumi/aws";
 
 export class AuditLogging extends pulumi.ComponentResource {
     /** @internal */
-    public static readonly __pulumiType = 'cloud-toolkit-aws:landingZone:AuditLogging';
+    public static readonly __pulumiType = 'cloud-toolkit-aws:landingzone:AuditLogging';
 
     /**
      * Returns true if the given object is an instance of AuditLogging.  This is designed to work even

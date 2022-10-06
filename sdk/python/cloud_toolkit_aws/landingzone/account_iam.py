@@ -109,7 +109,7 @@ class AccountIam(pulumi.ComponentResource):
             __props__.__dict__["alias"] = alias
             __props__.__dict__["password_policy"] = password_policy
         super(AccountIam, __self__).__init__(
-            'cloud-toolkit-aws:landingZone:AccountIam',
+            'cloud-toolkit-aws:landingzone:AccountIam',
             resource_name,
             __props__,
             opts,

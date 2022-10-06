@@ -12,6 +12,11 @@ import pulumi_aws
 
 __all__ = [
     'AccountMappingArgs',
+    'IamTrustedAccountRoleGroupMapping',
+    'IamTrustedAccountRoleGroupPolicyMapping',
+    'IamTrustingAccountRoleMapping',
+    'IamTrustingAccountRolePolicyAttachmentMapping',
+    'OrganizationAccountProviderMapping',
     'OrganizationalUnitMapping',
 ]
 
@@ -51,6 +56,200 @@ class AccountMappingArgs(dict):
     @pulumi.getter(name="accountName")
     def account_name(self) -> Optional[str]:
         return pulumi.get(self, "account_name")
+
+
+@pulumi.output_type
+class IamTrustedAccountRoleGroupMapping(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "roleName":
+            suggest = "role_name"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in IamTrustedAccountRoleGroupMapping. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        IamTrustedAccountRoleGroupMapping.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        IamTrustedAccountRoleGroupMapping.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 group: Optional['pulumi_aws.iam.Group'] = None,
+                 role_name: Optional[str] = None):
+        if group is not None:
+            pulumi.set(__self__, "group", group)
+        if role_name is not None:
+            pulumi.set(__self__, "role_name", role_name)
+
+    @property
+    @pulumi.getter
+    def group(self) -> Optional['pulumi_aws.iam.Group']:
+        return pulumi.get(self, "group")
+
+    @property
+    @pulumi.getter(name="roleName")
+    def role_name(self) -> Optional[str]:
+        return pulumi.get(self, "role_name")
+
+
+@pulumi.output_type
+class IamTrustedAccountRoleGroupPolicyMapping(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "groupPolicy":
+            suggest = "group_policy"
+        elif key == "roleName":
+            suggest = "role_name"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in IamTrustedAccountRoleGroupPolicyMapping. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        IamTrustedAccountRoleGroupPolicyMapping.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        IamTrustedAccountRoleGroupPolicyMapping.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 group_policy: Optional['pulumi_aws.iam.GroupPolicy'] = None,
+                 role_name: Optional[str] = None):
+        if group_policy is not None:
+            pulumi.set(__self__, "group_policy", group_policy)
+        if role_name is not None:
+            pulumi.set(__self__, "role_name", role_name)
+
+    @property
+    @pulumi.getter(name="groupPolicy")
+    def group_policy(self) -> Optional['pulumi_aws.iam.GroupPolicy']:
+        return pulumi.get(self, "group_policy")
+
+    @property
+    @pulumi.getter(name="roleName")
+    def role_name(self) -> Optional[str]:
+        return pulumi.get(self, "role_name")
+
+
+@pulumi.output_type
+class IamTrustingAccountRoleMapping(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "roleName":
+            suggest = "role_name"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in IamTrustingAccountRoleMapping. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        IamTrustingAccountRoleMapping.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        IamTrustingAccountRoleMapping.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 role: Optional['pulumi_aws.iam.Role'] = None,
+                 role_name: Optional[str] = None):
+        if role is not None:
+            pulumi.set(__self__, "role", role)
+        if role_name is not None:
+            pulumi.set(__self__, "role_name", role_name)
+
+    @property
+    @pulumi.getter
+    def role(self) -> Optional['pulumi_aws.iam.Role']:
+        return pulumi.get(self, "role")
+
+    @property
+    @pulumi.getter(name="roleName")
+    def role_name(self) -> Optional[str]:
+        return pulumi.get(self, "role_name")
+
+
+@pulumi.output_type
+class IamTrustingAccountRolePolicyAttachmentMapping(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "roleName":
+            suggest = "role_name"
+        elif key == "rolePolicyAttachment":
+            suggest = "role_policy_attachment"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in IamTrustingAccountRolePolicyAttachmentMapping. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        IamTrustingAccountRolePolicyAttachmentMapping.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        IamTrustingAccountRolePolicyAttachmentMapping.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 role_name: Optional[str] = None,
+                 role_policy_attachment: Optional[Sequence['pulumi_aws.iam.RolePolicyAttachment']] = None):
+        if role_name is not None:
+            pulumi.set(__self__, "role_name", role_name)
+        if role_policy_attachment is not None:
+            pulumi.set(__self__, "role_policy_attachment", role_policy_attachment)
+
+    @property
+    @pulumi.getter(name="roleName")
+    def role_name(self) -> Optional[str]:
+        return pulumi.get(self, "role_name")
+
+    @property
+    @pulumi.getter(name="rolePolicyAttachment")
+    def role_policy_attachment(self) -> Optional[Sequence['pulumi_aws.iam.RolePolicyAttachment']]:
+        return pulumi.get(self, "role_policy_attachment")
+
+
+@pulumi.output_type
+class OrganizationAccountProviderMapping(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "accountName":
+            suggest = "account_name"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in OrganizationAccountProviderMapping. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        OrganizationAccountProviderMapping.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        OrganizationAccountProviderMapping.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 account_name: Optional[str] = None,
+                 provider: Optional['pulumi_aws.Provider'] = None):
+        if account_name is not None:
+            pulumi.set(__self__, "account_name", account_name)
+        if provider is not None:
+            pulumi.set(__self__, "provider", provider)
+
+    @property
+    @pulumi.getter(name="accountName")
+    def account_name(self) -> Optional[str]:
+        return pulumi.get(self, "account_name")
+
+    @property
+    @pulumi.getter
+    def provider(self) -> Optional['pulumi_aws.Provider']:
+        return pulumi.get(self, "provider")
 
 
 @pulumi.output_type

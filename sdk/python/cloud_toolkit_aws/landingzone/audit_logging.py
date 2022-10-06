@@ -139,7 +139,7 @@ class AuditLogging(pulumi.ComponentResource):
             __props__.__dict__["organization_master_account_id"] = None
             __props__.__dict__["trail"] = None
         super(AuditLogging, __self__).__init__(
-            'cloud-toolkit-aws:landingZone:AuditLogging',
+            'cloud-toolkit-aws:landingzone:AuditLogging',
             resource_name,
             __props__,
             opts,

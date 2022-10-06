@@ -36,10 +36,35 @@ export namespace email {
 export namespace kubernetes {
 }
 
-export namespace landingZone {
+export namespace landingzone {
     export interface AccountMappingArgs {
         account?: pulumiAws.organizations.Account;
         accountName?: string;
+    }
+
+    export interface IamTrustedAccountRoleGroupMapping {
+        group?: pulumiAws.iam.Group;
+        roleName?: string;
+    }
+
+    export interface IamTrustedAccountRoleGroupPolicyMapping {
+        groupPolicy?: pulumiAws.iam.GroupPolicy;
+        roleName?: string;
+    }
+
+    export interface IamTrustingAccountRoleMapping {
+        role?: pulumiAws.iam.Role;
+        roleName?: string;
+    }
+
+    export interface IamTrustingAccountRolePolicyAttachmentMapping {
+        roleName?: string;
+        rolePolicyAttachment?: pulumiAws.iam.RolePolicyAttachment[];
+    }
+
+    export interface OrganizationAccountProviderMapping {
+        accountName?: string;
+        provider?: pulumiAws.Provider;
     }
 
     export interface OrganizationalUnitMapping {

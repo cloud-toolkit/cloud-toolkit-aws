@@ -57,12 +57,15 @@ _utilities.register(
  },
  {
   "pkg": "cloud-toolkit-aws",
-  "mod": "landingZone",
+  "mod": "landingzone",
   "fqn": "cloud_toolkit_aws.landingzone",
   "classes": {
-   "cloud-toolkit-aws:landingZone:AccountIam": "AccountIam",
-   "cloud-toolkit-aws:landingZone:AuditLogging": "AuditLogging",
-   "cloud-toolkit-aws:landingZone:Organization": "Organization"
+   "cloud-toolkit-aws:landingzone:AccountIam": "AccountIam",
+   "cloud-toolkit-aws:landingzone:AuditLogging": "AuditLogging",
+   "cloud-toolkit-aws:landingzone:IamTrustedAccount": "IamTrustedAccount",
+   "cloud-toolkit-aws:landingzone:IamTrustingAccount": "IamTrustingAccount",
+   "cloud-toolkit-aws:landingzone:LandingZone": "LandingZone",
+   "cloud-toolkit-aws:landingzone:Organization": "Organization"
   }
  },
  {
