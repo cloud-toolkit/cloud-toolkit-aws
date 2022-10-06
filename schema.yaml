@@ -250,25 +250,25 @@ types:
           update. Defaults to 1.
         type: number
     type: object
-  cloud-toolkit-aws:landingZone:AccountIamArgs:
+  cloud-toolkit-aws:landingzone:AccountIamArgs:
     properties:
       alias:
         description: The alias to be used for IAM.
         type: string
       passwordPolicy:
         description: The IAM password policy configuration.
-        $ref: "#/types/cloud-toolkit-aws:landingZone:AccountPasswordPolicyArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyArgs"
     type: object
-  cloud-toolkit-aws:landingZone:AccountPasswordPolicyArgs:
+  cloud-toolkit-aws:landingzone:AccountPasswordPolicyArgs:
     properties:
       enabled:
         description: Enable the creation of IAM Password Policy. Defaults to 'true'.
         type: boolean
       rules:
         description: The rules to be applied to the IAM Password Policy
-        $ref: "#/types/cloud-toolkit-aws:landingZone:AccountPasswordPolicyRulesArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyRulesArgs"
     type: object
-  cloud-toolkit-aws:landingZone:AccountPasswordPolicyRulesArgs:
+  cloud-toolkit-aws:landingzone:AccountPasswordPolicyRulesArgs:
     properties:
       allowUsersToChangePassword:
         description: Whether to allow users to change their own password. Defaults to
@@ -304,7 +304,7 @@ types:
           Defaults to 'true'.
         type: boolean
     type: object
-  cloud-toolkit-aws:landingZone:AuditLoggingArgs:
+  cloud-toolkit-aws:landingzone:AuditLoggingArgs:
     properties:
       retentionDays:
         description: The data retention in days. Defaults to '7'.
@@ -316,7 +316,142 @@ types:
         description: The AWS provider to used to create the Bucket.
         $ref: /aws/v5.10.0/schema.json#/provider
     type: object
-  cloud-toolkit-aws:landingZone:OrganizationArgs:
+  cloud-toolkit-aws:landingzone:IamTrustedAccountArgs:
+    properties:
+      roles:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustedAccountRoleArgs"
+      trustingAccountId:
+        description: ""
+        type: string
+      trustingAccountName:
+        description: ""
+        type: string
+    type: object
+  cloud-toolkit-aws:landingzone:IamTrustedAccountRoleArgs:
+    properties:
+      name:
+        description: ""
+        type: string
+    type: object
+  cloud-toolkit-aws:landingzone:IamTrustedAccountRoleGroupMapping:
+    properties:
+      roleName:
+        description: ""
+        type: string
+      group:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fgroup:Group
+    type: object
+  cloud-toolkit-aws:landingzone:IamTrustedAccountRoleGroupPolicyMapping:
+    properties:
+      roleName:
+        description: ""
+        type: string
+      groupPolicy:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fgroupPolicy:GroupPolicy
+    type: object
+  cloud-toolkit-aws:landingzone:IamTrustingAccountArgs:
+    properties:
+      delegatedAccountIds:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+      delegatedRoles:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRoleArgs"
+    type: object
+  cloud-toolkit-aws:landingzone:IamTrustingAccountRoleArgs:
+    properties:
+      name:
+        description: ""
+        type: string
+      policyNames:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+    type: object
+  cloud-toolkit-aws:landingzone:IamTrustingAccountRoleMapping:
+    properties:
+      roleName:
+        description: ""
+        type: string
+      role:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+    type: object
+  cloud-toolkit-aws:landingzone:IamTrustingAccountRolePolicyAttachmentMapping:
+    properties:
+      roleName:
+        description: ""
+        type: string
+      rolePolicyAttachment:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+    type: object
+  cloud-toolkit-aws:landingzone:LandingZoneArgs:
+    properties:
+      organization:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationArgs"
+      audit:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAuditArgs"
+      iam:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamArgs"
+    type: object
+  cloud-toolkit-aws:landingzone:LandingZoneAuditArgs:
+    properties:
+      enabled:
+        description: ""
+        type: boolean
+      accountName:
+        description: ""
+        type: string
+      retentionDays:
+        description: ""
+        type: number
+    type: object
+  cloud-toolkit-aws:landingzone:LandingZoneIamArgs:
+    properties:
+      accountName:
+        description: ""
+        type: string
+      roles:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamRoleArgs"
+    type: object
+  cloud-toolkit-aws:landingzone:LandingZoneIamRoleArgs:
+    properties:
+      name:
+        description: ""
+        type: string
+      policyNames:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+    type: object
+  cloud-toolkit-aws:landingzone:OrganizationArgs:
     properties:
       organizationId:
         description: The organization ID to import the Organization in the stack. If not
@@ -324,21 +459,21 @@ types:
         type: string
       policies:
         description: The Organization policies to be applied.
-        $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationPoliciesArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPoliciesArgs"
       accounts:
         description: The list of AWS Account to be configured in the Organization.
         type: array
         items:
           description: The list of AWS Account to be configured in the Organization.
-          $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationAccountArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccountArgs"
     type: object
-  cloud-toolkit-aws:landingZone:OrganizationPoliciesArgs:
+  cloud-toolkit-aws:landingzone:OrganizationPoliciesArgs:
     properties:
       denyLeaveOrganization:
         description: Deny IAM Account to leave the organization. Enabled by default.
-        $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationPolicyArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPolicyArgs"
     type: object
-  cloud-toolkit-aws:landingZone:OrganizationPolicyArgs:
+  cloud-toolkit-aws:landingzone:OrganizationPolicyArgs:
     properties:
       enabled:
         description: Enable the policy/
@@ -347,7 +482,7 @@ types:
         description: Import the policy with the given id
         type: string
     type: object
-  cloud-toolkit-aws:landingZone:OrganizationAccountArgs:
+  cloud-toolkit-aws:landingzone:OrganizationAccountArgs:
     properties:
       name:
         description: The name of the IAM Account.
@@ -368,8 +503,11 @@ types:
       parentId:
         description: The parentId of the imported account.
         type: string
+      iam:
+        description: The configuration for IAM.
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountIamArgs"
     type: object
-  cloud-toolkit-aws:landingZone:OrganizationalUnitMapping:
+  cloud-toolkit-aws:landingzone:OrganizationalUnitMapping:
     properties:
       accountName:
         description: ""
@@ -378,7 +516,16 @@ types:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:organizations%2forganizationalUnit:OrganizationalUnit
     type: object
-  cloud-toolkit-aws:landingZone:AccountMappingArgs:
+  cloud-toolkit-aws:landingzone:OrganizationAccountProviderMapping:
+    properties:
+      accountName:
+        description: ""
+        type: string
+      provider:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/provider
+    type: object
+  cloud-toolkit-aws:landingzone:AccountMappingArgs:
     properties:
       accountName:
         description: ""
@@ -916,7 +1063,7 @@ resources:
       - subnetIds
     isComponent: true
     type: object
-  cloud-toolkit-aws:landingZone:AccountIam:
+  cloud-toolkit-aws:landingzone:AccountIam:
     description: Cluster is a component that configure the IAM service for a given account.
     properties:
       alias:
@@ -932,11 +1079,11 @@ resources:
         type: string
       passwordPolicy:
         description: The IAM password policy configuration.
-        $ref: "#/types/cloud-toolkit-aws:landingZone:AccountPasswordPolicyArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyArgs"
     requiredInputs: []
     isComponent: true
     type: object
-  cloud-toolkit-aws:landingZone:AuditLogging:
+  cloud-toolkit-aws:landingzone:AuditLogging:
     description: ""
     properties:
       cloudWatchLogGroup:
@@ -1007,7 +1154,106 @@ resources:
     requiredInputs: []
     isComponent: true
     type: object
-  cloud-toolkit-aws:landingZone:Organization:
+  cloud-toolkit-aws:landingzone:IamTrustedAccount:
+    description: ""
+    properties:
+      roleGroups:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustedAccountRoleGroupMapping"
+      roleGroupPolicies:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustedAccountRoleGroupPolicyMa\
+            pping"
+    required:
+      - roleGroups
+      - roleGroupPolicies
+    inputProperties:
+      roles:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustedAccountRoleArgs"
+      trustingAccountId:
+        description: ""
+        type: string
+      trustingAccountName:
+        description: ""
+        type: string
+    requiredInputs:
+      - roles
+      - trustingAccountId
+      - trustingAccountName
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:landingzone:IamTrustingAccount:
+    description: ""
+    properties:
+      delegatedRoles:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRoleMapping"
+      delegatedRolePolicyAttachments:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRolePolicyAttach\
+            mentMapping"
+    required:
+      - delegatedRoles
+      - delegatedRolePolicyAttachments
+    inputProperties:
+      delegatedAccountIds:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+      delegatedRoles:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRoleArgs"
+    requiredInputs:
+      - delegatedAccountIds
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:landingzone:LandingZone:
+    description: Create a Landing Zone with the Organization, the AuditLogging, the
+      AWS Accounts and the
+    properties:
+      organization:
+        description: The Organization components.
+        $ref: "#/types/cloud-toolkit-aws:landingzone:Organization"
+      auditLogging:
+        description: The AuditLogging component.
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AuditLogging"
+    required:
+      - organization
+    inputProperties:
+      organization:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationArgs"
+      audit:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAuditArgs"
+      iam:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamArgs"
+    requiredInputs: []
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:landingzone:Organization:
     description: Organization is the component that configure the AWS Orgazination,
       AWS Accounts and AWS Organization Policies.
     properties:
@@ -1037,13 +1283,19 @@ resources:
         type: array
         items:
           description: The list Organizatoinal Units.
-          $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationalUnitMapping"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationalUnitMapping"
       accounts:
         description: The list of Accounts.
         type: array
         items:
           description: The list of Accounts.
-          $ref: "#/types/cloud-toolkit-aws:landingZone:AccountMappingArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:AccountMappingArgs"
+      accountProviders:
+        description: The list of AWS Provider for the managed accounts by this component.
+        type: array
+        items:
+          description: The list of AWS Provider for the managed accounts by this component.
+          $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccountProviderMapping"
     required:
       - organization
       - accountIds
@@ -1051,6 +1303,7 @@ resources:
       - policyAttachments
       - organizationalUnits
       - accounts
+      - accountProviders
     inputProperties:
       organizationId:
         description: The organization ID to import the Organization in the stack. If not
@@ -1058,13 +1311,13 @@ resources:
         type: string
       policies:
         description: The Organization policies to be applied.
-        $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationPoliciesArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPoliciesArgs"
       accounts:
         description: The list of AWS Account to be configured in the Organization.
         type: array
         items:
           description: The list of AWS Account to be configured in the Organization.
-          $ref: "#/types/cloud-toolkit-aws:landingZone:OrganizationAccountArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccountArgs"
     requiredInputs: []
     isComponent: true
     type: object

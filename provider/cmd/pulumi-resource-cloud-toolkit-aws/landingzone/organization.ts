@@ -1,13 +1,15 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import defaultsDeep from "lodash.defaultsdeep";
+import { AccountIam } from "./accountIam";
 import {
   AccountMappingArgs,
-  OrganizationalUnitMapping,
   OrganizationAccountArgs,
+  OrganizationAccountProviderMapping,
   OrganizationArgs,
   OrganizationPoliciesArgs,
   OrganizationPolicyArgs,
+  OrganizationalUnitMapping,
   defaultOrganizationAccount,
   defaultOrganizationArgs,
   organizationPoliciesData,
@@ -57,6 +59,11 @@ export class Organization extends pulumi.ComponentResource {
    */
   public readonly accounts: AccountMappingArgs[];
 
+  /**
+   * The list of AWS Provider for the managed accounts by this component.
+   */
+  public readonly accountProviders: OrganizationAccountProviderMapping[];
+
   private readonly policyMap: Map<string, aws.organizations.Policy>;
   private readonly policyAttachmentMap: Map<
     string,
@@ -65,13 +72,14 @@ export class Organization extends pulumi.ComponentResource {
   private readonly organizationalUnitMap: Map<string, aws.organizations.OrganizationalUnit>;
   private readonly accountMap: Map<string, aws.organizations.Account>;
   private readonly accountProviderMap: Map<string, aws.Provider>;
+  private readonly accountIamMap: Map<string, AccountIam>;
 
   constructor(
     name: string,
     args: OrganizationArgs,
     opts?: pulumi.ResourceOptions
   ) {
-    super("cloudToolkit:aws:landingZone:Organization", name, {}, opts);
+    super("cloud-toolkit-aws:landingZone:Organization", name, {}, opts);
     this.name = name;
     this.args = this.validateArgs(args);
 
@@ -107,6 +115,16 @@ export class Organization extends pulumi.ComponentResource {
     }
 
     this.accountProviderMap = this.setupAccountProviderMap(resourceOpts);
+    this.accountProviders = [];
+    for (const [index, provider] of this.accountProviderMap.entries()) {
+      this.accountProviders.push({
+        accountName: index,
+        provider: provider,
+      });
+    }
+
+    this.accountIamMap = this.setupAccountIamMap(resourceOpts);
+
     this.accountIds = this.setupAccountIds();
 
     this.registerOutputs({
@@ -147,6 +165,7 @@ export class Organization extends pulumi.ComponentResource {
       },
       pulumi.mergeOptions(opts, {
         import: this.args.organizationId,
+        retainOnDelete: true,
       })
     );
 
@@ -303,6 +322,7 @@ export class Organization extends pulumi.ComponentResource {
       pulumi.mergeOptions(opts, {
         import: accountData.accountId,
         ignoreChanges: ["roleName", "iamUserAccessToBilling"],
+        retainOnDelete: true,
       })
     );
   }
@@ -320,6 +340,8 @@ export class Organization extends pulumi.ComponentResource {
       const provider = new aws.Provider(
         accountData.name,
         {
+          // https://github.com/pulumi/pulumi-aws/issues/2144
+          skipCredentialsValidation: true,
           assumeRole: {
             roleArn: this.getAssumeRoleArn(accountData, account),
           },
@@ -331,6 +353,22 @@ export class Organization extends pulumi.ComponentResource {
       map.set(accountData.name, provider);
     }
 
+    return map;
+  }
+
+  private setupAccountIamMap(opts: pulumi.ResourceOptions): Map<string, AccountIam> {
+    const map = new Map<string, AccountIam>();
+    for (const accountData of this.args.accounts || []) {
+      const account = this.accountMap.get(accountData.name);
+      const provider = this.accountProviderMap.get(accountData.name);
+      const accountOpts = pulumi.mergeOptions(opts, {
+        parent: account,
+        provider: provider,
+        deleteBeforeReplace: true,
+      });
+      const accountIam = new AccountIam(`${this.name}-${accountData.name}`, accountData.iam, accountOpts);
+      map.set(accountData.name, accountIam);
+    }
     return map;
   }
 

@@ -130,11 +130,12 @@ class Organization(pulumi.ComponentResource):
             __props__.__dict__["organization_id"] = organization_id
             __props__.__dict__["policies"] = policies
             __props__.__dict__["account_ids"] = None
+            __props__.__dict__["account_providers"] = None
             __props__.__dict__["organization"] = None
             __props__.__dict__["organizational_units"] = None
             __props__.__dict__["policy_attachments"] = None
         super(Organization, __self__).__init__(
-            'cloud-toolkit-aws:landingZone:Organization',
+            'cloud-toolkit-aws:landingzone:Organization',
             resource_name,
             __props__,
             opts,
@@ -147,6 +148,14 @@ class Organization(pulumi.ComponentResource):
         The list of AWS Accounts inside the Organization.
         """
         return pulumi.get(self, "account_ids")
+
+    @property
+    @pulumi.getter(name="accountProviders")
+    def account_providers(self) -> pulumi.Output[Sequence['outputs.OrganizationAccountProviderMapping']]:
+        """
+        The list of AWS Provider for the managed accounts by this component.
+        """
+        return pulumi.get(self, "account_providers")
 
     @property
     @pulumi.getter

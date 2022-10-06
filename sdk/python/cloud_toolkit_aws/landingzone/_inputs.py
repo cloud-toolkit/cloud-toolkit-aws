@@ -10,12 +10,58 @@ from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
 
 __all__ = [
+    'AccountIamArgsArgs',
     'AccountPasswordPolicyArgsArgs',
     'AccountPasswordPolicyRulesArgsArgs',
+    'IamTrustedAccountRoleArgsArgs',
+    'IamTrustingAccountRoleArgsArgs',
+    'LandingZoneAuditArgsArgs',
+    'LandingZoneIamArgsArgs',
+    'LandingZoneIamRoleArgsArgs',
     'OrganizationAccountArgsArgs',
+    'OrganizationArgsArgs',
     'OrganizationPoliciesArgsArgs',
     'OrganizationPolicyArgsArgs',
 ]
+
+@pulumi.input_type
+class AccountIamArgsArgs:
+    def __init__(__self__, *,
+                 alias: Optional[pulumi.Input[str]] = None,
+                 password_policy: Optional[pulumi.Input['AccountPasswordPolicyArgsArgs']] = None):
+        """
+        :param pulumi.Input[str] alias: The alias to be used for IAM.
+        :param pulumi.Input['AccountPasswordPolicyArgsArgs'] password_policy: The IAM password policy configuration.
+        """
+        if alias is not None:
+            pulumi.set(__self__, "alias", alias)
+        if password_policy is not None:
+            pulumi.set(__self__, "password_policy", password_policy)
+
+    @property
+    @pulumi.getter
+    def alias(self) -> Optional[pulumi.Input[str]]:
+        """
+        The alias to be used for IAM.
+        """
+        return pulumi.get(self, "alias")
+
+    @alias.setter
+    def alias(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "alias", value)
+
+    @property
+    @pulumi.getter(name="passwordPolicy")
+    def password_policy(self) -> Optional[pulumi.Input['AccountPasswordPolicyArgsArgs']]:
+        """
+        The IAM password policy configuration.
+        """
+        return pulumi.get(self, "password_policy")
+
+    @password_policy.setter
+    def password_policy(self, value: Optional[pulumi.Input['AccountPasswordPolicyArgsArgs']]):
+        pulumi.set(self, "password_policy", value)
+
 
 @pulumi.input_type
 class AccountPasswordPolicyArgsArgs:
@@ -208,11 +254,157 @@ class AccountPasswordPolicyRulesArgsArgs:
 
 
 @pulumi.input_type
+class IamTrustedAccountRoleArgsArgs:
+    def __init__(__self__, *,
+                 name: Optional[pulumi.Input[str]] = None):
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+
+@pulumi.input_type
+class IamTrustingAccountRoleArgsArgs:
+    def __init__(__self__, *,
+                 name: Optional[pulumi.Input[str]] = None,
+                 policy_names: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if policy_names is not None:
+            pulumi.set(__self__, "policy_names", policy_names)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter(name="policyNames")
+    def policy_names(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        return pulumi.get(self, "policy_names")
+
+    @policy_names.setter
+    def policy_names(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "policy_names", value)
+
+
+@pulumi.input_type
+class LandingZoneAuditArgsArgs:
+    def __init__(__self__, *,
+                 account_name: Optional[pulumi.Input[str]] = None,
+                 enabled: Optional[pulumi.Input[bool]] = None,
+                 retention_days: Optional[pulumi.Input[float]] = None):
+        if account_name is not None:
+            pulumi.set(__self__, "account_name", account_name)
+        if enabled is not None:
+            pulumi.set(__self__, "enabled", enabled)
+        if retention_days is not None:
+            pulumi.set(__self__, "retention_days", retention_days)
+
+    @property
+    @pulumi.getter(name="accountName")
+    def account_name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "account_name")
+
+    @account_name.setter
+    def account_name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "account_name", value)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enabled", value)
+
+    @property
+    @pulumi.getter(name="retentionDays")
+    def retention_days(self) -> Optional[pulumi.Input[float]]:
+        return pulumi.get(self, "retention_days")
+
+    @retention_days.setter
+    def retention_days(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "retention_days", value)
+
+
+@pulumi.input_type
+class LandingZoneIamArgsArgs:
+    def __init__(__self__, *,
+                 account_name: Optional[pulumi.Input[str]] = None,
+                 roles: Optional[pulumi.Input[Sequence[pulumi.Input['LandingZoneIamRoleArgsArgs']]]] = None):
+        if account_name is not None:
+            pulumi.set(__self__, "account_name", account_name)
+        if roles is not None:
+            pulumi.set(__self__, "roles", roles)
+
+    @property
+    @pulumi.getter(name="accountName")
+    def account_name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "account_name")
+
+    @account_name.setter
+    def account_name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "account_name", value)
+
+    @property
+    @pulumi.getter
+    def roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['LandingZoneIamRoleArgsArgs']]]]:
+        return pulumi.get(self, "roles")
+
+    @roles.setter
+    def roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['LandingZoneIamRoleArgsArgs']]]]):
+        pulumi.set(self, "roles", value)
+
+
+@pulumi.input_type
+class LandingZoneIamRoleArgsArgs:
+    def __init__(__self__, *,
+                 name: Optional[pulumi.Input[str]] = None,
+                 policy_names: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if policy_names is not None:
+            pulumi.set(__self__, "policy_names", policy_names)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter(name="policyNames")
+    def policy_names(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        return pulumi.get(self, "policy_names")
+
+    @policy_names.setter
+    def policy_names(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "policy_names", value)
+
+
+@pulumi.input_type
 class OrganizationAccountArgsArgs:
     def __init__(__self__, *,
                  account_id: Optional[pulumi.Input[str]] = None,
                  admin_role_name: Optional[pulumi.Input[str]] = None,
                  email: Optional[pulumi.Input[str]] = None,
+                 iam: Optional[pulumi.Input['AccountIamArgsArgs']] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  ou: Optional[pulumi.Input[str]] = None,
                  parent_id: Optional[pulumi.Input[str]] = None):
@@ -220,6 +412,7 @@ class OrganizationAccountArgsArgs:
         :param pulumi.Input[str] account_id: The AWS Account ID to be used to import the Account in the Organization. If not set, a new AWS Account will be created.
         :param pulumi.Input[str] admin_role_name: Admin role for the IAM Account.
         :param pulumi.Input[str] email: The email associated to the IAM Account.
+        :param pulumi.Input['AccountIamArgsArgs'] iam: The configuration for IAM.
         :param pulumi.Input[str] name: The name of the IAM Account.
         :param pulumi.Input[str] parent_id: The parentId of the imported account.
         """
@@ -229,6 +422,8 @@ class OrganizationAccountArgsArgs:
             pulumi.set(__self__, "admin_role_name", admin_role_name)
         if email is not None:
             pulumi.set(__self__, "email", email)
+        if iam is not None:
+            pulumi.set(__self__, "iam", iam)
         if name is not None:
             pulumi.set(__self__, "name", name)
         if ou is not None:
@@ -274,6 +469,18 @@ class OrganizationAccountArgsArgs:
 
     @property
     @pulumi.getter
+    def iam(self) -> Optional[pulumi.Input['AccountIamArgsArgs']]:
+        """
+        The configuration for IAM.
+        """
+        return pulumi.get(self, "iam")
+
+    @iam.setter
+    def iam(self, value: Optional[pulumi.Input['AccountIamArgsArgs']]):
+        pulumi.set(self, "iam", value)
+
+    @property
+    @pulumi.getter
     def name(self) -> Optional[pulumi.Input[str]]:
         """
         The name of the IAM Account.
@@ -304,6 +511,61 @@ class OrganizationAccountArgsArgs:
     @parent_id.setter
     def parent_id(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "parent_id", value)
+
+
+@pulumi.input_type
+class OrganizationArgsArgs:
+    def __init__(__self__, *,
+                 accounts: Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgsArgs']]]] = None,
+                 organization_id: Optional[pulumi.Input[str]] = None,
+                 policies: Optional[pulumi.Input['OrganizationPoliciesArgsArgs']] = None):
+        """
+        :param pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgsArgs']]] accounts: The list of AWS Account to be configured in the Organization.
+        :param pulumi.Input[str] organization_id: The organization ID to import the Organization in the stack. If not set a new AWS Organization will be created. Defaults to undefined.
+        :param pulumi.Input['OrganizationPoliciesArgsArgs'] policies: The Organization policies to be applied.
+        """
+        if accounts is not None:
+            pulumi.set(__self__, "accounts", accounts)
+        if organization_id is not None:
+            pulumi.set(__self__, "organization_id", organization_id)
+        if policies is not None:
+            pulumi.set(__self__, "policies", policies)
+
+    @property
+    @pulumi.getter
+    def accounts(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgsArgs']]]]:
+        """
+        The list of AWS Account to be configured in the Organization.
+        """
+        return pulumi.get(self, "accounts")
+
+    @accounts.setter
+    def accounts(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgsArgs']]]]):
+        pulumi.set(self, "accounts", value)
+
+    @property
+    @pulumi.getter(name="organizationId")
+    def organization_id(self) -> Optional[pulumi.Input[str]]:
+        """
+        The organization ID to import the Organization in the stack. If not set a new AWS Organization will be created. Defaults to undefined.
+        """
+        return pulumi.get(self, "organization_id")
+
+    @organization_id.setter
+    def organization_id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "organization_id", value)
+
+    @property
+    @pulumi.getter
+    def policies(self) -> Optional[pulumi.Input['OrganizationPoliciesArgsArgs']]:
+        """
+        The Organization policies to be applied.
+        """
+        return pulumi.get(self, "policies")
+
+    @policies.setter
+    def policies(self, value: Optional[pulumi.Input['OrganizationPoliciesArgsArgs']]):
+        pulumi.set(self, "policies", value)
 
 
 @pulumi.input_type

@@ -14,7 +14,7 @@ import * as pulumiAws from "@pulumi/aws";
  */
 export class AccountIam extends pulumi.ComponentResource {
     /** @internal */
-    public static readonly __pulumiType = 'cloud-toolkit-aws:landingZone:AccountIam';
+    public static readonly __pulumiType = 'cloud-toolkit-aws:landingzone:AccountIam';
 
     /**
      * Returns true if the given object is an instance of AccountIam.  This is designed to work even
@@ -69,5 +69,5 @@ export interface AccountIamArgs {
     /**
      * The IAM password policy configuration.
      */
-    passwordPolicy?: pulumi.Input<inputs.landingZone.AccountPasswordPolicyArgsArgs>;
+    passwordPolicy?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyArgsArgs>;
 }

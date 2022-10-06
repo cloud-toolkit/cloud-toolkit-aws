@@ -14,7 +14,7 @@ import * as pulumiAws from "@pulumi/aws";
  */
 export class Organization extends pulumi.ComponentResource {
     /** @internal */
-    public static readonly __pulumiType = 'cloud-toolkit-aws:landingZone:Organization';
+    public static readonly __pulumiType = 'cloud-toolkit-aws:landingzone:Organization';
 
     /**
      * Returns true if the given object is an instance of Organization.  This is designed to work even
@@ -32,9 +32,13 @@ export class Organization extends pulumi.ComponentResource {
      */
     public /*out*/ readonly accountIds!: pulumi.Output<string[]>;
     /**
+     * The list of AWS Provider for the managed accounts by this component.
+     */
+    public /*out*/ readonly accountProviders!: pulumi.Output<outputs.landingzone.OrganizationAccountProviderMapping[]>;
+    /**
      * The list of Accounts.
      */
-    public readonly accounts!: pulumi.Output<outputs.landingZone.AccountMappingArgs[]>;
+    public readonly accounts!: pulumi.Output<outputs.landingzone.AccountMappingArgs[]>;
     /**
      * The AWS Organization.
      */
@@ -42,7 +46,7 @@ export class Organization extends pulumi.ComponentResource {
     /**
      * The list Organizatoinal Units.
      */
-    public /*out*/ readonly organizationalUnits!: pulumi.Output<outputs.landingZone.OrganizationalUnitMapping[]>;
+    public /*out*/ readonly organizationalUnits!: pulumi.Output<outputs.landingzone.OrganizationalUnitMapping[]>;
     /**
      * The list of Policies used in the Organization.
      */
@@ -67,11 +71,13 @@ export class Organization extends pulumi.ComponentResource {
             resourceInputs["organizationId"] = args ? args.organizationId : undefined;
             resourceInputs["policies"] = args ? args.policies : undefined;
             resourceInputs["accountIds"] = undefined /*out*/;
+            resourceInputs["accountProviders"] = undefined /*out*/;
             resourceInputs["organization"] = undefined /*out*/;
             resourceInputs["organizationalUnits"] = undefined /*out*/;
             resourceInputs["policyAttachments"] = undefined /*out*/;
         } else {
             resourceInputs["accountIds"] = undefined /*out*/;
+            resourceInputs["accountProviders"] = undefined /*out*/;
             resourceInputs["accounts"] = undefined /*out*/;
             resourceInputs["organization"] = undefined /*out*/;
             resourceInputs["organizationalUnits"] = undefined /*out*/;
@@ -90,7 +96,7 @@ export interface OrganizationArgs {
     /**
      * The list of AWS Account to be configured in the Organization.
      */
-    accounts?: pulumi.Input<pulumi.Input<inputs.landingZone.OrganizationAccountArgsArgs>[]>;
+    accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgsArgs>[]>;
     /**
      * The organization ID to import the Organization in the stack. If not set a new AWS Organization will be created. Defaults to undefined.
      */
@@ -98,5 +104,5 @@ export interface OrganizationArgs {
     /**
      * The Organization policies to be applied.
      */
-    policies?: pulumi.Input<inputs.landingZone.OrganizationPoliciesArgsArgs>;
+    policies?: pulumi.Input<inputs.landingzone.OrganizationPoliciesArgsArgs>;
 }
