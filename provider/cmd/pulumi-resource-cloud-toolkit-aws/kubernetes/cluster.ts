@@ -193,7 +193,7 @@ export class Cluster extends pulumi.ComponentResource {
       cniChart: this.cniChart,
       clusterAddons: this.clusterAddons,
       defaultOidcProvider: this.defaultOidcProvider,
-      //domain: this.domain,
+      domain: this.domain,
       kubeconfig: this.kubeconfig,
       nodeGroups: this.nodeGroups,
       provider: this.provider,

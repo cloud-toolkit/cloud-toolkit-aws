@@ -35,6 +35,7 @@ import {
 } from "./landingzone";
 import {Mysql, MysqlArgs} from "./databases/mysql";
 
+
 export class Provider implements pulumi.provider.Provider {
   constructor(readonly version: string, readonly schema: string) {}
 

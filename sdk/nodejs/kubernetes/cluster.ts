@@ -51,7 +51,7 @@ export class Cluster extends pulumi.ComponentResource {
      */
     public /*out*/ readonly dnsZone!: pulumi.Output<pulumiAws.route53.Zone | undefined>;
     /**
-     * The cluster base domain.
+     * The VPC CNI Chart installed in the cluster.
      */
     public /*out*/ readonly domain!: pulumi.Output<string>;
     /**
@@ -115,7 +115,6 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["publicSubnetIds"] = args ? args.publicSubnetIds : undefined;
             resourceInputs["version"] = args ? args.version : undefined;
             resourceInputs["vpcId"] = args ? args.vpcId : undefined;
-            resourceInputs["zoneId"] = args ? args.zoneId : undefined;
             resourceInputs["cluster"] = undefined /*out*/;
             resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
@@ -194,8 +193,4 @@ export interface ClusterArgs {
      * The VPC ID where the cluster will be deployed
      */
     vpcId?: pulumi.Input<string>;
-    /**
-     * Zone ID.
-     */
-    zoneId?: pulumi.Input<string>;
 }
