@@ -42,7 +42,7 @@ export class NodeGroup extends pulumi.ComponentResource {
     args: NodeGroupArgs,
     opts?: pulumi.ResourceOptions
   ) {
-    super("cloudToolkit:aws:kubernetes:NodeGroup", name, {}, opts);
+    super("cloud-toolkit-aws:kubernetes:NodeGroup", name, {}, opts);
     this.name = name;
     this.args = this.validateConfig(args);
 
