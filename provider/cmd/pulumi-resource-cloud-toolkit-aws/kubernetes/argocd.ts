@@ -5,6 +5,8 @@ import * as yaml from "yaml";
 import defaultsDeep from "lodash.defaultsdeep";
 import { ArgoCDArgs, defaultArgs } from "./argocdArgs";
 
+export { ArgoCDArgs };
+
 export class ArgoCD extends pulumi.ComponentResource {
   private args: ArgoCDArgs;
   private name: string;
@@ -36,6 +38,12 @@ export class ArgoCD extends pulumi.ComponentResource {
       values,
       resourceOpts,
     );
+
+    this.registerOutputs({
+      adminPassword: this.adminPassword,
+      chart: this.chart,
+      namespace: this.namespace,
+    });
   }
 
   protected validateArgs(a: ArgoCDArgs): ArgoCDArgs {

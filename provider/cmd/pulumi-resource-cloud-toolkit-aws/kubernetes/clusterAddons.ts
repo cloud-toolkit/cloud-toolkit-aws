@@ -6,6 +6,7 @@ import defaultsDeep from "lodash.defaultsdeep";
 import { ArgoCD } from "./argocd";
 import { IngressNginx } from "./ingressNginx";
 import { CertManager } from "./certManager";
+import { ExternalDns } from "./externalDns";
 import {
   ClusterAddonsArgs,
   defaultClusterAddonsArgs,
@@ -23,6 +24,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
   public readonly argocd: ArgoCD;
   public readonly certManager: CertManager;
   public readonly adminIngressNginx: IngressNginx;
+  public readonly externalDns: ExternalDns;
 
   constructor(
     name: string,
@@ -53,11 +55,19 @@ export class ClusterAddons extends pulumi.ComponentResource {
       ],
     });
     this.certManager = this.setupCertManager(argocdApplicationsOpts);
+    this.externalDns = this.setupExternalDns(argocdApplicationsOpts);
 
     const ingressOpts = pulumi.mergeOptions(argocdApplicationsOpts, {
       dependsOn: [this.certManager],
     });
     this.adminIngressNginx = this.setupAdminIngressNginx(ingressOpts);
+
+    this.registerOutputs({
+      argocd: this.argocd,
+      certManager: this.certManager,
+      externalDns: this.externalDns,
+      adminIngressNginx: this.adminIngressNginx,
+    });
   }
 
   private validateArgs(a: ClusterAddonsArgs): ClusterAddonsArgs {
@@ -87,6 +97,20 @@ export class ClusterAddons extends pulumi.ComponentResource {
       zoneArns: this.args.zoneArns,
     }, opts);
   }
+
+  private setupExternalDns(opts?: pulumi.ResourceOptions): ExternalDns {
+    return new ExternalDns(`${this.name}-external-dns`, {
+      name: "external-dns",
+      namespace: "system-external-dns",
+      createNamespace: true,
+      k8sProvider: this.args.k8sProvider,
+      identityProvidersArn: [...this.args.identityProvidersArn],
+      serviceAccountName: "external-dns",
+      issuerUrl: this.args.issuerUrl,
+      zoneArns: this.args.zoneArns,
+    }, opts);
+  }
+
 
   private setupAdminIngressNginx(opts?: pulumi.ResourceOptions): IngressNginx {
     return new IngressNginx(`${this.name}-ingress-nginx-admin`, {

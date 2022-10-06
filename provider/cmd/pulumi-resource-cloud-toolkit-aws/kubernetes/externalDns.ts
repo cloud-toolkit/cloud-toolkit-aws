@@ -2,12 +2,12 @@ import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
 import { ApplicationAddon } from "./applicationAddon";
-import { CertManagerArgs } from "./certManagerArgs";
+import { ExternalDnsArgs } from "./externalDnsArgs";
 import { Irsa } from "./irsa";
 
-export { CertManagerArgs };
+export { ExternalDnsArgs };
 
-export class CertManager extends ApplicationAddon<CertManagerArgs> {
+export class ExternalDns extends ApplicationAddon<ExternalDnsArgs> {
   public readonly namespace?: kubernetes.core.v1.Namespace;
 
   public readonly application: kubernetes.apiextensions.CustomResource;
@@ -16,10 +16,10 @@ export class CertManager extends ApplicationAddon<CertManagerArgs> {
 
   constructor(
     name: string,
-    args: CertManagerArgs,
+    args: ExternalDnsArgs,
     opts?: pulumi.CustomResourceOptions
   ) {
-    super("cloud-toolkit-aws:kubernetes:CertManager", name, args, opts);
+    super("cloud-toolkit-aws:kubernetes:ExternalDns", name, args, opts);
 
     const resourceOpts = pulumi.mergeOptions(opts, {
       parent: this,
@@ -36,12 +36,12 @@ export class CertManager extends ApplicationAddon<CertManagerArgs> {
     });
   }
 
-  protected validateArgs(a: CertManagerArgs): CertManagerArgs {
+  protected validateArgs(a: ExternalDnsArgs): ExternalDnsArgs {
     return a;
   }
 
   private setupIrsa(opts?: pulumi.ResourceOptions): Irsa {
-    return new Irsa(`${this.name}-cert-manager`, {
+    return new Irsa(`${this.name}-external-dns`, {
       identityProvidersArn: [...this.args.identityProvidersArn],
       issuerUrl: this.args.issuerUrl,
       k8sProvider: this.args.k8sProvider,
@@ -52,53 +52,42 @@ export class CertManager extends ApplicationAddon<CertManagerArgs> {
   }
 
   protected getIAMPolicy(): pulumi.Output<string> {
-    const policyObject = {
+    const policyObject = <aws.iam.GetPolicyDocumentOutputArgs>{
       statements: [
         {
           effect: "Allow",
-          resources: ["arn:aws:route53:::change/*"],
-          actions: ["route53:GetChange"],
+          resources: ["*"],
+          actions: [
+            "route53:ListHostedZones",
+            "route53:ListresourceRecordSets",
+          ],
         },
         {
           effect: "Allow",
-          resources: ["*"],
-          actions: ["route53:ListHostedZonesByName"],
+          resources: this.args.zoneArns,
+          actions: ["route53:ChangeresourceRecordSets"],
         },
       ],
     };
-
-    for (const zoneArn of this.args.zoneArns) {
-      policyObject.statements.push({
-        effect: "Allow",
-        resources: [zoneArn as string],
-        actions: [
-          "route53:ChangeresourceRecordSets",
-          "route53:ListresourceRecordSets",
-        ],
-      });
-    }
 
     const policyDocument = aws.iam.getPolicyDocumentOutput(policyObject);
     return policyDocument.json;
   }
 
   protected getApplicationSpec(): any {
+    const region = aws.getRegionOutput();
     return {
       project: "default",
       source: {
-        repoURL: "https://charts.jetstack.io",
-        chart: "cert-manager",
-        targetRevision: "v1.7.1",
+        repoURL: "https://charts.bitnami.com/bitnami",
+        chart: "external-dns",
+        targetRevision: "6.5.6",
         helm: {
           releaseName: this.args.name,
           parameters: [
             {
-              name: "extraArgs[0]",
-              value: "--enable-certificate-owner-ref=true",
-            },
-            {
-              name: "installCRDs",
-              value: "true",
+              name: "aws.region",
+              value: region.name,
             },
             {
               name: "serviceAccount.create",

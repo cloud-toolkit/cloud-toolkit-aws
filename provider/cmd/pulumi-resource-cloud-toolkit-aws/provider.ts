@@ -3,7 +3,20 @@ import * as bucket from "./storage/bucket";
 
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
-import { Cluster, ClusterArgs, NodeGroup, NodeGroupArgs } from "./kubernetes";
+import {
+  ArgoCD,
+  ArgoCDArgs,
+  CertManager,
+  CertManagerArgs,
+  Cluster,
+  ClusterAddons,
+  ClusterAddonsArgs,
+  ClusterArgs,
+  ExternalDns,
+  NodeGroup,
+  NodeGroupArgs,
+  ExternalDnsArgs
+} from "./kubernetes";
 import {
   AccountIam,
   AccountIamArgs,
@@ -38,6 +51,14 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesCluster(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:NodeGroup":
         return await constructKubernetesNodeGroup(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:ClusterAddons":
+        return await constructKubernetesClusterAddons(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:ArgoCD":
+        return await constructKubernetesArgoCD(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:CertManager":
+        return await constructKubernetesCertManager(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:ExternalDns":
+        return await constructKubernetesExternalDns(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -71,6 +92,7 @@ async function constructKubernetesCluster(
     urn: resource.urn,
     state: {
       cluster: resource.cluster,
+      clusterAddons: resource.clusterAddons,
       cniChart: resource.cniChart,
       defaultOidcProvider: resource.defaultOidcProvider,
       kubeconfig: resource.kubeconfig,
@@ -100,6 +122,90 @@ async function constructKubernetesNodeGroup(
       rolePolcyAttachments: resource.rolePolicyAttachments,
       launchTemplate: resource.launchTemplate,
       nodeGroup: resource.nodeGroup,
+    },
+  };
+}
+
+async function constructKubernetesClusterAddons(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new ClusterAddons(name, inputs as ClusterAddonsArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      argocd: resource.argocd,
+      certManager: resource.certManager,
+      externalDns: resource.externalDns,
+      adminIngressNginx: resource.adminIngressNginx,
+    },
+  };
+}
+
+async function constructKubernetesArgoCD(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new ArgoCD(name, inputs as ArgoCDArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      adminPassword: resource.adminPassword,
+      chart: resource.chart,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesExternalDns(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new ExternalDns(name, inputs as ExternalDnsArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
+      irsa: resource.irsa,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesCertManager(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new CertManager(name, inputs as CertManagerArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
+      irsa: resource.irsa,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructExample(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const example = new Example(name, inputs as ExampleArgs, options);
+
+  return {
+    urn: example.urn,
+    state: {
+      bucket: example.bucket,
     },
   };
 }
