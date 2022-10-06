@@ -102,7 +102,7 @@ export class Irsa extends pulumi.ComponentResource {
       this.name,
       {
         metadata: {
-          name: this.name,
+          name: this.args.serviceAccountName,
           namespace: this.args.namespace,
           annotations: {
             "eks.amazonaws.com/role-arn": this.role.arn,
