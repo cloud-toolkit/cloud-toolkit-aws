@@ -4,7 +4,20 @@ import * as bucket from "./storage/bucket";
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
 import { Cluster, ClusterArgs, NodeGroup, NodeGroupArgs } from "./kubernetes";
-import { AccountIam, AccountIamArgs, AuditLogging, AuditLoggingArgs, Organization, OrganizationArgs } from "./landingZone";
+import {
+  AccountIam,
+  AccountIamArgs,
+  AuditLogging,
+  AuditLoggingArgs,
+  IamTrustedAccount,
+  IamTrustedAccountArgs,
+  IamTrustingAccount,
+  IamTrustingAccountArgs,
+  LandingZone,
+  LandingZoneArgs,
+  Organization,
+  OrganizationArgs
+} from "./landingzone";
 import { Example, ExampleArgs } from "./example";
 
 export class Provider implements pulumi.provider.Provider {
@@ -27,12 +40,18 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesCluster(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:NodeGroup":
         return await constructKubernetesNodeGroup(name, inputs, options);
-      case "cloud-toolkit-aws:landingZone:AccountIam":
+      case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
-      case "cloud-toolkit-aws:landingZone:Organization":
+      case "cloud-toolkit-aws:landingzone:Organization":
         return await constructLandingZoneOranization(name, inputs, options);
-      case "cloud-toolkit-aws:landingZone:AuditLogging":
+      case "cloud-toolkit-aws:landingzone:AuditLogging":
         return await constructLandingZoneAuditLogging(name, inputs, options);
+      case "cloud-toolkit-aws:landingzone:IamTrustedAccount":
+        return await constructLandingZoneIamTrustedAccount(name, inputs, options);
+      case "cloud-toolkit-aws:landingzone:IamTrustingAccount":
+        return await constructLandingZoneIamTrustingAccount(name, inputs, options);
+      case "cloud-toolkit-aws:landingzone:LandingZone":
+        return await constructLandingZoneLandingZone(name, inputs, options);
       case "cloud-toolkit-aws:storage:Bucket":
         return await constructBucket(name, inputs, options);
       default:
@@ -240,6 +259,51 @@ async function constructLandingZoneAuditLogging(
       bucketLifecycleConfiguration: component.bucketLifecycleConfiguration,
       bucketPolicy: component.bucketPolicy,
       trail: component.trail,
+    },
+  };
+}
+
+// TODO
+async function constructLandingZoneIamTrustedAccount(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const component = new IamTrustedAccount(name, inputs as IamTrustedAccountArgs, options);
+
+  return {
+    urn: component.urn,
+    state: {
+    },
+  };
+}
+
+// TODO
+async function constructLandingZoneIamTrustingAccount(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const component = new IamTrustingAccount(name, inputs as IamTrustingAccountArgs, options);
+
+  return {
+    urn: component.urn,
+    state: {
+    },
+  };
+}
+
+// TODO
+async function constructLandingZoneLandingZone(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const component = new LandingZone(name, inputs as LandingZoneArgs, options);
+
+  return {
+    urn: component.urn,
+    state: {
     },
   };
 }

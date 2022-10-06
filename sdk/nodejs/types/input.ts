@@ -118,7 +118,18 @@ export namespace kubernetes {
 
 }
 
-export namespace landingZone {
+export namespace landingzone {
+    export interface AccountIamArgsArgs {
+        /**
+         * The alias to be used for IAM.
+         */
+        alias?: pulumi.Input<string>;
+        /**
+         * The IAM password policy configuration.
+         */
+        passwordPolicy?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyArgsArgs>;
+    }
+
     export interface AccountPasswordPolicyArgsArgs {
         /**
          * Enable the creation of IAM Password Policy. Defaults to 'true'.
@@ -127,7 +138,7 @@ export namespace landingZone {
         /**
          * The rules to be applied to the IAM Password Policy
          */
-        rules?: pulumi.Input<inputs.landingZone.AccountPasswordPolicyRulesArgsArgs>;
+        rules?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyRulesArgsArgs>;
     }
 
     export interface AccountPasswordPolicyRulesArgsArgs {
@@ -169,6 +180,31 @@ export namespace landingZone {
         requireUppercaseCharacters?: pulumi.Input<boolean>;
     }
 
+    export interface IamTrustedAccountRoleArgsArgs {
+        name?: pulumi.Input<string>;
+    }
+
+    export interface IamTrustingAccountRoleArgsArgs {
+        name?: pulumi.Input<string>;
+        policyNames?: pulumi.Input<pulumi.Input<string>[]>;
+    }
+
+    export interface LandingZoneAuditArgsArgs {
+        accountName?: pulumi.Input<string>;
+        enabled?: pulumi.Input<boolean>;
+        retentionDays?: pulumi.Input<number>;
+    }
+
+    export interface LandingZoneIamArgsArgs {
+        accountName?: pulumi.Input<string>;
+        roles?: pulumi.Input<pulumi.Input<inputs.landingzone.LandingZoneIamRoleArgsArgs>[]>;
+    }
+
+    export interface LandingZoneIamRoleArgsArgs {
+        name?: pulumi.Input<string>;
+        policyNames?: pulumi.Input<pulumi.Input<string>[]>;
+    }
+
     export interface OrganizationAccountArgsArgs {
         /**
          * The AWS Account ID to be used to import the Account in the Organization. If not set, a new AWS Account will be created.
@@ -183,6 +219,10 @@ export namespace landingZone {
          */
         email?: pulumi.Input<string>;
         /**
+         * The configuration for IAM.
+         */
+        iam?: pulumi.Input<inputs.landingzone.AccountIamArgsArgs>;
+        /**
          * The name of the IAM Account.
          */
         name?: pulumi.Input<string>;
@@ -193,11 +233,26 @@ export namespace landingZone {
         parentId?: pulumi.Input<string>;
     }
 
+    export interface OrganizationArgsArgs {
+        /**
+         * The list of AWS Account to be configured in the Organization.
+         */
+        accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgsArgs>[]>;
+        /**
+         * The organization ID to import the Organization in the stack. If not set a new AWS Organization will be created. Defaults to undefined.
+         */
+        organizationId?: pulumi.Input<string>;
+        /**
+         * The Organization policies to be applied.
+         */
+        policies?: pulumi.Input<inputs.landingzone.OrganizationPoliciesArgsArgs>;
+    }
+
     export interface OrganizationPoliciesArgsArgs {
         /**
          * Deny IAM Account to leave the organization. Enabled by default.
          */
-        denyLeaveOrganization?: pulumi.Input<inputs.landingZone.OrganizationPolicyArgsArgs>;
+        denyLeaveOrganization?: pulumi.Input<inputs.landingzone.OrganizationPolicyArgsArgs>;
     }
 
     export interface OrganizationPolicyArgsArgs {

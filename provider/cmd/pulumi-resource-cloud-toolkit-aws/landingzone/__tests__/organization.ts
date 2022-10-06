@@ -3,6 +3,7 @@ import * as aws from "@pulumi/aws";
 
 import { defaultOrganizationArgs } from "../organizationArgs";
 import minimalConfiguration from "./fixtures/organizationMinimalConfiguration";
+import policiesConfiguration from "./fixtures/organizationPolicies";
 import setAccountsConfiguration from "./fixtures/organizationSetAccountsConfiguration";
 
 function GetValue<T>(output: pulumi.Output<T>) {
@@ -45,7 +46,7 @@ describe("Minimal configuration", function () {
     expect(instance.organization).toBeDefined();
   });
 
-  test("It should create the default Policies", async function () {
+  test("It shouldn't create any Policies", async function () {
     const componentName = "test";
     const instance = new component.Organization(
       componentName,
@@ -53,10 +54,10 @@ describe("Minimal configuration", function () {
       {}
     );
     expect(instance.policies).toBeDefined();
-    expect(instance.policies.length).toBe(1);
+    expect(instance.policies.length).toBe(0);
   });
 
-  test("It should create the default PolicyAttachments", async function () {
+  test("It shouldn't create any PolicyAttachments", async function () {
     const componentName = "test";
     const instance = new component.Organization(
       componentName,
@@ -65,7 +66,7 @@ describe("Minimal configuration", function () {
     );
 
     expect(instance.policyAttachments).toBeDefined();
-    expect(instance.policyAttachments.length).toBe(1);
+    expect(instance.policyAttachments.length).toBe(0);
   });
 
   test("It shouldn't create any AWS Account", async function () {
@@ -147,5 +148,28 @@ describe("Set accounts", function () {
       expect(organizationalUnit).toBeDefined();
       expect(await GetValue(organizationalUnit.name)).toBe(accountConfig.ou);
     }
+  });
+});
+
+describe("Policies configuration", function () {
+  let component: typeof import("../index");
+
+  beforeAll(async function () {
+    component = await import("../index");
+  });
+
+  test("It should create the default Policies", async function () {
+    const componentName = "test";
+    const instance = new component.Organization(componentName, policiesConfiguration);
+    expect(instance.policies).toBeDefined();
+    expect(instance.policies.length).toBe(1);
+  });
+
+  test("It should create the default PolicyAttachments", async function () {
+    const componentName = "test";
+    const instance = new component.Organization(componentName, policiesConfiguration);
+
+    expect(instance.policyAttachments).toBeDefined();
+    expect(instance.policyAttachments.length).toBe(1);
   });
 });

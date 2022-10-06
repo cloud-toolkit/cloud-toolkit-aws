@@ -1,4 +1,5 @@
 import * as aws from "@pulumi/aws";
+import { AccountIamArgs } from "./accountIamArgs";
 
 export interface OrganizationArgs {
   /**
@@ -66,6 +67,11 @@ export interface OrganizationAccountArgs {
    * The parentId of the imported account.
    */
   parentId?: string;
+
+  /**
+   * The configuration for IAM.
+   */
+  iam: AccountIamArgs;
 }
 
 export const defaultOrganizationAccount = {
@@ -99,7 +105,7 @@ export const organizationPoliciesData: OrganizationPoliciesData = {
 
 export const defaultPolicies = {
   denyLeaveOrganization: {
-    enabled: true,
+    enabled: false,
   },
 };
 
@@ -113,6 +119,12 @@ export interface OrganizationalUnitMapping {
   accountName: string;
   organizationalUnit: aws.organizations.OrganizationalUnit;
 }
+
+export interface OrganizationAccountProviderMapping {
+  accountName: string;
+  provider: aws.Provider;
+}
+
 export interface AccountMappingArgs {
   accountName: string;
   account: aws.organizations.Account;
