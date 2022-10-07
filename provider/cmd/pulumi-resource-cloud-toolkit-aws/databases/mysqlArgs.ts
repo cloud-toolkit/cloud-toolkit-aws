@@ -37,17 +37,15 @@ export interface MysqlArgs {
 }
 
 /**
-* Backup configuration parameters for the database instance
+* Set of allowed versions for the database instance
 */
 export enum MysqlVersionArgs {
   V8_0 = "8.0",
   V5_7 = "5.7"
 }
 
-
-//const MysqlVersionArgs = new Set(['8.0', '5.7']);
 /**
-* Backup configuration parameters for the database instance
+* Configuration parameters for the database administrators access
 */
 export interface MysqlDatabaseArgs {
 /**
