@@ -5,6 +5,8 @@ on:
       - v*.*.*
 permissions:
   contents: write
+env:
+  GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
 jobs:
   publish_binary:
     name: publish
@@ -31,8 +33,6 @@ jobs:
         with:
           files: |
             dist/*.tar.gz
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       fail-fast: true
       matrix:
