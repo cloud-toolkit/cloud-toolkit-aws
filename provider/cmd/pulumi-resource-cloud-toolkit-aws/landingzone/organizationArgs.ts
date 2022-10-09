@@ -75,7 +75,7 @@ export interface OrganizationAccountArgs {
 }
 
 export const defaultOrganizationAccount = {
-  adminRoleName: "superadmin",
+  adminRoleName: "root",
 };
 
 export interface PolicyData {
