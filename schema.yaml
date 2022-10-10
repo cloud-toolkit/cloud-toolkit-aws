@@ -466,6 +466,22 @@ types:
         items:
           description: The list of AWS Account to be configured in the Organization.
           $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccountArgs"
+      awsServiceAccessPrincipals:
+        description: The list of AWS Service Access Principals enabled in the organization.
+        type: array
+        items:
+          description: The list of AWS Service Access Principals enabled in the
+            organization.
+          type: string
+      enabledPolicyTypes:
+        description: The list of enabled Organizations Policies in the organization.
+        type: array
+        items:
+          description: The list of enabled Organizations Policies in the organization.
+          type: string
+      featureSet:
+        description: The FeatureSet in the Organization..
+        type: string
     type: object
   cloud-toolkit-aws:landingzone:OrganizationPoliciesArgs:
     properties:
@@ -1318,6 +1334,22 @@ resources:
         items:
           description: The list of AWS Account to be configured in the Organization.
           $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccountArgs"
+      awsServiceAccessPrincipals:
+        description: The list of AWS Service Access Principals enabled in the organization.
+        type: array
+        items:
+          description: The list of AWS Service Access Principals enabled in the
+            organization.
+          type: string
+      enabledPolicyTypes:
+        description: The list of enabled Organizations Policies in the organization.
+        type: array
+        items:
+          description: The list of enabled Organizations Policies in the organization.
+          type: string
+      featureSet:
+        description: The FeatureSet in the Organization..
+        type: string
     requiredInputs: []
     isComponent: true
     type: object
