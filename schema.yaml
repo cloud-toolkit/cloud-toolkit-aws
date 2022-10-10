@@ -12,20 +12,23 @@ keywords:
 pluginDownloadURL: github://api.github.com/cloud-toolkit/cloud-toolkit-aws
 types:
   cloud-toolkit-aws:databases:MysqlVersionArgs:
-    description: Backup configuration parameters for the database instance
+    description: Set of allowed versions for the database instance
     type: string
     enum:
-      - value: "8.0"
-        name: V8_0
-      - value: "5.7"
-        name: "V5_7"
+      - name: V8_0
+        value: "8.0"
+      - name: V5_7
+        value: "5.7"
   cloud-toolkit-aws:databases:MysqlStorageTypeArgs:
     description: Set of storage type classes for database instance
     type: string
     enum:
-      - value: standard
-      - value: io1
-      - value: gp2
+      - name: standard
+        value: standard
+      - name: io1
+        value: io1
+      - name: gp2
+        value: gp2
   cloud-toolkit-aws:email:NotificationTypes:
     description: >-
       Types of Email Notifications that are covered by Email Sender.
@@ -82,6 +85,56 @@ types:
         value: Disabled
       - name: Suspended
         value: Suspended
+  cloud-toolkit-aws:databases:MysqlDatabaseArgs:
+    properties:
+      name:
+        description: The name of the database to create when the DB instance is created
+        type: string
+      username:
+        description: Username for database admin user
+        type: string
+      passwordLength:
+        description: Password length to login in the database instance
+        type: number
+    type: object
+  cloud-toolkit-aws:databases:MysqlBackupArgs:
+    properties:
+      preferredWindow:
+        description: Time window in which backups should be taken
+        type: string
+      retentionDays:
+        description: Retention days for backups
+        type: number
+    type: object
+  cloud-toolkit-aws:databases:MysqlStorageArgs:
+    properties:
+      size:
+        description: Storage size allocated for database instance
+        type: number
+      type:
+        description: Storage type class for database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageTypeArgs"
+    type: object
+  cloud-toolkit-aws:databases:MysqlNetworkingArgs:
+    properties:
+      vpc:
+        description: Virtual Private Cloud where database instance must be deployed
+        type: string
+      subnetIds:
+        description: Subnets belonging to a Virtual Private Cloud where database
+          instance must be deployed
+        type: array
+        items:
+          description: Subnets belonging to a Virtual Private Cloud where database
+            instance must be deployed
+          type: string
+      allowedCidr:
+        description: Allowed CIDRs that connect to the database instance
+        type: array
+        items:
+          description: Allowed CIDRs that connect to the database instance
+          type: string
+    type: object
   cloud-toolkit-aws:email:AdditionalQueueArgs:
     properties:
       arn:
