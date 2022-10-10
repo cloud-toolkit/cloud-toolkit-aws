@@ -6,7 +6,7 @@ from enum import Enum
 
 __all__ = [
     'MysqlStorageTypeArgs',
-    'MysqlVersionArgs',
+    'MysqlVersion',
 ]
 
 
@@ -19,9 +19,9 @@ class MysqlStorageTypeArgs(str, Enum):
     GP2 = "gp2"
 
 
-class MysqlVersionArgs(str, Enum):
+class MysqlVersion(str, Enum):
     """
-    Backup configuration parameters for the database instance
+    Set of allowed versions for the database instance
     """
-    MYSQL_VERSION_ARGS_8_0 = "8.0"
-    MYSQL_VERSION_ARGS_5_7 = "5.7"
+    V8_0 = "8.0"
+    V5_7 = "5.7"
