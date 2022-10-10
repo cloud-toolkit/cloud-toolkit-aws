@@ -13,7 +13,7 @@ export interface MysqlArgs {
 /**
  * Version for database instance
 */
-  version: pulumi.Input<string>;
+  version: MysqlVersion;
 
 /**
 * Configuration parameters for the database instance
@@ -39,7 +39,7 @@ export interface MysqlArgs {
 /**
 * Set of allowed versions for the database instance
 */
-export enum MysqlVersionArgs {
+export enum MysqlVersion {
   V8_0 = "8.0",
   V5_7 = "5.7"
 }
@@ -153,17 +153,6 @@ export function validateConfig(c: MysqlArgs): MysqlArgs {
   const config = defaultsDeep({ ...c }, defaultConfig);
 
 
-  //This allows to either accept enum key (code) or enum value (yaml).
-  // if (
-  //   config.version === undefined ||
-  //   MysqlVersionArgs.has(config.version) === false
-  //   ) {
-  //   throw Error(
-  //     "You must select one allowed engine version for Database: " +
-  //       MysqlVersionArgs.entries()
-  //   );
-  // }
-
   if (config.database.name === undefined) {
     throw Error(
       "You must provide the following parameter for database: database name"
@@ -200,7 +189,7 @@ export function validateConfig(c: MysqlArgs): MysqlArgs {
     );
   }
 
-  //Verifying minimum and maximum storage for different storage types
+  // Verifying minimum and maximum storage for different storage types
 
   if (
     config.storage.type === MysqlStorageTypeArgs.gp2 &&
