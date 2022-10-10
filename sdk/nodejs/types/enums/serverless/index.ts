@@ -3,8 +3,8 @@
 
 
 export const DeadLetterQueueTypes = {
-    PERMISSIVE: "PERMISSIVE",
-    RESTRICTIVE: "RESTRICTIVE",
+    PERMISSIVE: "permissive",
+    RESTRICTIVE: "restrictive",
 } as const;
 
 /**
