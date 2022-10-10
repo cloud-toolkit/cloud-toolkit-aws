@@ -68,6 +68,9 @@ export class Organization extends pulumi.ComponentResource {
         opts = opts || {};
         if (!opts.id) {
             resourceInputs["accounts"] = args ? args.accounts : undefined;
+            resourceInputs["awsServiceAccessPrincipals"] = args ? args.awsServiceAccessPrincipals : undefined;
+            resourceInputs["enabledPolicyTypes"] = args ? args.enabledPolicyTypes : undefined;
+            resourceInputs["featureSet"] = args ? args.featureSet : undefined;
             resourceInputs["organizationId"] = args ? args.organizationId : undefined;
             resourceInputs["policies"] = args ? args.policies : undefined;
             resourceInputs["accountIds"] = undefined /*out*/;
@@ -97,6 +100,18 @@ export interface OrganizationArgs {
      * The list of AWS Account to be configured in the Organization.
      */
     accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgsArgs>[]>;
+    /**
+     * The list of AWS Service Access Principals enabled in the organization.
+     */
+    awsServiceAccessPrincipals?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The list of enabled Organizations Policies in the organization.
+     */
+    enabledPolicyTypes?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The FeatureSet in the Organization..
+     */
+    featureSet?: pulumi.Input<string>;
     /**
      * The organization ID to import the Organization in the stack. If not set a new AWS Organization will be created. Defaults to undefined.
      */

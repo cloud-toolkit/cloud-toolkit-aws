@@ -1,4 +1,5 @@
 import * as aws from "@pulumi/aws";
+import * as pulumi from "@pulumi/pulumi";
 import { AccountIamArgs } from "./accountIamArgs";
 
 export interface OrganizationArgs {
@@ -16,6 +17,21 @@ export interface OrganizationArgs {
    * The list of AWS Account to be configured in the Organization.
    */
   accounts?: OrganizationAccountArgs[];
+
+  /**
+   * The list of AWS Service Access Principals enabled in the organization.
+   */
+  awsServiceAccessPrincipals?: pulumi.Input<string>[];
+
+  /**
+   * The list of enabled Organizations Policies in the organization.
+   */
+  enabledPolicyTypes?: pulumi.Input<string>[];
+
+  /**
+   * The FeatureSet in the Organization..
+   */
+  featureSet?: pulumi.Input<string>;
 }
 
 export interface OrganizationPoliciesArgs {
@@ -113,6 +129,9 @@ export const defaultOrganizationArgs = {
   allowedRegions: [],
   policies: defaultPolicies,
   accounts: [],
+  awsServiceAccessPrincipals: ["cloudtrail.amazonaws.com"],
+  enabledPolicyTypes: ["SERVICE_CONTROL_POLICY"],
+  featureSet: "ALL",
 };
 
 export interface OrganizationalUnitMapping {
