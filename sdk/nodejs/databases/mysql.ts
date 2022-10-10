@@ -128,5 +128,5 @@ export interface MysqlArgs {
     /**
      * Version for database instance
      */
-    version: pulumi.Input<string>;
+    version: pulumi.Input<enums.databases.MysqlVersion>;
 }

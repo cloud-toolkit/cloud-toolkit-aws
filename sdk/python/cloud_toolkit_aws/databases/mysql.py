@@ -19,7 +19,7 @@ __all__ = ['MysqlArgs', 'Mysql']
 class MysqlArgs:
     def __init__(__self__, *,
                  database: pulumi.Input['MysqlDatabaseArgsArgs'],
-                 version: pulumi.Input['MysqlVersionArgs'],
+                 version: pulumi.Input['MysqlVersion'],
                  backup: Optional[pulumi.Input['MysqlBackupArgsArgs']] = None,
                  instance: Optional[pulumi.Input[str]] = None,
                  networking: Optional[pulumi.Input['MysqlNetworkingArgsArgs']] = None,
@@ -27,7 +27,7 @@ class MysqlArgs:
         """
         The set of arguments for constructing a Mysql resource.
         :param pulumi.Input['MysqlDatabaseArgsArgs'] database: Configuration parameters for the database instance
-        :param pulumi.Input['MysqlVersionArgs'] version: Version for database instance
+        :param pulumi.Input['MysqlVersion'] version: Version for database instance
         :param pulumi.Input['MysqlBackupArgsArgs'] backup: Backup configuration parameters for the database instance
         :param pulumi.Input[str] instance: Instance type to run the database instance
         :param pulumi.Input['MysqlNetworkingArgsArgs'] networking: Network configuration parameters for the database instance
@@ -58,14 +58,14 @@ class MysqlArgs:
 
     @property
     @pulumi.getter
-    def version(self) -> pulumi.Input['MysqlVersionArgs']:
+    def version(self) -> pulumi.Input['MysqlVersion']:
         """
         Version for database instance
         """
         return pulumi.get(self, "version")
 
     @version.setter
-    def version(self, value: pulumi.Input['MysqlVersionArgs']):
+    def version(self, value: pulumi.Input['MysqlVersion']):
         pulumi.set(self, "version", value)
 
     @property
@@ -127,7 +127,7 @@ class Mysql(pulumi.ComponentResource):
                  instance: Optional[pulumi.Input[str]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['MysqlNetworkingArgsArgs']]] = None,
                  storage: Optional[pulumi.Input[pulumi.InputType['MysqlStorageArgsArgs']]] = None,
-                 version: Optional[pulumi.Input['MysqlVersionArgs']] = None,
+                 version: Optional[pulumi.Input['MysqlVersion']] = None,
                  __props__=None):
         """
         Cloud Toolkit component for Mysql instances.
@@ -139,7 +139,7 @@ class Mysql(pulumi.ComponentResource):
         :param pulumi.Input[str] instance: Instance type to run the database instance
         :param pulumi.Input[pulumi.InputType['MysqlNetworkingArgsArgs']] networking: Network configuration parameters for the database instance
         :param pulumi.Input[pulumi.InputType['MysqlStorageArgsArgs']] storage: Storage configuration parameters for the database instance
-        :param pulumi.Input['MysqlVersionArgs'] version: Version for database instance
+        :param pulumi.Input['MysqlVersion'] version: Version for database instance
         """
         ...
     @overload
@@ -170,7 +170,7 @@ class Mysql(pulumi.ComponentResource):
                  instance: Optional[pulumi.Input[str]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['MysqlNetworkingArgsArgs']]] = None,
                  storage: Optional[pulumi.Input[pulumi.InputType['MysqlStorageArgsArgs']]] = None,
-                 version: Optional[pulumi.Input['MysqlVersionArgs']] = None,
+                 version: Optional[pulumi.Input['MysqlVersion']] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
