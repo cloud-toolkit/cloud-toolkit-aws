@@ -11,7 +11,7 @@ keywords:
   - kind/component
 pluginDownloadURL: github://api.github.com/cloud-toolkit/cloud-toolkit-aws
 types:
-  cloud-toolkit-aws:databases:MysqlVersionArgs:
+  cloud-toolkit-aws:databases:MysqlVersion:
     description: Set of allowed versions for the database instance
     type: string
     enum:
@@ -774,7 +774,7 @@ types:
         type: string
       version:
         description: Version for database instance
-        type: string
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlVersion"
       database:
         description: Configuration parameters for the database instance
         $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
@@ -831,7 +831,7 @@ resources:
         type: string
       version:
         description: Version for database instance
-        type: string
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlVersion"
       database:
         description: Configuration parameters for the database instance
         $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"

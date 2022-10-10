@@ -13,12 +13,12 @@ export const MysqlStorageTypeArgs = {
  */
 export type MysqlStorageTypeArgs = (typeof MysqlStorageTypeArgs)[keyof typeof MysqlStorageTypeArgs];
 
-export const MysqlVersionArgs = {
+export const MysqlVersion = {
     V8_0: "8.0",
     V5_7: "5.7",
 } as const;
 
 /**
- * Backup configuration parameters for the database instance
+ * Set of allowed versions for the database instance
  */
-export type MysqlVersionArgs = (typeof MysqlVersionArgs)[keyof typeof MysqlVersionArgs];
+export type MysqlVersion = (typeof MysqlVersion)[keyof typeof MysqlVersion];
