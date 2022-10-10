@@ -22,15 +22,20 @@ types:
       * Delivery marks an email as correctly delivered.
     type: string
     enum:
-      - value: Bounce
-      - value: Complaint
-      - value: Delivery
+      - name: Bounce
+        value: Bounce
+      - name: Complaint
+        value: Complaint
+      - name: Delivery
+        value: Delivery
   cloud-toolkit-aws:kubernetes:ClusterSubnetsType:
     description: The subnet type
     type: string
     enum:
-      - value: private
-      - value: public
+      - name: private
+        value: private
+      - name: public
+        value: public
   cloud-toolkit-aws:serverless:DeadLetterQueueTypes:
     description: >-
       Dead Letter Queue type that will receive the faulty messages from
@@ -41,8 +46,10 @@ types:
       Restrictive - Messages will be sent to the Dead Letter Queue after the first failed delivery attempt.
     type: string
     enum:
-      - value: PERMISSIVE
-      - value: RESTRICTIVE
+      - name: PERMISSIVE
+        value: permissive
+      - name: RESTRICTIVE
+        value: restrictive
   cloud-toolkit-aws:storage:BucketVersioningStateArgs:
     description: >-
       Versioning object mode that is selected for the bucket.
@@ -54,9 +61,12 @@ types:
       Suspended - Once versioning is Enabled, this feature can be suspended
     type: string
     enum:
-      - value: Enabled
-      - value: Disabled
-      - value: Suspended
+      - name: Enabled
+        value: Enabled
+      - name: Disabled
+        value: Disabled
+      - name: Suspended
+        value: Suspended
   cloud-toolkit-aws:email:AdditionalQueueArgs:
     properties:
       arn:
