@@ -15,5 +15,5 @@ class DeadLetterQueueTypes(str, Enum):
     Permissive - Messages will be sent to the Dead Letter Queue after 10 failed delivery attempts.
     Restrictive - Messages will be sent to the Dead Letter Queue after the first failed delivery attempt.
     """
-    PERMISSIVE = "PERMISSIVE"
-    RESTRICTIVE = "RESTRICTIVE"
+    PERMISSIVE = "permissive"
+    RESTRICTIVE = "restrictive"
