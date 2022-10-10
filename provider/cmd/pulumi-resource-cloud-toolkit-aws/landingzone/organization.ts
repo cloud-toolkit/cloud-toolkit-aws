@@ -159,9 +159,9 @@ export class Organization extends pulumi.ComponentResource {
     const organization = new aws.organizations.Organization(
       this.name,
       {
-        awsServiceAccessPrincipals: ["cloudtrail.amazonaws.com"],
-        enabledPolicyTypes: ["SERVICE_CONTROL_POLICY"],
-        featureSet: "ALL",
+        awsServiceAccessPrincipals: this.args.awsServiceAccessPrincipals,
+        enabledPolicyTypes: this.args.enabledPolicyTypes,
+        featureSet: this.args.featureSet,
       },
       pulumi.mergeOptions(opts, {
         import: this.args.organizationId,

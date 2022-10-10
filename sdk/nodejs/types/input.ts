@@ -239,6 +239,18 @@ export namespace landingzone {
          */
         accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgsArgs>[]>;
         /**
+         * The list of AWS Service Access Principals enabled in the organization.
+         */
+        awsServiceAccessPrincipals?: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * The list of enabled Organizations Policies in the organization.
+         */
+        enabledPolicyTypes?: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * The FeatureSet in the Organization..
+         */
+        featureSet?: pulumi.Input<string>;
+        /**
          * The organization ID to import the Organization in the stack. If not set a new AWS Organization will be created. Defaults to undefined.
          */
         organizationId?: pulumi.Input<string>;
