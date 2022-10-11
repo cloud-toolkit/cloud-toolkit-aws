@@ -145,6 +145,7 @@ async function constructKubernetesClusterAddons(
       certManager: resource.certManager,
       externalDns: resource.externalDns,
       adminIngressNginx: resource.adminIngressNginx,
+      dashboard: resource.dashboard
     },
   };
 }
