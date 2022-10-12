@@ -98,6 +98,12 @@ export class LandingZone extends pulumi.ComponentResource {
     }
 
     const trustedAccountProvider = this.getAccountProvider(this.args.iam?.accountName);
+    if (trustedAccountProvider === undefined) {
+      pulumi.log.error(
+          `IAM account "${this.args.iam.accountName}"" not found. Please set the property "iam.accountName" with the name of one of the organization accounts.`,
+        this
+      );
+    }
     const trustedAccountName = this.args.iam?.accountName;
 
     for (const accountMapping of this.organization.accounts) {
@@ -121,7 +127,7 @@ export class LandingZone extends pulumi.ComponentResource {
 
   private getAccountProvider(name: string): aws.Provider | undefined {
     for (const accountProviderMapping of this.organization.accountProviders) {
-      if (accountProviderMapping.accountName == this.args.audit?.accountName) {
+      if (accountProviderMapping.accountName == name) {
         return accountProviderMapping.provider;
       }
     }
