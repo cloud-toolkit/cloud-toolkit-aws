@@ -129,6 +129,7 @@ export class Organization extends pulumi.ComponentResource {
 
     this.registerOutputs({
       accountIds: this.accountIds,
+      accountProviders: this.accountProviders,
       accounts: this.accounts,
       organization: this.organization,
       organizationalUnits: this.organizationalUnits,

@@ -233,6 +233,7 @@ async function constructLandingZoneOranization(
     urn: component.urn,
     state: {
       accountIds: component.accountIds,
+      accountProviders: component.accountProviders,
       accounts: component.accounts,
       organization: component.organization,
       organizationalUnits: component.organizationalUnits,
@@ -266,7 +267,6 @@ async function constructLandingZoneAuditLogging(
   };
 }
 
-// TODO
 async function constructLandingZoneIamTrustedAccount(
   name: string,
   inputs: pulumi.Inputs,
@@ -277,11 +277,12 @@ async function constructLandingZoneIamTrustedAccount(
   return {
     urn: component.urn,
     state: {
+      roleGroups: component.roleGroups,
+      roleGroupPolicies: component.roleGroupPolicies,
     },
   };
 }
 
-// TODO
 async function constructLandingZoneIamTrustingAccount(
   name: string,
   inputs: pulumi.Inputs,
@@ -292,11 +293,12 @@ async function constructLandingZoneIamTrustingAccount(
   return {
     urn: component.urn,
     state: {
+      delegatedRoles: component.delegatedRoles,
+      delegatedRolePolicyAttachments: component.delegatedRolePolicyAttachments,
     },
   };
 }
 
-// TODO
 async function constructLandingZoneLandingZone(
   name: string,
   inputs: pulumi.Inputs,
@@ -307,6 +309,8 @@ async function constructLandingZoneLandingZone(
   return {
     urn: component.urn,
     state: {
+      organization: component.organization,
+      auditLogging: component.auditLogging,
     },
   };
 }
