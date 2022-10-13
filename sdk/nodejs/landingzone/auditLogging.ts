@@ -2,6 +2,9 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
+import * as inputs from "../types/input";
+import * as outputs from "../types/output";
+import * as enums from "../types/enums";
 import * as utilities from "../utilities";
 
 import * as pulumiAws from "@pulumi/aws";
@@ -44,23 +47,23 @@ export class AuditLogging extends pulumi.ComponentResource {
     /**
      * The CloudWatch dashboard to review the audit logs.
      */
-    public /*out*/ readonly cloudWatchDashboard!: pulumi.Output<pulumiAws.cloudwatch.Dashboard>;
+    public /*out*/ readonly cloudWatchDashboard!: pulumi.Output<pulumiAws.cloudwatch.Dashboard | undefined>;
     /**
      * The CloudWatch Log Group used to store the data.
      */
-    public /*out*/ readonly cloudWatchLogGroup!: pulumi.Output<pulumiAws.cloudwatch.LogGroup>;
+    public /*out*/ readonly cloudWatchLogGroup!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
     /**
      * The IAM Policy used by the IAM Role for Cloud Trail.
      */
-    public /*out*/ readonly cloudWatchPolicy!: pulumi.Output<pulumiAws.iam.Policy>;
+    public /*out*/ readonly cloudWatchPolicy!: pulumi.Output<pulumiAws.iam.Policy | undefined>;
     /**
      * The IAM Role used by Cloud Trail to write to CloudWatch..
      */
-    public /*out*/ readonly cloudWatchRole!: pulumi.Output<pulumiAws.iam.Role>;
+    public /*out*/ readonly cloudWatchRole!: pulumi.Output<pulumiAws.iam.Role | undefined>;
     /**
      * The IAM Role Policy Attachments that attach the IAM Role with the IAM Policy.
      */
-    public /*out*/ readonly cloudWatchRolePolicyAttachment!: pulumi.Output<pulumiAws.iam.RolePolicyAttachment>;
+    public /*out*/ readonly cloudWatchRolePolicyAttachment!: pulumi.Output<pulumiAws.iam.RolePolicyAttachment | undefined>;
     /**
      * The AWS Organization id.
      */
@@ -86,6 +89,7 @@ export class AuditLogging extends pulumi.ComponentResource {
         opts = opts || {};
         if (!opts.id) {
             resourceInputs["bucketProvider"] = args ? args.bucketProvider : undefined;
+            resourceInputs["cloudwatch"] = args ? args.cloudwatch : undefined;
             resourceInputs["region"] = args ? args.region : undefined;
             resourceInputs["retentionDays"] = args ? args.retentionDays : undefined;
             resourceInputs["bucket"] = undefined /*out*/;
@@ -129,6 +133,10 @@ export interface AuditLoggingArgs {
      * The AWS provider to used to create the Bucket.
      */
     bucketProvider?: pulumi.Input<pulumiAws.Provider>;
+    /**
+     * Store the audit logs in CloudWatch to enable easy searching.
+     */
+    cloudwatch?: pulumi.Input<inputs.landingzone.AuditLoggingCloudWatchArgsArgs>;
     /**
      * The region to be used to store the data.
      */

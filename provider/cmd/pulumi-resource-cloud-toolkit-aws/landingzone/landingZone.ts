@@ -1,6 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import { LandingZoneArgs, landingZoneDefaultIamRoles } from "./landingZoneArgs";
+import defaultsDeep from "lodash.defaultsdeep";
+import { LandingZoneArgs, landingZoneDefaultArgs, landingZoneDefaultIamRoles } from "./landingZoneArgs";
 import { AccountIam } from "./accountIam";
 import { AuditLogging } from "./auditLogging";
 import { IamTrustingAccount } from "./iamTrustingAccount";
@@ -53,6 +54,7 @@ export class LandingZone extends pulumi.ComponentResource {
   }
 
   private validateArgs(args: LandingZoneArgs): LandingZoneArgs {
+    const a = defaultsDeep({ ...args }, landingZoneDefaultArgs);
     return args;
   }
 
@@ -69,7 +71,7 @@ export class LandingZone extends pulumi.ComponentResource {
     if (this.args.audit?.accountName !== undefined) {
       bucketProvider = this.getAccountProvider(this.args.audit.accountName); 
       if (bucketProvider === undefined) {
-        pulumi.log.warn(
+        pulumi.log.error(
           `Audit account "${this.args.audit.accountName}"" not found. Please set the property "audit.accountName" with the name of one of the organization accounts.`,
           this
         );
@@ -79,8 +81,8 @@ export class LandingZone extends pulumi.ComponentResource {
     const auditLogging = new AuditLogging(
       this.name,
       {
-        retentionDays: this.args.audit?.retentionDays,
         bucketProvider: bucketProvider,
+        ...this.args.audit,
       },
       opts
     );

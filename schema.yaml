@@ -325,6 +325,18 @@ types:
       bucketProvider:
         description: The AWS provider to used to create the Bucket.
         $ref: /aws/v5.10.0/schema.json#/provider
+      cloudwatch:
+        description: Store the audit logs in CloudWatch to enable easy searching.
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AuditLoggingCloudWatchArgs"
+    type: object
+  cloud-toolkit-aws:landingzone:AuditLoggingCloudWatchArgs:
+    properties:
+      enabled:
+        description: Enable storing audit logs in CloudWatch. Defaults to 'false'.
+        type: boolean
+      retentionDays:
+        description: The data retention in days. Defaults to '1'.
+        type: number
     type: object
   cloud-toolkit-aws:landingzone:IamTrustedAccountArgs:
     properties:
@@ -428,13 +440,25 @@ types:
   cloud-toolkit-aws:landingzone:LandingZoneAuditArgs:
     properties:
       enabled:
-        description: ""
+        description: Enable audit logging. Defaults to 'true'.
         type: boolean
       accountName:
-        description: ""
+        description: Select the Organization account to be used to store the audit logs.
         type: string
       retentionDays:
-        description: ""
+        description: The data retention in days. Defaults to '7'.
+        type: number
+      cloudwatch:
+        description: Store the audit logs in CloudWatch to enable easy searching.
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAuditCloudWatchArgs"
+    type: object
+  cloud-toolkit-aws:landingzone:LandingZoneAuditCloudWatchArgs:
+    properties:
+      enabled:
+        description: Enable storing audit logs in CloudWatch. Defaults to 'false'.
+        type: boolean
+      retentionDays:
+        description: The data retention in days. Defaults to '1'.
         type: number
     type: object
   cloud-toolkit-aws:landingzone:LandingZoneIamArgs:
@@ -1154,11 +1178,6 @@ resources:
         description: The AWS Organization master account id.
         type: string
     required:
-      - cloudWatchLogGroup
-      - cloudWatchRole
-      - cloudWatchPolicy
-      - cloudWatchRolePolicyAttachment
-      - cloudWatchDashboard
       - bucket
       - bucketAcl
       - bucketPublicAccessBlock
@@ -1177,6 +1196,9 @@ resources:
       bucketProvider:
         description: The AWS provider to used to create the Bucket.
         $ref: /aws/v5.10.0/schema.json#/provider
+      cloudwatch:
+        description: Store the audit logs in CloudWatch to enable easy searching.
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AuditLoggingCloudWatchArgs"
     requiredInputs: []
     isComponent: true
     type: object

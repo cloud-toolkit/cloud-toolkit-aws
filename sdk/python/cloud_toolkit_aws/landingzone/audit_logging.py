@@ -8,6 +8,7 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
+from ._inputs import *
 import pulumi_aws
 
 __all__ = ['AuditLoggingArgs', 'AuditLogging']
@@ -16,16 +17,20 @@ __all__ = ['AuditLoggingArgs', 'AuditLogging']
 class AuditLoggingArgs:
     def __init__(__self__, *,
                  bucket_provider: Optional[pulumi.Input['pulumi_aws.Provider']] = None,
+                 cloudwatch: Optional[pulumi.Input['AuditLoggingCloudWatchArgsArgs']] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None):
         """
         The set of arguments for constructing a AuditLogging resource.
         :param pulumi.Input['pulumi_aws.Provider'] bucket_provider: The AWS provider to used to create the Bucket.
+        :param pulumi.Input['AuditLoggingCloudWatchArgsArgs'] cloudwatch: Store the audit logs in CloudWatch to enable easy searching.
         :param pulumi.Input[str] region: The region to be used to store the data.
         :param pulumi.Input[float] retention_days: The data retention in days. Defaults to '7'.
         """
         if bucket_provider is not None:
             pulumi.set(__self__, "bucket_provider", bucket_provider)
+        if cloudwatch is not None:
+            pulumi.set(__self__, "cloudwatch", cloudwatch)
         if region is not None:
             pulumi.set(__self__, "region", region)
         if retention_days is not None:
@@ -42,6 +47,18 @@ class AuditLoggingArgs:
     @bucket_provider.setter
     def bucket_provider(self, value: Optional[pulumi.Input['pulumi_aws.Provider']]):
         pulumi.set(self, "bucket_provider", value)
+
+    @property
+    @pulumi.getter
+    def cloudwatch(self) -> Optional[pulumi.Input['AuditLoggingCloudWatchArgsArgs']]:
+        """
+        Store the audit logs in CloudWatch to enable easy searching.
+        """
+        return pulumi.get(self, "cloudwatch")
+
+    @cloudwatch.setter
+    def cloudwatch(self, value: Optional[pulumi.Input['AuditLoggingCloudWatchArgsArgs']]):
+        pulumi.set(self, "cloudwatch", value)
 
     @property
     @pulumi.getter
@@ -74,6 +91,7 @@ class AuditLogging(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  bucket_provider: Optional[pulumi.Input['pulumi_aws.Provider']] = None,
+                 cloudwatch: Optional[pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgsArgs']]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None,
                  __props__=None):
@@ -82,6 +100,7 @@ class AuditLogging(pulumi.ComponentResource):
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input['pulumi_aws.Provider'] bucket_provider: The AWS provider to used to create the Bucket.
+        :param pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgsArgs']] cloudwatch: Store the audit logs in CloudWatch to enable easy searching.
         :param pulumi.Input[str] region: The region to be used to store the data.
         :param pulumi.Input[float] retention_days: The data retention in days. Defaults to '7'.
         """
@@ -109,6 +128,7 @@ class AuditLogging(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  bucket_provider: Optional[pulumi.Input['pulumi_aws.Provider']] = None,
+                 cloudwatch: Optional[pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgsArgs']]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None,
                  __props__=None):
@@ -123,6 +143,7 @@ class AuditLogging(pulumi.ComponentResource):
             __props__ = AuditLoggingArgs.__new__(AuditLoggingArgs)
 
             __props__.__dict__["bucket_provider"] = bucket_provider
+            __props__.__dict__["cloudwatch"] = cloudwatch
             __props__.__dict__["region"] = region
             __props__.__dict__["retention_days"] = retention_days
             __props__.__dict__["bucket"] = None
@@ -187,7 +208,7 @@ class AuditLogging(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="cloudWatchDashboard")
-    def cloud_watch_dashboard(self) -> pulumi.Output['pulumi_aws.cloudwatch.Dashboard']:
+    def cloud_watch_dashboard(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.Dashboard']]:
         """
         The CloudWatch dashboard to review the audit logs.
         """
@@ -195,7 +216,7 @@ class AuditLogging(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="cloudWatchLogGroup")
-    def cloud_watch_log_group(self) -> pulumi.Output['pulumi_aws.cloudwatch.LogGroup']:
+    def cloud_watch_log_group(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
         """
         The CloudWatch Log Group used to store the data.
         """
@@ -203,7 +224,7 @@ class AuditLogging(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="cloudWatchPolicy")
-    def cloud_watch_policy(self) -> pulumi.Output['pulumi_aws.iam.Policy']:
+    def cloud_watch_policy(self) -> pulumi.Output[Optional['pulumi_aws.iam.Policy']]:
         """
         The IAM Policy used by the IAM Role for Cloud Trail.
         """
@@ -211,7 +232,7 @@ class AuditLogging(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="cloudWatchRole")
-    def cloud_watch_role(self) -> pulumi.Output['pulumi_aws.iam.Role']:
+    def cloud_watch_role(self) -> pulumi.Output[Optional['pulumi_aws.iam.Role']]:
         """
         The IAM Role used by Cloud Trail to write to CloudWatch..
         """
@@ -219,7 +240,7 @@ class AuditLogging(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="cloudWatchRolePolicyAttachment")
-    def cloud_watch_role_policy_attachment(self) -> pulumi.Output['pulumi_aws.iam.RolePolicyAttachment']:
+    def cloud_watch_role_policy_attachment(self) -> pulumi.Output[Optional['pulumi_aws.iam.RolePolicyAttachment']]:
         """
         The IAM Role Policy Attachments that attach the IAM Role with the IAM Policy.
         """
