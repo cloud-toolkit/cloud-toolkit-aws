@@ -138,7 +138,11 @@ export class Organization extends pulumi.ComponentResource {
   }
 
   private validateArgs(args: OrganizationArgs): OrganizationArgs {
-    const a = defaultsDeep({ ...args }, defaultOrganizationArgs);
+    const {enabledPolicies,services,...cleanOrganizationArgs} = args;
+    const a = defaultsDeep({ ...cleanOrganizationArgs}, defaultOrganizationArgs);
+
+    a.enabledPolicies = enabledPolicies || defaultOrganizationArgs.enabledPolicies;
+    a.services = services || defaultOrganizationArgs.services;
 
     for (const [index, account] of a.accounts.entries()) {
       a.accounts[index] = defaultsDeep(
@@ -159,8 +163,8 @@ export class Organization extends pulumi.ComponentResource {
     const organization = new aws.organizations.Organization(
       this.name,
       {
-        awsServiceAccessPrincipals: this.args.awsServiceAccessPrincipals,
-        enabledPolicyTypes: this.args.enabledPolicyTypes,
+        awsServiceAccessPrincipals: this.args.services,
+        enabledPolicyTypes: this.args.enabledPolicies,
         featureSet: this.args.featureSet,
       },
       pulumi.mergeOptions(opts, {

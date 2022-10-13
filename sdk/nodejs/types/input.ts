@@ -239,13 +239,9 @@ export namespace landingzone {
          */
         accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgsArgs>[]>;
         /**
-         * The list of AWS Service Access Principals enabled in the organization.
-         */
-        awsServiceAccessPrincipals?: pulumi.Input<pulumi.Input<string>[]>;
-        /**
          * The list of enabled Organizations Policies in the organization.
          */
-        enabledPolicyTypes?: pulumi.Input<pulumi.Input<string>[]>;
+        enabledPolicies?: pulumi.Input<pulumi.Input<string>[]>;
         /**
          * The FeatureSet in the Organization..
          */
@@ -258,6 +254,10 @@ export namespace landingzone {
          * The Organization policies to be applied.
          */
         policies?: pulumi.Input<inputs.landingzone.OrganizationPoliciesArgsArgs>;
+        /**
+         * The list of AWS Service Access Principals enabled in the organization.
+         */
+        services?: pulumi.Input<pulumi.Input<string>[]>;
     }
 
     export interface OrganizationPoliciesArgsArgs {
