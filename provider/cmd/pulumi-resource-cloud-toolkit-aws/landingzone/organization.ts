@@ -342,7 +342,7 @@ export class Organization extends pulumi.ComponentResource {
         continue;
       }
       const provider = new aws.Provider(
-        accountData.name,
+        `${this.name}-${accountData.name}`,
         {
           // https://github.com/pulumi/pulumi-aws/issues/2144
           skipCredentialsValidation: true,
