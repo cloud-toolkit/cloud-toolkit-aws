@@ -1,0 +1,32 @@
+{
+    "name": "@cloud-toolkit/cloud-toolkit-aws",
+    "version": "v0.3.0",
+    "keywords": [
+        "pulumi",
+        "aws",
+        "cloud-toolkit",
+        "category/cloud",
+        "kind/component"
+    ],
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "tsc",
+        "install": "node scripts/install-pulumi-plugin.js resource cloud-toolkit-aws v0.3.0"
+    },
+    "dependencies": {
+        "@pulumi/aws": "^5.10.0",
+        "@pulumi/kubernetes": "^3.20.2",
+        "@pulumi/random": "4.8.2"
+    },
+    "devDependencies": {
+        "typescript": "^4.0.0"
+    },
+    "peerDependencies": {
+        "@pulumi/pulumi": "latest"
+    },
+    "pulumi": {
+        "resource": true,
+        "name": "cloud-toolkit-aws",
+        "server": "github://api.github.com/cloud-toolkit/cloud-toolkit-aws"
+    }
+}
