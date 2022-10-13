@@ -3,6 +3,8 @@ import * as pulumi from "@pulumi/pulumi";
 import { defaultAuditLoggingArgs } from "../auditLoggingArgs";
 import minimalConfiguration from "./fixtures/auditLoggingMinimalConfiguration";
 import retentionDaysConfiguration from "./fixtures/auditLoggingRetentionDays";
+import cloudwatchConfiguration from "./fixtures/auditLoggingCloudWatch";
+import cloudwatchRetentionDaysConfiguration from "./fixtures/auditLoggingCloudWatchRetentionDays";
 
 function GetValue<T>(output: pulumi.Output<T>) {
   return new Promise<T>((resolve, reject) => {
@@ -34,14 +36,14 @@ describe("Minimal configuration", function () {
     component = await import("../auditLogging");
   });
 
-  test("It should create the AWS Cloudwatch resources", async function () {
+  test("It shouldn't create the AWS Cloudwatch resources", async function () {
     const instance = new component.AuditLogging("test", minimalConfiguration);
 
-    expect(instance.cloudWatchLogGroup).toBeDefined();
-    expect(instance.cloudWatchRole).toBeDefined();
-    expect(instance.cloudWatchPolicy).toBeDefined();
-    expect(instance.cloudWatchRolePolicyAttachment).toBeDefined();
-    expect(instance.cloudWatchDashboard).toBeDefined();
+    expect(instance.cloudWatchLogGroup).toBeUndefined();
+    expect(instance.cloudWatchRole).toBeUndefined();
+    expect(instance.cloudWatchPolicy).toBeUndefined();
+    expect(instance.cloudWatchRolePolicyAttachment).toBeUndefined();
+    expect(instance.cloudWatchDashboard).toBeUndefined();
   });
 
   test("It should create the AWS S3 resources", async function () {
@@ -58,14 +60,6 @@ describe("Minimal configuration", function () {
     const instance = new component.AuditLogging("test", minimalConfiguration);
 
     expect(instance.trail).toBeDefined();
-  });
-
-  test("It should set the appropiate retention days in Cloudwatch LogGroup", async function () {
-    const instance = new component.AuditLogging("test", minimalConfiguration);
-
-    expect(await GetValue(instance.cloudWatchLogGroup.retentionInDays)).toBe(
-      defaultAuditLoggingArgs.retentionDays
-    );
   });
 
   test("It should set the appropiate retention days in S3 Bucket", async function () {
@@ -88,14 +82,6 @@ describe("RetentionDays configuration", function () {
     component = await import("../auditLogging");
   });
 
-  test("It should set the appropiate retention days in Cloudwatch LogGroup", async function () {
-    const instance = new component.AuditLogging("test", retentionDaysConfiguration);
-
-    expect(await GetValue(instance.cloudWatchLogGroup.retentionInDays)).toBe(
-      retentionDaysConfiguration.retentionDays
-    );
-  });
-
   test("It should set the appropiate retention days in S3 Bucket", async function () {
     const instance = new component.AuditLogging("test", retentionDaysConfiguration);
 
@@ -108,5 +94,57 @@ describe("RetentionDays configuration", function () {
         retentionDaysConfiguration.retentionDays
       );
     }
+  });
+});
+
+describe("CloudWatch enabled with custom RetentionDays", function () {
+  let component: typeof import("../auditLogging");
+
+  beforeAll(async function () {
+    component = await import("../auditLogging");
+  });
+
+  test("It should create the AWS Cloudwatch resources", async function () {
+    const instance = new component.AuditLogging("test", cloudwatchRetentionDaysConfiguration);
+
+    expect(instance.cloudWatchLogGroup).toBeDefined();
+    expect(instance.cloudWatchRole).toBeDefined();
+    expect(instance.cloudWatchPolicy).toBeDefined();
+    expect(instance.cloudWatchRolePolicyAttachment).toBeDefined();
+    expect(instance.cloudWatchDashboard).toBeDefined();
+  });
+
+  test("It should set the appropiate retention days in Cloudwatch LogGroup", async function () {
+    const instance = new component.AuditLogging("test", cloudwatchRetentionDaysConfiguration);
+
+    expect(await GetValue(instance.cloudWatchLogGroup.retentionInDays)).toBe(
+      cloudwatchRetentionDaysConfiguration.cloudwatch?.retentionDays
+    );
+  });
+});
+
+describe("CloudWatch enabled", function () {
+  let component: typeof import("../auditLogging");
+
+  beforeAll(async function () {
+    component = await import("../auditLogging");
+  });
+
+  test("It should create the AWS Cloudwatch resources", async function () {
+    const instance = new component.AuditLogging("test", cloudwatchConfiguration);
+
+    expect(instance.cloudWatchLogGroup).toBeDefined();
+    expect(instance.cloudWatchRole).toBeDefined();
+    expect(instance.cloudWatchPolicy).toBeDefined();
+    expect(instance.cloudWatchRolePolicyAttachment).toBeDefined();
+    expect(instance.cloudWatchDashboard).toBeDefined();
+  });
+
+  test("It should set the appropiate retention days in Cloudwatch LogGroup", async function () {
+    const instance = new component.AuditLogging("test", cloudwatchConfiguration);
+
+    expect(await GetValue(instance.cloudWatchLogGroup?.retentionInDays)).toBe(
+      defaultAuditLoggingArgs.cloudwatch.retentionDays
+    );
   });
 });
