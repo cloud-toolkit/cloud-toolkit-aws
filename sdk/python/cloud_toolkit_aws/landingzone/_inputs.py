@@ -13,9 +13,11 @@ __all__ = [
     'AccountIamArgsArgs',
     'AccountPasswordPolicyArgsArgs',
     'AccountPasswordPolicyRulesArgsArgs',
+    'AuditLoggingCloudWatchArgsArgs',
     'IamTrustedAccountRoleArgsArgs',
     'IamTrustingAccountRoleArgsArgs',
     'LandingZoneAuditArgsArgs',
+    'LandingZoneAuditCloudWatchArgsArgs',
     'LandingZoneIamArgsArgs',
     'LandingZoneIamRoleArgsArgs',
     'OrganizationAccountArgsArgs',
@@ -254,6 +256,45 @@ class AccountPasswordPolicyRulesArgsArgs:
 
 
 @pulumi.input_type
+class AuditLoggingCloudWatchArgsArgs:
+    def __init__(__self__, *,
+                 enabled: Optional[pulumi.Input[bool]] = None,
+                 retention_days: Optional[pulumi.Input[float]] = None):
+        """
+        :param pulumi.Input[bool] enabled: Enable storing audit logs in CloudWatch. Defaults to 'false'.
+        :param pulumi.Input[float] retention_days: The data retention in days. Defaults to '1'.
+        """
+        if enabled is not None:
+            pulumi.set(__self__, "enabled", enabled)
+        if retention_days is not None:
+            pulumi.set(__self__, "retention_days", retention_days)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable storing audit logs in CloudWatch. Defaults to 'false'.
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enabled", value)
+
+    @property
+    @pulumi.getter(name="retentionDays")
+    def retention_days(self) -> Optional[pulumi.Input[float]]:
+        """
+        The data retention in days. Defaults to '1'.
+        """
+        return pulumi.get(self, "retention_days")
+
+    @retention_days.setter
+    def retention_days(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "retention_days", value)
+
+
+@pulumi.input_type
 class IamTrustedAccountRoleArgsArgs:
     def __init__(__self__, *,
                  name: Optional[pulumi.Input[str]] = None):
@@ -303,10 +344,19 @@ class IamTrustingAccountRoleArgsArgs:
 class LandingZoneAuditArgsArgs:
     def __init__(__self__, *,
                  account_name: Optional[pulumi.Input[str]] = None,
+                 cloudwatch: Optional[pulumi.Input['LandingZoneAuditCloudWatchArgsArgs']] = None,
                  enabled: Optional[pulumi.Input[bool]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None):
+        """
+        :param pulumi.Input[str] account_name: Select the Organization account to be used to store the audit logs.
+        :param pulumi.Input['LandingZoneAuditCloudWatchArgsArgs'] cloudwatch: Store the audit logs in CloudWatch to enable easy searching.
+        :param pulumi.Input[bool] enabled: Enable audit logging. Defaults to 'true'.
+        :param pulumi.Input[float] retention_days: The data retention in days. Defaults to '7'.
+        """
         if account_name is not None:
             pulumi.set(__self__, "account_name", account_name)
+        if cloudwatch is not None:
+            pulumi.set(__self__, "cloudwatch", cloudwatch)
         if enabled is not None:
             pulumi.set(__self__, "enabled", enabled)
         if retention_days is not None:
@@ -315,6 +365,9 @@ class LandingZoneAuditArgsArgs:
     @property
     @pulumi.getter(name="accountName")
     def account_name(self) -> Optional[pulumi.Input[str]]:
+        """
+        Select the Organization account to be used to store the audit logs.
+        """
         return pulumi.get(self, "account_name")
 
     @account_name.setter
@@ -323,7 +376,22 @@ class LandingZoneAuditArgsArgs:
 
     @property
     @pulumi.getter
+    def cloudwatch(self) -> Optional[pulumi.Input['LandingZoneAuditCloudWatchArgsArgs']]:
+        """
+        Store the audit logs in CloudWatch to enable easy searching.
+        """
+        return pulumi.get(self, "cloudwatch")
+
+    @cloudwatch.setter
+    def cloudwatch(self, value: Optional[pulumi.Input['LandingZoneAuditCloudWatchArgsArgs']]):
+        pulumi.set(self, "cloudwatch", value)
+
+    @property
+    @pulumi.getter
     def enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable audit logging. Defaults to 'true'.
+        """
         return pulumi.get(self, "enabled")
 
     @enabled.setter
@@ -333,6 +401,48 @@ class LandingZoneAuditArgsArgs:
     @property
     @pulumi.getter(name="retentionDays")
     def retention_days(self) -> Optional[pulumi.Input[float]]:
+        """
+        The data retention in days. Defaults to '7'.
+        """
+        return pulumi.get(self, "retention_days")
+
+    @retention_days.setter
+    def retention_days(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "retention_days", value)
+
+
+@pulumi.input_type
+class LandingZoneAuditCloudWatchArgsArgs:
+    def __init__(__self__, *,
+                 enabled: Optional[pulumi.Input[bool]] = None,
+                 retention_days: Optional[pulumi.Input[float]] = None):
+        """
+        :param pulumi.Input[bool] enabled: Enable storing audit logs in CloudWatch. Defaults to 'false'.
+        :param pulumi.Input[float] retention_days: The data retention in days. Defaults to '1'.
+        """
+        if enabled is not None:
+            pulumi.set(__self__, "enabled", enabled)
+        if retention_days is not None:
+            pulumi.set(__self__, "retention_days", retention_days)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable storing audit logs in CloudWatch. Defaults to 'false'.
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enabled", value)
+
+    @property
+    @pulumi.getter(name="retentionDays")
+    def retention_days(self) -> Optional[pulumi.Input[float]]:
+        """
+        The data retention in days. Defaults to '1'.
+        """
         return pulumi.get(self, "retention_days")
 
     @retention_days.setter

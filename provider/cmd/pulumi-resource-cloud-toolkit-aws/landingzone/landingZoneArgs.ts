@@ -1,4 +1,5 @@
 import { OrganizationArgs } from "./organizationArgs";
+import { AuditLoggingArgs } from "./auditLoggingArgs";
 
 export interface LandingZoneArgs {
   organization?: OrganizationArgs;
@@ -7,8 +8,36 @@ export interface LandingZoneArgs {
 }
 
 export interface LandingZoneAuditArgs {
+  /**
+   * Enable audit logging. Defaults to 'true'.
+   */
   enabled?: boolean;
+
+  /**
+   * Select the Organization account to be used to store the audit logs.
+   */
   accountName?: string;
+
+  /**
+   * The data retention in days. Defaults to '7'.
+   */
+  retentionDays?: number;
+
+  /**
+   * Store the audit logs in CloudWatch to enable easy searching.
+   */
+  cloudwatch?: LandingZoneAuditCloudWatchArgs;
+}
+
+export interface LandingZoneAuditCloudWatchArgs {
+  /**
+   * Enable storing audit logs in CloudWatch. Defaults to 'false'.
+   */
+  enabled: boolean;
+
+  /**
+   * The data retention in days. Defaults to '1'.
+   */
   retentionDays?: number;
 }
 
@@ -41,5 +70,9 @@ export const landingZoneDefaultArgs = {
   audit: {
     enabled: false,
     retentionDays: 7,
+    cloudwatch: {
+      enabled: false,
+      retentionDays: 1,
+    }
   },
 };

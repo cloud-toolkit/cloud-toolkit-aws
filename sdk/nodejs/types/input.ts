@@ -180,6 +180,17 @@ export namespace landingzone {
         requireUppercaseCharacters?: pulumi.Input<boolean>;
     }
 
+    export interface AuditLoggingCloudWatchArgsArgs {
+        /**
+         * Enable storing audit logs in CloudWatch. Defaults to 'false'.
+         */
+        enabled?: pulumi.Input<boolean>;
+        /**
+         * The data retention in days. Defaults to '1'.
+         */
+        retentionDays?: pulumi.Input<number>;
+    }
+
     export interface IamTrustedAccountRoleArgsArgs {
         name?: pulumi.Input<string>;
     }
@@ -190,8 +201,32 @@ export namespace landingzone {
     }
 
     export interface LandingZoneAuditArgsArgs {
+        /**
+         * Select the Organization account to be used to store the audit logs.
+         */
         accountName?: pulumi.Input<string>;
+        /**
+         * Store the audit logs in CloudWatch to enable easy searching.
+         */
+        cloudwatch?: pulumi.Input<inputs.landingzone.LandingZoneAuditCloudWatchArgsArgs>;
+        /**
+         * Enable audit logging. Defaults to 'true'.
+         */
         enabled?: pulumi.Input<boolean>;
+        /**
+         * The data retention in days. Defaults to '7'.
+         */
+        retentionDays?: pulumi.Input<number>;
+    }
+
+    export interface LandingZoneAuditCloudWatchArgsArgs {
+        /**
+         * Enable storing audit logs in CloudWatch. Defaults to 'false'.
+         */
+        enabled?: pulumi.Input<boolean>;
+        /**
+         * The data retention in days. Defaults to '1'.
+         */
         retentionDays?: pulumi.Input<number>;
     }
 
