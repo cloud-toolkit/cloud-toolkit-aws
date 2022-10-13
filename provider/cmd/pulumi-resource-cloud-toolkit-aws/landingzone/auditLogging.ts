@@ -12,27 +12,27 @@ export class AuditLogging extends pulumi.ComponentResource {
   /**
    * The CloudWatch Log Group used to store the data.
    */
-  public readonly cloudWatchLogGroup: aws.cloudwatch.LogGroup;
+  public readonly cloudWatchLogGroup?: aws.cloudwatch.LogGroup;
 
   /**
    * The IAM Role used by Cloud Trail to write to CloudWatch..
    */
-  public readonly cloudWatchRole: aws.iam.Role;
+  public readonly cloudWatchRole?: aws.iam.Role;
 
   /**
    * The IAM Policy used by the IAM Role for Cloud Trail.
    */
-  public readonly cloudWatchPolicy: aws.iam.Policy;
+  public readonly cloudWatchPolicy?: aws.iam.Policy;
 
   /**
    * The IAM Role Policy Attachments that attach the IAM Role with the IAM Policy.
    */
-  public readonly cloudWatchRolePolicyAttachment: aws.iam.RolePolicyAttachment;
+  public readonly cloudWatchRolePolicyAttachment?: aws.iam.RolePolicyAttachment;
 
   /**
    * The CloudWatch dashboard to review the audit logs.
    */
-  public readonly cloudWatchDashboard: aws.cloudwatch.Dashboard;
+  public readonly cloudWatchDashboard?: aws.cloudwatch.Dashboard;
 
   /**
    * The S3 Bucket used to store the data.
@@ -96,12 +96,14 @@ export class AuditLogging extends pulumi.ComponentResource {
     const resourceOpts = pulumi.mergeOptions(opts, { parent: this });
 
     // Setup Cloudwatch
-    this.cloudWatchLogGroup = this.setupCloudWatchLogGroup(resourceOpts);
-    this.cloudWatchRole = this.setupCloudWatchRole(resourceOpts);
-    this.cloudWatchPolicy = this.setupCloudWatchPolicy(resourceOpts);
-    this.cloudWatchRolePolicyAttachment =
-      this.setupCloudWatchPolicyAttachment(resourceOpts);
-    this.cloudWatchDashboard = this.setupCloudWatchDashboards(resourceOpts);
+    if (this.args.cloudwatch?.enabled == true) {
+      this.cloudWatchLogGroup = this.setupCloudWatchLogGroup(resourceOpts);
+      this.cloudWatchRole = this.setupCloudWatchRole(resourceOpts);
+      this.cloudWatchPolicy = this.setupCloudWatchPolicy(resourceOpts);
+      this.cloudWatchRolePolicyAttachment =
+        this.setupCloudWatchPolicyAttachment(resourceOpts);
+      this.cloudWatchDashboard = this.setupCloudWatchDashboards(resourceOpts);
+    }
 
     // Setup bucket
     const bucketOpts = pulumi.mergeOptions(opts, {
@@ -150,7 +152,7 @@ export class AuditLogging extends pulumi.ComponentResource {
       this.name,
       {
         name: this.name,
-        retentionInDays: this.args.retentionDays,
+        retentionInDays: this.args.cloudwatch?.retentionDays || defaultAuditLoggingArgs.cloudwatch.retentionDays,
       },
       opts
     );
@@ -190,8 +192,8 @@ export class AuditLogging extends pulumi.ComponentResource {
           effect: "Allow",
           actions: ["logs:CreateLogStream"],
           resources: [
-            pulumi.interpolate`arn:aws:logs:eu-west-1:${this.organizationMasterAccountId}:log-group:${this.cloudWatchLogGroup.name}:log-stream:${this.organizationMasterAccountId}_CloudTrail_${this.region}*`,
-            pulumi.interpolate`arn:aws:logs:eu-west-1:${this.organizationMasterAccountId}:log-group:${this.cloudWatchLogGroup.name}:log-stream:${this.organizationId}_*`,
+            pulumi.interpolate`arn:aws:logs:eu-west-1:${this.organizationMasterAccountId}:log-group:${this.cloudWatchLogGroup?.name}:log-stream:${this.organizationMasterAccountId}_CloudTrail_${this.region}*`,
+            pulumi.interpolate`arn:aws:logs:eu-west-1:${this.organizationMasterAccountId}:log-group:${this.cloudWatchLogGroup?.name}:log-stream:${this.organizationId}_*`,
           ],
         },
         {
@@ -199,8 +201,8 @@ export class AuditLogging extends pulumi.ComponentResource {
           effect: "Allow",
           actions: ["logs:PutLogEvents"],
           resources: [
-            pulumi.interpolate`arn:aws:logs:eu-west-1:${this.organizationMasterAccountId}:log-group:${this.cloudWatchLogGroup.name}:log-stream:${this.organizationMasterAccountId}_CloudTrail_${this.region}*`,
-            pulumi.interpolate`arn:aws:logs:eu-west-1:${this.organizationMasterAccountId}:log-group:${this.cloudWatchLogGroup.name}:log-stream:${this.organizationId}_*`,
+            pulumi.interpolate`arn:aws:logs:eu-west-1:${this.organizationMasterAccountId}:log-group:${this.cloudWatchLogGroup?.name}:log-stream:${this.organizationMasterAccountId}_CloudTrail_${this.region}*`,
+            pulumi.interpolate`arn:aws:logs:eu-west-1:${this.organizationMasterAccountId}:log-group:${this.cloudWatchLogGroup?.name}:log-stream:${this.organizationId}_*`,
           ],
         },
       ],
@@ -222,8 +224,8 @@ export class AuditLogging extends pulumi.ComponentResource {
     return new aws.iam.RolePolicyAttachment(
       this.name,
       {
-        role: this.cloudWatchRole.name,
-        policyArn: this.cloudWatchPolicy.arn,
+        role: this.cloudWatchRole!.name,
+        policyArn: this.cloudWatchPolicy!.arn,
       },
       opts
     );
@@ -382,6 +384,8 @@ export class AuditLogging extends pulumi.ComponentResource {
   }
 
   private setupTrail(opts?: pulumi.ResourceOptions): aws.cloudtrail.Trail {
+    const cwRoleArn = this.args.cloudwatch?.enabled ? this.cloudWatchRole?.arn : undefined;
+    const cwLogsGroupArn = this.args.cloudwatch?.enabled ? pulumi.interpolate`${this.cloudWatchLogGroup?.arn}:*` : undefined;
     return new aws.cloudtrail.Trail(
       this.name,
       {
@@ -390,8 +394,8 @@ export class AuditLogging extends pulumi.ComponentResource {
         isOrganizationTrail: true,
         isMultiRegionTrail: true,
         enableLogFileValidation: true,
-        cloudWatchLogsRoleArn: this.cloudWatchRole.arn,
-        cloudWatchLogsGroupArn: pulumi.interpolate`${this.cloudWatchLogGroup.arn}:*`,
+        cloudWatchLogsRoleArn: cwRoleArn,
+        cloudWatchLogsGroupArn: cwLogsGroupArn,
       },
       pulumi.mergeOptions(opts, {
         dependsOn: [this.bucketPolicy, this.bucketLifecycleConfiguration],
@@ -416,7 +420,7 @@ export class AuditLogging extends pulumi.ComponentResource {
       "height": 6,
       "properties": {
         "title": "Console: authentication succeded",
-        "query": "SOURCE '${this.cloudWatchLogGroup.name}' | fields eventTime, sourceIPAddress as IP, userIdentity.accountId as AccountID, userIdentity.type as UserType, userIdentity.arn as ARN | sort @timestamp desc | filter eventName = 'ConsoleLogin' and responseElements.ConsoleLogin = 'Success'",
+        "query": "SOURCE '${this.cloudWatchLogGroup?.name}' | fields eventTime, sourceIPAddress as IP, userIdentity.accountId as AccountID, userIdentity.type as UserType, userIdentity.arn as ARN | sort @timestamp desc | filter eventName = 'ConsoleLogin' and responseElements.ConsoleLogin = 'Success'",
         "region": "${this.region}",
         "view": "table"
       }
@@ -429,7 +433,7 @@ export class AuditLogging extends pulumi.ComponentResource {
       "height": 6,
       "properties": {
         "title": "Console: authentication failures",
-        "query": "SOURCE '${this.cloudWatchLogGroup.name}' | fields eventTime, sourceIPAddress as IP, userIdentity.accountId as AccountID, userIdentity.type as UserType, userIdentity.principalId as PrincipalID, userIdentity.userName as UserName, errorMessage | sort @timestamp desc | filter eventName = 'ConsoleLogin' and responseElements.ConsoleLogin = 'Failure'",
+        "query": "SOURCE '${this.cloudWatchLogGroup?.name}' | fields eventTime, sourceIPAddress as IP, userIdentity.accountId as AccountID, userIdentity.type as UserType, userIdentity.principalId as PrincipalID, userIdentity.userName as UserName, errorMessage | sort @timestamp desc | filter eventName = 'ConsoleLogin' and responseElements.ConsoleLogin = 'Failure'",
         "region": "${this.region}",
         "view": "table"
       }
@@ -442,7 +446,7 @@ export class AuditLogging extends pulumi.ComponentResource {
       "height": 6,
       "properties": {
         "title": "Access Denied",
-        "query": "SOURCE '${this.cloudWatchLogGroup.name}' | fields eventTime, recipientAccountId as Account, sourceIPAddress as IP, userIdentity.type as UserType, useridentity.arn as ARN, eventName, errorCode, errorMessage | sort @timestamp desc | filter errorCode = 'Client.UnauthorizedOperation'",
+        "query": "SOURCE '${this.cloudWatchLogGroup?.name}' | fields eventTime, recipientAccountId as Account, sourceIPAddress as IP, userIdentity.type as UserType, useridentity.arn as ARN, eventName, errorCode, errorMessage | sort @timestamp desc | filter errorCode = 'Client.UnauthorizedOperation'",
         "region": "${this.region}",
         "view": "table"
       }
@@ -455,7 +459,7 @@ export class AuditLogging extends pulumi.ComponentResource {
       "height": 6,
       "properties": {
         "title": "Last 20 events",
-        "query": "SOURCE '${this.cloudWatchLogGroup.name}' | fields eventTime, awsRegion as Region, recipientAccountId as Account, eventName, userIdentity.arn as ARN | sort @timestamp desc | limit 20",
+        "query": "SOURCE '${this.cloudWatchLogGroup?.name}' | fields eventTime, awsRegion as Region, recipientAccountId as Account, eventName, userIdentity.arn as ARN | sort @timestamp desc | limit 20",
         "region": "${this.region}",
         "view": "table"
       }
