@@ -68,11 +68,11 @@ export class Organization extends pulumi.ComponentResource {
         opts = opts || {};
         if (!opts.id) {
             resourceInputs["accounts"] = args ? args.accounts : undefined;
-            resourceInputs["awsServiceAccessPrincipals"] = args ? args.awsServiceAccessPrincipals : undefined;
-            resourceInputs["enabledPolicyTypes"] = args ? args.enabledPolicyTypes : undefined;
+            resourceInputs["enabledPolicies"] = args ? args.enabledPolicies : undefined;
             resourceInputs["featureSet"] = args ? args.featureSet : undefined;
             resourceInputs["organizationId"] = args ? args.organizationId : undefined;
             resourceInputs["policies"] = args ? args.policies : undefined;
+            resourceInputs["services"] = args ? args.services : undefined;
             resourceInputs["accountIds"] = undefined /*out*/;
             resourceInputs["accountProviders"] = undefined /*out*/;
             resourceInputs["organization"] = undefined /*out*/;
@@ -101,13 +101,9 @@ export interface OrganizationArgs {
      */
     accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgsArgs>[]>;
     /**
-     * The list of AWS Service Access Principals enabled in the organization.
-     */
-    awsServiceAccessPrincipals?: pulumi.Input<pulumi.Input<string>[]>;
-    /**
      * The list of enabled Organizations Policies in the organization.
      */
-    enabledPolicyTypes?: pulumi.Input<pulumi.Input<string>[]>;
+    enabledPolicies?: pulumi.Input<pulumi.Input<string>[]>;
     /**
      * The FeatureSet in the Organization..
      */
@@ -120,4 +116,8 @@ export interface OrganizationArgs {
      * The Organization policies to be applied.
      */
     policies?: pulumi.Input<inputs.landingzone.OrganizationPoliciesArgsArgs>;
+    /**
+     * The list of AWS Service Access Principals enabled in the organization.
+     */
+    services?: pulumi.Input<pulumi.Input<string>[]>;
 }
