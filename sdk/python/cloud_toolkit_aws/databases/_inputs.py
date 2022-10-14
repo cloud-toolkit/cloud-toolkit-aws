@@ -59,32 +59,42 @@ class MysqlBackupArgsArgs:
 @pulumi.input_type
 class MysqlDatabaseArgsArgs:
     def __init__(__self__, *,
-                 name: Optional[pulumi.Input[str]] = None,
-                 password_length: Optional[pulumi.Input[float]] = None,
-                 username: Optional[pulumi.Input[str]] = None):
+                 name: pulumi.Input[str],
+                 username: pulumi.Input[str],
+                 password_length: Optional[pulumi.Input[float]] = None):
         """
         :param pulumi.Input[str] name: The name of the database to create when the DB instance is created
-        :param pulumi.Input[float] password_length: Password length to login in the database instance
         :param pulumi.Input[str] username: Username for database admin user
+        :param pulumi.Input[float] password_length: Password length to login in the database instance
         """
-        if name is not None:
-            pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "username", username)
         if password_length is not None:
             pulumi.set(__self__, "password_length", password_length)
-        if username is not None:
-            pulumi.set(__self__, "username", username)
 
     @property
     @pulumi.getter
-    def name(self) -> Optional[pulumi.Input[str]]:
+    def name(self) -> pulumi.Input[str]:
         """
         The name of the database to create when the DB instance is created
         """
         return pulumi.get(self, "name")
 
     @name.setter
-    def name(self, value: Optional[pulumi.Input[str]]):
+    def name(self, value: pulumi.Input[str]):
         pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter
+    def username(self) -> pulumi.Input[str]:
+        """
+        Username for database admin user
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: pulumi.Input[str]):
+        pulumi.set(self, "username", value)
 
     @property
     @pulumi.getter(name="passwordLength")
@@ -97,18 +107,6 @@ class MysqlDatabaseArgsArgs:
     @password_length.setter
     def password_length(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "password_length", value)
-
-    @property
-    @pulumi.getter
-    def username(self) -> Optional[pulumi.Input[str]]:
-        """
-        Username for database admin user
-        """
-        return pulumi.get(self, "username")
-
-    @username.setter
-    def username(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "username", value)
 
 
 @pulumi.input_type

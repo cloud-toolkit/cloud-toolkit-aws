@@ -97,6 +97,9 @@ types:
         description: Password length to login in the database instance
         type: number
     type: object
+    required:
+      - name
+      - username
   cloud-toolkit-aws:databases:MysqlBackupArgs:
     properties:
       preferredWindow:
@@ -106,6 +109,7 @@ types:
         description: Retention days for backups
         type: number
     type: object
+    required: []
   cloud-toolkit-aws:databases:MysqlStorageArgs:
     properties:
       size:
@@ -115,6 +119,7 @@ types:
         description: Storage type class for database instance
         $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageTypeArgs"
     type: object
+    required: []
   cloud-toolkit-aws:databases:MysqlNetworkingArgs:
     properties:
       vpc:
@@ -135,6 +140,7 @@ types:
           description: Allowed CIDRs that connect to the database instance
           type: string
     type: object
+    required: []
   cloud-toolkit-aws:email:AdditionalQueueArgs:
     properties:
       arn:
@@ -144,6 +150,9 @@ types:
         description: Endpoint of the Queue component in AWS.
         type: string
     type: object
+    required:
+      - arn
+      - url
   cloud-toolkit-aws:email:NotificationTypeQueuesArgs:
     properties:
       numberOfDefaultQueues:
@@ -165,6 +174,9 @@ types:
             two or more Topics or when migrating existing ones.
           $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
     type: object
+    required:
+      - numberOfDefaultQueues
+      - additionalQueues
   cloud-toolkit-aws:email:NotificationTypeArgs:
     properties:
       enabled:
@@ -181,6 +193,8 @@ types:
           If left blank, a default standard, non-fifo, Queue and a Dead Letter Queue that is attached to the former will be created.
         $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeQueuesArgs"
     type: object
+    required:
+      - enabled
   cloud-toolkit-aws:email:EmailSenderArgs:
     properties:
       identity:
@@ -213,6 +227,8 @@ types:
         description: Arguments to manage incoming Delivery notifications.
         $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
     type: object
+    required:
+      - identity
   cloud-toolkit-aws:email:DnsDkimRecordArgs:
     properties:
       name:
@@ -222,12 +238,17 @@ types:
         description: Token of the Record.
         type: string
     type: object
+    required:
+      - name
+      - token
   cloud-toolkit-aws:index:ExampleArgs:
     properties:
       name:
         description: ""
         type: string
     type: object
+    required:
+      - name
   cloud-toolkit-aws:kubernetes:ClusterArgs:
     properties:
       vpcId:
@@ -265,6 +286,7 @@ types:
         description: The OIDC Providers configuration.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
     type: object
+    required: []
   cloud-toolkit-aws:kubernetes:ClusterApiArgs:
     properties:
       public:
@@ -274,6 +296,7 @@ types:
         description: Configure the private endpoint for the Kubernetes API.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPrivateApiArgs"
     type: object
+    required: []
   cloud-toolkit-aws:kubernetes:ClusterPublicApiArgs:
     properties:
       enabled:
@@ -288,12 +311,14 @@ types:
             for Kubernetes API.
           type: string
     type: object
+    required: []
   cloud-toolkit-aws:kubernetes:ClusterPrivateApiArgs:
     properties:
       enabled:
         description: Enable the private endpoint for Kubernetes API.
         type: boolean
     type: object
+    required: []
   cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs:
     properties:
       name:
@@ -316,6 +341,11 @@ types:
           update. Defaults to 1.
         type: number
     type: object
+    required:
+      - name
+      - minCount
+      - maxCount
+      - maxUnavailable
   cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs:
     properties:
       enableDefaultProvider:
@@ -323,6 +353,8 @@ types:
           Service Accounts to authenticate against AWS with a given IAM Role.
         type: boolean
     type: object
+    required:
+      - enableDefaultProvider
   cloud-toolkit-aws:kubernetes:NodeGroupArgs:
     properties:
       name:
@@ -360,6 +392,13 @@ types:
           update. Defaults to 1.
         type: number
     type: object
+    required:
+      - name
+      - clusterVersion
+      - clusterEndpoint
+      - clusterCA
+      - clusterName
+      - subnetIds
   cloud-toolkit-aws:landingzone:AccountIamArgs:
     properties:
       alias:
@@ -369,6 +408,7 @@ types:
         description: The IAM password policy configuration.
         $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyArgs"
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:AccountPasswordPolicyArgs:
     properties:
       enabled:
@@ -378,6 +418,7 @@ types:
         description: The rules to be applied to the IAM Password Policy
         $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyRulesArgs"
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:AccountPasswordPolicyRulesArgs:
     properties:
       allowUsersToChangePassword:
@@ -414,6 +455,7 @@ types:
           Defaults to 'true'.
         type: boolean
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:AuditLoggingArgs:
     properties:
       retentionDays:
@@ -429,6 +471,7 @@ types:
         description: Store the audit logs in CloudWatch to enable easy searching.
         $ref: "#/types/cloud-toolkit-aws:landingzone:AuditLoggingCloudWatchArgs"
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:AuditLoggingCloudWatchArgs:
     properties:
       enabled:
@@ -438,6 +481,8 @@ types:
         description: The data retention in days. Defaults to '1'.
         type: number
     type: object
+    required:
+      - enabled
   cloud-toolkit-aws:landingzone:IamTrustedAccountArgs:
     properties:
       roles:
@@ -453,12 +498,18 @@ types:
         description: ""
         type: string
     type: object
+    required:
+      - roles
+      - trustingAccountId
+      - trustingAccountName
   cloud-toolkit-aws:landingzone:IamTrustedAccountRoleArgs:
     properties:
       name:
         description: ""
         type: string
     type: object
+    required:
+      - name
   cloud-toolkit-aws:landingzone:IamTrustedAccountRoleGroupMapping:
     properties:
       roleName:
@@ -468,6 +519,9 @@ types:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fgroup:Group
     type: object
+    required:
+      - roleName
+      - group
   cloud-toolkit-aws:landingzone:IamTrustedAccountRoleGroupPolicyMapping:
     properties:
       roleName:
@@ -477,6 +531,9 @@ types:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fgroupPolicy:GroupPolicy
     type: object
+    required:
+      - roleName
+      - groupPolicy
   cloud-toolkit-aws:landingzone:IamTrustingAccountArgs:
     properties:
       delegatedAccountIds:
@@ -492,6 +549,8 @@ types:
           description: ""
           $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRoleArgs"
     type: object
+    required:
+      - delegatedAccountIds
   cloud-toolkit-aws:landingzone:IamTrustingAccountRoleArgs:
     properties:
       name:
@@ -504,6 +563,9 @@ types:
           description: ""
           type: string
     type: object
+    required:
+      - name
+      - policyNames
   cloud-toolkit-aws:landingzone:IamTrustingAccountRoleMapping:
     properties:
       roleName:
@@ -513,6 +575,9 @@ types:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
     type: object
+    required:
+      - roleName
+      - role
   cloud-toolkit-aws:landingzone:IamTrustingAccountRolePolicyAttachmentMapping:
     properties:
       roleName:
@@ -525,6 +590,9 @@ types:
           description: ""
           $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
     type: object
+    required:
+      - roleName
+      - rolePolicyAttachment
   cloud-toolkit-aws:landingzone:LandingZoneArgs:
     properties:
       organization:
@@ -537,6 +605,7 @@ types:
         description: ""
         $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamArgs"
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:LandingZoneAuditArgs:
     properties:
       enabled:
@@ -552,6 +621,7 @@ types:
         description: Store the audit logs in CloudWatch to enable easy searching.
         $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAuditCloudWatchArgs"
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:LandingZoneAuditCloudWatchArgs:
     properties:
       enabled:
@@ -561,6 +631,8 @@ types:
         description: The data retention in days. Defaults to '1'.
         type: number
     type: object
+    required:
+      - enabled
   cloud-toolkit-aws:landingzone:LandingZoneIamArgs:
     properties:
       accountName:
@@ -573,6 +645,7 @@ types:
           description: ""
           $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamRoleArgs"
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:LandingZoneIamRoleArgs:
     properties:
       name:
@@ -585,6 +658,9 @@ types:
           description: ""
           type: string
     type: object
+    required:
+      - name
+      - policyNames
   cloud-toolkit-aws:landingzone:OrganizationArgs:
     properties:
       organizationId:
@@ -617,12 +693,14 @@ types:
         description: The FeatureSet in the Organization..
         type: string
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:OrganizationPoliciesArgs:
     properties:
       denyLeaveOrganization:
         description: Deny IAM Account to leave the organization. Enabled by default.
         $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPolicyArgs"
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:OrganizationPolicyArgs:
     properties:
       enabled:
@@ -632,6 +710,7 @@ types:
         description: Import the policy with the given id
         type: string
     type: object
+    required: []
   cloud-toolkit-aws:landingzone:OrganizationAccountArgs:
     properties:
       name:
@@ -657,6 +736,10 @@ types:
         description: The configuration for IAM.
         $ref: "#/types/cloud-toolkit-aws:landingzone:AccountIamArgs"
     type: object
+    required:
+      - name
+      - email
+      - iam
   cloud-toolkit-aws:landingzone:OrganizationalUnitMapping:
     properties:
       accountName:
@@ -666,6 +749,9 @@ types:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:organizations%2forganizationalUnit:OrganizationalUnit
     type: object
+    required:
+      - accountName
+      - organizationalUnit
   cloud-toolkit-aws:landingzone:OrganizationAccountProviderMapping:
     properties:
       accountName:
@@ -675,6 +761,9 @@ types:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/provider
     type: object
+    required:
+      - accountName
+      - provider
   cloud-toolkit-aws:landingzone:AccountMappingArgs:
     properties:
       accountName:
@@ -684,6 +773,9 @@ types:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:organizations%2faccount:Account
     type: object
+    required:
+      - accountName
+      - account
   cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs:
     properties:
       enable:
@@ -703,6 +795,9 @@ types:
           4 days.
         type: number
     type: object
+    required:
+      - enable
+      - type
   cloud-toolkit-aws:serverless:QueueArgs:
     properties:
       isFifo:
@@ -725,6 +820,7 @@ types:
         description: Custom policy for the Queue.
         type: string
     type: object
+    required: []
   cloud-toolkit-aws:storage:BucketArgs:
     properties:
       public:
@@ -743,6 +839,8 @@ types:
         description: Configures a static webpage using bucket files
         $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
     type: object
+    required:
+      - public
   cloud-toolkit-aws:storage:BucketEncryptionArgs:
     properties:
       enabled:
@@ -752,12 +850,16 @@ types:
         description: ""
         type: string
     type: object
+    required:
+      - enabled
   cloud-toolkit-aws:storage:BucketReplicationArgs:
     properties:
       bucketArn:
         description: ""
         type: string
     type: object
+    required:
+      - bucketArn
   cloud-toolkit-aws:storage:BucketWebsiteArgs:
     properties:
       errorDocument:
@@ -767,6 +869,9 @@ types:
         description: ""
         type: string
     type: object
+    required:
+      - errorDocument
+      - indexDocument
   cloud-toolkit-aws:databases:MysqlArgs:
     properties:
       instance:
@@ -788,6 +893,9 @@ types:
         description: Backup configuration parameters for the database instance
         $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
     type: object
+    required:
+      - version
+      - database
 resources:
   cloud-toolkit-aws:databases:Mysql:
     description: Cloud Toolkit component for Mysql instances.
