@@ -19,12 +19,20 @@ __all__ = [
 @pulumi.input_type
 class BucketEncryptionArgsArgs:
     def __init__(__self__, *,
-                 custom_key_id: Optional[pulumi.Input[str]] = None,
-                 enabled: Optional[pulumi.Input[bool]] = None):
+                 enabled: pulumi.Input[bool],
+                 custom_key_id: Optional[pulumi.Input[str]] = None):
+        pulumi.set(__self__, "enabled", enabled)
         if custom_key_id is not None:
             pulumi.set(__self__, "custom_key_id", custom_key_id)
-        if enabled is not None:
-            pulumi.set(__self__, "enabled", enabled)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> pulumi.Input[bool]:
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: pulumi.Input[bool]):
+        pulumi.set(self, "enabled", value)
 
     @property
     @pulumi.getter(name="customKeyId")
@@ -35,59 +43,47 @@ class BucketEncryptionArgsArgs:
     def custom_key_id(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "custom_key_id", value)
 
-    @property
-    @pulumi.getter
-    def enabled(self) -> Optional[pulumi.Input[bool]]:
-        return pulumi.get(self, "enabled")
-
-    @enabled.setter
-    def enabled(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "enabled", value)
-
 
 @pulumi.input_type
 class BucketReplicationArgsArgs:
     def __init__(__self__, *,
-                 bucket_arn: Optional[pulumi.Input[str]] = None):
-        if bucket_arn is not None:
-            pulumi.set(__self__, "bucket_arn", bucket_arn)
+                 bucket_arn: pulumi.Input[str]):
+        pulumi.set(__self__, "bucket_arn", bucket_arn)
 
     @property
     @pulumi.getter(name="bucketArn")
-    def bucket_arn(self) -> Optional[pulumi.Input[str]]:
+    def bucket_arn(self) -> pulumi.Input[str]:
         return pulumi.get(self, "bucket_arn")
 
     @bucket_arn.setter
-    def bucket_arn(self, value: Optional[pulumi.Input[str]]):
+    def bucket_arn(self, value: pulumi.Input[str]):
         pulumi.set(self, "bucket_arn", value)
 
 
 @pulumi.input_type
 class BucketWebsiteArgsArgs:
     def __init__(__self__, *,
-                 error_document: Optional[pulumi.Input[str]] = None,
-                 index_document: Optional[pulumi.Input[str]] = None):
-        if error_document is not None:
-            pulumi.set(__self__, "error_document", error_document)
-        if index_document is not None:
-            pulumi.set(__self__, "index_document", index_document)
+                 error_document: pulumi.Input[str],
+                 index_document: pulumi.Input[str]):
+        pulumi.set(__self__, "error_document", error_document)
+        pulumi.set(__self__, "index_document", index_document)
 
     @property
     @pulumi.getter(name="errorDocument")
-    def error_document(self) -> Optional[pulumi.Input[str]]:
+    def error_document(self) -> pulumi.Input[str]:
         return pulumi.get(self, "error_document")
 
     @error_document.setter
-    def error_document(self, value: Optional[pulumi.Input[str]]):
+    def error_document(self, value: pulumi.Input[str]):
         pulumi.set(self, "error_document", value)
 
     @property
     @pulumi.getter(name="indexDocument")
-    def index_document(self) -> Optional[pulumi.Input[str]]:
+    def index_document(self) -> pulumi.Input[str]:
         return pulumi.get(self, "index_document")
 
     @index_document.setter
-    def index_document(self, value: Optional[pulumi.Input[str]]):
+    def index_document(self, value: pulumi.Input[str]):
         pulumi.set(self, "index_document", value)
 
 

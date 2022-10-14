@@ -40,21 +40,19 @@ class AccountMappingArgs(dict):
         return super().get(key, default)
 
     def __init__(__self__, *,
-                 account: Optional['pulumi_aws.organizations.Account'] = None,
-                 account_name: Optional[str] = None):
-        if account is not None:
-            pulumi.set(__self__, "account", account)
-        if account_name is not None:
-            pulumi.set(__self__, "account_name", account_name)
+                 account: 'pulumi_aws.organizations.Account',
+                 account_name: str):
+        pulumi.set(__self__, "account", account)
+        pulumi.set(__self__, "account_name", account_name)
 
     @property
     @pulumi.getter
-    def account(self) -> Optional['pulumi_aws.organizations.Account']:
+    def account(self) -> 'pulumi_aws.organizations.Account':
         return pulumi.get(self, "account")
 
     @property
     @pulumi.getter(name="accountName")
-    def account_name(self) -> Optional[str]:
+    def account_name(self) -> str:
         return pulumi.get(self, "account_name")
 
 
@@ -78,21 +76,19 @@ class IamTrustedAccountRoleGroupMapping(dict):
         return super().get(key, default)
 
     def __init__(__self__, *,
-                 group: Optional['pulumi_aws.iam.Group'] = None,
-                 role_name: Optional[str] = None):
-        if group is not None:
-            pulumi.set(__self__, "group", group)
-        if role_name is not None:
-            pulumi.set(__self__, "role_name", role_name)
+                 group: 'pulumi_aws.iam.Group',
+                 role_name: str):
+        pulumi.set(__self__, "group", group)
+        pulumi.set(__self__, "role_name", role_name)
 
     @property
     @pulumi.getter
-    def group(self) -> Optional['pulumi_aws.iam.Group']:
+    def group(self) -> 'pulumi_aws.iam.Group':
         return pulumi.get(self, "group")
 
     @property
     @pulumi.getter(name="roleName")
-    def role_name(self) -> Optional[str]:
+    def role_name(self) -> str:
         return pulumi.get(self, "role_name")
 
 
@@ -118,21 +114,19 @@ class IamTrustedAccountRoleGroupPolicyMapping(dict):
         return super().get(key, default)
 
     def __init__(__self__, *,
-                 group_policy: Optional['pulumi_aws.iam.GroupPolicy'] = None,
-                 role_name: Optional[str] = None):
-        if group_policy is not None:
-            pulumi.set(__self__, "group_policy", group_policy)
-        if role_name is not None:
-            pulumi.set(__self__, "role_name", role_name)
+                 group_policy: 'pulumi_aws.iam.GroupPolicy',
+                 role_name: str):
+        pulumi.set(__self__, "group_policy", group_policy)
+        pulumi.set(__self__, "role_name", role_name)
 
     @property
     @pulumi.getter(name="groupPolicy")
-    def group_policy(self) -> Optional['pulumi_aws.iam.GroupPolicy']:
+    def group_policy(self) -> 'pulumi_aws.iam.GroupPolicy':
         return pulumi.get(self, "group_policy")
 
     @property
     @pulumi.getter(name="roleName")
-    def role_name(self) -> Optional[str]:
+    def role_name(self) -> str:
         return pulumi.get(self, "role_name")
 
 
@@ -156,21 +150,19 @@ class IamTrustingAccountRoleMapping(dict):
         return super().get(key, default)
 
     def __init__(__self__, *,
-                 role: Optional['pulumi_aws.iam.Role'] = None,
-                 role_name: Optional[str] = None):
-        if role is not None:
-            pulumi.set(__self__, "role", role)
-        if role_name is not None:
-            pulumi.set(__self__, "role_name", role_name)
+                 role: 'pulumi_aws.iam.Role',
+                 role_name: str):
+        pulumi.set(__self__, "role", role)
+        pulumi.set(__self__, "role_name", role_name)
 
     @property
     @pulumi.getter
-    def role(self) -> Optional['pulumi_aws.iam.Role']:
+    def role(self) -> 'pulumi_aws.iam.Role':
         return pulumi.get(self, "role")
 
     @property
     @pulumi.getter(name="roleName")
-    def role_name(self) -> Optional[str]:
+    def role_name(self) -> str:
         return pulumi.get(self, "role_name")
 
 
@@ -196,21 +188,19 @@ class IamTrustingAccountRolePolicyAttachmentMapping(dict):
         return super().get(key, default)
 
     def __init__(__self__, *,
-                 role_name: Optional[str] = None,
-                 role_policy_attachment: Optional[Sequence['pulumi_aws.iam.RolePolicyAttachment']] = None):
-        if role_name is not None:
-            pulumi.set(__self__, "role_name", role_name)
-        if role_policy_attachment is not None:
-            pulumi.set(__self__, "role_policy_attachment", role_policy_attachment)
+                 role_name: str,
+                 role_policy_attachment: Sequence['pulumi_aws.iam.RolePolicyAttachment']):
+        pulumi.set(__self__, "role_name", role_name)
+        pulumi.set(__self__, "role_policy_attachment", role_policy_attachment)
 
     @property
     @pulumi.getter(name="roleName")
-    def role_name(self) -> Optional[str]:
+    def role_name(self) -> str:
         return pulumi.get(self, "role_name")
 
     @property
     @pulumi.getter(name="rolePolicyAttachment")
-    def role_policy_attachment(self) -> Optional[Sequence['pulumi_aws.iam.RolePolicyAttachment']]:
+    def role_policy_attachment(self) -> Sequence['pulumi_aws.iam.RolePolicyAttachment']:
         return pulumi.get(self, "role_policy_attachment")
 
 
@@ -234,21 +224,19 @@ class OrganizationAccountProviderMapping(dict):
         return super().get(key, default)
 
     def __init__(__self__, *,
-                 account_name: Optional[str] = None,
-                 provider: Optional['pulumi_aws.Provider'] = None):
-        if account_name is not None:
-            pulumi.set(__self__, "account_name", account_name)
-        if provider is not None:
-            pulumi.set(__self__, "provider", provider)
+                 account_name: str,
+                 provider: 'pulumi_aws.Provider'):
+        pulumi.set(__self__, "account_name", account_name)
+        pulumi.set(__self__, "provider", provider)
 
     @property
     @pulumi.getter(name="accountName")
-    def account_name(self) -> Optional[str]:
+    def account_name(self) -> str:
         return pulumi.get(self, "account_name")
 
     @property
     @pulumi.getter
-    def provider(self) -> Optional['pulumi_aws.Provider']:
+    def provider(self) -> 'pulumi_aws.Provider':
         return pulumi.get(self, "provider")
 
 
@@ -274,21 +262,19 @@ class OrganizationalUnitMapping(dict):
         return super().get(key, default)
 
     def __init__(__self__, *,
-                 account_name: Optional[str] = None,
-                 organizational_unit: Optional['pulumi_aws.organizations.OrganizationalUnit'] = None):
-        if account_name is not None:
-            pulumi.set(__self__, "account_name", account_name)
-        if organizational_unit is not None:
-            pulumi.set(__self__, "organizational_unit", organizational_unit)
+                 account_name: str,
+                 organizational_unit: 'pulumi_aws.organizations.OrganizationalUnit'):
+        pulumi.set(__self__, "account_name", account_name)
+        pulumi.set(__self__, "organizational_unit", organizational_unit)
 
     @property
     @pulumi.getter(name="accountName")
-    def account_name(self) -> Optional[str]:
+    def account_name(self) -> str:
         return pulumi.get(self, "account_name")
 
     @property
     @pulumi.getter(name="organizationalUnit")
-    def organizational_unit(self) -> Optional['pulumi_aws.organizations.OrganizationalUnit']:
+    def organizational_unit(self) -> 'pulumi_aws.organizations.OrganizationalUnit':
         return pulumi.get(self, "organizational_unit")
 
 

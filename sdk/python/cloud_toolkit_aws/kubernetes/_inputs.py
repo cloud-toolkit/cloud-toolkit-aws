@@ -60,32 +60,76 @@ class ClusterApiArgsArgs:
 @pulumi.input_type
 class ClusterNodeGroupArgsArgs:
     def __init__(__self__, *,
+                 max_count: pulumi.Input[float],
+                 max_unavailable: pulumi.Input[float],
+                 min_count: pulumi.Input[float],
+                 name: pulumi.Input[str],
                  instance_type: Optional[pulumi.Input[str]] = None,
-                 max_count: Optional[pulumi.Input[float]] = None,
-                 max_unavailable: Optional[pulumi.Input[float]] = None,
-                 min_count: Optional[pulumi.Input[float]] = None,
-                 name: Optional[pulumi.Input[str]] = None,
                  subnets_type: Optional[pulumi.Input['ClusterSubnetsType']] = None):
         """
-        :param pulumi.Input[str] instance_type: The EC2 Instance Type to be used to create the Nodes.
         :param pulumi.Input[float] max_count: The maxium number of nodes running in the node group. Defaults to 2.
         :param pulumi.Input[float] max_unavailable: The maximum number of nodes unavailable at once during a version update. Defaults to 1.
         :param pulumi.Input[float] min_count: The minimum number of nodes running in the node group. Defaults to 1.
         :param pulumi.Input[str] name: The Node Group name.
+        :param pulumi.Input[str] instance_type: The EC2 Instance Type to be used to create the Nodes.
         :param pulumi.Input['ClusterSubnetsType'] subnets_type: The subnets type to be used to deploy the Node Groups.
         """
+        pulumi.set(__self__, "max_count", max_count)
+        pulumi.set(__self__, "max_unavailable", max_unavailable)
+        pulumi.set(__self__, "min_count", min_count)
+        pulumi.set(__self__, "name", name)
         if instance_type is not None:
             pulumi.set(__self__, "instance_type", instance_type)
-        if max_count is not None:
-            pulumi.set(__self__, "max_count", max_count)
-        if max_unavailable is not None:
-            pulumi.set(__self__, "max_unavailable", max_unavailable)
-        if min_count is not None:
-            pulumi.set(__self__, "min_count", min_count)
-        if name is not None:
-            pulumi.set(__self__, "name", name)
         if subnets_type is not None:
             pulumi.set(__self__, "subnets_type", subnets_type)
+
+    @property
+    @pulumi.getter(name="maxCount")
+    def max_count(self) -> pulumi.Input[float]:
+        """
+        The maxium number of nodes running in the node group. Defaults to 2.
+        """
+        return pulumi.get(self, "max_count")
+
+    @max_count.setter
+    def max_count(self, value: pulumi.Input[float]):
+        pulumi.set(self, "max_count", value)
+
+    @property
+    @pulumi.getter(name="maxUnavailable")
+    def max_unavailable(self) -> pulumi.Input[float]:
+        """
+        The maximum number of nodes unavailable at once during a version update. Defaults to 1.
+        """
+        return pulumi.get(self, "max_unavailable")
+
+    @max_unavailable.setter
+    def max_unavailable(self, value: pulumi.Input[float]):
+        pulumi.set(self, "max_unavailable", value)
+
+    @property
+    @pulumi.getter(name="minCount")
+    def min_count(self) -> pulumi.Input[float]:
+        """
+        The minimum number of nodes running in the node group. Defaults to 1.
+        """
+        return pulumi.get(self, "min_count")
+
+    @min_count.setter
+    def min_count(self, value: pulumi.Input[float]):
+        pulumi.set(self, "min_count", value)
+
+    @property
+    @pulumi.getter
+    def name(self) -> pulumi.Input[str]:
+        """
+        The Node Group name.
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: pulumi.Input[str]):
+        pulumi.set(self, "name", value)
 
     @property
     @pulumi.getter(name="instanceType")
@@ -98,54 +142,6 @@ class ClusterNodeGroupArgsArgs:
     @instance_type.setter
     def instance_type(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "instance_type", value)
-
-    @property
-    @pulumi.getter(name="maxCount")
-    def max_count(self) -> Optional[pulumi.Input[float]]:
-        """
-        The maxium number of nodes running in the node group. Defaults to 2.
-        """
-        return pulumi.get(self, "max_count")
-
-    @max_count.setter
-    def max_count(self, value: Optional[pulumi.Input[float]]):
-        pulumi.set(self, "max_count", value)
-
-    @property
-    @pulumi.getter(name="maxUnavailable")
-    def max_unavailable(self) -> Optional[pulumi.Input[float]]:
-        """
-        The maximum number of nodes unavailable at once during a version update. Defaults to 1.
-        """
-        return pulumi.get(self, "max_unavailable")
-
-    @max_unavailable.setter
-    def max_unavailable(self, value: Optional[pulumi.Input[float]]):
-        pulumi.set(self, "max_unavailable", value)
-
-    @property
-    @pulumi.getter(name="minCount")
-    def min_count(self) -> Optional[pulumi.Input[float]]:
-        """
-        The minimum number of nodes running in the node group. Defaults to 1.
-        """
-        return pulumi.get(self, "min_count")
-
-    @min_count.setter
-    def min_count(self, value: Optional[pulumi.Input[float]]):
-        pulumi.set(self, "min_count", value)
-
-    @property
-    @pulumi.getter
-    def name(self) -> Optional[pulumi.Input[str]]:
-        """
-        The Node Group name.
-        """
-        return pulumi.get(self, "name")
-
-    @name.setter
-    def name(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "name", value)
 
     @property
     @pulumi.getter(name="subnetsType")
@@ -163,23 +159,22 @@ class ClusterNodeGroupArgsArgs:
 @pulumi.input_type
 class ClusterOidcProvidersArgsArgs:
     def __init__(__self__, *,
-                 enable_default_provider: Optional[pulumi.Input[bool]] = None):
+                 enable_default_provider: pulumi.Input[bool]):
         """
         :param pulumi.Input[bool] enable_default_provider: Enable the default OIDC Provider that is used in the cluster to let Service Accounts to authenticate against AWS with a given IAM Role.
         """
-        if enable_default_provider is not None:
-            pulumi.set(__self__, "enable_default_provider", enable_default_provider)
+        pulumi.set(__self__, "enable_default_provider", enable_default_provider)
 
     @property
     @pulumi.getter(name="enableDefaultProvider")
-    def enable_default_provider(self) -> Optional[pulumi.Input[bool]]:
+    def enable_default_provider(self) -> pulumi.Input[bool]:
         """
         Enable the default OIDC Provider that is used in the cluster to let Service Accounts to authenticate against AWS with a given IAM Role.
         """
         return pulumi.get(self, "enable_default_provider")
 
     @enable_default_provider.setter
-    def enable_default_provider(self, value: Optional[pulumi.Input[bool]]):
+    def enable_default_provider(self, value: pulumi.Input[bool]):
         pulumi.set(self, "enable_default_provider", value)
 
 
