@@ -18,20 +18,18 @@ __all__ = [
 @pulumi.output_type
 class AdditionalQueueArgs(dict):
     def __init__(__self__, *,
-                 arn: Optional[str] = None,
-                 url: Optional[str] = None):
+                 arn: str,
+                 url: str):
         """
         :param str arn: Amazon Resource Name for the Queue component.
         :param str url: Endpoint of the Queue component in AWS.
         """
-        if arn is not None:
-            pulumi.set(__self__, "arn", arn)
-        if url is not None:
-            pulumi.set(__self__, "url", url)
+        pulumi.set(__self__, "arn", arn)
+        pulumi.set(__self__, "url", url)
 
     @property
     @pulumi.getter
-    def arn(self) -> Optional[str]:
+    def arn(self) -> str:
         """
         Amazon Resource Name for the Queue component.
         """
@@ -39,7 +37,7 @@ class AdditionalQueueArgs(dict):
 
     @property
     @pulumi.getter
-    def url(self) -> Optional[str]:
+    def url(self) -> str:
         """
         Endpoint of the Queue component in AWS.
         """
@@ -49,20 +47,18 @@ class AdditionalQueueArgs(dict):
 @pulumi.output_type
 class DnsDkimRecordArgs(dict):
     def __init__(__self__, *,
-                 name: Optional[str] = None,
-                 token: Optional[str] = None):
+                 name: str,
+                 token: str):
         """
         :param str name: Name of the Record.
         :param str token: Token of the Record.
         """
-        if name is not None:
-            pulumi.set(__self__, "name", name)
-        if token is not None:
-            pulumi.set(__self__, "token", token)
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "token", token)
 
     @property
     @pulumi.getter
-    def name(self) -> Optional[str]:
+    def name(self) -> str:
         """
         Name of the Record.
         """
@@ -70,7 +66,7 @@ class DnsDkimRecordArgs(dict):
 
     @property
     @pulumi.getter
-    def token(self) -> Optional[str]:
+    def token(self) -> str:
         """
         Token of the Record.
         """

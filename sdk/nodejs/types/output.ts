@@ -16,22 +16,22 @@ export namespace email {
         /**
          * Amazon Resource Name for the Queue component.
          */
-        arn?: string;
+        arn: string;
         /**
          * Endpoint of the Queue component in AWS.
          */
-        url?: string;
+        url: string;
     }
 
     export interface DnsDkimRecordArgs {
         /**
          * Name of the Record.
          */
-        name?: string;
+        name: string;
         /**
          * Token of the Record.
          */
-        token?: string;
+        token: string;
     }
 
 }
@@ -41,38 +41,38 @@ export namespace kubernetes {
 
 export namespace landingzone {
     export interface AccountMappingArgs {
-        account?: pulumiAws.organizations.Account;
-        accountName?: string;
+        account: pulumiAws.organizations.Account;
+        accountName: string;
     }
 
     export interface IamTrustedAccountRoleGroupMapping {
-        group?: pulumiAws.iam.Group;
-        roleName?: string;
+        group: pulumiAws.iam.Group;
+        roleName: string;
     }
 
     export interface IamTrustedAccountRoleGroupPolicyMapping {
-        groupPolicy?: pulumiAws.iam.GroupPolicy;
-        roleName?: string;
+        groupPolicy: pulumiAws.iam.GroupPolicy;
+        roleName: string;
     }
 
     export interface IamTrustingAccountRoleMapping {
-        role?: pulumiAws.iam.Role;
-        roleName?: string;
+        role: pulumiAws.iam.Role;
+        roleName: string;
     }
 
     export interface IamTrustingAccountRolePolicyAttachmentMapping {
-        roleName?: string;
-        rolePolicyAttachment?: pulumiAws.iam.RolePolicyAttachment[];
+        roleName: string;
+        rolePolicyAttachment: pulumiAws.iam.RolePolicyAttachment[];
     }
 
     export interface OrganizationAccountProviderMapping {
-        accountName?: string;
-        provider?: pulumiAws.Provider;
+        accountName: string;
+        provider: pulumiAws.Provider;
     }
 
     export interface OrganizationalUnitMapping {
-        accountName?: string;
-        organizationalUnit?: pulumiAws.organizations.OrganizationalUnit;
+        accountName: string;
+        organizationalUnit: pulumiAws.organizations.OrganizationalUnit;
     }
 
 }

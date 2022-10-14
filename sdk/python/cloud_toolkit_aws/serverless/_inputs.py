@@ -18,36 +18,46 @@ __all__ = [
 @pulumi.input_type
 class DeadLetterQueueTypeArgsArgs:
     def __init__(__self__, *,
-                 enable: Optional[pulumi.Input[bool]] = None,
+                 enable: pulumi.Input[bool],
+                 type: pulumi.Input['DeadLetterQueueTypes'],
                  existing_dead_letter_queue_arn: Optional[pulumi.Input[str]] = None,
-                 message_retention_seconds: Optional[pulumi.Input[float]] = None,
-                 type: Optional[pulumi.Input['DeadLetterQueueTypes']] = None):
+                 message_retention_seconds: Optional[pulumi.Input[float]] = None):
         """
         :param pulumi.Input[bool] enable: Enables the feature.
+        :param pulumi.Input['DeadLetterQueueTypes'] type: Dead Letter Queue type attached to the component to create.
         :param pulumi.Input[str] existing_dead_letter_queue_arn: Placing a Queue ARN will set said already existing Queue as a Dead Letter Queue for the new one.
         :param pulumi.Input[float] message_retention_seconds: The amount of time that a message will be stored in the Dead Letter Queue without being deleted. Minimum is 60 seconds (1 minutes) and Maximum 1,209,600 (14 days) seconds. By default a message is retained 4 days.
-        :param pulumi.Input['DeadLetterQueueTypes'] type: Dead Letter Queue type attached to the component to create.
         """
-        if enable is not None:
-            pulumi.set(__self__, "enable", enable)
+        pulumi.set(__self__, "enable", enable)
+        pulumi.set(__self__, "type", type)
         if existing_dead_letter_queue_arn is not None:
             pulumi.set(__self__, "existing_dead_letter_queue_arn", existing_dead_letter_queue_arn)
         if message_retention_seconds is not None:
             pulumi.set(__self__, "message_retention_seconds", message_retention_seconds)
-        if type is not None:
-            pulumi.set(__self__, "type", type)
 
     @property
     @pulumi.getter
-    def enable(self) -> Optional[pulumi.Input[bool]]:
+    def enable(self) -> pulumi.Input[bool]:
         """
         Enables the feature.
         """
         return pulumi.get(self, "enable")
 
     @enable.setter
-    def enable(self, value: Optional[pulumi.Input[bool]]):
+    def enable(self, value: pulumi.Input[bool]):
         pulumi.set(self, "enable", value)
+
+    @property
+    @pulumi.getter
+    def type(self) -> pulumi.Input['DeadLetterQueueTypes']:
+        """
+        Dead Letter Queue type attached to the component to create.
+        """
+        return pulumi.get(self, "type")
+
+    @type.setter
+    def type(self, value: pulumi.Input['DeadLetterQueueTypes']):
+        pulumi.set(self, "type", value)
 
     @property
     @pulumi.getter(name="existingDeadLetterQueueArn")
@@ -72,18 +82,6 @@ class DeadLetterQueueTypeArgsArgs:
     @message_retention_seconds.setter
     def message_retention_seconds(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "message_retention_seconds", value)
-
-    @property
-    @pulumi.getter
-    def type(self) -> Optional[pulumi.Input['DeadLetterQueueTypes']]:
-        """
-        Dead Letter Queue type attached to the component to create.
-        """
-        return pulumi.get(self, "type")
-
-    @type.setter
-    def type(self, value: Optional[pulumi.Input['DeadLetterQueueTypes']]):
-        pulumi.set(self, "type", value)
 
 
 @pulumi.input_type
