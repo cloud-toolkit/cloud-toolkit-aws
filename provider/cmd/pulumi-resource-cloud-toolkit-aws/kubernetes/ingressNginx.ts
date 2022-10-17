@@ -5,6 +5,10 @@ import defaultsDeep from "lodash.defaultsdeep";
 import { ApplicationAddon } from "./applicationAddon";
 import { defaultArgs, IngressNginxArgs } from "./ingressNginxArgs";
 
+export {
+  IngressNginxArgs
+};
+
 export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
   public readonly namespace?: kubernetes.core.v1.Namespace;
 
