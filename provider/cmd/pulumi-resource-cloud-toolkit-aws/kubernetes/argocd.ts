@@ -22,13 +22,18 @@ export class ArgoCD extends pulumi.ComponentResource {
     this.name = name;
     this.args = args;
 
+    const adminPasswordOpts = {
+      ...opts,
+      parent: this,
+    };
+    this.adminPassword = this.setupAdminPassword(adminPasswordOpts);
+
     const resourceOpts = {
       ...opts,
       parent: this,
       provider: this.args.k8sProvider,
     };
 
-    this.adminPassword = this.setupAdminPassword(resourceOpts);
     this.namespace = this.setupNamespace("system-argocd", resourceOpts);
     const values = this.getChartValues();
     this.chart = this.deployHelmChart(
@@ -58,7 +63,7 @@ export class ArgoCD extends pulumi.ComponentResource {
       number: true,
       special: true,
       upper: true,
-    });
+    }, opts);
   }
 
   private setupNamespace(
