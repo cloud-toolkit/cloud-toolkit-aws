@@ -13,9 +13,11 @@ import {
   ClusterAddonsArgs,
   ClusterArgs,
   ExternalDns,
+  ExternalDnsArgs,
+  IngressNginx,
+  IngressNginxArgs,
   NodeGroup,
   NodeGroupArgs,
-  ExternalDnsArgs
 } from "./kubernetes";
 import {
   AccountIam,
@@ -59,6 +61,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesCertManager(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:ExternalDns":
         return await constructKubernetesExternalDns(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:IngressNginx":
+        return await constructKubernetesIngressNginx(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -177,6 +181,23 @@ async function constructKubernetesExternalDns(
     },
   };
 }
+
+async function constructKubernetesIngressNginx(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new IngressNginx(name, inputs as IngressNginxArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
+      namespace: resource.namespace,
+    },
+  };
+}
+
 
 async function constructKubernetesCertManager(
   name: string,
