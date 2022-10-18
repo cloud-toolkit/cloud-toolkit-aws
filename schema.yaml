@@ -256,6 +256,10 @@ types:
         description: ""
         type: boolean
     type: object
+    required:
+      - k8sProvider
+      - name
+      - namespace
   cloud-toolkit-aws:kubernetes:IrsaApplicationAddonArgs:
     properties:
       identityProvidersArn:
@@ -271,12 +275,17 @@ types:
         description: ""
         type: string
     type: object
+    required:
+      - identityProvidersArn
+      - issuerUrl
+      - serviceAccountName
   cloud-toolkit-aws:kubernetes:ArgoCDArgs:
     properties:
       hostname:
         description: ""
         type: string
     type: object
+    required: []
   cloud-toolkit-aws:kubernetes:CertManagerArgs:
     properties:
       zoneArns:
@@ -286,6 +295,8 @@ types:
           description: ""
           type: string
     type: object
+    required:
+      - zoneArns
   cloud-toolkit-aws:kubernetes:ClusterAddonsArgs:
     properties:
       k8sProvider:
@@ -313,6 +324,12 @@ types:
           description: ""
           type: string
     type: object
+    required:
+      - k8sProvider
+      - identityProvidersArn
+      - issuerUrl
+      - domain
+      - zoneArns
   cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs:
     properties:
       enabled:
@@ -325,6 +342,7 @@ types:
         description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs"
     type: object
+    required: []
   cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs:
     properties:
       public:
@@ -337,6 +355,7 @@ types:
           description: ""
           type: string
     type: object
+    required: []
   cloud-toolkit-aws:kubernetes:ClusterArgs:
     properties:
       vpcId:
@@ -375,12 +394,20 @@ types:
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
       addons:
         description: The addons installed in the cluster.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
       baseDomain:
         description: The base domain.
         type: string
     type: object
     required: []
+  cloud-toolkit-aws:kubernetes:AddonsArgs:
+    properties:
+      enabled:
+        description: ""
+        type: boolean
+    type: object
+    required:
+      - enabled
   cloud-toolkit-aws:kubernetes:ClusterApiArgs:
     properties:
       public:
@@ -449,6 +476,17 @@ types:
     type: object
     required:
       - enableDefaultProvider
+  cloud-toolkit-aws:kubernetes:ExternalDnsArgs:
+    properties:
+      zoneArns:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+    type: object
+    required:
+      - zoneArns
   cloud-toolkit-aws:kubernetes:IngressNginxArgs:
     properties:
       className:
@@ -464,6 +502,8 @@ types:
         description: ""
         type: boolean
     type: object
+    required:
+      - className
   cloud-toolkit-aws:kubernetes:IrsaArgs:
     properties:
       identityProvidersArn:
@@ -491,6 +531,13 @@ types:
           description: ""
           type: string
     type: object
+    required:
+      - identityProvidersArn
+      - issuerUrl
+      - k8sProvider
+      - namespace
+      - serviceAccountName
+      - policies
   cloud-toolkit-aws:kubernetes:NodeGroupArgs:
     properties:
       name:
@@ -1464,7 +1511,6 @@ resources:
       - provider
       - nodeGroups
       - cniChart
-      - clusterAddons
       - domain
     inputProperties:
       vpcId:
@@ -1503,7 +1549,7 @@ resources:
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
       addons:
         description: The addons installed in the cluster.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
       baseDomain:
         description: The base domain.
         type: string

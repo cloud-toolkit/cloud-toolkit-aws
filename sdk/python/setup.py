@@ -58,6 +58,7 @@ setup(name='cloud_toolkit_aws',
           'pulumi>=3.0.0,<4.0.0',
           'pulumi-aws>=5.10.0,<6.0.0',
           'pulumi-kubernetes>=3.20.2,<4.0.0',
+          'pulumi-random>=4.8.2,<5.0.0',
           'semver>=2.8.1'
       ],
       zip_safe=False)

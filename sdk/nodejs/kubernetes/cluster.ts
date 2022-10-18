@@ -37,7 +37,7 @@ export class Cluster extends pulumi.ComponentResource {
     /**
      * The VPC CNI Chart installed in the cluster.
      */
-    public /*out*/ readonly clusterAddons!: pulumi.Output<ClusterAddons>;
+    public /*out*/ readonly clusterAddons!: pulumi.Output<ClusterAddons | undefined>;
     /**
      * The VPC CNI Chart installed in the cluster.
      */
@@ -160,7 +160,7 @@ export interface ClusterArgs {
     /**
      * The addons installed in the cluster.
      */
-    addons?: pulumi.Input<inputs.kubernetes.ClusterAddonsArgsArgs>;
+    addons?: pulumi.Input<inputs.kubernetes.AddonsArgsArgs>;
     /**
      * Configure the Kubernetes cluster API.
      */
