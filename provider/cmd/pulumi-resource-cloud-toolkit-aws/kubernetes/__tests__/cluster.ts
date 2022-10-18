@@ -262,16 +262,3 @@ describe("Custom networking", function () {
     }
   });
 });
-
-describe("Custom base domain", function () {
-  let component: typeof import("../cluster");
-
-  beforeAll(async function () {
-    component = await import("../cluster");
-  });
-
-  test("It should use the default VPC", async function () {
-    const instance = new component.Cluster("test", customBaseDomainConfiguration);
-    expect(instance.vpcId).toBeDefined();
-  });
-});
