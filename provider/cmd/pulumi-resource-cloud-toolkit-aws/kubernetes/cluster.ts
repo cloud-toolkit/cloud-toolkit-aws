@@ -90,7 +90,7 @@ export class Cluster extends pulumi.ComponentResource {
   /**
    * The VPC CNI Chart installed in the cluster.
    */
-  public readonly clusterAddons: ClusterAddons;
+  public readonly clusterAddons?: ClusterAddons;
 
   /**
    * The DNS Zone used for the cluster domain.
@@ -102,10 +102,10 @@ export class Cluster extends pulumi.ComponentResource {
    */
   public readonly domain: string;
 
-  private vpcId: pulumi.Input<string>;
-  private allSubnetIds: pulumi.Input<pulumi.Input<string>[]> | pulumi.Input<pulumi.Input<string>[]>;
-  private publicSubnetIds: Promise<pulumi.Input<string>[]> | undefined;
-  private privateSubnetIds: Promise<pulumi.Input<string>[]> | undefined;
+  public vpcId: Promise<string>;
+  public allSubnetIds: Promise<pulumi.Input<string>[]>;
+  public privateSubnetIds: Promise<pulumi.Input<string>[]>;
+  public publicSubnetIds: Promise<pulumi.Input<string>[]>;
 
   constructor(
     name: string,
@@ -117,26 +117,11 @@ export class Cluster extends pulumi.ComponentResource {
     this.config = this.validateArgs(config);
 
     // Set VPC networking configuration
-    if (this.config.vpcId !== undefined) {
-      this.vpcId = this.config.vpcId;
-    } else {
-      this.vpcId = this.setupVpcFromDefaultVpc();
-    }
-
-    // Set Subnet networking configuration
-    if (
-      this.config.publicSubnetIds === undefined &&
-      this.config.privateSubnetIds === undefined
-    ) {
-      const subnets = this.setupSubnetsFromVpc();
-      this.publicSubnetIds = subnets.then((ids) => ids.publicSubnetIds);
-      this.privateSubnetIds = subnets.then((ids) => ids.privateSubnetIds);
-      this.allSubnetIds = subnets.then((ids) => ids.allSubnetIds);
-    } else {
-      this.allSubnetIds = [];
-      this.allSubnetIds.push(...this.config.privateSubnetIds || []);
-      this.allSubnetIds.push(...this.config.publicSubnetIds || []);
-    }
+    this.vpcId = this.setupVpc();
+    const subnetIds = this.setupSubnets();
+    this.allSubnetIds = subnetIds.then(subnetIds => subnetIds.allIds);
+    this.privateSubnetIds = subnetIds.then(subnetIds => subnetIds.privateIds);
+    this.publicSubnetIds = subnetIds.then(subnetIds => subnetIds.publicIds);
 
     // Create ResourceOptions for child components
     const resourceOpts = pulumi.mergeOptions(opts, {
@@ -198,7 +183,9 @@ export class Cluster extends pulumi.ComponentResource {
     const addonsOpts = pulumi.mergeOptions(resourceOpts, {
       dependsOn: [this.cniChart],
     });
-    this.clusterAddons = this.setupClusterAddons(zoneArn, addonsOpts);
+    if (this.config.addons?.enabled) {
+      this.clusterAddons = this.setupClusterAddons(zoneArn, addonsOpts);
+    }
 
     this.registerOutputs({
       cluster: this.cluster,
@@ -239,68 +226,61 @@ export class Cluster extends pulumi.ComponentResource {
     const list: aws.ec2.Tag[] = [];
 
     // Public subnets
-    if (this.publicSubnetIds !== undefined) {
-      this.publicSubnetIds.then((ids) => {
-        this.setupPublicSubnetTag(ids, opts);
-      });
-    } else {
-      this.setupPublicSubnetTag(this.config.publicSubnetIds || [], opts);
-    }
+    this.setupPublicSubnetTag(opts);
 
     // Private subnets
-    if (this.privateSubnetIds !== undefined) {
-      this.privateSubnetIds.then((ids) => {
-        this.setupPrivateSubnetTag(ids, opts);
-      });
-    } else {
-      this.setupPrivateSubnetTag(this.config.privateSubnetIds || [], opts);
-    }
+    this.setupPrivateSubnetTag(opts);
 
     return list;
   }
 
-  private setupPublicSubnetTag(ids: pulumi.Input<string>[], opts?: pulumi.ResourceOptions): aws.ec2.Tag[] {
+  private setupPublicSubnetTag(opts?: pulumi.ResourceOptions): aws.ec2.Tag[] {
     const list: aws.ec2.Tag[] = [];
-    for (const subnetId of ids) {
-      list.push(
+    this.publicSubnetIds.then(subnetIds => {
+      for (const subnetId of subnetIds) {
+        list.push(
+          new aws.ec2.Tag(
+            `${this.name}-${subnetId}-shared`,
+            {
+              resourceId: subnetId,
+              key: `kubernetes.io/cluster/${this.name}`,
+              value: "shared",
+            },
+            opts
+          )
+        );
+        list.push(
+          new aws.ec2.Tag(
+            `${this.name}-${subnetId}-elb`,
+            {
+              resourceId: subnetId,
+              key: `kubernetes.io/role/elb`,
+              value: "1",
+            },
+            opts
+          )
+        );
+      }
+    });
+
+    return list;
+  }
+
+  private setupPrivateSubnetTag(opts?: pulumi.ResourceOptions): aws.ec2.Tag[] {
+    const list: aws.ec2.Tag[] = [];
+    this.privateSubnetIds.then(subnetIds => {
+      for (const subnetId of subnetIds) {
         new aws.ec2.Tag(
-          `${this.name}-${subnetId}-shared`,
+          `${this.name}-private-subnet-${subnetId}-elb`,
           {
             resourceId: subnetId,
-            key: `kubernetes.io/cluster/${this.name}`,
-            value: "shared",
-          },
-          opts
-        )
-      );
-      list.push(
-        new aws.ec2.Tag(
-          `${this.name}-${subnetId}-elb`,
-          {
-            resourceId: subnetId,
-            key: `kubernetes.io/role/elb`,
+            key: `kubernetes.io/role/internal-elb`,
             value: "1",
           },
           opts
         )
-      );
-    }
-    return list;
-  }
-
-  private setupPrivateSubnetTag(ids: pulumi.Input<string>[], opts?: pulumi.ResourceOptions): aws.ec2.Tag[] {
-    const list: aws.ec2.Tag[] = [];
-    for (const subnetId of ids) {
-      new aws.ec2.Tag(
-        `${this.name}-private-subnet-${subnetId}-elb`,
-        {
-          resourceId: subnetId,
-          key: `kubernetes.io/role/internal-elb`,
-          value: "1",
-        },
-        opts
-      )
-    }
+      }
+    });
     return list;
   }
 
@@ -515,167 +495,6 @@ export class Cluster extends pulumi.ComponentResource {
     return;
   }
 
-  /**
-   * Get the default VPC id
-   */
-  private setupVpcFromDefaultVpc(): pulumi.Input<string> {
-    const invokeOpts = { parent: this, async: true };
-    const vpc = aws.ec2.getVpc({ default: true }, invokeOpts);
-    return vpc.then((v) => v.id);
-  }
-
-  /**
-   * Get the Subnets from the VPC id
-   */
-  private async setupSubnetsFromVpc(): Promise<{
-    allSubnetIds: pulumi.Input<string>[];
-    publicSubnetIds: pulumi.Input<string>[];
-    privateSubnetIds: pulumi.Input<string>[];
-  }> {
-    const invokeOpts = { parent: this, async: true };
-    const vpcId = await Promise.resolve(this.vpcId);
-
-    const subnetIds = await aws.ec2
-    .getSubnets(
-      {
-        filters: [
-          {
-            name: "vpc-id",
-            values: [vpcId.toString()],
-          },
-        ],
-      },
-      invokeOpts
-    )
-    .then((subnets) => subnets.ids);
-
-    const internetGatewayId = await aws.ec2
-    .getInternetGateway(
-      {
-        filters: [
-          {
-            name: "attachment.vpc-id",
-            values: [vpcId.toString()],
-          },
-        ],
-      },
-      invokeOpts
-    )
-    .then((igw) => igw.id);
-
-    const allList: pulumi.Input<pulumi.Input<string>[]> = [];
-    const privateList: pulumi.Input<pulumi.Input<string>[]> = [];
-    const publicList: pulumi.Input<pulumi.Input<string>[]> = [];
-
-    for (const subnetId of subnetIds) {
-      if (
-        await this.isPublicSubnet(subnetId, vpcId.toString(), internetGatewayId)
-      ) {
-        publicList.push(subnetId);
-      } else {
-        privateList.push(subnetId);
-      }
-
-      allList.push(subnetId);
-    }
-    return {
-      allSubnetIds: allList,
-      publicSubnetIds: publicList,
-      privateSubnetIds: privateList,
-    };
-  }
-
-  /**
-   * Check if the given Subnet is attached to the VPC Internet Gateway through the Routes declared in the Route Table
-   */
-  private async isPublicSubnet(
-    subnetId: string,
-    vpcId: string,
-    internetGatewayId: string
-  ): Promise<boolean> {
-    const invokeOpts = { parent: this, async: true };
-    try {
-      // Check if exists the explicit association between the Subnet and the Route Table
-      const routeTable = await aws.ec2.getRouteTable(
-        {
-          subnetId: subnetId,
-        },
-        invokeOpts
-      );
-      if (
-        await this.isSubnetWithInternetGateway(internetGatewayId, routeTable.id)
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      // Check if exists non-explicit association between the Subnet and the Route Table
-      if (error instanceof Error) {
-        const msg = error.message;
-        if (msg.includes("query returned no results")) {
-          const vpcRouteTable = await aws.ec2.getRouteTable(
-            {
-              vpcId: vpcId,
-            },
-            invokeOpts
-          );
-          if (
-            await this.isSubnetWithInternetGateway(
-              internetGatewayId,
-              vpcRouteTable.id
-            )
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          throw error;
-        }
-      } else {
-        throw error;
-      }
-    }
-  }
-
-  /**
-   * Check if the RouteTable as a route attached to the InternetGateway
-   */
-  private async isSubnetWithInternetGateway(
-    internetGatewayId: string,
-    routeTableId: string
-  ): Promise<boolean> {
-    const invokeOpts = { parent: this, async: true };
-
-    try {
-      await aws.ec2.getRoute({
-        gatewayId: internetGatewayId,
-        routeTableId: routeTableId,
-      });
-      return true;
-    } catch (error) {
-      if (error instanceof Error) {
-        const msg = error.message;
-        if (
-          msg.includes(
-            "use additional constraints to reduce matches to a single rout"
-          )
-        ) {
-          return true;
-        } else if (
-          msg.includes(
-            "No routes matching supplied arguments found in Route Table"
-          )
-        ) {
-          return false;
-        }
-      }
-
-      throw error;
-    }
-  }
-
   public setupKubeconfig(): pulumi.Output<string> {
     const kubeconfig = pulumi.interpolate`apiVersion: v1
 clusters:
@@ -751,49 +570,207 @@ users:
     }, opts);
   }
 
-  private getZoneData(opts: pulumi.ResourceOptions): Promise<{
+  private async getZoneData(opts: pulumi.ResourceOptions): Promise<{
     id: pulumi.Input<string>,
     arn: pulumi.Input<string>,
   }> {
-    const data = this.getExternalZoneData();
-    const result = data.then(d => {
-      return {
-        id: data.then(d => d.id),
-        arn: data.then(d => d?.arn),
-      };
-    }, (error) => {
-      const msg = error.message;
-      if (!msg.includes("no matching Route53Zone found")) {
-        throw error;
+    try{
+      const zoneData = await this.getExternalZoneData();
+      return zoneData;
+    } catch (error) {
+      if (error instanceof Error) {
+        const msg = error.message;
+        if (!msg.includes("no matching Route53Zone found")) {
+          throw error;
+        }
+        const vpcId = await Promise.resolve(this.vpcId);
+        const zone = new aws.route53.Zone(
+          this.name,
+          {
+            name: this.domain,
+            forceDestroy: true,
+            vpcs: [{
+              vpcId: vpcId.toString(),
+            }],
+          },
+          opts
+        );
+        return {
+          id: zone.id,
+          arn: zone.arn,
+        }
       }
-      const zone = new aws.route53.Zone(
-        this.name,
-        {
-          name: this.domain,
-          forceDestroy: true,
-          vpcs: [{
-            vpcId: this.vpcId,
-          }],
-        },
-        opts
-      );
-      return {
-        id: zone.id,
-        arn: zone.arn,
-      }
-    });
-    return result;
+      throw error;
+    }
   }
 
   private async getExternalZoneData(): Promise<{id: string, arn: string}> {
-      const invokeOpts = {parent: this, async: true};
-      const zone = await aws.route53.getZone({
-        name: this.config.baseDomain,
-      }, invokeOpts);
+    const invokeOpts = {parent: this, async: true};
+    const zone = await aws.route53.getZone({
+      name: this.config.baseDomain,
+    }, invokeOpts);
+
+    return {
+      id: zone.id,
+      arn: zone.arn,
+    }
+  }
+
+  /**
+   * Get the default VPC id
+   */
+  private async setupVpc(): Promise<string> {
+    if (this.config.vpcId !== undefined) {
+      return this.config.vpcId.toString();
+    }
+    const invokeOpts = { parent: this, async: true };
+    const vpc = aws.ec2.getVpc({ default: true }, invokeOpts);
+    return vpc.then(vpc => vpc.id);
+  }
+
+  /**
+   * Get the default VPC id
+   */
+  private async setupSubnets(): Promise<{
+    allIds: pulumi.Input<string>[],
+    privateIds: pulumi.Input<string>[],
+    publicIds: pulumi.Input<string>[],
+  }> {
+    const vpcId = await Promise.resolve(this.vpcId);
+
+    // Get subnets from configuration
+    if (this.config.publicSubnetIds !== undefined || this.config.privateSubnetIds !== undefined) {
+      const allList: pulumi.Input<string>[] = [];
+      allList.push(...this.config.publicSubnetIds || []);
+      allList.push(...this.config.privateSubnetIds || []);
+      return {
+        allIds: allList,
+        privateIds: this.config.privateSubnetIds || [],
+        publicIds: this.config.publicSubnetIds || [],
+      };
+    } else {
+      const invokeOpts = { parent: this, async: true };
+      let subnetIds : pulumi.Input<string>[] = [];
+      const privateIds : pulumi.Input<string>[] = [];
+      const publicIds : pulumi.Input<string>[] = [];
+
+      subnetIds = await aws.ec2.getSubnets(
+        {
+          filters: [{
+            name: "vpc-id",
+            values: [vpcId.toString()],
+          }]
+        },
+        invokeOpts
+      ).then(subnets => subnets.ids);
+
+      const internetGatewayId = aws.ec2.getInternetGateway(
+        {
+          filters: [
+            {
+              name: "attachment.vpc-id",
+              values: [vpcId.toString()],
+            },
+          ],
+        },
+        invokeOpts
+      ).then(ig => ig.id);
+
+      for (const subnetId of subnetIds) {
+        const isPublicPromise = this.isPublicSubnet(subnetId, internetGatewayId);
+        isPublicPromise.then(promise => {
+          if (promise) {
+            publicIds.push(subnetId);
+          } else {
+            privateIds.push(subnetId);
+          }
+        });
+      }
 
       return {
-        id: zone.id,
-        arn: zone.arn,
+        allIds: subnetIds,
+        privateIds: subnetIds,
+        publicIds: subnetIds,
+      };
+    }
+  }
+
+  /**
+   * Check if the given Subnet is attached to the VPC Internet Gateway through the Routes declared in the Route Table
+   */
+  private async isPublicSubnet(
+    subnetId: pulumi.Input<string>,
+    internetGatewayId: pulumi.Input<string>
+  ): Promise<boolean> {
+    const invokeOpts = { parent: this, async: true };
+    try {
+      // Check if exists the explicit association between the Subnet and the Route Table
+      const routeTableId = await aws.ec2.getRouteTable(
+        {
+          subnetId: subnetId.toString(),
+        },
+        invokeOpts
+      ).then(routeTable => routeTable.id);
+      return await this.isSubnetWithInternetGateway(internetGatewayId, routeTableId);
+    } catch (error) {
+      // Check if exists non-explicit association between the Subnet and the Route Table
+      if (error instanceof Error) {
+        const msg = error.message;
+        if (msg.includes("query returned no results")) {
+          const vpcId = await Promise.resolve(this.vpcId);
+          const vpcRouteTableId = await aws.ec2.getRouteTable(
+            {
+              vpcId: vpcId.toString(),
+            },
+            invokeOpts
+          ).then(rt => rt.id);
+          return await this.isSubnetWithInternetGateway(
+            internetGatewayId,
+            vpcRouteTableId
+          );
+        } else {
+          return false;
+        }
+      } else {
+        throw error;
       }
+    }
+  }
+
+  /**
+   * Check if the RouteTable as a route attached to the InternetGateway
+   */
+  private async isSubnetWithInternetGateway(
+    internetGatewayId: pulumi.Input<string>,
+    routeTableId: pulumi.Input<string>
+  ): Promise<boolean> {
+    const invokeOpts = { parent: this, async: true };
+
+    try {
+      const routeTable = await aws.ec2.getRoute({
+        gatewayId: internetGatewayId.toString(),
+        routeTableId: routeTableId.toString(),
+      });
+      return true;
+    } catch (error) {
+      if (error instanceof Error) {
+        const msg = error.message;
+        if (
+          msg.includes(
+            "use additional constraints to reduce matches to a single rout"
+          )
+        ) {
+          return true;
+        } else if (
+          msg.includes(
+            "No routes matching supplied arguments found in Route Table"
+          )
+        ) {
+          return false;
+        }
+      }
+
+      throw error;
+    }
   }
 }
