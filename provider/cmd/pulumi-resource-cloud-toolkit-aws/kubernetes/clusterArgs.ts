@@ -1,7 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
 
-import { ClusterAddonsArgs } from "./clusterAddonsArgs";
-
 export interface ClusterArgs {
   /**
    * The VPC ID where the cluster will be deployed
@@ -41,12 +39,16 @@ export interface ClusterArgs {
   /**
    * The addons installed in the cluster.
    */
-  addons?: ClusterAddonsArgs;
+  addons?: AddonsArgs;
 
   /**
    * The base domain.
    */
   baseDomain?: string;
+}
+
+export interface AddonsArgs {
+  enabled: boolean;
 }
 
 export interface ClusterApiArgs {
@@ -159,4 +161,7 @@ export const defaultClusterArgs = {
   nodeGroups: defaultNodeGroups,
   oidcProviders: defaultOidcProviders,
   version: defaultVersion,
+  addons: {
+    enabled: true,
+  }
 };
