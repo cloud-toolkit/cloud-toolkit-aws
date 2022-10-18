@@ -108,13 +108,8 @@ export namespace email {
 }
 
 export namespace kubernetes {
-    export interface ClusterAddonsArgsArgs {
-        domain?: pulumi.Input<string>;
-        identityProvidersArn?: pulumi.Input<pulumi.Input<string>[]>;
-        ingress?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressArgsArgs>;
-        issuerUrl?: pulumi.Input<string>;
-        k8sProvider?: pulumi.Input<pulumiKubernetes.Provider>;
-        zoneArns?: pulumi.Input<pulumi.Input<string>[]>;
+    export interface AddonsArgsArgs {
+        enabled: pulumi.Input<boolean>;
     }
 
     export interface ClusterAddonsIngressArgsArgs {
