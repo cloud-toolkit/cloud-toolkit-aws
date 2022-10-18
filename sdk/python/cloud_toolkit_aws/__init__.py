@@ -53,7 +53,14 @@ _utilities.register(
   "mod": "kubernetes",
   "fqn": "cloud_toolkit_aws.kubernetes",
   "classes": {
+   "cloud-toolkit-aws:kubernetes:ApplicationAddon": "ApplicationAddon",
+   "cloud-toolkit-aws:kubernetes:ArgoCD": "ArgoCD",
+   "cloud-toolkit-aws:kubernetes:CertManager": "CertManager",
    "cloud-toolkit-aws:kubernetes:Cluster": "Cluster",
+   "cloud-toolkit-aws:kubernetes:ClusterAddons": "ClusterAddons",
+   "cloud-toolkit-aws:kubernetes:ExternalDns": "ExternalDns",
+   "cloud-toolkit-aws:kubernetes:IngressNginx": "IngressNginx",
+   "cloud-toolkit-aws:kubernetes:Irsa": "Irsa",
    "cloud-toolkit-aws:kubernetes:NodeGroup": "NodeGroup"
   }
  },

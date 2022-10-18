@@ -11,12 +11,101 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
+    'AddonsArgsArgs',
+    'ClusterAddonsIngressArgsArgs',
+    'ClusterAddonsIngressItemArgsArgs',
     'ClusterApiArgsArgs',
     'ClusterNodeGroupArgsArgs',
     'ClusterOidcProvidersArgsArgs',
     'ClusterPrivateApiArgsArgs',
     'ClusterPublicApiArgsArgs',
 ]
+
+@pulumi.input_type
+class AddonsArgsArgs:
+    def __init__(__self__, *,
+                 enabled: pulumi.Input[bool]):
+        pulumi.set(__self__, "enabled", enabled)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> pulumi.Input[bool]:
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: pulumi.Input[bool]):
+        pulumi.set(self, "enabled", value)
+
+
+@pulumi.input_type
+class ClusterAddonsIngressArgsArgs:
+    def __init__(__self__, *,
+                 admin: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None,
+                 enabled: Optional[pulumi.Input[bool]] = None,
+                 global_: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None):
+        if admin is not None:
+            pulumi.set(__self__, "admin", admin)
+        if enabled is not None:
+            pulumi.set(__self__, "enabled", enabled)
+        if global_ is not None:
+            pulumi.set(__self__, "global_", global_)
+
+    @property
+    @pulumi.getter
+    def admin(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]:
+        return pulumi.get(self, "admin")
+
+    @admin.setter
+    def admin(self, value: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]):
+        pulumi.set(self, "admin", value)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enabled", value)
+
+    @property
+    @pulumi.getter(name="global")
+    def global_(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]:
+        return pulumi.get(self, "global_")
+
+    @global_.setter
+    def global_(self, value: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]):
+        pulumi.set(self, "global_", value)
+
+
+@pulumi.input_type
+class ClusterAddonsIngressItemArgsArgs:
+    def __init__(__self__, *,
+                 public: Optional[pulumi.Input[bool]] = None,
+                 whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        if public is not None:
+            pulumi.set(__self__, "public", public)
+        if whitelist is not None:
+            pulumi.set(__self__, "whitelist", whitelist)
+
+    @property
+    @pulumi.getter
+    def public(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "public")
+
+    @public.setter
+    def public(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "public", value)
+
+    @property
+    @pulumi.getter
+    def whitelist(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        return pulumi.get(self, "whitelist")
+
+    @whitelist.setter
+    def whitelist(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "whitelist", value)
+
 
 @pulumi.input_type
 class ClusterApiArgsArgs:
