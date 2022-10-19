@@ -3,13 +3,30 @@ import * as kubernetes from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import { IrsaArgs } from "./irsaArgs";
 
+/**
+ * The Irsa component create an IAM roles for service accounts on AWS and Kubernetes.
+ */
 export class Irsa extends pulumi.ComponentResource {
   private args: IrsaArgs;
   public readonly name: string;
 
+  /**
+   * The IAM Role.
+   */
   public readonly role: aws.iam.Role;
+
+  /**
+   * The list of IAM Policies.
+   */
   public readonly policies: aws.iam.Policy[];
+
+  /** The list of IAM Policy Attachments to associate the Roles and Policies.
+   */
   public readonly rolePolicyAttachments: aws.iam.RolePolicyAttachment[];
+
+  /**
+   * The ServiceAccount created in Kubernetes.
+   */
   public readonly serviceAccount: kubernetes.core.v1.ServiceAccount;
 
   constructor(

@@ -25,11 +25,17 @@ __all__ = [
 class AddonsArgsArgs:
     def __init__(__self__, *,
                  enabled: pulumi.Input[bool]):
+        """
+        :param pulumi.Input[bool] enabled: Enable the ClusterAddons.
+        """
         pulumi.set(__self__, "enabled", enabled)
 
     @property
     @pulumi.getter
     def enabled(self) -> pulumi.Input[bool]:
+        """
+        Enable the ClusterAddons.
+        """
         return pulumi.get(self, "enabled")
 
     @enabled.setter
@@ -43,6 +49,11 @@ class ClusterAddonsIngressArgsArgs:
                  admin: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None,
                  enabled: Optional[pulumi.Input[bool]] = None,
                  global_: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None):
+        """
+        :param pulumi.Input['ClusterAddonsIngressItemArgsArgs'] admin: Configure the admin IngressController.
+        :param pulumi.Input[bool] enabled: Enable the IngressControllers.
+        :param pulumi.Input['ClusterAddonsIngressItemArgsArgs'] global_: Configure the global IngressController.
+        """
         if admin is not None:
             pulumi.set(__self__, "admin", admin)
         if enabled is not None:
@@ -53,6 +64,9 @@ class ClusterAddonsIngressArgsArgs:
     @property
     @pulumi.getter
     def admin(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]:
+        """
+        Configure the admin IngressController.
+        """
         return pulumi.get(self, "admin")
 
     @admin.setter
@@ -62,6 +76,9 @@ class ClusterAddonsIngressArgsArgs:
     @property
     @pulumi.getter
     def enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable the IngressControllers.
+        """
         return pulumi.get(self, "enabled")
 
     @enabled.setter
@@ -71,6 +88,9 @@ class ClusterAddonsIngressArgsArgs:
     @property
     @pulumi.getter(name="global")
     def global_(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]:
+        """
+        Configure the global IngressController.
+        """
         return pulumi.get(self, "global_")
 
     @global_.setter
@@ -83,6 +103,10 @@ class ClusterAddonsIngressItemArgsArgs:
     def __init__(__self__, *,
                  public: Optional[pulumi.Input[bool]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        """
+        :param pulumi.Input[bool] public: Use a public Load Balancer to expose the IngressController.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: Set a whitelist to access the IngressController.
+        """
         if public is not None:
             pulumi.set(__self__, "public", public)
         if whitelist is not None:
@@ -91,6 +115,9 @@ class ClusterAddonsIngressItemArgsArgs:
     @property
     @pulumi.getter
     def public(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Use a public Load Balancer to expose the IngressController.
+        """
         return pulumi.get(self, "public")
 
     @public.setter
@@ -100,6 +127,9 @@ class ClusterAddonsIngressItemArgsArgs:
     @property
     @pulumi.getter
     def whitelist(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        Set a whitelist to access the IngressController.
+        """
         return pulumi.get(self, "whitelist")
 
     @whitelist.setter

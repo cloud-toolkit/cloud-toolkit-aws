@@ -8,10 +8,19 @@ import { Irsa } from "./irsa";
 export { CertManagerArgs };
 
 export class CertManager extends ApplicationAddon<CertManagerArgs> {
+  /**
+   * The Namespace used to deploy the component.
+   */
   public readonly namespace?: kubernetes.core.v1.Namespace;
 
+  /**
+   * The ArgoCD Application to deploy the component.
+   */
   public readonly application: kubernetes.apiextensions.CustomResource;
 
+  /**
+   * The IAM roles for service accounts.
+   */
   public readonly irsa: Irsa;
 
   constructor(

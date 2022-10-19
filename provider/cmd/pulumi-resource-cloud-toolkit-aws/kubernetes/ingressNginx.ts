@@ -9,9 +9,18 @@ export {
   IngressNginxArgs
 };
 
+/**
+ * IngressNginx is a component that deploy the Nginx IngressController to expose applications over HTTP/HTTPS.
+ */
 export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
+  /**
+   * The Namespace used to deploy the component.
+   */
   public readonly namespace?: kubernetes.core.v1.Namespace;
 
+  /**
+   * The ArgoCD Application to deploy the component.
+   */
   public readonly application: kubernetes.apiextensions.CustomResource;
 
   constructor(

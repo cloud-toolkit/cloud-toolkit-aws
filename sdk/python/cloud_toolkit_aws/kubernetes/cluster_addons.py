@@ -24,6 +24,12 @@ class ClusterAddonsArgs:
                  ingress: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']] = None):
         """
         The set of arguments for constructing a ClusterAddons resource.
+        :param pulumi.Input[str] domain: The domain used by the cluster.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn.
+        :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
+        :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+        :param pulumi.Input['ClusterAddonsIngressArgsArgs'] ingress: The configuration for Ingress Controller.
         """
         pulumi.set(__self__, "domain", domain)
         pulumi.set(__self__, "identity_providers_arn", identity_providers_arn)
@@ -36,6 +42,9 @@ class ClusterAddonsArgs:
     @property
     @pulumi.getter
     def domain(self) -> pulumi.Input[str]:
+        """
+        The domain used by the cluster.
+        """
         return pulumi.get(self, "domain")
 
     @domain.setter
@@ -45,6 +54,9 @@ class ClusterAddonsArgs:
     @property
     @pulumi.getter(name="identityProvidersArn")
     def identity_providers_arn(self) -> pulumi.Input[Sequence[pulumi.Input[str]]]:
+        """
+        The OIDC Identity Provider arn.
+        """
         return pulumi.get(self, "identity_providers_arn")
 
     @identity_providers_arn.setter
@@ -54,6 +66,9 @@ class ClusterAddonsArgs:
     @property
     @pulumi.getter(name="issuerUrl")
     def issuer_url(self) -> pulumi.Input[str]:
+        """
+        The OIDC Identity Provider url.
+        """
         return pulumi.get(self, "issuer_url")
 
     @issuer_url.setter
@@ -63,6 +78,9 @@ class ClusterAddonsArgs:
     @property
     @pulumi.getter(name="k8sProvider")
     def k8s_provider(self) -> pulumi.Input['pulumi_kubernetes.Provider']:
+        """
+        The Pulumi provider used for Kubernetes resources.
+        """
         return pulumi.get(self, "k8s_provider")
 
     @k8s_provider.setter
@@ -72,6 +90,9 @@ class ClusterAddonsArgs:
     @property
     @pulumi.getter(name="zoneArns")
     def zone_arns(self) -> pulumi.Input[Sequence[pulumi.Input[str]]]:
+        """
+        The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+        """
         return pulumi.get(self, "zone_arns")
 
     @zone_arns.setter
@@ -81,6 +102,9 @@ class ClusterAddonsArgs:
     @property
     @pulumi.getter
     def ingress(self) -> Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']]:
+        """
+        The configuration for Ingress Controller.
+        """
         return pulumi.get(self, "ingress")
 
     @ingress.setter
@@ -105,6 +129,12 @@ class ClusterAddons(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] domain: The domain used by the cluster.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn.
+        :param pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']] ingress: The configuration for Ingress Controller.
+        :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
+        :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
         """
         ...
     @overload
@@ -177,20 +207,32 @@ class ClusterAddons(pulumi.ComponentResource):
     @property
     @pulumi.getter(name="adminIngressNginx")
     def admin_ingress_nginx(self) -> pulumi.Output[Any]:
+        """
+        The IngressNginx addon used for admin access.
+        """
         return pulumi.get(self, "admin_ingress_nginx")
 
     @property
     @pulumi.getter
     def argocd(self) -> pulumi.Output[Any]:
+        """
+        The ArgoCD addon.
+        """
         return pulumi.get(self, "argocd")
 
     @property
     @pulumi.getter(name="certManager")
     def cert_manager(self) -> pulumi.Output[Any]:
+        """
+        The CertManager addon.
+        """
         return pulumi.get(self, "cert_manager")
 
     @property
     @pulumi.getter(name="externalDns")
     def external_dns(self) -> pulumi.Output[Any]:
+        """
+        The ExternalDns addon.
+        """
         return pulumi.get(self, "external_dns")
 

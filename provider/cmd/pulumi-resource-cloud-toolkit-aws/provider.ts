@@ -216,21 +216,6 @@ async function constructKubernetesCertManager(
   };
 }
 
-async function constructExample(
-  name: string,
-  inputs: pulumi.Inputs,
-  options: pulumi.ComponentResourceOptions
-): Promise<pulumi.provider.ConstructResult> {
-  const example = new Example(name, inputs as ExampleArgs, options);
-
-  return {
-    urn: example.urn,
-    state: {
-      bucket: example.bucket,
-    },
-  };
-}
-
 async function constructQueue(
   name: string,
   inputs: pulumi.Inputs,

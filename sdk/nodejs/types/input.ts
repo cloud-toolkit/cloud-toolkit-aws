@@ -109,17 +109,35 @@ export namespace email {
 
 export namespace kubernetes {
     export interface AddonsArgsArgs {
+        /**
+         * Enable the ClusterAddons.
+         */
         enabled: pulumi.Input<boolean>;
     }
 
     export interface ClusterAddonsIngressArgsArgs {
+        /**
+         * Configure the admin IngressController.
+         */
         admin?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
+        /**
+         * Enable the IngressControllers.
+         */
         enabled?: pulumi.Input<boolean>;
+        /**
+         * Configure the global IngressController.
+         */
         global?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
     }
 
     export interface ClusterAddonsIngressItemArgsArgs {
+        /**
+         * Use a public Load Balancer to expose the IngressController.
+         */
         public?: pulumi.Input<boolean>;
+        /**
+         * Set a whitelist to access the IngressController.
+         */
         whitelist?: pulumi.Input<pulumi.Input<string>[]>;
     }
 

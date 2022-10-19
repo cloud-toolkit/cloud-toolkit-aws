@@ -7,6 +7,9 @@ import * as utilities from "../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
+/**
+ * The Irsa component create an IAM roles for service accounts on AWS and Kubernetes.
+ */
 export class Irsa extends pulumi.ComponentResource {
     /** @internal */
     public static readonly __pulumiType = 'cloud-toolkit-aws:kubernetes:Irsa';
@@ -23,9 +26,21 @@ export class Irsa extends pulumi.ComponentResource {
     }
 
     public /*out*/ readonly name!: pulumi.Output<string>;
+    /**
+     * The list of IAM Policies.
+     */
     public readonly policies!: pulumi.Output<pulumiAws.iam.Policy[]>;
+    /**
+     * The IAM Role.
+     */
     public /*out*/ readonly role!: pulumi.Output<pulumiAws.iam.Role>;
+    /**
+     * The list of IAM Policy Attachments to associate the Roles and Policies.
+     */
     public /*out*/ readonly rolePolicyAttachments!: pulumi.Output<pulumiAws.iam.RolePolicyAttachment[]>;
+    /**
+     * The ServiceAccount created in Kubernetes.
+     */
     public /*out*/ readonly serviceAccount!: pulumi.Output<pulumiKubernetes.core.v1.ServiceAccount>;
 
     /**
@@ -83,10 +98,28 @@ export class Irsa extends pulumi.ComponentResource {
  * The set of arguments for constructing a Irsa resource.
  */
 export interface IrsaArgs {
+    /**
+     * The OIDC Identity Provider arn used by the IRSA.
+     */
     identityProvidersArn: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The OIDC Identity Provider url used by the IRSA.
+     */
     issuerUrl: pulumi.Input<string>;
+    /**
+     * Kubernetes provider used by Pulumi.
+     */
     k8sProvider: pulumi.Input<pulumiKubernetes.Provider>;
+    /**
+     * The Namespace name where the addon will be installed.
+     */
     namespace: pulumi.Input<string>;
+    /**
+     * The list of Policies to be associated to the Irsa.
+     */
     policies: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The Service Account name used in Kubernetes.
+     */
     serviceAccountName: pulumi.Input<string>;
 }
