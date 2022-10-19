@@ -241,14 +241,6 @@ types:
     required:
       - name
       - token
-  cloud-toolkit-aws:index:ExampleArgs:
-    properties:
-      name:
-        description: ""
-        type: string
-    type: object
-    required:
-      - name
   cloud-toolkit-aws:kubernetes:ClusterArgs:
     properties:
       vpcId:
@@ -1183,22 +1175,6 @@ resources:
       - identity
     isComponent: true
     type: object
-  cloud-toolkit-aws:index:Example:
-    description: ""
-    properties:
-      bucket:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketV2:BucketV2
-    required:
-      - bucket
-    inputProperties:
-      name:
-        description: ""
-        type: string
-    requiredInputs:
-      - name
-    isComponent: true
-    type: object
   cloud-toolkit-aws:kubernetes:Cluster:
     description: Cluster is a component that deploy a production-ready Kubernetes
       cluster. It setups the AWS IAM and netwokring, as well many Kubernetes
@@ -1372,13 +1348,7 @@ resources:
     type: object
   cloud-toolkit-aws:landingzone:AccountIam:
     description: Cluster is a component that configure the IAM service for a given account.
-    properties:
-      alias:
-        description: The IAM Account Alias.
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2faccountAlias:AccountAlias
-      passwordPolicy:
-        description: The IAM Account Password policy.
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2faccountPasswordPolicy:AccountPasswordPolicy
+    properties: {}
     required: []
     inputProperties:
       alias:
@@ -1695,9 +1665,6 @@ resources:
       bucketPublicAccessPolicy:
         description: Policy to make public all objects if bucket visibility is public
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPolicy:BucketPolicy
-      bucketOwnership:
-        description: Enforce that bucket owner is all bucket objects
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketOwnershipControls:BucketOwnershipControls
       bucketVersioning:
         description: Configuration for controlling bucket versioning
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketVersioningV2:BucketVersioningV2
@@ -1723,7 +1690,6 @@ resources:
       - role
       - bucket
       - bucketPublicAccess
-      - bucketOwnership
       - bucketVersioning
       - readOnlyBucketPolicy
       - writeBucketPolicy
