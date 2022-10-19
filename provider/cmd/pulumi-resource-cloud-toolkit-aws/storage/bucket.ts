@@ -57,7 +57,7 @@ export class Bucket extends pulumi.ComponentResource {
    * 
    * @type {aws.s3.BucketOwnershipControls}
    */
-  public bucketOwnership: aws.s3.BucketOwnershipControls;
+  public readonly bucketOwnership: aws.s3.BucketOwnershipControls;
 
   /**
    * Configuration for controlling bucket versioning

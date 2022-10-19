@@ -24,12 +24,12 @@ export class AccountIam extends pulumi.ComponentResource {
   /**
    * The IAM Account Alias.
    */
-  public alias?: aws.iam.AccountAlias;
+  public readonly alias?: aws.iam.AccountAlias;
 
   /**
    * The IAM Account Password policy.
    */
-  public passwordPolicy?: aws.iam.AccountPasswordPolicy;
+  public readonly passwordPolicy?: aws.iam.AccountPasswordPolicy;
 
   constructor(name: string, args: AccountIamArgs, opts?: pulumi.ResourceOptions) {
     super("cloud-toolkit-aws:landingZone:AccountIam", name, args, opts);
