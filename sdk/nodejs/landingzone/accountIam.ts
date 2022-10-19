@@ -7,8 +7,6 @@ import * as outputs from "../types/output";
 import * as enums from "../types/enums";
 import * as utilities from "../utilities";
 
-import * as pulumiAws from "@pulumi/aws";
-
 /**
  * Cluster is a component that configure the IAM service for a given account.
  */
@@ -27,14 +25,6 @@ export class AccountIam extends pulumi.ComponentResource {
         return obj['__pulumiType'] === AccountIam.__pulumiType;
     }
 
-    /**
-     * The IAM Account Alias.
-     */
-    public readonly alias!: pulumi.Output<pulumiAws.iam.AccountAlias | undefined>;
-    /**
-     * The IAM Account Password policy.
-     */
-    public readonly passwordPolicy!: pulumi.Output<pulumiAws.iam.AccountPasswordPolicy | undefined>;
 
     /**
      * Create a AccountIam resource with the given unique name, arguments, and options.
@@ -50,8 +40,6 @@ export class AccountIam extends pulumi.ComponentResource {
             resourceInputs["alias"] = args ? args.alias : undefined;
             resourceInputs["passwordPolicy"] = args ? args.passwordPolicy : undefined;
         } else {
-            resourceInputs["alias"] = undefined /*out*/;
-            resourceInputs["passwordPolicy"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(AccountIam.__pulumiType, name, resourceInputs, opts, true /*remote*/);

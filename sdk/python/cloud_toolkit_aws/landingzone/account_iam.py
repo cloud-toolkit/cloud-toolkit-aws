@@ -9,7 +9,6 @@ import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
 from ._inputs import *
-import pulumi_aws
 
 __all__ = ['AccountIamArgs', 'AccountIam']
 
@@ -114,20 +113,4 @@ class AccountIam(pulumi.ComponentResource):
             __props__,
             opts,
             remote=True)
-
-    @property
-    @pulumi.getter
-    def alias(self) -> pulumi.Output[Optional['pulumi_aws.iam.AccountAlias']]:
-        """
-        The IAM Account Alias.
-        """
-        return pulumi.get(self, "alias")
-
-    @property
-    @pulumi.getter(name="passwordPolicy")
-    def password_policy(self) -> pulumi.Output[Optional['pulumi_aws.iam.AccountPasswordPolicy']]:
-        """
-        The IAM Account Password policy.
-        """
-        return pulumi.get(self, "password_policy")
 

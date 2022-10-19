@@ -5,15 +5,10 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 // Export members:
-export { ExampleArgs } from "./example";
-export type Example = import("./example").Example;
-export const Example: typeof import("./example").Example = null as any;
-
 export { ProviderArgs } from "./provider";
 export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
 
-utilities.lazyLoad(exports, ["Example"], () => require("./example"));
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
 // Export sub-modules:
@@ -34,19 +29,6 @@ export {
     storage,
     types,
 };
-
-const _module = {
-    version: utilities.getVersion(),
-    construct: (name: string, type: string, urn: string): pulumi.Resource => {
-        switch (type) {
-            case "cloud-toolkit-aws:index:Example":
-                return new Example(name, <any>undefined, { urn })
-            default:
-                throw new Error(`unknown resource type ${type}`);
-        }
-    },
-};
-pulumi.runtime.registerResourceModule("cloud-toolkit-aws", "index", _module)
 pulumi.runtime.registerResourcePackage("cloud-toolkit-aws", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {

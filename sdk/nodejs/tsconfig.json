@@ -17,7 +17,6 @@
         "databases/mysql.ts",
         "email/emailSender.ts",
         "email/index.ts",
-        "example.ts",
         "index.ts",
         "kubernetes/cluster.ts",
         "kubernetes/index.ts",
