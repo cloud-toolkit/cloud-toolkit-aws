@@ -1,0 +1,3 @@
+name: tests-queue
+description: A tests for queue
+runtime: nodejs
