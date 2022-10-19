@@ -13,7 +13,7 @@ import * as pulumiKubernetes from "@pulumi/kubernetes";
 import {ClusterAddons, NodeGroup} from "./index";
 
 /**
- * Cluster is a component that deploy a production-ready Kubernetes cluster. It setups the AWS IAM and netwokring, as well many Kubernetes services to run application in production.
+ * Cluster is a component that deploys a production-ready Kubernetes cluster. It setups the AWS IAM and netwokring, as well many Kubernetes services to run application in production.
  */
 export class Cluster extends pulumi.ComponentResource {
     /** @internal */

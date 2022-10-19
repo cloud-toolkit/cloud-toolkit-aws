@@ -18,12 +18,16 @@ class ExternalDnsArgs:
                  zone_arns: pulumi.Input[Sequence[pulumi.Input[str]]]):
         """
         The set of arguments for constructing a ExternalDns resource.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arn to be used by ExternalDns.
         """
         pulumi.set(__self__, "zone_arns", zone_arns)
 
     @property
     @pulumi.getter(name="zoneArns")
     def zone_arns(self) -> pulumi.Input[Sequence[pulumi.Input[str]]]:
+        """
+        The list of DNS Zone arn to be used by ExternalDns.
+        """
         return pulumi.get(self, "zone_arns")
 
     @zone_arns.setter
@@ -39,9 +43,11 @@ class ExternalDns(pulumi.ComponentResource):
                  zone_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         """
-        Create a ExternalDns resource with the given unique name, props, and options.
+        ExternalDns is a component to manage DNS records according to the Ingresses created in the cluster.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arn to be used by ExternalDns.
         """
         ...
     @overload
@@ -50,7 +56,8 @@ class ExternalDns(pulumi.ComponentResource):
                  args: ExternalDnsArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a ExternalDns resource with the given unique name, props, and options.
+        ExternalDns is a component to manage DNS records according to the Ingresses created in the cluster.
+
         :param str resource_name: The name of the resource.
         :param ExternalDnsArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -94,15 +101,24 @@ class ExternalDns(pulumi.ComponentResource):
     @property
     @pulumi.getter
     def application(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
+        """
+        The Namespace used to deploy the component.
+        """
         return pulumi.get(self, "application")
 
     @property
     @pulumi.getter
     def irsa(self) -> pulumi.Output[Any]:
+        """
+        The IAM roles for service accounts.
+        """
         return pulumi.get(self, "irsa")
 
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Output[Optional['pulumi_kubernetes.core.v1.Namespace']]:
+        """
+        The Namespace used to deploy the component.
+        """
         return pulumi.get(self, "namespace")
 

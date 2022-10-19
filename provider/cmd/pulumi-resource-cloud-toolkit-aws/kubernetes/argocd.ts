@@ -7,14 +7,26 @@ import { ArgoCDArgs, defaultArgs } from "./argocdArgs";
 
 export { ArgoCDArgs };
 
+/**
+ * ArgoCD is a component that deploy the ArgoCD application in the cluster.
+ */
 export class ArgoCD extends pulumi.ComponentResource {
   private args: ArgoCDArgs;
   private name: string;
 
+  /**
+   * The inital admin password.
+   */
   public readonly adminPassword: random.RandomPassword;
 
+  /**
+   * The Helm Chart used to deploy ArgoCD.
+   */
   public readonly chart: kubernetes.helm.v3.Chart;
 
+  /**
+   * The Namespace used to deploy the component.
+   */
   public readonly namespace: kubernetes.core.v1.Namespace;
 
   constructor(name: string, args: ArgoCDArgs, opts?: pulumi.ResourceOptions) {

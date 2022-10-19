@@ -18,12 +18,16 @@ class CertManagerArgs:
                  zone_arns: pulumi.Input[Sequence[pulumi.Input[str]]]):
         """
         The set of arguments for constructing a CertManager resource.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arn to be used by CertManager.
         """
         pulumi.set(__self__, "zone_arns", zone_arns)
 
     @property
     @pulumi.getter(name="zoneArns")
     def zone_arns(self) -> pulumi.Input[Sequence[pulumi.Input[str]]]:
+        """
+        The list of DNS Zone arn to be used by CertManager.
+        """
         return pulumi.get(self, "zone_arns")
 
     @zone_arns.setter
@@ -42,6 +46,7 @@ class CertManager(pulumi.ComponentResource):
         Create a CertManager resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arn to be used by CertManager.
         """
         ...
     @overload
@@ -94,15 +99,24 @@ class CertManager(pulumi.ComponentResource):
     @property
     @pulumi.getter
     def application(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
+        """
+        The ArgoCD Application to deploy the component.
+        """
         return pulumi.get(self, "application")
 
     @property
     @pulumi.getter
     def irsa(self) -> pulumi.Output[Any]:
+        """
+        The IAM roles for service accounts.
+        """
         return pulumi.get(self, "irsa")
 
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Output[Optional['pulumi_kubernetes.core.v1.Namespace']]:
+        """
+        The Namespace used to deploy the component.
+        """
         return pulumi.get(self, "namespace")
 

@@ -21,6 +21,10 @@ class ApplicationAddonArgs:
                  create_namespace: Optional[pulumi.Input[bool]] = None):
         """
         The set of arguments for constructing a ApplicationAddon resource.
+        :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: Kubernetes provider used by Pulumi.
+        :param pulumi.Input[str] name: The name of the instanced component.
+        :param pulumi.Input[str] namespace: The Namespace name where the addon will be installed.
+        :param pulumi.Input[bool] create_namespace: Create a new Namespace using the given name.
         """
         pulumi.set(__self__, "k8s_provider", k8s_provider)
         pulumi.set(__self__, "name", name)
@@ -31,6 +35,9 @@ class ApplicationAddonArgs:
     @property
     @pulumi.getter(name="k8sProvider")
     def k8s_provider(self) -> pulumi.Input['pulumi_kubernetes.Provider']:
+        """
+        Kubernetes provider used by Pulumi.
+        """
         return pulumi.get(self, "k8s_provider")
 
     @k8s_provider.setter
@@ -40,6 +47,9 @@ class ApplicationAddonArgs:
     @property
     @pulumi.getter
     def name(self) -> pulumi.Input[str]:
+        """
+        The name of the instanced component.
+        """
         return pulumi.get(self, "name")
 
     @name.setter
@@ -49,6 +59,9 @@ class ApplicationAddonArgs:
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Input[str]:
+        """
+        The Namespace name where the addon will be installed.
+        """
         return pulumi.get(self, "namespace")
 
     @namespace.setter
@@ -58,6 +71,9 @@ class ApplicationAddonArgs:
     @property
     @pulumi.getter(name="createNamespace")
     def create_namespace(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Create a new Namespace using the given name.
+        """
         return pulumi.get(self, "create_namespace")
 
     @create_namespace.setter
@@ -80,6 +96,10 @@ class ApplicationAddon(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[bool] create_namespace: Create a new Namespace using the given name.
+        :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: Kubernetes provider used by Pulumi.
+        :param pulumi.Input[str] name: The name of the instanced component.
+        :param pulumi.Input[str] namespace: The Namespace name where the addon will be installed.
         """
         ...
     @overload

@@ -6,6 +6,9 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
+/**
+ * IngressNginx is a component that deploy the Nginx IngressController to expose applications over HTTP/HTTPS.
+ */
 export class IngressNginx extends pulumi.ComponentResource {
     /** @internal */
     public static readonly __pulumiType = 'cloud-toolkit-aws:kubernetes:IngressNginx';
@@ -21,7 +24,13 @@ export class IngressNginx extends pulumi.ComponentResource {
         return obj['__pulumiType'] === IngressNginx.__pulumiType;
     }
 
+    /**
+     * The ArgoCD Application to deploy the component.
+     */
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
+    /**
+     * The Namespace used to deploy the component.
+     */
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
 
     /**
@@ -56,7 +65,16 @@ export class IngressNginx extends pulumi.ComponentResource {
  * The set of arguments for constructing a IngressNginx resource.
  */
 export interface IngressNginxArgs {
+    /**
+     * The Ingress class name.
+     */
     className: pulumi.Input<string>;
+    /**
+     * Expose the IngressController with a public Load Balancer.
+     */
     public?: pulumi.Input<boolean>;
+    /**
+     * The whitelist of CIDR to access to the Ingress Controller.
+     */
     whitelist?: pulumi.Input<pulumi.Input<string>[]>;
 }
