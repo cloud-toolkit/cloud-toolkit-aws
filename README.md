@@ -80,3 +80,11 @@ Install the compiled SDK placed under the `sdk/python/bin` directory:
 ```bash
 pip install -e <path-to-this-repo>/sdk/python/bin
 ```
+
+### Integration tests
+
+Run integration tests with the following command:
+
+```bash
+make integration_tests
+```
