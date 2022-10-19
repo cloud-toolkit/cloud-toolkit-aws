@@ -183,7 +183,7 @@ class Cluster(pulumi.ComponentResource):
                  vpc_id: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Cluster is a component that deploy a production-ready Kubernetes cluster. It setups the AWS IAM and netwokring, as well many Kubernetes services to run application in production.
+        Cluster is a component that deploys a production-ready Kubernetes cluster. It setups the AWS IAM and netwokring, as well many Kubernetes services to run application in production.
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -204,7 +204,7 @@ class Cluster(pulumi.ComponentResource):
                  args: Optional[ClusterArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Cluster is a component that deploy a production-ready Kubernetes cluster. It setups the AWS IAM and netwokring, as well many Kubernetes services to run application in production.
+        Cluster is a component that deploys a production-ready Kubernetes cluster. It setups the AWS IAM and netwokring, as well many Kubernetes services to run application in production.
 
         :param str resource_name: The name of the resource.
         :param ClusterArgs args: The arguments to use to populate this resource's properties.

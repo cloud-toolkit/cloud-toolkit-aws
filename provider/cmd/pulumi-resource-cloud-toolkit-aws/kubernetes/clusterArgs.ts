@@ -48,6 +48,9 @@ export interface ClusterArgs {
 }
 
 export interface AddonsArgs {
+  /**
+   * Enable the ClusterAddons.
+   */
   enabled: boolean;
 }
 

@@ -7,11 +7,23 @@ import { Irsa } from "./irsa";
 
 export { ExternalDnsArgs };
 
+/**
+ * ExternalDns is a component to manage DNS records according to the Ingresses created in the cluster.
+ */
 export class ExternalDns extends ApplicationAddon<ExternalDnsArgs> {
+  /**
+   * The Namespace used to deploy the component.
+   */
   public readonly namespace?: kubernetes.core.v1.Namespace;
 
+  /**
+   * The Namespace used to deploy the component.
+   */
   public readonly application: kubernetes.apiextensions.CustomResource;
 
+  /**
+   * The IAM roles for service accounts.
+   */
   public readonly irsa: Irsa;
 
   constructor(

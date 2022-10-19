@@ -21,9 +21,24 @@ export class ClusterAddons extends pulumi.ComponentResource {
   private args: ClusterAddonsArgs;
   private name: string;
 
+  /**
+   * The ArgoCD addon.
+   */
   public readonly argocd: ArgoCD;
+
+  /**
+   * The CertManager addon.
+   */
   public readonly certManager: CertManager;
+
+  /**
+   * The IngressNginx addon used for admin access.
+   */
   public readonly adminIngressNginx: IngressNginx;
+
+  /**
+   * The ExternalDns addon.
+   */
   public readonly externalDns: ExternalDns;
 
   constructor(

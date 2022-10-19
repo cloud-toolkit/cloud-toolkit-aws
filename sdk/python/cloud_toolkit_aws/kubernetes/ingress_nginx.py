@@ -20,6 +20,9 @@ class IngressNginxArgs:
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
         The set of arguments for constructing a IngressNginx resource.
+        :param pulumi.Input[str] class_name: The Ingress class name.
+        :param pulumi.Input[bool] public: Expose the IngressController with a public Load Balancer.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: The whitelist of CIDR to access to the Ingress Controller.
         """
         pulumi.set(__self__, "class_name", class_name)
         if public is not None:
@@ -30,6 +33,9 @@ class IngressNginxArgs:
     @property
     @pulumi.getter(name="className")
     def class_name(self) -> pulumi.Input[str]:
+        """
+        The Ingress class name.
+        """
         return pulumi.get(self, "class_name")
 
     @class_name.setter
@@ -39,6 +45,9 @@ class IngressNginxArgs:
     @property
     @pulumi.getter
     def public(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Expose the IngressController with a public Load Balancer.
+        """
         return pulumi.get(self, "public")
 
     @public.setter
@@ -48,6 +57,9 @@ class IngressNginxArgs:
     @property
     @pulumi.getter
     def whitelist(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        The whitelist of CIDR to access to the Ingress Controller.
+        """
         return pulumi.get(self, "whitelist")
 
     @whitelist.setter
@@ -65,9 +77,13 @@ class IngressNginx(pulumi.ComponentResource):
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         """
-        Create a IngressNginx resource with the given unique name, props, and options.
+        IngressNginx is a component that deploy the Nginx IngressController to expose applications over HTTP/HTTPS.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] class_name: The Ingress class name.
+        :param pulumi.Input[bool] public: Expose the IngressController with a public Load Balancer.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: The whitelist of CIDR to access to the Ingress Controller.
         """
         ...
     @overload
@@ -76,7 +92,8 @@ class IngressNginx(pulumi.ComponentResource):
                  args: IngressNginxArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a IngressNginx resource with the given unique name, props, and options.
+        IngressNginx is a component that deploy the Nginx IngressController to expose applications over HTTP/HTTPS.
+
         :param str resource_name: The name of the resource.
         :param IngressNginxArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -123,10 +140,16 @@ class IngressNginx(pulumi.ComponentResource):
     @property
     @pulumi.getter
     def application(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
+        """
+        The ArgoCD Application to deploy the component.
+        """
         return pulumi.get(self, "application")
 
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Output[Optional['pulumi_kubernetes.core.v1.Namespace']]:
+        """
+        The Namespace used to deploy the component.
+        """
         return pulumi.get(self, "namespace")
 

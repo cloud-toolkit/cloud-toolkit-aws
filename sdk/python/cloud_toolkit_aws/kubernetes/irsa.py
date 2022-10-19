@@ -24,6 +24,12 @@ class IrsaArgs:
                  service_account_name: pulumi.Input[str]):
         """
         The set of arguments for constructing a Irsa resource.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn used by the IRSA.
+        :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url used by the IRSA.
+        :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: Kubernetes provider used by Pulumi.
+        :param pulumi.Input[str] namespace: The Namespace name where the addon will be installed.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] policies: The list of Policies to be associated to the Irsa.
+        :param pulumi.Input[str] service_account_name: The Service Account name used in Kubernetes.
         """
         pulumi.set(__self__, "identity_providers_arn", identity_providers_arn)
         pulumi.set(__self__, "issuer_url", issuer_url)
@@ -35,6 +41,9 @@ class IrsaArgs:
     @property
     @pulumi.getter(name="identityProvidersArn")
     def identity_providers_arn(self) -> pulumi.Input[Sequence[pulumi.Input[str]]]:
+        """
+        The OIDC Identity Provider arn used by the IRSA.
+        """
         return pulumi.get(self, "identity_providers_arn")
 
     @identity_providers_arn.setter
@@ -44,6 +53,9 @@ class IrsaArgs:
     @property
     @pulumi.getter(name="issuerUrl")
     def issuer_url(self) -> pulumi.Input[str]:
+        """
+        The OIDC Identity Provider url used by the IRSA.
+        """
         return pulumi.get(self, "issuer_url")
 
     @issuer_url.setter
@@ -53,6 +65,9 @@ class IrsaArgs:
     @property
     @pulumi.getter(name="k8sProvider")
     def k8s_provider(self) -> pulumi.Input['pulumi_kubernetes.Provider']:
+        """
+        Kubernetes provider used by Pulumi.
+        """
         return pulumi.get(self, "k8s_provider")
 
     @k8s_provider.setter
@@ -62,6 +77,9 @@ class IrsaArgs:
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Input[str]:
+        """
+        The Namespace name where the addon will be installed.
+        """
         return pulumi.get(self, "namespace")
 
     @namespace.setter
@@ -71,6 +89,9 @@ class IrsaArgs:
     @property
     @pulumi.getter
     def policies(self) -> pulumi.Input[Sequence[pulumi.Input[str]]]:
+        """
+        The list of Policies to be associated to the Irsa.
+        """
         return pulumi.get(self, "policies")
 
     @policies.setter
@@ -80,6 +101,9 @@ class IrsaArgs:
     @property
     @pulumi.getter(name="serviceAccountName")
     def service_account_name(self) -> pulumi.Input[str]:
+        """
+        The Service Account name used in Kubernetes.
+        """
         return pulumi.get(self, "service_account_name")
 
     @service_account_name.setter
@@ -100,9 +124,16 @@ class Irsa(pulumi.ComponentResource):
                  service_account_name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a Irsa resource with the given unique name, props, and options.
+        The Irsa component create an IAM roles for service accounts on AWS and Kubernetes.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn used by the IRSA.
+        :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url used by the IRSA.
+        :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: Kubernetes provider used by Pulumi.
+        :param pulumi.Input[str] namespace: The Namespace name where the addon will be installed.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] policies: The list of Policies to be associated to the Irsa.
+        :param pulumi.Input[str] service_account_name: The Service Account name used in Kubernetes.
         """
         ...
     @overload
@@ -111,7 +142,8 @@ class Irsa(pulumi.ComponentResource):
                  args: IrsaArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Irsa resource with the given unique name, props, and options.
+        The Irsa component create an IAM roles for service accounts on AWS and Kubernetes.
+
         :param str resource_name: The name of the resource.
         :param IrsaArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -181,20 +213,32 @@ class Irsa(pulumi.ComponentResource):
     @property
     @pulumi.getter
     def policies(self) -> pulumi.Output[Sequence['pulumi_aws.iam.Policy']]:
+        """
+        The list of IAM Policies.
+        """
         return pulumi.get(self, "policies")
 
     @property
     @pulumi.getter
     def role(self) -> pulumi.Output['pulumi_aws.iam.Role']:
+        """
+        The IAM Role.
+        """
         return pulumi.get(self, "role")
 
     @property
     @pulumi.getter(name="rolePolicyAttachments")
     def role_policy_attachments(self) -> pulumi.Output[Sequence['pulumi_aws.iam.RolePolicyAttachment']]:
+        """
+        The list of IAM Policy Attachments to associate the Roles and Policies.
+        """
         return pulumi.get(self, "role_policy_attachments")
 
     @property
     @pulumi.getter(name="serviceAccount")
     def service_account(self) -> pulumi.Output['pulumi_kubernetes.core.v1.ServiceAccount']:
+        """
+        The ServiceAccount created in Kubernetes.
+        """
         return pulumi.get(self, "service_account")
 

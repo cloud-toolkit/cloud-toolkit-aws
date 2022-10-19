@@ -19,6 +19,7 @@ class ArgoCDArgs:
                  hostname: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a ArgoCD resource.
+        :param pulumi.Input[str] hostname: The hostname to be used to expose ArgoCD with an Ingress.
         """
         if hostname is not None:
             pulumi.set(__self__, "hostname", hostname)
@@ -26,6 +27,9 @@ class ArgoCDArgs:
     @property
     @pulumi.getter
     def hostname(self) -> Optional[pulumi.Input[str]]:
+        """
+        The hostname to be used to expose ArgoCD with an Ingress.
+        """
         return pulumi.get(self, "hostname")
 
     @hostname.setter
@@ -41,9 +45,11 @@ class ArgoCD(pulumi.ComponentResource):
                  hostname: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a ArgoCD resource with the given unique name, props, and options.
+        ArgoCD is a component that deploy the ArgoCD application in the cluster.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] hostname: The hostname to be used to expose ArgoCD with an Ingress.
         """
         ...
     @overload
@@ -52,7 +58,8 @@ class ArgoCD(pulumi.ComponentResource):
                  args: Optional[ArgoCDArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a ArgoCD resource with the given unique name, props, and options.
+        ArgoCD is a component that deploy the ArgoCD application in the cluster.
+
         :param str resource_name: The name of the resource.
         :param ArgoCDArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -94,15 +101,24 @@ class ArgoCD(pulumi.ComponentResource):
     @property
     @pulumi.getter(name="adminPassword")
     def admin_password(self) -> pulumi.Output['pulumi_random.RandomPassword']:
+        """
+        The inital admin password.
+        """
         return pulumi.get(self, "admin_password")
 
     @property
     @pulumi.getter
     def chart(self) -> pulumi.Output['pulumi_kubernetes.helm.v3.Chart']:
+        """
+        The Helm Chart used to deploy ArgoCD.
+        """
         return pulumi.get(self, "chart")
 
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Output['pulumi_kubernetes.core.v1.Namespace']:
+        """
+        The Namespace used to deploy the component.
+        """
         return pulumi.get(self, "namespace")
 

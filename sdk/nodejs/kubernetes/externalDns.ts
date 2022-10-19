@@ -8,6 +8,9 @@ import * as pulumiKubernetes from "@pulumi/kubernetes";
 
 import {Irsa} from "./index";
 
+/**
+ * ExternalDns is a component to manage DNS records according to the Ingresses created in the cluster.
+ */
 export class ExternalDns extends pulumi.ComponentResource {
     /** @internal */
     public static readonly __pulumiType = 'cloud-toolkit-aws:kubernetes:ExternalDns';
@@ -23,8 +26,17 @@ export class ExternalDns extends pulumi.ComponentResource {
         return obj['__pulumiType'] === ExternalDns.__pulumiType;
     }
 
+    /**
+     * The Namespace used to deploy the component.
+     */
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
+    /**
+     * The IAM roles for service accounts.
+     */
     public /*out*/ readonly irsa!: pulumi.Output<Irsa>;
+    /**
+     * The Namespace used to deploy the component.
+     */
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
 
     /**
@@ -59,5 +71,8 @@ export class ExternalDns extends pulumi.ComponentResource {
  * The set of arguments for constructing a ExternalDns resource.
  */
 export interface ExternalDnsArgs {
+    /**
+     * The list of DNS Zone arn to be used by ExternalDns.
+     */
     zoneArns: pulumi.Input<pulumi.Input<string>[]>;
 }

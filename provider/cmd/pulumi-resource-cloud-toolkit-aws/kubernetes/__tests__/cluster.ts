@@ -155,12 +155,6 @@ describe("Minimal configuration", function () {
     const instance = new component.Cluster("test", minimalConfiguration);
     expect(instance.defaultOidcProvider).toBeDefined();
   });
-
-  //test("It should create the ClusterAddons", async function () {
-  //  const instance = new component.Cluster("test", {});
-  //  expect(instance.clusterAddons).toBeDefined();
-  //});
-
 });
 
 describe("Custom Node Groups", function () {
