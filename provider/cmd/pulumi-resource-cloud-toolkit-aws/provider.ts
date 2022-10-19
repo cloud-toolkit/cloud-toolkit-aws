@@ -19,7 +19,6 @@ import {
   OrganizationArgs
 } from "./landingzone";
 import {Mysql, MysqlArgs} from "./databases/mysql";
-import { Example, ExampleArgs } from "./example";
 
 export class Provider implements pulumi.provider.Provider {
   constructor(readonly version: string, readonly schema: string) {}
@@ -31,8 +30,6 @@ export class Provider implements pulumi.provider.Provider {
     options: pulumi.ComponentResourceOptions
   ): Promise<pulumi.provider.ConstructResult> {
     switch (type) {
-      case "cloud-toolkit-aws:index:Example":
-        return await constructExample(name, inputs, options);
       case "cloud-toolkit-aws:serverless:Queue":
         return await constructQueue(name, inputs, options);
       case "cloud-toolkit-aws:email:EmailSender":
@@ -103,21 +100,6 @@ async function constructKubernetesNodeGroup(
       rolePolcyAttachments: resource.rolePolicyAttachments,
       launchTemplate: resource.launchTemplate,
       nodeGroup: resource.nodeGroup,
-    },
-  };
-}
-
-async function constructExample(
-  name: string,
-  inputs: pulumi.Inputs,
-  options: pulumi.ComponentResourceOptions
-): Promise<pulumi.provider.ConstructResult> {
-  const example = new Example(name, inputs as ExampleArgs, options);
-
-  return {
-    urn: example.urn,
-    state: {
-      bucket: example.bucket,
     },
   };
 }

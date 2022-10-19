@@ -5,7 +5,6 @@
 from . import _utilities
 import typing
 # Export this package's modules as members:
-from .example import *
 from .provider import *
 
 # Make subpackages available:
@@ -47,14 +46,6 @@ _utilities.register(
   "fqn": "cloud_toolkit_aws.email",
   "classes": {
    "cloud-toolkit-aws:email:EmailSender": "EmailSender"
-  }
- },
- {
-  "pkg": "cloud-toolkit-aws",
-  "mod": "index",
-  "fqn": "cloud_toolkit_aws",
-  "classes": {
-   "cloud-toolkit-aws:index:Example": "Example"
   }
  },
  {

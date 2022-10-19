@@ -172,7 +172,6 @@ class Bucket(pulumi.ComponentResource):
             __props__.__dict__["website"] = website
             __props__.__dict__["bucket"] = None
             __props__.__dict__["bucket_encryption"] = None
-            __props__.__dict__["bucket_ownership"] = None
             __props__.__dict__["bucket_public_access"] = None
             __props__.__dict__["bucket_public_access_policy"] = None
             __props__.__dict__["bucket_versioning"] = None
@@ -203,14 +202,6 @@ class Bucket(pulumi.ComponentResource):
         Configuration for controlling bucket encryption
         """
         return pulumi.get(self, "bucket_encryption")
-
-    @property
-    @pulumi.getter(name="bucketOwnership")
-    def bucket_ownership(self) -> pulumi.Output['pulumi_aws.s3.BucketOwnershipControls']:
-        """
-        Enforce that bucket owner is all bucket objects
-        """
-        return pulumi.get(self, "bucket_ownership")
 
     @property
     @pulumi.getter(name="bucketPublicAccess")
