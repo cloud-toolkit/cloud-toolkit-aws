@@ -78,3 +78,12 @@ dist:: build_provider
 
 version::
 	@echo ${VERSION}
+
+integration_tests_nodejs::
+	rm -rf ~/.config/yarn/link/@cloud-toolkit/${PACK}
+	cd sdk/nodejs/bin && \
+		yarn link
+	cd tests/serverless && \
+		go test -v
+
+integration_tests:: integration_tests_nodejs
