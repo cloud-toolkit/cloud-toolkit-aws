@@ -33,9 +33,9 @@ import {
   Organization,
   OrganizationArgs
 } from "./landingzone";
-import {Mysql, MysqlArgs} from "./databases/mysql";
+import { Mysql, MysqlArgs} from "./databases/mysql";
 import { Calico, CalicoArgs } from "./kubernetes/calico";
-import { Dashboard } from "@pulumi/aws/cloudwatch";
+import { Dashboard, DashboardArgs } from "./kubernetes/dashboard";
 
 
 export class Provider implements pulumi.provider.Provider {
@@ -234,9 +234,8 @@ async function constructKubernetesDashboard(
   return {
     urn: resource.urn,
     state: {
-      dashboardArn: resource.dashboardArn,
-      dashboardBody: resource.dashboardBody,
-      dashboardName: resource.dashboardName,
+      application: resource.application,
+      namespace: resource.namespace,
     },
   };
 }
