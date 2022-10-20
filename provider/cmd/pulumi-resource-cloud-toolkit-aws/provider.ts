@@ -35,6 +35,7 @@ import {
 } from "./landingzone";
 import {Mysql, MysqlArgs} from "./databases/mysql";
 import { Calico, CalicoArgs } from "./kubernetes/calico";
+import { Dashboard } from "@pulumi/aws/cloudwatch";
 
 
 export class Provider implements pulumi.provider.Provider {
@@ -65,6 +66,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesExternalDns(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:IngressNginx":
         return await constructKubernetesIngressNginx(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:Dashboard":
+        return await constructKubernetesDashboard(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:Calico":
         return await constructKubernetesCalico(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
@@ -220,6 +223,24 @@ async function constructKubernetesCertManager(
     },
   };
 }
+
+async function constructKubernetesDashboard(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new Dashboard(name, inputs as DashboardArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      dashboardArn: resource.dashboardArn,
+      dashboardBody: resource.dashboardBody,
+      dashboardName: resource.dashboardName,
+    },
+  };
+}
+
 
 async function constructKubernetesCalico(
   name: string,

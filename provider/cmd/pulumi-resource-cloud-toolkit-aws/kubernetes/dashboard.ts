@@ -27,7 +27,7 @@ export class Dashboard extends ApplicationAddon<DashboardArgs> {
         args: DashboardArgs,
         opts?: pulumi.ResourceOptions
     ) {
-        super("cloudToolkit:aws:kubernetes:addon:Dashboard", name, args, opts);
+        super("cloud-toolkit-aws:kubernetes:Dashboard", name, args, opts);
 
         const resourceOpts = {
             ...opts,
