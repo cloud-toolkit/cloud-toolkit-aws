@@ -29,6 +29,11 @@ export interface ClusterAddonsArgs {
   ingress?: ClusterAddonsIngressArgs;
 
   /**
+   * The main DNS Zone id.
+   */
+  zoneId: pulumi.Input<string>;
+
+  /**
    * The list of DNS Zone arns to be used by CertManager and ExternalDNS.
    */
   zoneArns: pulumi.Input<string>[];
