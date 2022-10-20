@@ -10,6 +10,7 @@ import { ExternalDns } from "./externalDns";
 import { Dashboard } from "./dashboard";
 import { Calico } from "./calico";
 import { AwsEbsCsiDriver } from "./ebsCsiDriver"
+import { ClusterAutoscaler } from "./clusterAutoscaler"
 
 import {
   ClusterAddonsArgs,
@@ -52,12 +53,17 @@ export class ClusterAddons extends pulumi.ComponentResource {
   /**
    * The Calico addon used to manage network policies.
    */
-  public readonly calico: Calico;
+     public readonly calico: Calico;
+
+     /**
+      * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
+      */
+     public readonly ebsCsiDriver: AwsEbsCsiDriver;
 
   /**
-   * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
+   * The Kubernetes ClusterAutoscaler addon.
    */
-  public readonly ebsCsiDriver: AwsEbsCsiDriver;
+  public readonly clusterAutoscaler: ClusterAutoscaler;
 
   constructor(
     name: string,
@@ -98,6 +104,8 @@ export class ClusterAddons extends pulumi.ComponentResource {
     this.dashboard = this.setupDashboard(argocdApplicationsOpts)
     this.calico = this.setupCalico(argocdApplicationsOpts);
     this.ebsCsiDriver = this.setupAwsEbsCsiDriver(argocdApplicationsOpts)
+    this.clusterAutoscaler = this.setupClusterAutoscaler(argocdApplicationsOpts);
+
 
     this.registerOutputs({
       argocd: this.argocd,
@@ -106,7 +114,8 @@ export class ClusterAddons extends pulumi.ComponentResource {
       adminIngressNginx: this.adminIngressNginx,
       dashboard: this.dashboard,
       calico: this.calico,
-      ebsCsiDriver: this.ebsCsiDriver
+      ebsCsiDriver: this.ebsCsiDriver,
+      clusterAutoscaler: this.clusterAutoscaler
     });
   }
 
@@ -216,4 +225,18 @@ export class ClusterAddons extends pulumi.ComponentResource {
       opts
     );
   }
+
+  private setupClusterAutoscaler(opts?: pulumi.ResourceOptions): ClusterAutoscaler {
+    return new ClusterAutoscaler(`${this.name}-cluster-autoscaler`, {
+      name: "cluster-autoscaler",
+      namespace: "system-cluster-autoscaler",
+      createNamespace: true,
+      k8sProvider: this.args.k8sProvider,
+      identityProvidersArn: [...this.args.identityProvidersArn],
+      serviceAccountName: "cluster-autoscaler",
+      issuerUrl: this.args.issuerUrl,
+      clusterName: this.args.clusterName
+    }, opts);
+  }
+
 }

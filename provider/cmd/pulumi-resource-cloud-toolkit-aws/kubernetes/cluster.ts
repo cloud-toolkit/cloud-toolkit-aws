@@ -584,6 +584,7 @@ users:
       domain: this.domain,
       zoneId: zoneId,
       zoneArns: [zoneArn],
+      clusterName: this.name
     }, opts);
   }
 
