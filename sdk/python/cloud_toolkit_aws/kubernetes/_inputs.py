@@ -19,6 +19,7 @@ __all__ = [
     'ClusterOidcProvidersArgsArgs',
     'ClusterPrivateApiArgsArgs',
     'ClusterPublicApiArgsArgs',
+    'IngressNginxTlsArgsArgs',
 ]
 
 @pulumi.input_type
@@ -357,5 +358,58 @@ class ClusterPublicApiArgsArgs:
     @whitelist.setter
     def whitelist(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
         pulumi.set(self, "whitelist", value)
+
+
+@pulumi.input_type
+class IngressNginxTlsArgsArgs:
+    def __init__(__self__, *,
+                 domain: pulumi.Input[str],
+                 zone_id: pulumi.Input[str],
+                 enabled: Optional[pulumi.Input[bool]] = None):
+        """
+        :param pulumi.Input[str] domain: The domain to be used to create a signed Certificate.
+        :param pulumi.Input[str] zone_id: The Zone id.
+        :param pulumi.Input[bool] enabled: Enable the signed Certificate.
+        """
+        pulumi.set(__self__, "domain", domain)
+        pulumi.set(__self__, "zone_id", zone_id)
+        if enabled is not None:
+            pulumi.set(__self__, "enabled", enabled)
+
+    @property
+    @pulumi.getter
+    def domain(self) -> pulumi.Input[str]:
+        """
+        The domain to be used to create a signed Certificate.
+        """
+        return pulumi.get(self, "domain")
+
+    @domain.setter
+    def domain(self, value: pulumi.Input[str]):
+        pulumi.set(self, "domain", value)
+
+    @property
+    @pulumi.getter(name="zoneId")
+    def zone_id(self) -> pulumi.Input[str]:
+        """
+        The Zone id.
+        """
+        return pulumi.get(self, "zone_id")
+
+    @zone_id.setter
+    def zone_id(self, value: pulumi.Input[str]):
+        pulumi.set(self, "zone_id", value)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable the signed Certificate.
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enabled", value)
 
 

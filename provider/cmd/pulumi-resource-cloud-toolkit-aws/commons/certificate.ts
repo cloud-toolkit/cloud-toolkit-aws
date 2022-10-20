@@ -9,7 +9,7 @@ import {
 export { CertificateArgs };
 
 /**
- * Certificate is a component that manages the Lubernetes addons to setup a production-ready cluster.
+ * Certificate is a component that manages an ACM Certificate with the DNS validation.
  */
 export class Certificate extends pulumi.ComponentResource {
   private args: CertificateArgs;
