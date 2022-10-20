@@ -11,6 +11,7 @@ from .argo_cd import *
 from .cert_manager import *
 from .cluster import *
 from .cluster_addons import *
+from .dashboard import *
 from .external_dns import *
 from .ingress_nginx import *
 from .irsa import *

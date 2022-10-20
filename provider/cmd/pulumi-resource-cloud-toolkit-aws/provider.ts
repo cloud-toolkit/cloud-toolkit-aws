@@ -35,6 +35,7 @@ import {
 } from "./landingzone";
 import {Mysql, MysqlArgs} from "./databases/mysql";
 
+
 export class Provider implements pulumi.provider.Provider {
   constructor(readonly version: string, readonly schema: string) {}
 
@@ -144,6 +145,7 @@ async function constructKubernetesClusterAddons(
       certManager: resource.certManager,
       externalDns: resource.externalDns,
       adminIngressNginx: resource.adminIngressNginx,
+      dashboard: resource.dashboard
     },
   };
 }

@@ -7,6 +7,8 @@ import { ArgoCD } from "./argocd";
 import { IngressNginx } from "./ingressNginx";
 import { CertManager } from "./certManager";
 import { ExternalDns } from "./externalDns";
+import { Dashboard } from "./dashboard";
+
 import {
   ClusterAddonsArgs,
   defaultClusterAddonsArgs,
@@ -40,6 +42,8 @@ export class ClusterAddons extends pulumi.ComponentResource {
    * The ExternalDns addon.
    */
   public readonly externalDns: ExternalDns;
+  public readonly dashboard: Dashboard;
+
 
   constructor(
     name: string,
@@ -77,11 +81,13 @@ export class ClusterAddons extends pulumi.ComponentResource {
     });
     this.adminIngressNginx = this.setupAdminIngressNginx(ingressOpts);
 
+    this.dashboard = this.setupDashboard()
     this.registerOutputs({
       argocd: this.argocd,
       certManager: this.certManager,
       externalDns: this.externalDns,
       adminIngressNginx: this.adminIngressNginx,
+      dashboard: this.dashboard
     });
   }
 
@@ -136,5 +142,21 @@ export class ClusterAddons extends pulumi.ComponentResource {
       className: "admin",
       public: true,
     }, opts);
+  }
+
+  private setupDashboard(
+    opts?: pulumi.ResourceOptions
+  ): Dashboard {
+    return new Dashboard(
+      `${this.name}-dashboard`,
+      {
+        createNamespace: true,
+        name: "dashboard",
+        namespace: "system-dashboard",
+        k8sProvider: this.args.k8sProvider,
+        hostname: `dashboard.${this.args.domain}`,
+      },
+      opts
+    );
   }
 }
