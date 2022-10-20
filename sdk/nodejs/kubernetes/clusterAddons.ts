@@ -9,7 +9,7 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {ArgoCD, CertManager, ExternalDns, IngressNginx} from "./index";
+import {ArgoCD, CertManager, Dashboard, ExternalDns, IngressNginx} from "./index";
 
 /**
  * ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -29,9 +29,22 @@ export class ClusterAddons extends pulumi.ComponentResource {
         return obj['__pulumiType'] === ClusterAddons.__pulumiType;
     }
 
+    /**
+     * The IngressNginx addon used for admin access.
+     */
     public /*out*/ readonly adminIngressNginx!: pulumi.Output<IngressNginx>;
+    /**
+     * The ArgoCD addon.
+     */
     public /*out*/ readonly argocd!: pulumi.Output<ArgoCD>;
+    /**
+     * The CertManager addon.
+     */
     public /*out*/ readonly certManager!: pulumi.Output<CertManager>;
+    public /*out*/ readonly dashboard!: pulumi.Output<Dashboard>;
+    /**
+     * The ExternalDns addon.
+     */
     public /*out*/ readonly externalDns!: pulumi.Output<ExternalDns>;
 
     /**
@@ -69,11 +82,13 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
+            resourceInputs["dashboard"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         } else {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
+            resourceInputs["dashboard"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
@@ -85,10 +100,28 @@ export class ClusterAddons extends pulumi.ComponentResource {
  * The set of arguments for constructing a ClusterAddons resource.
  */
 export interface ClusterAddonsArgs {
+    /**
+     * The domain used by the cluster.
+     */
     domain: pulumi.Input<string>;
+    /**
+     * The OIDC Identity Provider arn.
+     */
     identityProvidersArn: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The configuration for Ingress Controller.
+     */
     ingress?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressArgsArgs>;
+    /**
+     * The OIDC Identity Provider url.
+     */
     issuerUrl: pulumi.Input<string>;
+    /**
+     * The Pulumi provider used for Kubernetes resources.
+     */
     k8sProvider: pulumi.Input<pulumiKubernetes.Provider>;
+    /**
+     * The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+     */
     zoneArns: pulumi.Input<pulumi.Input<string>[]>;
 }

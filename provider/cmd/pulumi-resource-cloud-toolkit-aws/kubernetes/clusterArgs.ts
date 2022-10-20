@@ -1,7 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
 
-import { ClusterAddonsArgs } from "./clusterAddonsArgs";
-
 export interface ClusterArgs {
   /**
    * The VPC ID where the cluster will be deployed

@@ -9,6 +9,9 @@ import * as enums from "../types/enums";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
+export namespace databases {
+}
+
 export namespace email {
     export interface AdditionalQueueArgs {
         /**

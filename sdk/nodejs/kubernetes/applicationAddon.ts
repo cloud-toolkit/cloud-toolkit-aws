@@ -60,8 +60,20 @@ export class ApplicationAddon extends pulumi.ComponentResource {
  * The set of arguments for constructing a ApplicationAddon resource.
  */
 export interface ApplicationAddonArgs {
+    /**
+     * Create a new Namespace using the given name.
+     */
     createNamespace?: pulumi.Input<boolean>;
+    /**
+     * Kubernetes provider used by Pulumi.
+     */
     k8sProvider: pulumi.Input<pulumiKubernetes.Provider>;
+    /**
+     * The name of the instanced component.
+     */
     name: pulumi.Input<string>;
+    /**
+     * The Namespace name where the addon will be installed.
+     */
     namespace: pulumi.Input<string>;
 }
