@@ -69,6 +69,9 @@ export class ClusterAddons extends pulumi.ComponentResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
+            if ((!args || args.clusterName === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'clusterName'");
+            }
             if ((!args || args.domain === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'domain'");
             }
@@ -98,6 +101,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
+            resourceInputs["clusterAutoscaler"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
@@ -106,6 +110,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
+            resourceInputs["clusterAutoscaler"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
@@ -119,6 +124,10 @@ export class ClusterAddons extends pulumi.ComponentResource {
  * The set of arguments for constructing a ClusterAddons resource.
  */
 export interface ClusterAddonsArgs {
+    /**
+     * The name used by the cluster.
+     */
+    clusterName: pulumi.Input<string>;
     /**
      * The domain used by the cluster.
      */

@@ -5,6 +5,7 @@ import { ArgoCD, ArgoCDArgs } from "./argocd";
 import { CertManager, CertManagerArgs } from "./certManager";
 import { ExternalDns, ExternalDnsArgs } from "./externalDns";
 import { IngressNginx, IngressNginxArgs } from "./ingressNginx";
+import { ClusterAutoscaler, ClusterAutoscalerArgs } from "./clusterAutoscaler";
 
 export {
   ArgoCD,
@@ -15,6 +16,8 @@ export {
   ClusterAddons,
   ClusterAddonsArgs,
   ClusterArgs,
+  ClusterAutoscaler,
+  ClusterAutoscalerArgs,
   ExternalDns,
   ExternalDnsArgs,
   IngressNginx,
