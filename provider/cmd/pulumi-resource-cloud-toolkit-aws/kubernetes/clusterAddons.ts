@@ -8,6 +8,7 @@ import { IngressNginx } from "./ingressNginx";
 import { CertManager } from "./certManager";
 import { ExternalDns } from "./externalDns";
 import { Dashboard } from "./dashboard";
+import { Calico } from "./calico";
 
 import {
   ClusterAddonsArgs,
@@ -42,8 +43,15 @@ export class ClusterAddons extends pulumi.ComponentResource {
    * The ExternalDns addon.
    */
   public readonly externalDns: ExternalDns;
+  /**
+   * The Kubernetes dashboard addon.
+   */
   public readonly dashboard: Dashboard;
 
+  /**
+   * The Calico addon used to manage network policies.
+   */
+  public readonly calico: Calico;
 
   constructor(
     name: string,
@@ -81,7 +89,9 @@ export class ClusterAddons extends pulumi.ComponentResource {
     });
     this.adminIngressNginx = this.setupAdminIngressNginx(ingressOpts);
 
-    this.dashboard = this.setupDashboard()
+    this.dashboard = this.setupDashboard(argocdApplicationsOpts)
+    this.calico = this.setupCalico(argocdApplicationsOpts);
+
     this.registerOutputs({
       argocd: this.argocd,
       certManager: this.certManager,
@@ -155,6 +165,19 @@ export class ClusterAddons extends pulumi.ComponentResource {
         namespace: "system-dashboard",
         k8sProvider: this.args.k8sProvider,
         hostname: `dashboard.${this.args.domain}`,
+      },
+      opts
+    );
+  }
+
+  private setupCalico(opts?: pulumi.ResourceOptions): Calico {
+    return new Calico(
+      `${this.name}-calico`,
+      {
+        name: "calico",
+        namespace: "system-calico",
+        k8sProvider: this.args.k8sProvider,
+        createNamespace: true
       },
       opts
     );

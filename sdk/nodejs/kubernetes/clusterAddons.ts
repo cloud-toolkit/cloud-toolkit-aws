@@ -9,7 +9,7 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {ArgoCD, CertManager, Dashboard, ExternalDns, IngressNginx} from "./index";
+import {ArgoCD, Calico, CertManager, Dashboard, ExternalDns, IngressNginx} from "./index";
 
 /**
  * ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -38,9 +38,16 @@ export class ClusterAddons extends pulumi.ComponentResource {
      */
     public /*out*/ readonly argocd!: pulumi.Output<ArgoCD>;
     /**
+     * The Calico addon used to manage network policies.
+     */
+    public /*out*/ readonly calico!: pulumi.Output<Calico>;
+    /**
      * The CertManager addon.
      */
     public /*out*/ readonly certManager!: pulumi.Output<CertManager>;
+    /**
+     * The Kubernetes dashboard addon.
+     */
     public /*out*/ readonly dashboard!: pulumi.Output<Dashboard>;
     /**
      * The ExternalDns addon.
@@ -81,12 +88,14 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["zoneArns"] = args ? args.zoneArns : undefined;
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
+            resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         } else {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
+            resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;

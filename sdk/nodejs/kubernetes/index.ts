@@ -13,6 +13,10 @@ export { ArgoCDArgs } from "./argoCD";
 export type ArgoCD = import("./argoCD").ArgoCD;
 export const ArgoCD: typeof import("./argoCD").ArgoCD = null as any;
 
+export { CalicoArgs } from "./calico";
+export type Calico = import("./calico").Calico;
+export const Calico: typeof import("./calico").Calico = null as any;
+
 export { CertManagerArgs } from "./certManager";
 export type CertManager = import("./certManager").CertManager;
 export const CertManager: typeof import("./certManager").CertManager = null as any;
@@ -47,6 +51,7 @@ export const NodeGroup: typeof import("./nodeGroup").NodeGroup = null as any;
 
 utilities.lazyLoad(exports, ["ApplicationAddon"], () => require("./applicationAddon"));
 utilities.lazyLoad(exports, ["ArgoCD"], () => require("./argoCD"));
+utilities.lazyLoad(exports, ["Calico"], () => require("./calico"));
 utilities.lazyLoad(exports, ["CertManager"], () => require("./certManager"));
 utilities.lazyLoad(exports, ["Cluster"], () => require("./cluster"));
 utilities.lazyLoad(exports, ["ClusterAddons"], () => require("./clusterAddons"));
@@ -67,6 +72,8 @@ const _module = {
                 return new ApplicationAddon(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:ArgoCD":
                 return new ArgoCD(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:Calico":
+                return new Calico(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:CertManager":
                 return new CertManager(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Cluster":

@@ -10,62 +10,43 @@ from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
 import pulumi_kubernetes
 
-__all__ = ['DashboardArgs', 'Dashboard']
+__all__ = ['CalicoArgs', 'Calico']
 
 @pulumi.input_type
-class DashboardArgs:
-    def __init__(__self__, *,
-                 hostname: Optional[pulumi.Input[str]] = None):
+class CalicoArgs:
+    def __init__(__self__):
         """
-        The set of arguments for constructing a Dashboard resource.
-        :param pulumi.Input[str] hostname: The hostname associated with the dashboard.
+        The set of arguments for constructing a Calico resource.
         """
-        if hostname is not None:
-            pulumi.set(__self__, "hostname", hostname)
-
-    @property
-    @pulumi.getter
-    def hostname(self) -> Optional[pulumi.Input[str]]:
-        """
-        The hostname associated with the dashboard.
-        """
-        return pulumi.get(self, "hostname")
-
-    @hostname.setter
-    def hostname(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "hostname", value)
+        pass
 
 
-class Dashboard(pulumi.ComponentResource):
+class Calico(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 hostname: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Dashboard used to view the status of the Kubernetes cluster.
-
+        Create a Calico resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[str] hostname: The hostname associated with the dashboard.
         """
         ...
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: Optional[DashboardArgs] = None,
+                 args: Optional[CalicoArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Dashboard used to view the status of the Kubernetes cluster.
-
+        Create a Calico resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
-        :param DashboardArgs args: The arguments to use to populate this resource's properties.
+        :param CalicoArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
         """
         ...
     def __init__(__self__, resource_name: str, *args, **kwargs):
-        resource_args, opts = _utilities.get_resource_args_opts(DashboardArgs, pulumi.ResourceOptions, *args, **kwargs)
+        resource_args, opts = _utilities.get_resource_args_opts(CalicoArgs, pulumi.ResourceOptions, *args, **kwargs)
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
@@ -74,7 +55,6 @@ class Dashboard(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 hostname: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -84,13 +64,12 @@ class Dashboard(pulumi.ComponentResource):
         else:
             if __props__ is not None:
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
-            __props__ = DashboardArgs.__new__(DashboardArgs)
+            __props__ = CalicoArgs.__new__(CalicoArgs)
 
-            __props__.__dict__["hostname"] = hostname
             __props__.__dict__["application"] = None
             __props__.__dict__["namespace"] = None
-        super(Dashboard, __self__).__init__(
-            'cloud-toolkit-aws:kubernetes:Dashboard',
+        super(Calico, __self__).__init__(
+            'cloud-toolkit-aws:kubernetes:Calico',
             resource_name,
             __props__,
             opts,
@@ -99,16 +78,10 @@ class Dashboard(pulumi.ComponentResource):
     @property
     @pulumi.getter
     def application(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
-        """
-        Application component.
-        """
         return pulumi.get(self, "application")
 
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Output[Optional['pulumi_kubernetes.core.v1.Namespace']]:
-        """
-        The Namespace used to deploy the component.
-        """
         return pulumi.get(self, "namespace")
 
