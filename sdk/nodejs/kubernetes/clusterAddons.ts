@@ -80,12 +80,16 @@ export class ClusterAddons extends pulumi.ComponentResource {
             if ((!args || args.zoneArns === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'zoneArns'");
             }
+            if ((!args || args.zoneId === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'zoneId'");
+            }
             resourceInputs["domain"] = args ? args.domain : undefined;
             resourceInputs["identityProvidersArn"] = args ? args.identityProvidersArn : undefined;
             resourceInputs["ingress"] = args ? args.ingress : undefined;
             resourceInputs["issuerUrl"] = args ? args.issuerUrl : undefined;
             resourceInputs["k8sProvider"] = args ? args.k8sProvider : undefined;
             resourceInputs["zoneArns"] = args ? args.zoneArns : undefined;
+            resourceInputs["zoneId"] = args ? args.zoneId : undefined;
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
@@ -133,4 +137,8 @@ export interface ClusterAddonsArgs {
      * The list of DNS Zone arns to be used by CertManager and ExternalDNS.
      */
     zoneArns: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The main DNS Zone id.
+     */
+    zoneId: pulumi.Input<string>;
 }

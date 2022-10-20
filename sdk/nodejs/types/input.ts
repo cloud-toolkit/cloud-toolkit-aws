@@ -9,6 +9,9 @@ import * as enums from "../types/enums";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
+export namespace commons {
+}
+
 export namespace databases {
     export interface MysqlBackupArgsArgs {
         /**
@@ -202,6 +205,21 @@ export namespace kubernetes {
          * The list of CIDR that will be allowed to reach the public endpoint for Kubernetes API.
          */
         whitelist?: pulumi.Input<pulumi.Input<string>[]>;
+    }
+
+    export interface IngressNginxTlsArgsArgs {
+        /**
+         * The domain to be used to create a signed Certificate.
+         */
+        domain: pulumi.Input<string>;
+        /**
+         * Enable the signed Certificate.
+         */
+        enabled?: pulumi.Input<boolean>;
+        /**
+         * The Zone id.
+         */
+        zoneId: pulumi.Input<string>;
     }
 
 }

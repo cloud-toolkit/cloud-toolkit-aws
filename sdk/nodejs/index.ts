@@ -12,6 +12,7 @@ export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
 // Export sub-modules:
+import * as commons from "./commons";
 import * as databases from "./databases";
 import * as email from "./email";
 import * as kubernetes from "./kubernetes";
@@ -21,6 +22,7 @@ import * as storage from "./storage";
 import * as types from "./types";
 
 export {
+    commons,
     databases,
     email,
     kubernetes,

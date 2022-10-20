@@ -21,6 +21,7 @@ class ClusterAddonsArgs:
                  issuer_url: pulumi.Input[str],
                  k8s_provider: pulumi.Input['pulumi_kubernetes.Provider'],
                  zone_arns: pulumi.Input[Sequence[pulumi.Input[str]]],
+                 zone_id: pulumi.Input[str],
                  ingress: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']] = None):
         """
         The set of arguments for constructing a ClusterAddons resource.
@@ -29,6 +30,7 @@ class ClusterAddonsArgs:
         :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
         :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+        :param pulumi.Input[str] zone_id: The main DNS Zone id.
         :param pulumi.Input['ClusterAddonsIngressArgsArgs'] ingress: The configuration for Ingress Controller.
         """
         pulumi.set(__self__, "domain", domain)
@@ -36,6 +38,7 @@ class ClusterAddonsArgs:
         pulumi.set(__self__, "issuer_url", issuer_url)
         pulumi.set(__self__, "k8s_provider", k8s_provider)
         pulumi.set(__self__, "zone_arns", zone_arns)
+        pulumi.set(__self__, "zone_id", zone_id)
         if ingress is not None:
             pulumi.set(__self__, "ingress", ingress)
 
@@ -100,6 +103,18 @@ class ClusterAddonsArgs:
         pulumi.set(self, "zone_arns", value)
 
     @property
+    @pulumi.getter(name="zoneId")
+    def zone_id(self) -> pulumi.Input[str]:
+        """
+        The main DNS Zone id.
+        """
+        return pulumi.get(self, "zone_id")
+
+    @zone_id.setter
+    def zone_id(self, value: pulumi.Input[str]):
+        pulumi.set(self, "zone_id", value)
+
+    @property
     @pulumi.getter
     def ingress(self) -> Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']]:
         """
@@ -123,6 +138,7 @@ class ClusterAddons(pulumi.ComponentResource):
                  issuer_url: Optional[pulumi.Input[str]] = None,
                  k8s_provider: Optional[pulumi.Input['pulumi_kubernetes.Provider']] = None,
                  zone_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 zone_id: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -135,6 +151,7 @@ class ClusterAddons(pulumi.ComponentResource):
         :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
         :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
+        :param pulumi.Input[str] zone_id: The main DNS Zone id.
         """
         ...
     @overload
@@ -166,6 +183,7 @@ class ClusterAddons(pulumi.ComponentResource):
                  issuer_url: Optional[pulumi.Input[str]] = None,
                  k8s_provider: Optional[pulumi.Input['pulumi_kubernetes.Provider']] = None,
                  zone_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 zone_id: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -193,6 +211,9 @@ class ClusterAddons(pulumi.ComponentResource):
             if zone_arns is None and not opts.urn:
                 raise TypeError("Missing required property 'zone_arns'")
             __props__.__dict__["zone_arns"] = zone_arns
+            if zone_id is None and not opts.urn:
+                raise TypeError("Missing required property 'zone_id'")
+            __props__.__dict__["zone_id"] = zone_id
             __props__.__dict__["admin_ingress_nginx"] = None
             __props__.__dict__["argocd"] = None
             __props__.__dict__["calico"] = None

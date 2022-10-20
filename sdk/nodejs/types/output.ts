@@ -9,6 +9,9 @@ import * as enums from "../types/enums";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
+export namespace commons {
+}
+
 export namespace databases {
 }
 

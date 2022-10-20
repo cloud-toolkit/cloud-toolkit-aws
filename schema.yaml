@@ -85,6 +85,30 @@ types:
         value: Disabled
       - name: Suspended
         value: Suspended
+  cloud-toolkit-aws:databases:MysqlArgs:
+    properties:
+      instance:
+        description: Instance type to run the database instance
+        type: string
+      version:
+        description: Version for database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlVersion"
+      database:
+        description: Configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
+      storage:
+        description: Storage configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageArgs"
+      networking:
+        description: Network configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworkingArgs"
+      backup:
+        description: Backup configuration parameters for the database instance
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
+    type: object
+    required:
+      - version
+      - database
   cloud-toolkit-aws:databases:MysqlDatabaseArgs:
     properties:
       name:
@@ -321,6 +345,9 @@ types:
       ingress:
         description: The configuration for Ingress Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
+      zoneId:
+        description: The main DNS Zone id.
+        type: string
       zoneArns:
         description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
         type: array
@@ -333,6 +360,7 @@ types:
       - identityProvidersArn
       - issuerUrl
       - domain
+      - zoneId
       - zoneArns
   cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs:
     properties:
@@ -500,6 +528,9 @@ types:
       - zoneArns
   cloud-toolkit-aws:kubernetes:IngressNginxArgs:
     properties:
+      tls:
+        description: The domain associated to the IngressController.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginxTlsArgs"
       className:
         description: The Ingress class name.
         type: string
@@ -515,6 +546,21 @@ types:
     type: object
     required:
       - className
+  cloud-toolkit-aws:kubernetes:IngressNginxTlsArgs:
+    properties:
+      enabled:
+        description: Enable the signed Certificate.
+        type: boolean
+      domain:
+        description: The domain to be used to create a signed Certificate.
+        type: string
+      zoneId:
+        description: The Zone id.
+        type: string
+    type: object
+    required:
+      - domain
+      - zoneId
   cloud-toolkit-aws:kubernetes:IrsaArgs:
     properties:
       identityProvidersArn:
@@ -1066,31 +1112,63 @@ types:
     required:
       - errorDocument
       - indexDocument
-  cloud-toolkit-aws:databases:MysqlArgs:
+  cloud-toolkit-aws:commons:CertificateArgs:
     properties:
-      instance:
-        description: Instance type to run the database instance
+      domain:
+        description: ""
         type: string
-      version:
-        description: Version for database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlVersion"
-      database:
-        description: Configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
-      storage:
-        description: Storage configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageArgs"
-      networking:
-        description: Network configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworkingArgs"
-      backup:
-        description: Backup configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
+      additionalDomains:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+      zoneId:
+        description: ""
+        type: string
     type: object
     required:
-      - version
-      - database
+      - domain
+      - zoneId
 resources:
+  cloud-toolkit-aws:commons:Certificate:
+    description: Certificate is a component that manages an ACM Certificate with the
+      DNS validation.
+    properties:
+      certificate:
+        description: The ACM Certificates used for TLS encryption.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:acm%2fcertificate:Certificate
+      dnsRecords:
+        description: The DNS Records.
+        type: array
+        items:
+          description: The DNS Records.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:route53%2frecord:Record
+      provider:
+        description: The Pulumi Provider to create the Certificate.
+        $ref: /aws/v5.10.0/schema.json#/provider
+    required:
+      - certificate
+      - dnsRecords
+      - provider
+    inputProperties:
+      domain:
+        description: ""
+        type: string
+      additionalDomains:
+        description: ""
+        type: array
+        items:
+          description: ""
+          type: string
+      zoneId:
+        description: ""
+        type: string
+    requiredInputs:
+      - domain
+      - zoneId
+    isComponent: true
+    type: object
   cloud-toolkit-aws:databases:Mysql:
     description: Cloud Toolkit component for Mysql instances.
     properties:
@@ -1630,6 +1708,9 @@ resources:
       ingress:
         description: The configuration for Ingress Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
+      zoneId:
+        description: The main DNS Zone id.
+        type: string
       zoneArns:
         description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
         type: array
@@ -1641,6 +1722,7 @@ resources:
       - identityProvidersArn
       - issuerUrl
       - domain
+      - zoneId
       - zoneArns
     isComponent: true
     type: object
@@ -1699,9 +1781,15 @@ resources:
       application:
         description: The ArgoCD Application to deploy the component.
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
+      certificate:
+        description: The ACM Certificates used for TLS encryption.
+        $ref: "#/types/cloud-toolkit-aws:commons:Certificate"
     required:
       - application
     inputProperties:
+      tls:
+        description: The domain associated to the IngressController.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginxTlsArgs"
       className:
         description: The Ingress class name.
         type: string

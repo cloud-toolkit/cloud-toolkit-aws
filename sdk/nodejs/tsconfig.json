@@ -13,6 +13,8 @@
         "strict": true
     },
     "files": [
+        "commons/certificate.ts",
+        "commons/index.ts",
         "databases/index.ts",
         "databases/mysql.ts",
         "email/emailSender.ts",
