@@ -151,6 +151,11 @@ export class ClusterAddons extends pulumi.ComponentResource {
       k8sProvider: this.args.k8sProvider,
       className: "admin",
       public: true,
+      tls: {
+        enabled: true,
+        domain: this.args.domain,
+        zoneId: this.args.zoneId,
+      },
     }, opts);
   }
 
