@@ -135,7 +135,7 @@ export interface ClusterOidcProvidersArgs {
 export const defaultVersion = "1.22";
 export const defaultPublicApiEnabled = true;
 export const defaultPublicApiWhitelist = undefined;
-export const defaultPrivateApiEnabled = true;
+export const languagedefaultPrivateApiEnabled = true;
 export const defaultNodeGroups = [{
   name: "default"
 }];
@@ -157,7 +157,7 @@ export const defaultClusterArgs = {
       whitelist: defaultPublicApiWhitelist,
     },
     private: {
-      enabled: defaultPrivateApiEnabled,
+      enabled: languagedefaultPrivateApiEnabled,
     },
   },
   baseDomain: "kubernetes.cluster",
