@@ -1,6 +1,12 @@
+import * as pulumi from "@pulumi/pulumi";
 import { ApplicationAddonArgs } from "./applicationAddonArgs";
 
 export interface IngressNginxArgs extends ApplicationAddonArgs {
+  /**
+   * The domain associated to the IngressController.
+   */
+  tls?: IngressNginxTlsArgs;
+
   /**
    * The Ingress class name.
    */
@@ -17,8 +23,28 @@ export interface IngressNginxArgs extends ApplicationAddonArgs {
   public?: boolean;
 }
 
+export interface IngressNginxTlsArgs {
+  /**
+   * Enable the signed Certificate.
+   */
+  enabled?: boolean;
+
+  /**
+   * The domain to be used to create a signed Certificate.
+   */
+  domain: string;
+
+  /**
+   * The Zone id.
+   */
+  zoneId: pulumi.Input<string>;
+}
+
 export const defaultArgs = {
   className: "",
   whitelist: [],
   public: true,
+  tls: {
+    enabled: true,
+  }
 };

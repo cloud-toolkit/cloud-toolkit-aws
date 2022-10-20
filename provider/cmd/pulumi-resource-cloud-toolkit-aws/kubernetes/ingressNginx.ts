@@ -1,9 +1,11 @@
 import * as pulumi from "@pulumi/pulumi";
+import * as aws from "@pulumi/aws";
 import * as kubernetes from "@pulumi/kubernetes";
 import defaultsDeep from "lodash.defaultsdeep";
 
 import { ApplicationAddon } from "./applicationAddon";
 import { defaultArgs, IngressNginxArgs } from "./ingressNginxArgs";
+import { Certificate } from "../commons";
 
 export {
   IngressNginxArgs
@@ -23,6 +25,11 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
    */
   public readonly application: kubernetes.apiextensions.CustomResource;
 
+  /**
+   * The ACM Certificates used for TLS encryption.
+   */
+  public readonly certificate?: Certificate;
+
   constructor(
     name: string,
     args: IngressNginxArgs,
@@ -34,6 +41,7 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
       parent: this,
     });
 
+    this.certificate = this.setupCertificate(resourceOpts);
     this.namespace = this.setupNamespace(resourceOpts);
     this.application = this.setupApplication(resourceOpts);
   }
@@ -42,6 +50,16 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
     const args = defaultsDeep({ ...a }, defaultArgs);
 
     return args;
+  }
+
+  private setupCertificate(opts: pulumi.ResourceOptions): Certificate | undefined {
+    if (this.args.tls !== undefined) {
+      return new Certificate(this.name, {
+        domain: `*.${this.args.tls.domain}`,
+        zoneId: this.args.tls.zoneId,
+      }, opts);
+    }
+    return;
   }
 
   protected getApplicationSpec(): any {
@@ -53,6 +71,30 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
       whitelistParameters.push({
         name: `controller.service.loadBalancerSourceRanges[${index}]`,
         value: cidr,
+      });
+    }
+
+    const tlsParameters = [];
+    if (this.args.tls?.enabled && this.certificate !== undefined) {
+      tlsParameters.push({
+        name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert",
+        value: this.certificate.certificate.arn,
+      });
+      tlsParameters.push({
+        name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-ports",
+        value: "https",
+      });
+      tlsParameters.push({
+        name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-connection-idle-timeout",
+        value: "3600",
+      });
+      tlsParameters.push({
+        name: "controller.service.targetPorts.https",
+        value: "http",
+      });
+      tlsParameters.push({
+        name: "controller.config.ssl-redirect",
+        value: "false",
       });
     }
 
@@ -92,7 +134,7 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
             },
             {
               name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol",
-              value: "tcp",
+              value: this.args.tls?.enabled ? "http" : "tcp",
             },
             {
               name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled",
@@ -110,6 +152,7 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
               name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-ports",
               value: "https",
             },
+            ...tlsParameters,
           ],
         },
       },
