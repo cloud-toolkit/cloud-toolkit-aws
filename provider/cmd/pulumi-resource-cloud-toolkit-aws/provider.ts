@@ -79,6 +79,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesCalico(name, inputs, options);
       case "cloudToolkit:aws:kubernetes:AwsEbsCsiDriver":
         return await constructKubernetesEbsDriver(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:ClusterAutoscaler":
+        return await constructKubernetesClusterAutoscaler(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -293,6 +295,23 @@ async function constructKubernetesEbsDriver(
     urn: resource.urn,
     state: {
       application: resource.application,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesClusterAutoscaler(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new CertManager(name, inputs as CertManagerArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
+      irsa: resource.irsa,
       namespace: resource.namespace,
     },
   };
