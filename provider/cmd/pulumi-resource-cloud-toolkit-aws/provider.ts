@@ -1,6 +1,10 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as bucket from "./storage/bucket";
 
+import {
+  Certificate,
+  CertificateArgs,
+} from "./commons";
 import { Queue, QueueArgs } from "./serverless/queue";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
 import {
@@ -48,6 +52,8 @@ export class Provider implements pulumi.provider.Provider {
     options: pulumi.ComponentResourceOptions
   ): Promise<pulumi.provider.ConstructResult> {
     switch (type) {
+      case "cloud-toolkit-aws:common:Certificate":
+        return await constructCertificate(name, inputs, options);
       case "cloud-toolkit-aws:serverless:Queue":
         return await constructQueue(name, inputs, options);
       case "cloud-toolkit-aws:email:EmailSender":
@@ -90,6 +96,22 @@ export class Provider implements pulumi.provider.Provider {
         throw new Error(`unknown resource type ${type}`);
     }
   }
+}
+async function constructCertificate(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new Certificate(name, inputs as CertificateArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      provider: resource.provider,
+      certificate: resource.certificate,
+      dnsRecords: resource.dnsRecords,
+    }
+  };
 }
 
 async function constructKubernetesCluster(
