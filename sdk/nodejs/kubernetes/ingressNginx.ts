@@ -2,9 +2,14 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
+import * as inputs from "../types/input";
+import * as outputs from "../types/output";
+import * as enums from "../types/enums";
 import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
+
+import {Certificate} from "../commons";
 
 /**
  * IngressNginx is a component that deploy the Nginx IngressController to expose applications over HTTP/HTTPS.
@@ -29,6 +34,10 @@ export class IngressNginx extends pulumi.ComponentResource {
      */
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
     /**
+     * The ACM Certificates used for TLS encryption.
+     */
+    public /*out*/ readonly certificate!: pulumi.Output<Certificate | undefined>;
+    /**
      * The Namespace used to deploy the component.
      */
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
@@ -49,11 +58,14 @@ export class IngressNginx extends pulumi.ComponentResource {
             }
             resourceInputs["className"] = args ? args.className : undefined;
             resourceInputs["public"] = args ? args.public : undefined;
+            resourceInputs["tls"] = args ? args.tls : undefined;
             resourceInputs["whitelist"] = args ? args.whitelist : undefined;
             resourceInputs["application"] = undefined /*out*/;
+            resourceInputs["certificate"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         } else {
             resourceInputs["application"] = undefined /*out*/;
+            resourceInputs["certificate"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
@@ -73,6 +85,10 @@ export interface IngressNginxArgs {
      * Expose the IngressController with a public Load Balancer.
      */
     public?: pulumi.Input<boolean>;
+    /**
+     * The domain associated to the IngressController.
+     */
+    tls?: pulumi.Input<inputs.kubernetes.IngressNginxTlsArgsArgs>;
     /**
      * The whitelist of CIDR to access to the Ingress Controller.
      */

@@ -8,6 +8,7 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
+from ._inputs import *
 import pulumi_kubernetes
 
 __all__ = ['IngressNginxArgs', 'IngressNginx']
@@ -17,16 +18,20 @@ class IngressNginxArgs:
     def __init__(__self__, *,
                  class_name: pulumi.Input[str],
                  public: Optional[pulumi.Input[bool]] = None,
+                 tls: Optional[pulumi.Input['IngressNginxTlsArgsArgs']] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
         The set of arguments for constructing a IngressNginx resource.
         :param pulumi.Input[str] class_name: The Ingress class name.
         :param pulumi.Input[bool] public: Expose the IngressController with a public Load Balancer.
+        :param pulumi.Input['IngressNginxTlsArgsArgs'] tls: The domain associated to the IngressController.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: The whitelist of CIDR to access to the Ingress Controller.
         """
         pulumi.set(__self__, "class_name", class_name)
         if public is not None:
             pulumi.set(__self__, "public", public)
+        if tls is not None:
+            pulumi.set(__self__, "tls", tls)
         if whitelist is not None:
             pulumi.set(__self__, "whitelist", whitelist)
 
@@ -56,6 +61,18 @@ class IngressNginxArgs:
 
     @property
     @pulumi.getter
+    def tls(self) -> Optional[pulumi.Input['IngressNginxTlsArgsArgs']]:
+        """
+        The domain associated to the IngressController.
+        """
+        return pulumi.get(self, "tls")
+
+    @tls.setter
+    def tls(self, value: Optional[pulumi.Input['IngressNginxTlsArgsArgs']]):
+        pulumi.set(self, "tls", value)
+
+    @property
+    @pulumi.getter
     def whitelist(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
         """
         The whitelist of CIDR to access to the Ingress Controller.
@@ -74,6 +91,7 @@ class IngressNginx(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  class_name: Optional[pulumi.Input[str]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
+                 tls: Optional[pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         """
@@ -83,6 +101,7 @@ class IngressNginx(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] class_name: The Ingress class name.
         :param pulumi.Input[bool] public: Expose the IngressController with a public Load Balancer.
+        :param pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']] tls: The domain associated to the IngressController.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: The whitelist of CIDR to access to the Ingress Controller.
         """
         ...
@@ -111,6 +130,7 @@ class IngressNginx(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  class_name: Optional[pulumi.Input[str]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
+                 tls: Optional[pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
@@ -127,8 +147,10 @@ class IngressNginx(pulumi.ComponentResource):
                 raise TypeError("Missing required property 'class_name'")
             __props__.__dict__["class_name"] = class_name
             __props__.__dict__["public"] = public
+            __props__.__dict__["tls"] = tls
             __props__.__dict__["whitelist"] = whitelist
             __props__.__dict__["application"] = None
+            __props__.__dict__["certificate"] = None
             __props__.__dict__["namespace"] = None
         super(IngressNginx, __self__).__init__(
             'cloud-toolkit-aws:kubernetes:IngressNginx',
@@ -144,6 +166,14 @@ class IngressNginx(pulumi.ComponentResource):
         The ArgoCD Application to deploy the component.
         """
         return pulumi.get(self, "application")
+
+    @property
+    @pulumi.getter
+    def certificate(self) -> pulumi.Output[Optional[Any]]:
+        """
+        The ACM Certificates used for TLS encryption.
+        """
+        return pulumi.get(self, "certificate")
 
     @property
     @pulumi.getter
