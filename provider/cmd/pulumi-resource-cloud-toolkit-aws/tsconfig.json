@@ -13,6 +13,6 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true
   },
-  "include": ["index.ts", "provider.ts", "example.ts", "kubernetes/**.ts", "landingzone/**.ts", "storage/**.ts"],
+  "include": ["index.ts", "provider.ts", "example.ts", "common/**.ts", "kubernetes/**.ts", "landingzone/**.ts", "storage/**.ts"],
   "exclude": ["node-modules", "__tests__"]
 }
