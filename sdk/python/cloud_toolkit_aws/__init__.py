@@ -55,6 +55,7 @@ _utilities.register(
   "classes": {
    "cloud-toolkit-aws:kubernetes:ApplicationAddon": "ApplicationAddon",
    "cloud-toolkit-aws:kubernetes:ArgoCD": "ArgoCD",
+   "cloud-toolkit-aws:kubernetes:Calico": "Calico",
    "cloud-toolkit-aws:kubernetes:CertManager": "CertManager",
    "cloud-toolkit-aws:kubernetes:Cluster": "Cluster",
    "cloud-toolkit-aws:kubernetes:ClusterAddons": "ClusterAddons",
