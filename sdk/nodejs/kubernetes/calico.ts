@@ -6,45 +6,35 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-/**
- * Dashboard used to view the status of the Kubernetes cluster.
- */
-export class Dashboard extends pulumi.ComponentResource {
+export class Calico extends pulumi.ComponentResource {
     /** @internal */
-    public static readonly __pulumiType = 'cloud-toolkit-aws:kubernetes:Dashboard';
+    public static readonly __pulumiType = 'cloud-toolkit-aws:kubernetes:Calico';
 
     /**
-     * Returns true if the given object is an instance of Dashboard.  This is designed to work even
+     * Returns true if the given object is an instance of Calico.  This is designed to work even
      * when multiple copies of the Pulumi SDK have been loaded into the same process.
      */
-    public static isInstance(obj: any): obj is Dashboard {
+    public static isInstance(obj: any): obj is Calico {
         if (obj === undefined || obj === null) {
             return false;
         }
-        return obj['__pulumiType'] === Dashboard.__pulumiType;
+        return obj['__pulumiType'] === Calico.__pulumiType;
     }
 
-    /**
-     * Application component.
-     */
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
-    /**
-     * The Namespace used to deploy the component.
-     */
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
 
     /**
-     * Create a Dashboard resource with the given unique name, arguments, and options.
+     * Create a Calico resource with the given unique name, arguments, and options.
      *
      * @param name The _unique_ name of the resource.
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args?: DashboardArgs, opts?: pulumi.ComponentResourceOptions) {
+    constructor(name: string, args?: CalicoArgs, opts?: pulumi.ComponentResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            resourceInputs["hostname"] = args ? args.hostname : undefined;
             resourceInputs["application"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         } else {
@@ -52,16 +42,12 @@ export class Dashboard extends pulumi.ComponentResource {
             resourceInputs["namespace"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
-        super(Dashboard.__pulumiType, name, resourceInputs, opts, true /*remote*/);
+        super(Calico.__pulumiType, name, resourceInputs, opts, true /*remote*/);
     }
 }
 
 /**
- * The set of arguments for constructing a Dashboard resource.
+ * The set of arguments for constructing a Calico resource.
  */
-export interface DashboardArgs {
-    /**
-     * The hostname associated with the dashboard.
-     */
-    hostname?: pulumi.Input<string>;
+export interface CalicoArgs {
 }

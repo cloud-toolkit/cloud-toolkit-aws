@@ -195,6 +195,7 @@ class ClusterAddons(pulumi.ComponentResource):
             __props__.__dict__["zone_arns"] = zone_arns
             __props__.__dict__["admin_ingress_nginx"] = None
             __props__.__dict__["argocd"] = None
+            __props__.__dict__["calico"] = None
             __props__.__dict__["cert_manager"] = None
             __props__.__dict__["dashboard"] = None
             __props__.__dict__["external_dns"] = None
@@ -222,6 +223,14 @@ class ClusterAddons(pulumi.ComponentResource):
         return pulumi.get(self, "argocd")
 
     @property
+    @pulumi.getter
+    def calico(self) -> pulumi.Output[Any]:
+        """
+        The Calico addon used to manage network policies.
+        """
+        return pulumi.get(self, "calico")
+
+    @property
     @pulumi.getter(name="certManager")
     def cert_manager(self) -> pulumi.Output[Any]:
         """
@@ -232,6 +241,9 @@ class ClusterAddons(pulumi.ComponentResource):
     @property
     @pulumi.getter
     def dashboard(self) -> pulumi.Output[Any]:
+        """
+        The Kubernetes dashboard addon.
+        """
         return pulumi.get(self, "dashboard")
 
     @property

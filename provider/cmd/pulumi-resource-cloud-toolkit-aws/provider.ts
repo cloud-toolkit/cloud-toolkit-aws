@@ -34,6 +34,7 @@ import {
   OrganizationArgs
 } from "./landingzone";
 import {Mysql, MysqlArgs} from "./databases/mysql";
+import { Calico, CalicoArgs } from "./kubernetes/calico";
 
 
 export class Provider implements pulumi.provider.Provider {
@@ -64,6 +65,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesExternalDns(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:IngressNginx":
         return await constructKubernetesIngressNginx(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:Calico":
+        return await constructKubernetesCalico(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -213,6 +216,22 @@ async function constructKubernetesCertManager(
     state: {
       application: resource.application,
       irsa: resource.irsa,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesCalico(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new Calico(name, inputs as CalicoArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
       namespace: resource.namespace,
     },
   };

@@ -8,6 +8,7 @@ import typing
 from ._enums import *
 from .application_addon import *
 from .argo_cd import *
+from .calico import *
 from .cert_manager import *
 from .cluster import *
 from .cluster_addons import *
