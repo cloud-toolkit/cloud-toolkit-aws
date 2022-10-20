@@ -14,7 +14,7 @@ export class Calico extends ApplicationAddon<CalicoArgs> {
     public readonly application: kubernetes.apiextensions.CustomResource;
 
     constructor(name: string, args: CalicoArgs, opts?: pulumi.ResourceOptions) {
-        super("cloudToolkit:aws:kubernetes:addon:Calico", name, args, opts);
+        super("cloud-toolkit-aws:kubernetes:Calico", name, args, opts);
 
         const resourceOpts = pulumi.mergeOptions(opts, {
             parent: this,
