@@ -50,7 +50,7 @@ export class ArgoCD extends pulumi.ComponentResource {
     const values = this.getChartValues();
     this.chart = this.deployHelmChart(
       "argo-cd",
-      "3.33.3",
+      "5.6.1",
       "https://argoproj.github.io/argo-helm",
       values,
       resourceOpts,
@@ -98,10 +98,11 @@ export class ArgoCD extends pulumi.ComponentResource {
       "redis-ha": {
         enabled: false,
       },
-      controller: {
-        enableStatefulSet: true,
+      configs: {
+        params: {
+          "server.insecure": true,
+        },
       },
-
       server: {
         autoscaling: {
           enabled: false,
@@ -111,9 +112,6 @@ export class ArgoCD extends pulumi.ComponentResource {
           ingressClassName: "admin",
           annotations: {
             "external-dns.alpha.kubernetes.io/hostname": this.args.hostname,
-            "nginx.ingress.kubernetes.io/force-ssl-redirect": "true",
-            "nginx.ingress.kubernetes.io/ssl-passthrough": "true",
-            "nginx.ingress.kubernetes.io/backend-protocol": "HTTPS",
           },
           hosts: [this.args.hostname],
         },
