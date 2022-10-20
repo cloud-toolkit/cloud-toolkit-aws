@@ -36,6 +36,10 @@ export class Bucket extends pulumi.ComponentResource {
      */
     public /*out*/ readonly bucketEncryption!: pulumi.Output<pulumiAws.s3.BucketServerSideEncryptionConfigurationV2 | undefined>;
     /**
+     * Enforce that bucket owner is all bucket objects
+     */
+    public /*out*/ readonly bucketOwnership!: pulumi.Output<pulumiAws.s3.BucketOwnershipControls>;
+    /**
      * Controls that IAM policies complies with bucket visibility (public or private)
      */
     public /*out*/ readonly bucketPublicAccess!: pulumi.Output<pulumiAws.s3.BucketPublicAccessBlock>;
@@ -93,6 +97,7 @@ export class Bucket extends pulumi.ComponentResource {
             resourceInputs["website"] = args ? args.website : undefined;
             resourceInputs["bucket"] = undefined /*out*/;
             resourceInputs["bucketEncryption"] = undefined /*out*/;
+            resourceInputs["bucketOwnership"] = undefined /*out*/;
             resourceInputs["bucketPublicAccess"] = undefined /*out*/;
             resourceInputs["bucketPublicAccessPolicy"] = undefined /*out*/;
             resourceInputs["bucketVersioning"] = undefined /*out*/;
@@ -104,6 +109,7 @@ export class Bucket extends pulumi.ComponentResource {
         } else {
             resourceInputs["bucket"] = undefined /*out*/;
             resourceInputs["bucketEncryption"] = undefined /*out*/;
+            resourceInputs["bucketOwnership"] = undefined /*out*/;
             resourceInputs["bucketPublicAccess"] = undefined /*out*/;
             resourceInputs["bucketPublicAccessPolicy"] = undefined /*out*/;
             resourceInputs["bucketVersioning"] = undefined /*out*/;
