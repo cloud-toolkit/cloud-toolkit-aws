@@ -196,6 +196,7 @@ class ClusterAddons(pulumi.ComponentResource):
             __props__.__dict__["admin_ingress_nginx"] = None
             __props__.__dict__["argocd"] = None
             __props__.__dict__["cert_manager"] = None
+            __props__.__dict__["dashboard"] = None
             __props__.__dict__["external_dns"] = None
         super(ClusterAddons, __self__).__init__(
             'cloud-toolkit-aws:kubernetes:ClusterAddons',
@@ -227,6 +228,11 @@ class ClusterAddons(pulumi.ComponentResource):
         The CertManager addon.
         """
         return pulumi.get(self, "cert_manager")
+
+    @property
+    @pulumi.getter
+    def dashboard(self) -> pulumi.Output[Any]:
+        return pulumi.get(self, "dashboard")
 
     @property
     @pulumi.getter(name="externalDns")

@@ -27,6 +27,7 @@ This repository is composed by the following components:
 - NPM 16+
 - Go 1.17
 - Python 3.6+
+- setuptools 1.63+
 
 ### Provider
 
