@@ -8,6 +8,7 @@ import typing
 from ._enums import *
 from .application_addon import *
 from .argo_cd import *
+from .aws_ebs_csi_driver import *
 from .calico import *
 from .cert_manager import *
 from .cluster import *

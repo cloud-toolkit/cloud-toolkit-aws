@@ -20,6 +20,7 @@
         "index.ts",
         "kubernetes/applicationAddon.ts",
         "kubernetes/argoCD.ts",
+        "kubernetes/awsEbsCsiDriver.ts",
         "kubernetes/calico.ts",
         "kubernetes/certManager.ts",
         "kubernetes/cluster.ts",
