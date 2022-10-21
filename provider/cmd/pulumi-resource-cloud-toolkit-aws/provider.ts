@@ -36,6 +36,7 @@ import {
 import { Mysql, MysqlArgs} from "./databases/mysql";
 import { Calico, CalicoArgs } from "./kubernetes/calico";
 import { Dashboard, DashboardArgs } from "./kubernetes/dashboard";
+import { AwsEbsCsiDriver, AwsEbsCsiDriverArgs } from "./kubernetes/ebsCsiDriver";
 
 
 export class Provider implements pulumi.provider.Provider {
@@ -70,6 +71,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesDashboard(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:Calico":
         return await constructKubernetesCalico(name, inputs, options);
+      case "cloudToolkit:aws:kubernetes:AwsEbsCsiDriver":
+        return await constructKubernetesEbsDriver(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -247,6 +250,22 @@ async function constructKubernetesCalico(
   options: pulumi.ComponentResourceOptions
 ): Promise<pulumi.provider.ConstructResult> {
   const resource = new Calico(name, inputs as CalicoArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesEbsDriver(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new AwsEbsCsiDriver(name, inputs as AwsEbsCsiDriverArgs, options);
 
   return {
     urn: resource.urn,

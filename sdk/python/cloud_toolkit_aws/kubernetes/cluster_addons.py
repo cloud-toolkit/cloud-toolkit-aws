@@ -198,6 +198,7 @@ class ClusterAddons(pulumi.ComponentResource):
             __props__.__dict__["calico"] = None
             __props__.__dict__["cert_manager"] = None
             __props__.__dict__["dashboard"] = None
+            __props__.__dict__["ebs_csi_driver"] = None
             __props__.__dict__["external_dns"] = None
         super(ClusterAddons, __self__).__init__(
             'cloud-toolkit-aws:kubernetes:ClusterAddons',
@@ -245,6 +246,14 @@ class ClusterAddons(pulumi.ComponentResource):
         The Kubernetes dashboard addon.
         """
         return pulumi.get(self, "dashboard")
+
+    @property
+    @pulumi.getter(name="ebsCsiDriver")
+    def ebs_csi_driver(self) -> pulumi.Output[Any]:
+        """
+        The EBS CSI driver that allows to create volumes using the block storage service of AWS.
+        """
+        return pulumi.get(self, "ebs_csi_driver")
 
     @property
     @pulumi.getter(name="externalDns")

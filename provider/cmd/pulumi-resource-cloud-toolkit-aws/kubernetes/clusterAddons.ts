@@ -9,6 +9,7 @@ import { CertManager } from "./certManager";
 import { ExternalDns } from "./externalDns";
 import { Dashboard } from "./dashboard";
 import { Calico } from "./calico";
+import { AwsEbsCsiDriver } from "./ebsCsiDriver"
 
 import {
   ClusterAddonsArgs,
@@ -53,6 +54,11 @@ export class ClusterAddons extends pulumi.ComponentResource {
    */
   public readonly calico: Calico;
 
+  /**
+   * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
+   */
+  public readonly ebsCsiDriver: AwsEbsCsiDriver;
+
   constructor(
     name: string,
     args: ClusterAddonsArgs,
@@ -91,13 +97,16 @@ export class ClusterAddons extends pulumi.ComponentResource {
 
     this.dashboard = this.setupDashboard(argocdApplicationsOpts)
     this.calico = this.setupCalico(argocdApplicationsOpts);
+    this.ebsCsiDriver = this.setupAwsEbsCsiDriver(argocdApplicationsOpts)
 
     this.registerOutputs({
       argocd: this.argocd,
       certManager: this.certManager,
       externalDns: this.externalDns,
       adminIngressNginx: this.adminIngressNginx,
-      dashboard: this.dashboard
+      dashboard: this.dashboard,
+      calico: this.calico,
+      ebsCsiDriver: this.ebsCsiDriver
     });
   }
 
@@ -178,6 +187,26 @@ export class ClusterAddons extends pulumi.ComponentResource {
         namespace: "system-calico",
         k8sProvider: this.args.k8sProvider,
         createNamespace: true
+      },
+      opts
+    );
+  }
+
+  private setupAwsEbsCsiDriver(
+    opts?: pulumi.ResourceOptions
+  ): AwsEbsCsiDriver {
+    const partition = pulumi.output(aws.getPartition());
+    return new AwsEbsCsiDriver(
+      `${this.name}-aws-ebs-csi-driver`,
+      {
+        name: "aws-ebs-csi-driver",
+        namespace: "kube-system",
+        serviceAccountName: "ebs-csi-driver",
+        k8sProvider: this.args.k8sProvider,
+        createNamespace: false,
+        awsPartition: partition.partition,
+        identityProvidersArn: this.args.identityProvidersArn,
+        issuerUrl: this.args.issuerUrl,
       },
       opts
     );
