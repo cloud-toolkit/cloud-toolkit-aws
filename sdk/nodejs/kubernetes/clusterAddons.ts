@@ -9,7 +9,7 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {ArgoCD, Calico, CertManager, Dashboard, ExternalDns, IngressNginx} from "./index";
+import {ArgoCD, AwsEbsCsiDriver, Calico, CertManager, Dashboard, ExternalDns, IngressNginx} from "./index";
 
 /**
  * ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -49,6 +49,10 @@ export class ClusterAddons extends pulumi.ComponentResource {
      * The Kubernetes dashboard addon.
      */
     public /*out*/ readonly dashboard!: pulumi.Output<Dashboard>;
+    /**
+     * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
+     */
+    public /*out*/ readonly ebsCsiDriver!: pulumi.Output<AwsEbsCsiDriver>;
     /**
      * The ExternalDns addon.
      */
@@ -91,6 +95,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
+            resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         } else {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
@@ -98,6 +103,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
+            resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
