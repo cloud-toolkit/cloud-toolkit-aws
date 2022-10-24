@@ -19,7 +19,7 @@ export class AwsEbsCsiDriver extends ApplicationAddon<AwsEbsCsiDriverArgs> {
         args: AwsEbsCsiDriverArgs,
         opts?: pulumi.CustomResourceOptions
     ) {
-        super("cloudToolkit:aws:kubernetes:AwsEbsCsiDriver", name, args, opts);
+        super("cloud-toolkit-aws:kubernetes:AwsEbsCsiDriver", name, args, opts);
 
         const resourceOpts = pulumi.mergeOptions(opts, {
             parent: this,
@@ -41,7 +41,7 @@ export class AwsEbsCsiDriver extends ApplicationAddon<AwsEbsCsiDriverArgs> {
     }
 
     private setupIrsa(opts?: pulumi.ResourceOptions): Irsa {
-        return new Irsa(`${this.name}-cert-manager`, {
+        return new Irsa(`${this.name}-aws-ebs-csi-driver`, {
             identityProvidersArn: [...this.args.identityProvidersArn],
             issuerUrl: this.args.issuerUrl,
             k8sProvider: this.args.k8sProvider,

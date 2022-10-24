@@ -18,6 +18,8 @@ import {
   ClusterAddons,
   ClusterAddonsArgs,
   ClusterArgs,
+  ClusterAutoscaler,
+  ClusterAutoscalerArgs,
   ExternalDns,
   ExternalDnsArgs,
   IngressNginx,
@@ -79,7 +81,7 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesDashboard(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:Calico":
         return await constructKubernetesCalico(name, inputs, options);
-      case "cloudToolkit:aws:kubernetes:AwsEbsCsiDriver":
+      case "cloud-toolkit-aws:kubernetes:AwsEbsCsiDriver":
         return await constructKubernetesEbsDriver(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:ClusterAutoscaler":
         return await constructKubernetesClusterAutoscaler(name, inputs, options);
@@ -323,7 +325,7 @@ async function constructKubernetesClusterAutoscaler(
   inputs: pulumi.Inputs,
   options: pulumi.ComponentResourceOptions
 ): Promise<pulumi.provider.ConstructResult> {
-  const resource = new CertManager(name, inputs as CertManagerArgs, options);
+  const resource = new ClusterAutoscaler(name, inputs as ClusterAutoscalerArgs, options);
 
   return {
     urn: resource.urn,
