@@ -310,6 +310,18 @@ types:
         type: string
     type: object
     required: []
+  cloud-toolkit-aws:kubernetes:AwsLoadBalancerControllerArgs:
+    properties:
+      awsPartition:
+        description: ""
+        type: string
+      clusterName:
+        description: ""
+        type: string
+    type: object
+    required:
+      - awsPartition
+      - clusterName
   cloud-toolkit-aws:kubernetes:CalicoArgs:
     properties: {}
     type: object
@@ -330,6 +342,9 @@ types:
       k8sProvider:
         description: The Pulumi provider used for Kubernetes resources.
         $ref: /kubernetes/v3.21.2/schema.json#/provider
+      clusterName:
+        description: The EKS Cluster name.
+        type: string
       identityProvidersArn:
         description: The OIDC Identity Provider arn.
         type: array
@@ -354,18 +369,15 @@ types:
         items:
           description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
           type: string
-      clusterName:
-        description: The name used by the cluster.
-        type: string
     type: object
     required:
       - k8sProvider
+      - clusterName
       - identityProvidersArn
       - issuerUrl
       - domain
       - zoneId
       - zoneArns
-      - clusterName
   cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs:
     properties:
       enabled:
@@ -1521,6 +1533,33 @@ resources:
     requiredInputs: []
     isComponent: true
     type: object
+  cloud-toolkit-aws:kubernetes:AwsLoadBalancerController:
+    description: ""
+    properties:
+      namespace:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
+      application:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
+      irsa:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:Irsa"
+    required:
+      - application
+      - irsa
+    inputProperties:
+      awsPartition:
+        description: ""
+        type: string
+      clusterName:
+        description: ""
+        type: string
+    requiredInputs:
+      - awsPartition
+      - clusterName
+    isComponent: true
+    type: object
   cloud-toolkit-aws:kubernetes:Calico:
     description: ""
     properties:
@@ -1699,16 +1738,36 @@ resources:
       dashboard:
         description: The Kubernetes dashboard addon.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:Dashboard"
+      calico:
+        description: The Calico addon used to manage network policies.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:Calico"
+      ebsCsiDriver:
+        description: The EBS CSI driver that allows to create volumes using the block
+          storage service of AWS.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AwsEbsCsiDriver"
+      clusterAutoscaler:
+        description: The Kubernetes ClusterAutoscaler addon.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAutoscaler"
+      awsLoadBalancerController:
+        description: The AWS LoadBalancer Controller.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AwsLoadBalancerController"
     required:
       - argocd
       - certManager
       - adminIngressNginx
       - externalDns
       - dashboard
+      - calico
+      - ebsCsiDriver
+      - clusterAutoscaler
+      - awsLoadBalancerController
     inputProperties:
       k8sProvider:
         description: The Pulumi provider used for Kubernetes resources.
         $ref: /kubernetes/v3.21.2/schema.json#/provider
+      clusterName:
+        description: The EKS Cluster name.
+        type: string
       identityProvidersArn:
         description: The OIDC Identity Provider arn.
         type: array
@@ -1733,17 +1792,14 @@ resources:
         items:
           description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
           type: string
-      clusterName:
-        description: The name used by the cluster.
-        type: string
     requiredInputs:
       - k8sProvider
+      - clusterName
       - identityProvidersArn
       - issuerUrl
       - domain
       - zoneId
       - zoneArns
-      - clusterName
     isComponent: true
     type: object
   cloud-toolkit-aws:kubernetes:ClusterAutoscaler:

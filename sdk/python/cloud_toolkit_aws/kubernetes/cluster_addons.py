@@ -16,6 +16,7 @@ __all__ = ['ClusterAddonsArgs', 'ClusterAddons']
 @pulumi.input_type
 class ClusterAddonsArgs:
     def __init__(__self__, *,
+                 cluster_name: pulumi.Input[str],
                  domain: pulumi.Input[str],
                  identity_providers_arn: pulumi.Input[Sequence[pulumi.Input[str]]],
                  issuer_url: pulumi.Input[str],
@@ -25,6 +26,7 @@ class ClusterAddonsArgs:
                  ingress: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']] = None):
         """
         The set of arguments for constructing a ClusterAddons resource.
+        :param pulumi.Input[str] cluster_name: The EKS Cluster name.
         :param pulumi.Input[str] domain: The domain used by the cluster.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn.
         :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
@@ -33,6 +35,7 @@ class ClusterAddonsArgs:
         :param pulumi.Input[str] zone_id: The main DNS Zone id.
         :param pulumi.Input['ClusterAddonsIngressArgsArgs'] ingress: The configuration for Ingress Controller.
         """
+        pulumi.set(__self__, "cluster_name", cluster_name)
         pulumi.set(__self__, "domain", domain)
         pulumi.set(__self__, "identity_providers_arn", identity_providers_arn)
         pulumi.set(__self__, "issuer_url", issuer_url)
@@ -41,6 +44,18 @@ class ClusterAddonsArgs:
         pulumi.set(__self__, "zone_id", zone_id)
         if ingress is not None:
             pulumi.set(__self__, "ingress", ingress)
+
+    @property
+    @pulumi.getter(name="clusterName")
+    def cluster_name(self) -> pulumi.Input[str]:
+        """
+        The EKS Cluster name.
+        """
+        return pulumi.get(self, "cluster_name")
+
+    @cluster_name.setter
+    def cluster_name(self, value: pulumi.Input[str]):
+        pulumi.set(self, "cluster_name", value)
 
     @property
     @pulumi.getter
@@ -132,6 +147,7 @@ class ClusterAddons(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 cluster_name: Optional[pulumi.Input[str]] = None,
                  domain: Optional[pulumi.Input[str]] = None,
                  identity_providers_arn: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']]] = None,
@@ -145,6 +161,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] cluster_name: The EKS Cluster name.
         :param pulumi.Input[str] domain: The domain used by the cluster.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn.
         :param pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']] ingress: The configuration for Ingress Controller.
@@ -177,6 +194,7 @@ class ClusterAddons(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 cluster_name: Optional[pulumi.Input[str]] = None,
                  domain: Optional[pulumi.Input[str]] = None,
                  identity_providers_arn: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']]] = None,
@@ -195,6 +213,9 @@ class ClusterAddons(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = ClusterAddonsArgs.__new__(ClusterAddonsArgs)
 
+            if cluster_name is None and not opts.urn:
+                raise TypeError("Missing required property 'cluster_name'")
+            __props__.__dict__["cluster_name"] = cluster_name
             if domain is None and not opts.urn:
                 raise TypeError("Missing required property 'domain'")
             __props__.__dict__["domain"] = domain
@@ -216,8 +237,10 @@ class ClusterAddons(pulumi.ComponentResource):
             __props__.__dict__["zone_id"] = zone_id
             __props__.__dict__["admin_ingress_nginx"] = None
             __props__.__dict__["argocd"] = None
+            __props__.__dict__["aws_load_balancer_controller"] = None
             __props__.__dict__["calico"] = None
             __props__.__dict__["cert_manager"] = None
+            __props__.__dict__["cluster_autoscaler"] = None
             __props__.__dict__["dashboard"] = None
             __props__.__dict__["ebs_csi_driver"] = None
             __props__.__dict__["external_dns"] = None
@@ -245,6 +268,14 @@ class ClusterAddons(pulumi.ComponentResource):
         return pulumi.get(self, "argocd")
 
     @property
+    @pulumi.getter(name="awsLoadBalancerController")
+    def aws_load_balancer_controller(self) -> pulumi.Output[Any]:
+        """
+        The AWS LoadBalancer Controller.
+        """
+        return pulumi.get(self, "aws_load_balancer_controller")
+
+    @property
     @pulumi.getter
     def calico(self) -> pulumi.Output[Any]:
         """
@@ -259,6 +290,14 @@ class ClusterAddons(pulumi.ComponentResource):
         The CertManager addon.
         """
         return pulumi.get(self, "cert_manager")
+
+    @property
+    @pulumi.getter(name="clusterAutoscaler")
+    def cluster_autoscaler(self) -> pulumi.Output[Any]:
+        """
+        The Kubernetes ClusterAutoscaler addon.
+        """
+        return pulumi.get(self, "cluster_autoscaler")
 
     @property
     @pulumi.getter

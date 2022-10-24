@@ -9,7 +9,7 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {ArgoCD, AwsEbsCsiDriver, Calico, CertManager, Dashboard, ExternalDns, IngressNginx} from "./index";
+import {ArgoCD, AwsEbsCsiDriver, AwsLoadBalancerController, Calico, CertManager, ClusterAutoscaler, Dashboard, ExternalDns, IngressNginx} from "./index";
 
 /**
  * ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -38,6 +38,10 @@ export class ClusterAddons extends pulumi.ComponentResource {
      */
     public /*out*/ readonly argocd!: pulumi.Output<ArgoCD>;
     /**
+     * The AWS LoadBalancer Controller.
+     */
+    public /*out*/ readonly awsLoadBalancerController!: pulumi.Output<AwsLoadBalancerController>;
+    /**
      * The Calico addon used to manage network policies.
      */
     public /*out*/ readonly calico!: pulumi.Output<Calico>;
@@ -45,6 +49,10 @@ export class ClusterAddons extends pulumi.ComponentResource {
      * The CertManager addon.
      */
     public /*out*/ readonly certManager!: pulumi.Output<CertManager>;
+    /**
+     * The Kubernetes ClusterAutoscaler addon.
+     */
+    public /*out*/ readonly clusterAutoscaler!: pulumi.Output<ClusterAutoscaler>;
     /**
      * The Kubernetes dashboard addon.
      */
@@ -90,6 +98,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             if ((!args || args.zoneId === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'zoneId'");
             }
+            resourceInputs["clusterName"] = args ? args.clusterName : undefined;
             resourceInputs["domain"] = args ? args.domain : undefined;
             resourceInputs["identityProvidersArn"] = args ? args.identityProvidersArn : undefined;
             resourceInputs["ingress"] = args ? args.ingress : undefined;
@@ -99,6 +108,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["zoneId"] = args ? args.zoneId : undefined;
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
+            resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["clusterAutoscaler"] = undefined /*out*/;
@@ -108,6 +118,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
         } else {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
+            resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["clusterAutoscaler"] = undefined /*out*/;
@@ -125,7 +136,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
  */
 export interface ClusterAddonsArgs {
     /**
-     * The name used by the cluster.
+     * The EKS Cluster name.
      */
     clusterName: pulumi.Input<string>;
     /**
