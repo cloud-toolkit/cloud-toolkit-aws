@@ -6,10 +6,13 @@ import { CertManager, CertManagerArgs } from "./certManager";
 import { ExternalDns, ExternalDnsArgs } from "./externalDns";
 import { IngressNginx, IngressNginxArgs } from "./ingressNginx";
 import { ClusterAutoscaler, ClusterAutoscalerArgs } from "./clusterAutoscaler";
+import { AwsLoadBalancerController, AwsLoadBalancerControllerArgs } from "./awsLoadBalancerController";
 
 export {
   ArgoCD,
   ArgoCDArgs,
+  AwsLoadBalancerController,
+  AwsLoadBalancerControllerArgs ,
   CertManager,
   CertManagerArgs,
   Cluster,

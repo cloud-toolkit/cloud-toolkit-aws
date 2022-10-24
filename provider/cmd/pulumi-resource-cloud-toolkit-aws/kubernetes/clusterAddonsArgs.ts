@@ -9,6 +9,11 @@ export interface ClusterAddonsArgs {
   k8sProvider: kubernetes.Provider;
 
   /**
+   * The EKS Cluster name.
+   */
+  clusterName: pulumi.Input<string>;
+
+  /**
    * The OIDC Identity Provider arn.
    */
   identityProvidersArn: pulumi.Input<string>[];
@@ -37,11 +42,6 @@ export interface ClusterAddonsArgs {
    * The list of DNS Zone arns to be used by CertManager and ExternalDNS.
    */
   zoneArns: pulumi.Input<string>[];
-
-  /**
-   * The name used by the cluster.
-   */
-  clusterName: pulumi.Input<string>;
 }
 
 export interface ClusterAddonsIngressArgs {
