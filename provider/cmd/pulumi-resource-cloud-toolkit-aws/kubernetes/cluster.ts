@@ -107,8 +107,8 @@ export class Cluster extends pulumi.ComponentResource {
   public privateSubnetIds: Promise<pulumi.Input<string>[]>;
   public publicSubnetIds: Promise<pulumi.Input<string>[]>;
 
-  public zoneId: Promise<string>;
-  public zoneArn: Promise<string>;
+  public zoneId: Promise<pulumi.Input<string>>;
+  public zoneArn: Promise<pulumi.Input<string>>;
 
   constructor(
     name: string,
@@ -133,20 +133,9 @@ export class Cluster extends pulumi.ComponentResource {
 
     // DNS
     this.domain = this.setupClusterDomain();
-    try{
-      const zoneData = this.getExternalZoneData();
-      this.zoneId = zoneData.then(zone => zone.id);
-      this.zoneArn = zoneData.then(zone => zone.arn);
-    } catch (error) {
-      if (error instanceof Error) {
-        const msg = error.message;
-        if (!msg.includes("no matching Route53Zone found")) {
-          pulumi.log.error(msg, this);
-        }
-        this.dnsZone = this.setupDnsZone(resourceOpts);
-      }
-      throw error;
-    }
+    const zoneData = this.getExternalZoneData(resourceOpts);
+    this.zoneId = zoneData.then(zone => zone.id);
+    this.zoneArn = zoneData.then(zone => zone.arn);
 
     // Provisioner
     this.provisionerRole = this.setupProvisionerRole(resourceOpts);
@@ -587,25 +576,6 @@ users:
     }, opts);
   }
 
-  private async getZoneData(opts: pulumi.ResourceOptions): Promise<{
-    id: string,
-    arn: string,
-  } | undefined> {
-    try{
-      const zoneData = await this.getExternalZoneData();
-      return zoneData;
-    } catch (error) {
-      if (error instanceof Error) {
-        const msg = error.message;
-        if (!msg.includes("no matching Route53Zone found")) {
-          pulumi.log.error(msg, this);
-        }
-        return;
-      }
-      throw error;
-    }
-  }
-
   private setupDnsZone(opts: pulumi.ResourceOptions): aws.route53.Zone {
     const vpcId = Promise.resolve(this.vpcId);
     const zone = new aws.route53.Zone(
@@ -622,15 +592,30 @@ users:
     return zone;
   }
 
-  private async getExternalZoneData(): Promise<{id: string, arn: string}> {
-    const invokeOpts = {parent: this, async: true};
-    const zone = await aws.route53.getZone({
-      name: this.config.baseDomain,
-    }, invokeOpts);
+  private async getExternalZoneData(opts: pulumi.ResourceOptions): Promise<{id: pulumi.Input<string>, arn: pulumi.Input<string>}> {
+    try {
+      const invokeOpts = {parent: this, async: true};
+      const zone = await aws.route53.getZone({
+        name: this.config.baseDomain,
+      }, invokeOpts);
+      return {
+        id: zone.id,
+        arn: zone.arn,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        const msg = error.message;
+        if (!msg.includes("no matching Route53Zone found")) {
+          pulumi.log.error(msg, this);
+        }
+        const dnsZone = this.setupDnsZone(opts);
+        return {
+          id: dnsZone.id.apply(id => id),
+          arn: dnsZone.arn.apply(arn => arn),
+        };
+      }
 
-    return {
-      id: zone.id,
-      arn: zone.arn,
+      throw error;
     }
   }
 
