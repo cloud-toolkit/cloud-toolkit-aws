@@ -66,6 +66,9 @@ export abstract class ApplicationAddon<T extends ApplicationAddonArgs
         metadata: {
           name: this.name,
           namespace: "system-argocd",
+          finalizers: [
+            "resources-finalizer.argocd.argoproj.io",
+          ],
         },
         spec: this.getApplicationSpec(),
       },
