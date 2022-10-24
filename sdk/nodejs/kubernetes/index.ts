@@ -17,6 +17,10 @@ export { AwsEbsCsiDriverArgs } from "./awsEbsCsiDriver";
 export type AwsEbsCsiDriver = import("./awsEbsCsiDriver").AwsEbsCsiDriver;
 export const AwsEbsCsiDriver: typeof import("./awsEbsCsiDriver").AwsEbsCsiDriver = null as any;
 
+export { AwsLoadBalancerControllerArgs } from "./awsLoadBalancerController";
+export type AwsLoadBalancerController = import("./awsLoadBalancerController").AwsLoadBalancerController;
+export const AwsLoadBalancerController: typeof import("./awsLoadBalancerController").AwsLoadBalancerController = null as any;
+
 export { CalicoArgs } from "./calico";
 export type Calico = import("./calico").Calico;
 export const Calico: typeof import("./calico").Calico = null as any;
@@ -32,6 +36,10 @@ export const Cluster: typeof import("./cluster").Cluster = null as any;
 export { ClusterAddonsArgs } from "./clusterAddons";
 export type ClusterAddons = import("./clusterAddons").ClusterAddons;
 export const ClusterAddons: typeof import("./clusterAddons").ClusterAddons = null as any;
+
+export { ClusterAutoscalerArgs } from "./clusterAutoscaler";
+export type ClusterAutoscaler = import("./clusterAutoscaler").ClusterAutoscaler;
+export const ClusterAutoscaler: typeof import("./clusterAutoscaler").ClusterAutoscaler = null as any;
 
 export { DashboardArgs } from "./dashboard";
 export type Dashboard = import("./dashboard").Dashboard;
@@ -56,10 +64,12 @@ export const NodeGroup: typeof import("./nodeGroup").NodeGroup = null as any;
 utilities.lazyLoad(exports, ["ApplicationAddon"], () => require("./applicationAddon"));
 utilities.lazyLoad(exports, ["ArgoCD"], () => require("./argoCD"));
 utilities.lazyLoad(exports, ["AwsEbsCsiDriver"], () => require("./awsEbsCsiDriver"));
+utilities.lazyLoad(exports, ["AwsLoadBalancerController"], () => require("./awsLoadBalancerController"));
 utilities.lazyLoad(exports, ["Calico"], () => require("./calico"));
 utilities.lazyLoad(exports, ["CertManager"], () => require("./certManager"));
 utilities.lazyLoad(exports, ["Cluster"], () => require("./cluster"));
 utilities.lazyLoad(exports, ["ClusterAddons"], () => require("./clusterAddons"));
+utilities.lazyLoad(exports, ["ClusterAutoscaler"], () => require("./clusterAutoscaler"));
 utilities.lazyLoad(exports, ["Dashboard"], () => require("./dashboard"));
 utilities.lazyLoad(exports, ["ExternalDns"], () => require("./externalDns"));
 utilities.lazyLoad(exports, ["IngressNginx"], () => require("./ingressNginx"));
@@ -79,6 +89,8 @@ const _module = {
                 return new ArgoCD(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:AwsEbsCsiDriver":
                 return new AwsEbsCsiDriver(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:AwsLoadBalancerController":
+                return new AwsLoadBalancerController(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Calico":
                 return new Calico(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:CertManager":
@@ -87,6 +99,8 @@ const _module = {
                 return new Cluster(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:ClusterAddons":
                 return new ClusterAddons(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:ClusterAutoscaler":
+                return new ClusterAutoscaler(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Dashboard":
                 return new Dashboard(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:ExternalDns":
