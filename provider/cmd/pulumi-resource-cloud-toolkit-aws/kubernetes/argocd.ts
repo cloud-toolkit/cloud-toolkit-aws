@@ -95,9 +95,6 @@ export class ArgoCD extends pulumi.ComponentResource {
 
   private getChartValues(): any {
     return {
-      "redis-ha": {
-        enabled: false,
-      },
       configs: {
         params: {
           "server.insecure": true,
@@ -116,7 +113,6 @@ export class ArgoCD extends pulumi.ComponentResource {
           hosts: [this.args.hostname],
         },
       },
-
       repoServer: {
         autoscaling: {
           enabled: false,
