@@ -41,9 +41,13 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
       parent: this,
     });
 
-    this.certificate = this.setupCertificate(resourceOpts);
     this.namespace = this.setupNamespace(resourceOpts);
-    this.application = this.setupApplication(resourceOpts);
+    this.certificate = this.setupCertificate(resourceOpts);
+
+    const applicationOpts = pulumi.mergeOptions(resourceOpts, {
+      dependsOn: this.certificate,
+    });
+    this.application = this.setupApplication(applicationOpts);
   }
 
   protected validateArgs(a: IngressNginxArgs): IngressNginxArgs {
@@ -75,10 +79,10 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
     }
 
     const tlsParameters = [];
-    if (this.args.tls?.enabled && this.certificate !== undefined) {
+    if (this.args.tls?.enabled) {
       tlsParameters.push({
         name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert",
-        value: this.certificate.certificate.arn,
+        value: this.certificate?.certificate.arn,
       });
       tlsParameters.push({
         name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-ports",
@@ -86,7 +90,7 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
       });
       tlsParameters.push({
         name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-connection-idle-timeout",
-        value: "3600",
+        value: "60",
       });
       tlsParameters.push({
         name: "controller.service.targetPorts.https",
@@ -103,7 +107,7 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
       source: {
         repoURL: "https://kubernetes.github.io/ingress-nginx",
         chart: "ingress-nginx",
-        targetRevision: "4.2.3",
+        targetRevision: "4.3.0",
         helm: {
           releaseName: this.args.name,
           parameters: [
@@ -151,6 +155,10 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
             {
               name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-ports",
               value: "https",
+            },
+            {
+              name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type",
+              value: "nlb",
             },
             ...tlsParameters,
           ],
