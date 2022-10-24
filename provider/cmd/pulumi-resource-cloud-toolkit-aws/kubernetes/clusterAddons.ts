@@ -11,6 +11,7 @@ import { Dashboard } from "./dashboard";
 import { Calico } from "./calico";
 import { AwsEbsCsiDriver } from "./ebsCsiDriver"
 import { ClusterAutoscaler } from "./clusterAutoscaler"
+import { AwsLoadBalancerController } from "./awsLoadBalancerController";
 
 import {
   ClusterAddonsArgs,
@@ -65,6 +66,11 @@ export class ClusterAddons extends pulumi.ComponentResource {
    */
   public readonly clusterAutoscaler: ClusterAutoscaler;
 
+  /**
+   * The AWS LoadBalancer Controller.
+   */
+  public readonly awsLoadBalancerController: AwsLoadBalancerController;
+
   constructor(
     name: string,
     args: ClusterAddonsArgs,
@@ -95,9 +101,13 @@ export class ClusterAddons extends pulumi.ComponentResource {
     });
     this.certManager = this.setupCertManager(argocdApplicationsOpts);
     this.externalDns = this.setupExternalDns(argocdApplicationsOpts);
+    this.awsLoadBalancerController = this.setupAwsLoadBalancerController(argocdApplicationsOpts);
 
     const ingressOpts = pulumi.mergeOptions(argocdApplicationsOpts, {
-      dependsOn: [this.certManager],
+      dependsOn: [
+        this.certManager,
+        this.awsLoadBalancerController,
+      ],
     });
     this.adminIngressNginx = this.setupAdminIngressNginx(ingressOpts);
 
@@ -239,4 +249,24 @@ export class ClusterAddons extends pulumi.ComponentResource {
     }, opts);
   }
 
+  private setupAwsLoadBalancerController(
+    opts?: pulumi.ResourceOptions
+  ): AwsLoadBalancerController {
+    const partition = pulumi.output(aws.getPartition());
+    return new AwsLoadBalancerController(
+      `${this.name}-aws-lb-controller`,
+      {
+        name: "aws-lb-controller",
+        namespace: "kube-system",
+        serviceAccountName: "aws-lb-controller",
+        k8sProvider: this.args.k8sProvider,
+        createNamespace: false,
+        awsPartition: partition.partition,
+        identityProvidersArn: this.args.identityProvidersArn,
+        issuerUrl: this.args.issuerUrl,
+        clusterName: this.args.clusterName,
+      },
+      opts
+    );
+  }
 }

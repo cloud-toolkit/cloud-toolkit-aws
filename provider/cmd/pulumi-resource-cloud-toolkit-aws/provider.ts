@@ -10,6 +10,8 @@ import { EmailSender, EmailSenderArgs } from "./email/sender";
 import {
   ArgoCD,
   ArgoCDArgs,
+  AwsLoadBalancerController,
+  AwsLoadBalancerControllerArgs,
   CertManager,
   CertManagerArgs,
   Cluster,
@@ -295,6 +297,22 @@ async function constructKubernetesEbsDriver(
     urn: resource.urn,
     state: {
       application: resource.application,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesAwsLoadBalancerController(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new AwsLoadBalancerController(name, inputs as AwsLoadBalancerControllerArgs, options);
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
+      irsa: resource.irsa,
       namespace: resource.namespace,
     },
   };
