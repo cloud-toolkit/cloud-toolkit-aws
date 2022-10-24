@@ -573,7 +573,7 @@ users:
       domain: this.domain,
       zoneId: zoneId,
       zoneArns: [zoneArn],
-      clusterName: this.name
+      clusterName: this.cluster.name,
     }, opts);
   }
 
