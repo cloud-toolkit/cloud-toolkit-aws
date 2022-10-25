@@ -578,14 +578,13 @@ users:
   }
 
   private setupDnsZone(opts: pulumi.ResourceOptions): aws.route53.Zone {
-    const vpcId = Promise.resolve(this.vpcId);
     const zone = new aws.route53.Zone(
       this.name,
       {
         name: this.domain,
         forceDestroy: true,
         vpcs: [{
-          vpcId: vpcId.toString(),
+          vpcId: this.vpcId,
         }],
       },
       opts
