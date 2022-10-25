@@ -22,6 +22,8 @@ export class Calico extends pulumi.ComponentResource {
     }
 
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
+    public /*out*/ readonly installation!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
+    public /*out*/ readonly installationCrd!: pulumi.Output<pulumiKubernetes.yaml.ConfigFile>;
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
 
     /**
@@ -36,9 +38,13 @@ export class Calico extends pulumi.ComponentResource {
         opts = opts || {};
         if (!opts.id) {
             resourceInputs["application"] = undefined /*out*/;
+            resourceInputs["installation"] = undefined /*out*/;
+            resourceInputs["installationCrd"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         } else {
             resourceInputs["application"] = undefined /*out*/;
+            resourceInputs["installation"] = undefined /*out*/;
+            resourceInputs["installationCrd"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);

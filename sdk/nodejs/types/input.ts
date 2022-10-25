@@ -135,6 +135,10 @@ export namespace kubernetes {
 
     export interface ClusterAddonsIngressItemArgsArgs {
         /**
+         * Enable TLS termination in Load Balancer.
+         */
+        enableTlsTermination?: pulumi.Input<boolean>;
+        /**
          * Use a public Load Balancer to expose the IngressController.
          */
         public?: pulumi.Input<boolean>;

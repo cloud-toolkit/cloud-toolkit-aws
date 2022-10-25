@@ -254,7 +254,6 @@ class Cluster(pulumi.ComponentResource):
             __props__.__dict__["cluster_addons"] = None
             __props__.__dict__["cni_chart"] = None
             __props__.__dict__["default_oidc_provider"] = None
-            __props__.__dict__["dns_zone"] = None
             __props__.__dict__["domain"] = None
             __props__.__dict__["kubeconfig"] = None
             __props__.__dict__["provider"] = None
@@ -303,14 +302,6 @@ class Cluster(pulumi.ComponentResource):
         The default OIDC Provider.
         """
         return pulumi.get(self, "default_oidc_provider")
-
-    @property
-    @pulumi.getter(name="dnsZone")
-    def dns_zone(self) -> pulumi.Output[Optional['pulumi_aws.route53.Zone']]:
-        """
-        The DNS Zone used for the cluster domain.
-        """
-        return pulumi.get(self, "dns_zone")
 
     @property
     @pulumi.getter

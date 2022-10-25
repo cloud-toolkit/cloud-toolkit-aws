@@ -15,22 +15,11 @@ __all__ = ['AwsLoadBalancerControllerArgs', 'AwsLoadBalancerController']
 @pulumi.input_type
 class AwsLoadBalancerControllerArgs:
     def __init__(__self__, *,
-                 aws_partition: pulumi.Input[str],
                  cluster_name: pulumi.Input[str]):
         """
         The set of arguments for constructing a AwsLoadBalancerController resource.
         """
-        pulumi.set(__self__, "aws_partition", aws_partition)
         pulumi.set(__self__, "cluster_name", cluster_name)
-
-    @property
-    @pulumi.getter(name="awsPartition")
-    def aws_partition(self) -> pulumi.Input[str]:
-        return pulumi.get(self, "aws_partition")
-
-    @aws_partition.setter
-    def aws_partition(self, value: pulumi.Input[str]):
-        pulumi.set(self, "aws_partition", value)
 
     @property
     @pulumi.getter(name="clusterName")
@@ -47,7 +36,6 @@ class AwsLoadBalancerController(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 aws_partition: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
@@ -78,7 +66,6 @@ class AwsLoadBalancerController(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 aws_partition: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
@@ -91,9 +78,6 @@ class AwsLoadBalancerController(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = AwsLoadBalancerControllerArgs.__new__(AwsLoadBalancerControllerArgs)
 
-            if aws_partition is None and not opts.urn:
-                raise TypeError("Missing required property 'aws_partition'")
-            __props__.__dict__["aws_partition"] = aws_partition
             if cluster_name is None and not opts.urn:
                 raise TypeError("Missing required property 'cluster_name'")
             __props__.__dict__["cluster_name"] = cluster_name
