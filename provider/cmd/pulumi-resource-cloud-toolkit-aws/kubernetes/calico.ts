@@ -13,6 +13,7 @@ export class Calico extends ApplicationAddon<CalicoArgs> {
   public readonly namespace?: kubernetes.core.v1.Namespace;
   public readonly application: kubernetes.apiextensions.CustomResource;
   public readonly installation: kubernetes.apiextensions.CustomResource;
+  public readonly installationCrd: kubernetes.yaml.ConfigFile;
 
   constructor(name: string, args: CalicoArgs, opts?: pulumi.ResourceOptions) {
     super("cloud-toolkit-aws:kubernetes:Calico", name, args, opts);
@@ -22,12 +23,22 @@ export class Calico extends ApplicationAddon<CalicoArgs> {
     });
 
     this.namespace = this.setupNamespace(resourceOpts);
+
+    const applicationOpts = pulumi.mergeOptions(opts, {
+      dependsOn: this.namespace
+    });
     this.application = this.setupApplication(resourceOpts);
 
-    const installationOpts = pulumi.mergeOptions(resourceOpts, {
+    const installationCrdOpts = pulumi.mergeOptions(resourceOpts, {
       dependsOn: [
         this.application,
-      ]
+      ],
+      provider: this.args.k8sProvider,
+    });
+    this.installationCrd = this.setupInstallationCrd(installationCrdOpts);
+
+    const installationOpts = pulumi.mergeOptions(resourceOpts, {
+      dependsOn: this.namespace
     });
     this.installation = this.setupInstallation(resourceOpts);
 
@@ -35,6 +46,7 @@ export class Calico extends ApplicationAddon<CalicoArgs> {
       namespace: this.namespace,
       application: this.application,
       installation: this.installation,
+      installationCrd: this.installationCrd,
     })
   }
 
@@ -129,5 +141,15 @@ export class Calico extends ApplicationAddon<CalicoArgs> {
         provider: this.args.k8sProvider,
       })
     );
+  }
+
+  private setupInstallationCrd(opts: pulumi.ResourceOptions): kubernetes.yaml.ConfigFile {
+    return new kubernetes.yaml.ConfigFile(
+      `${this.name}-installation-crd`,
+      {
+        file: "https://raw.githubusercontent.com/projectcalico/calico/v3.24.0/charts/tigera-operator/crds/operator.tigera.io_installations_crd.yaml",
+      },
+      opts
+    )
   }
 }
