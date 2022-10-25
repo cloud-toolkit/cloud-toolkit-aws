@@ -38,13 +38,9 @@ export class AwsLoadBalancerController extends pulumi.ComponentResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            if ((!args || args.awsPartition === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'awsPartition'");
-            }
             if ((!args || args.clusterName === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'clusterName'");
             }
-            resourceInputs["awsPartition"] = args ? args.awsPartition : undefined;
             resourceInputs["clusterName"] = args ? args.clusterName : undefined;
             resourceInputs["application"] = undefined /*out*/;
             resourceInputs["irsa"] = undefined /*out*/;
@@ -63,6 +59,5 @@ export class AwsLoadBalancerController extends pulumi.ComponentResource {
  * The set of arguments for constructing a AwsLoadBalancerController resource.
  */
 export interface AwsLoadBalancerControllerArgs {
-    awsPartition: pulumi.Input<string>;
     clusterName: pulumi.Input<string>;
 }

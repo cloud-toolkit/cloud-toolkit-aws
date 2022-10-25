@@ -67,6 +67,8 @@ class Calico(pulumi.ComponentResource):
             __props__ = CalicoArgs.__new__(CalicoArgs)
 
             __props__.__dict__["application"] = None
+            __props__.__dict__["installation"] = None
+            __props__.__dict__["installation_crd"] = None
             __props__.__dict__["namespace"] = None
         super(Calico, __self__).__init__(
             'cloud-toolkit-aws:kubernetes:Calico',
@@ -79,6 +81,16 @@ class Calico(pulumi.ComponentResource):
     @pulumi.getter
     def application(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
         return pulumi.get(self, "application")
+
+    @property
+    @pulumi.getter
+    def installation(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
+        return pulumi.get(self, "installation")
+
+    @property
+    @pulumi.getter(name="installationCrd")
+    def installation_crd(self) -> pulumi.Output['pulumi_kubernetes.yaml.ConfigFile']:
+        return pulumi.get(self, "installation_crd")
 
     @property
     @pulumi.getter

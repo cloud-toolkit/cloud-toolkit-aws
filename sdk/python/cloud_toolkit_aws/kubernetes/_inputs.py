@@ -102,16 +102,32 @@ class ClusterAddonsIngressArgsArgs:
 @pulumi.input_type
 class ClusterAddonsIngressItemArgsArgs:
     def __init__(__self__, *,
+                 enable_tls_termination: Optional[pulumi.Input[bool]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
+        :param pulumi.Input[bool] enable_tls_termination: Enable TLS termination in Load Balancer.
         :param pulumi.Input[bool] public: Use a public Load Balancer to expose the IngressController.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: Set a whitelist to access the IngressController.
         """
+        if enable_tls_termination is not None:
+            pulumi.set(__self__, "enable_tls_termination", enable_tls_termination)
         if public is not None:
             pulumi.set(__self__, "public", public)
         if whitelist is not None:
             pulumi.set(__self__, "whitelist", whitelist)
+
+    @property
+    @pulumi.getter(name="enableTlsTermination")
+    def enable_tls_termination(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable TLS termination in Load Balancer.
+        """
+        return pulumi.get(self, "enable_tls_termination")
+
+    @enable_tls_termination.setter
+    def enable_tls_termination(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enable_tls_termination", value)
 
     @property
     @pulumi.getter
