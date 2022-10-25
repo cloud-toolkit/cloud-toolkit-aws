@@ -51,8 +51,9 @@ export class AwsLoadBalancerController extends ApplicationAddon<AwsLoadBalancerC
         }, opts);
     }
 
-
     protected getIAMPolicy(): pulumi.Output<string> {
+      const current = pulumi.output(aws.getPartition());
+      const partition = current.partition;
       const document = aws.iam.getPolicyDocumentOutput({
         version: "2012-10-17",
         statements: [
@@ -140,7 +141,7 @@ export class AwsLoadBalancerController extends ApplicationAddon<AwsLoadBalancerC
           },
           {
             effect: "Allow",
-            resources: [pulumi.interpolate`arn:${this.args.awsPartition}:ec2:*:*:security-group/*`],
+            resources: [pulumi.interpolate`arn:${partition}:ec2:*:*:security-group/*`],
             actions: [
               "ec2:CreateTags"
             ],
@@ -159,7 +160,7 @@ export class AwsLoadBalancerController extends ApplicationAddon<AwsLoadBalancerC
           },
           {
             effect: "Allow",
-            resources: [pulumi.interpolate`arn:${this.args.awsPartition}:ec2:*:*:security-group/*`],
+            resources: [pulumi.interpolate`arn:${partition}:ec2:*:*:security-group/*`],
             actions: [
               "ec2:CreateTags",
               "ec2:DeleteTags",
@@ -176,9 +177,9 @@ export class AwsLoadBalancerController extends ApplicationAddon<AwsLoadBalancerC
           {
             effect: "Allow",
             resources: [
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:loadbalancer/app/*/*`,
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:loadbalancer/net/*/*`,
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:targetgroup/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:loadbalancer/app/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:loadbalancer/net/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:targetgroup/*/*`,
             ],
             actions: [
               "elasticloadbalancing:AddTags",
@@ -197,7 +198,7 @@ export class AwsLoadBalancerController extends ApplicationAddon<AwsLoadBalancerC
           {
             effect: "Allow",
             resources: [
-              pulumi.interpolate`arn:${this.args.awsPartition}:ec2:*:*:security-group/*`,
+              pulumi.interpolate`arn:${partition}:ec2:*:*:security-group/*`,
             ],
             actions: [
               "ec2:CreateTags",
@@ -271,9 +272,9 @@ export class AwsLoadBalancerController extends ApplicationAddon<AwsLoadBalancerC
           {
             effect: "Allow",
             resources: [
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:loadbalancer/app/*/*`,
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:loadbalancer/net/*/*`,
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:targetgroup/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:loadbalancer/app/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:loadbalancer/net/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:targetgroup/*/*`,
             ],
             actions: [
               "elasticloadbalancing:AddTags",
@@ -297,10 +298,10 @@ export class AwsLoadBalancerController extends ApplicationAddon<AwsLoadBalancerC
           {
             effect: "Allow",
             resources: [
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:listener/net/*/*/*`,
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:listener/app/*/*/*`,
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:listener-rule/net/*/*/*`,
-              pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:listener-rule/app/*/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:listener/net/*/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:listener/app/*/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:listener-rule/net/*/*/*`,
+              pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:listener-rule/app/*/*/*`,
             ],
             actions: [
               "elasticloadbalancing:AddTags",
@@ -330,7 +331,7 @@ export class AwsLoadBalancerController extends ApplicationAddon<AwsLoadBalancerC
           },
           {
             effect: "Allow",
-            resources: [pulumi.interpolate`arn:${this.args.awsPartition}:elasticloadbalancing:*:*:targetgroup/*/*`],
+            resources: [pulumi.interpolate`arn:${partition}:elasticloadbalancing:*:*:targetgroup/*/*`],
             actions: [
               "elasticloadbalancing:DeregisterTargets",
               "elasticloadbalancing:RegisterTargets",
