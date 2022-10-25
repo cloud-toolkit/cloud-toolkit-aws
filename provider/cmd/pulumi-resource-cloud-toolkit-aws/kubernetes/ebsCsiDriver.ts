@@ -53,6 +53,8 @@ export class AwsEbsCsiDriver extends ApplicationAddon<AwsEbsCsiDriverArgs> {
 
 
     protected getIAMPolicy(): pulumi.Output<string> {
+      const current = pulumi.output(aws.getPartition());
+      const partition = current.partition;
         const document = aws.iam.getPolicyDocumentOutput({
             version: "2012-10-17",
             statements: [
@@ -75,8 +77,8 @@ export class AwsEbsCsiDriver extends ApplicationAddon<AwsEbsCsiDriverArgs> {
                 {
                     effect: "Allow",
                     resources: [
-                        pulumi.interpolate`arn:${this.args.awsPartition}:ec2:*:*:volume/*`,
-                        pulumi.interpolate`arn:${this.args.awsPartition}:ec2:*:*:snapshot/*`,
+                        pulumi.interpolate`arn:${partition}:ec2:*:*:volume/*`,
+                        pulumi.interpolate`arn:${partition}:ec2:*:*:snapshot/*`,
                     ],
                     actions: ["ec2:CreateTags"],
                     conditions: [
@@ -91,8 +93,8 @@ export class AwsEbsCsiDriver extends ApplicationAddon<AwsEbsCsiDriverArgs> {
                     sid: "",
                     effect: "Allow",
                     resources: [
-                        pulumi.interpolate`arn:${this.args.awsPartition}:ec2:*:*:volume/*`,
-                        pulumi.interpolate`arn:${this.args.awsPartition}:ec2:*:*:snapshot/*`,
+                        pulumi.interpolate`arn:${partition}:ec2:*:*:volume/*`,
+                        pulumi.interpolate`arn:${partition}:ec2:*:*:snapshot/*`,
                     ],
                     actions: ["ec2:DeleteTags"],
                 },
