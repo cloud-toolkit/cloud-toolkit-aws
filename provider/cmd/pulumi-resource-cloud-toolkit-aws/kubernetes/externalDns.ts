@@ -53,7 +53,7 @@ export class ExternalDns extends ApplicationAddon<ExternalDnsArgs> {
   }
 
   private setupIrsa(opts?: pulumi.ResourceOptions): Irsa {
-    return new Irsa(`${this.name}-external-dns`, {
+    return new Irsa(this.name, {
       identityProvidersArn: [...this.args.identityProvidersArn],
       issuerUrl: this.args.issuerUrl,
       k8sProvider: this.args.k8sProvider,
