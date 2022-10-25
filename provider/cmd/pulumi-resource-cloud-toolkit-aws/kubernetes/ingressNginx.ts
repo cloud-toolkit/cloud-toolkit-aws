@@ -57,7 +57,7 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
   }
 
   private setupCertificate(opts: pulumi.ResourceOptions): Certificate | undefined {
-    if (this.args.tls !== undefined) {
+    if (this.args.tls !== undefined && this.args.tls.enabled) {
       return new Certificate(this.name, {
         domain: `*.${this.args.tls.domain}`,
         zoneId: this.args.tls.zoneId,

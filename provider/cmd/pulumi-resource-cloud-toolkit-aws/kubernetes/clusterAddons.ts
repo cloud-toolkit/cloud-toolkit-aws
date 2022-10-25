@@ -180,7 +180,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
       className: "admin",
       public: true,
       tls: {
-        enabled: true,
+        enabled: this.args.ingress?.admin?.enableTlsTermination,
         domain: this.args.domain,
         zoneId: this.args.zoneId,
       },

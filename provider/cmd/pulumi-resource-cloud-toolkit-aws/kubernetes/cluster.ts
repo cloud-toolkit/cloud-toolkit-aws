@@ -90,12 +90,7 @@ export class Cluster extends pulumi.ComponentResource {
   /**
    * The VPC CNI Chart installed in the cluster.
    */
-  public readonly clusterAddons?: ClusterAddons;
-
-  /**
-   * The DNS Zone used for the cluster domain.
-   */
-  public readonly dnsZone?: aws.route53.Zone;
+  public readonly clusterAddons?: pulumi.Input<ClusterAddons>;
 
   /**
    * The VPC CNI Chart installed in the cluster.
@@ -109,6 +104,7 @@ export class Cluster extends pulumi.ComponentResource {
 
   public zoneId: Promise<pulumi.Input<string>>;
   public zoneArn: Promise<pulumi.Input<string>>;
+  public dnsZone: Promise<aws.route53.Zone | undefined>;
 
   constructor(
     name: string,
@@ -136,6 +132,7 @@ export class Cluster extends pulumi.ComponentResource {
     const zoneData = this.getExternalZoneData(resourceOpts);
     this.zoneId = zoneData.then(zone => zone.id);
     this.zoneArn = zoneData.then(zone => zone.arn);
+    this.dnsZone = zoneData.then(zone => zone.dnsZone);
 
     // Provisioner
     this.provisionerRole = this.setupProvisionerRole(resourceOpts);
@@ -563,18 +560,29 @@ users:
     );
   }
 
-  private setupClusterAddons(opts: pulumi.ResourceOptions): ClusterAddons {
-    const zoneArn = this.dnsZone !== undefined ? this.dnsZone.arn : pulumi.output(this.zoneArn);
-    const zoneId = this.dnsZone !== undefined ? this.dnsZone.id: pulumi.output(this.zoneId);
-    return new ClusterAddons(`${this.name}`, {
-      k8sProvider: this.provider,
-      identityProvidersArn: [this.defaultOidcProvider?.arn || ""],
-      issuerUrl: this.defaultOidcProvider?.url || "",
-      domain: this.domain,
-      zoneId: zoneId,
-      zoneArns: [zoneArn],
-      clusterName: this.cluster.name,
-    }, opts);
+  private setupClusterAddons(opts: pulumi.ResourceOptions): pulumi.Input<ClusterAddons> {
+    const zoneArn = pulumi.output(this.zoneArn);
+    const zoneId = pulumi.output(this.zoneId);
+    return this.dnsZone.then(zone => {
+      let enableTlsTermination = false;
+      if (zone === undefined) {
+        enableTlsTermination = true;
+      }
+      return new ClusterAddons(`${this.name}`, {
+        k8sProvider: this.provider,
+        identityProvidersArn: [this.defaultOidcProvider?.arn || ""],
+        issuerUrl: this.defaultOidcProvider?.url || "",
+        domain: this.domain,
+        zoneId: zoneId,
+        zoneArns: [zoneArn],
+        clusterName: this.cluster.name,
+        ingress: {
+          admin: {
+            enableTlsTermination: enableTlsTermination,
+          },
+        }
+      }, opts);
+    });
   }
 
   private setupDnsZone(opts: pulumi.ResourceOptions): aws.route53.Zone {
@@ -592,7 +600,7 @@ users:
     return zone;
   }
 
-  private async getExternalZoneData(opts: pulumi.ResourceOptions): Promise<{id: pulumi.Input<string>, arn: pulumi.Input<string>}> {
+  private async getExternalZoneData(opts: pulumi.ResourceOptions): Promise<{id: pulumi.Input<string>, arn: pulumi.Input<string>, dnsZone?: aws.route53.Zone}> {
     try {
       const invokeOpts = {parent: this, async: true};
       const zone = await aws.route53.getZone({
@@ -612,6 +620,7 @@ users:
         return {
           id: dnsZone.id.apply(id => id),
           arn: dnsZone.arn.apply(arn => arn),
+          dnsZone: dnsZone,
         };
       }
 
