@@ -219,7 +219,6 @@ export class ClusterAddons extends pulumi.ComponentResource {
   private setupAwsEbsCsiDriver(
     opts?: pulumi.ResourceOptions
   ): AwsEbsCsiDriver {
-    const partition = pulumi.output(aws.getPartition());
     return new AwsEbsCsiDriver(
       `${this.name}-aws-ebs-csi-driver`,
       {
@@ -228,7 +227,6 @@ export class ClusterAddons extends pulumi.ComponentResource {
         serviceAccountName: "ebs-csi-driver",
         k8sProvider: this.args.k8sProvider,
         createNamespace: false,
-        awsPartition: partition.partition,
         identityProvidersArn: this.args.identityProvidersArn,
         issuerUrl: this.args.issuerUrl,
       },
@@ -252,7 +250,6 @@ export class ClusterAddons extends pulumi.ComponentResource {
   private setupAwsLoadBalancerController(
     opts?: pulumi.ResourceOptions
   ): AwsLoadBalancerController {
-    const partition = pulumi.output(aws.getPartition());
     return new AwsLoadBalancerController(
       `${this.name}-aws-lb-controller`,
       {
@@ -261,7 +258,6 @@ export class ClusterAddons extends pulumi.ComponentResource {
         serviceAccountName: "aws-lb-controller",
         k8sProvider: this.args.k8sProvider,
         createNamespace: false,
-        awsPartition: partition.partition,
         identityProvidersArn: this.args.identityProvidersArn,
         issuerUrl: this.args.issuerUrl,
         clusterName: this.args.clusterName,
