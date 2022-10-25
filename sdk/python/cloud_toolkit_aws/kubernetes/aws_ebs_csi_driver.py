@@ -14,21 +14,11 @@ __all__ = ['AwsEbsCsiDriverArgs', 'AwsEbsCsiDriver']
 
 @pulumi.input_type
 class AwsEbsCsiDriverArgs:
-    def __init__(__self__, *,
-                 aws_partition: pulumi.Input[str]):
+    def __init__(__self__):
         """
         The set of arguments for constructing a AwsEbsCsiDriver resource.
         """
-        pulumi.set(__self__, "aws_partition", aws_partition)
-
-    @property
-    @pulumi.getter(name="awsPartition")
-    def aws_partition(self) -> pulumi.Input[str]:
-        return pulumi.get(self, "aws_partition")
-
-    @aws_partition.setter
-    def aws_partition(self, value: pulumi.Input[str]):
-        pulumi.set(self, "aws_partition", value)
+        pass
 
 
 class AwsEbsCsiDriver(pulumi.ComponentResource):
@@ -36,7 +26,6 @@ class AwsEbsCsiDriver(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 aws_partition: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         Create a AwsEbsCsiDriver resource with the given unique name, props, and options.
@@ -47,7 +36,7 @@ class AwsEbsCsiDriver(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: AwsEbsCsiDriverArgs,
+                 args: Optional[AwsEbsCsiDriverArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Create a AwsEbsCsiDriver resource with the given unique name, props, and options.
@@ -66,7 +55,6 @@ class AwsEbsCsiDriver(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 aws_partition: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -78,9 +66,6 @@ class AwsEbsCsiDriver(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = AwsEbsCsiDriverArgs.__new__(AwsEbsCsiDriverArgs)
 
-            if aws_partition is None and not opts.urn:
-                raise TypeError("Missing required property 'aws_partition'")
-            __props__.__dict__["aws_partition"] = aws_partition
             __props__.__dict__["application"] = None
             __props__.__dict__["irsa"] = None
             __props__.__dict__["namespace"] = None

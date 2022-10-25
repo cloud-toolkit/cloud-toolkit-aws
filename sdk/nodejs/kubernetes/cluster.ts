@@ -47,10 +47,6 @@ export class Cluster extends pulumi.ComponentResource {
      */
     public /*out*/ readonly defaultOidcProvider!: pulumi.Output<pulumiAws.iam.OpenIdConnectProvider | undefined>;
     /**
-     * The DNS Zone used for the cluster domain.
-     */
-    public /*out*/ readonly dnsZone!: pulumi.Output<pulumiAws.route53.Zone | undefined>;
-    /**
      * The VPC CNI Chart installed in the cluster.
      */
     public /*out*/ readonly domain!: pulumi.Output<string>;
@@ -119,7 +115,6 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
             resourceInputs["defaultOidcProvider"] = undefined /*out*/;
-            resourceInputs["dnsZone"] = undefined /*out*/;
             resourceInputs["domain"] = undefined /*out*/;
             resourceInputs["kubeconfig"] = undefined /*out*/;
             resourceInputs["provider"] = undefined /*out*/;
@@ -135,7 +130,6 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
             resourceInputs["defaultOidcProvider"] = undefined /*out*/;
-            resourceInputs["dnsZone"] = undefined /*out*/;
             resourceInputs["domain"] = undefined /*out*/;
             resourceInputs["kubeconfig"] = undefined /*out*/;
             resourceInputs["nodeGroups"] = undefined /*out*/;

@@ -312,15 +312,11 @@ types:
     required: []
   cloud-toolkit-aws:kubernetes:AwsLoadBalancerControllerArgs:
     properties:
-      awsPartition:
-        description: ""
-        type: string
       clusterName:
         description: ""
         type: string
     type: object
     required:
-      - awsPartition
       - clusterName
   cloud-toolkit-aws:kubernetes:CalicoArgs:
     properties: {}
@@ -402,6 +398,9 @@ types:
         items:
           description: Set a whitelist to access the IngressController.
           type: string
+      enableTlsTermination:
+        description: Enable TLS termination in Load Balancer.
+        type: boolean
     type: object
     required: []
   cloud-toolkit-aws:kubernetes:ClusterArgs:
@@ -540,13 +539,9 @@ types:
     type: object
     required: []
   cloud-toolkit-aws:kubernetes:AwsEbsCsiDriverArgs:
-    properties:
-      awsPartition:
-        description: ""
-        type: string
+    properties: {}
     type: object
-    required:
-      - awsPartition
+    required: []
   cloud-toolkit-aws:kubernetes:ExternalDnsArgs:
     properties:
       zoneArns:
@@ -1549,14 +1544,10 @@ resources:
       - application
       - irsa
     inputProperties:
-      awsPartition:
-        description: ""
-        type: string
       clusterName:
         description: ""
         type: string
     requiredInputs:
-      - awsPartition
       - clusterName
     isComponent: true
     type: object
@@ -1569,8 +1560,16 @@ resources:
       application:
         description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
+      installation:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
+      installationCrd:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:yaml:ConfigFile
     required:
       - application
+      - installation
+      - installationCrd
     inputProperties: {}
     requiredInputs: []
     isComponent: true
@@ -1655,9 +1654,6 @@ resources:
       clusterAddons:
         description: The VPC CNI Chart installed in the cluster.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddons"
-      dnsZone:
-        description: The DNS Zone used for the cluster domain.
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:route53%2fzone:Zone
       domain:
         description: The VPC CNI Chart installed in the cluster.
         type: string
@@ -1858,12 +1854,8 @@ resources:
     required:
       - application
       - irsa
-    inputProperties:
-      awsPartition:
-        description: ""
-        type: string
-    requiredInputs:
-      - awsPartition
+    inputProperties: {}
+    requiredInputs: []
     isComponent: true
     type: object
   cloud-toolkit-aws:kubernetes:ExternalDns:

@@ -34,14 +34,10 @@ export class AwsEbsCsiDriver extends pulumi.ComponentResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args: AwsEbsCsiDriverArgs, opts?: pulumi.ComponentResourceOptions) {
+    constructor(name: string, args?: AwsEbsCsiDriverArgs, opts?: pulumi.ComponentResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            if ((!args || args.awsPartition === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'awsPartition'");
-            }
-            resourceInputs["awsPartition"] = args ? args.awsPartition : undefined;
             resourceInputs["application"] = undefined /*out*/;
             resourceInputs["irsa"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
@@ -59,5 +55,4 @@ export class AwsEbsCsiDriver extends pulumi.ComponentResource {
  * The set of arguments for constructing a AwsEbsCsiDriver resource.
  */
 export interface AwsEbsCsiDriverArgs {
-    awsPartition: pulumi.Input<string>;
 }
