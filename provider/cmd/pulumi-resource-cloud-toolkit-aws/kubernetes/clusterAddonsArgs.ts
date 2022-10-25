@@ -71,6 +71,11 @@ export interface ClusterAddonsIngressItemArgs {
    * Set a whitelist to access the IngressController.
    */
   whitelist?: pulumi.Input<string>[];
+
+  /**
+   * Enable TLS termination in Load Balancer.
+   */
+  enableTlsTermination?: boolean;
 }
 
 export const defaultClusterAddonsArgs = {
@@ -79,6 +84,7 @@ export const defaultClusterAddonsArgs = {
     admin: {
       public: true,
       whitelist: ["0.0.0.0/0"],
+      enableTlsTermination: false,
     },
     global: {
       public: true,
