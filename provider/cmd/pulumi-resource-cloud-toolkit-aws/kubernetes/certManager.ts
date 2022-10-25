@@ -50,7 +50,7 @@ export class CertManager extends ApplicationAddon<CertManagerArgs> {
   }
 
   private setupIrsa(opts?: pulumi.ResourceOptions): Irsa {
-    return new Irsa(`${this.name}-cert-manager`, {
+    return new Irsa(this.name, {
       identityProvidersArn: [...this.args.identityProvidersArn],
       issuerUrl: this.args.issuerUrl,
       k8sProvider: this.args.k8sProvider,

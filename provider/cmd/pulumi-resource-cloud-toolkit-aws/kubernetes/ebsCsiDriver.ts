@@ -41,7 +41,7 @@ export class AwsEbsCsiDriver extends ApplicationAddon<AwsEbsCsiDriverArgs> {
     }
 
     private setupIrsa(opts?: pulumi.ResourceOptions): Irsa {
-        return new Irsa(`${this.name}-aws-ebs-csi-driver`, {
+        return new Irsa(this.name, {
             identityProvidersArn: [...this.args.identityProvidersArn],
             issuerUrl: this.args.issuerUrl,
             k8sProvider: this.args.k8sProvider,
