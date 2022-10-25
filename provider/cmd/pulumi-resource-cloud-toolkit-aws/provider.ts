@@ -285,6 +285,7 @@ async function constructKubernetesCalico(
       application: resource.application,
       namespace: resource.namespace,
       installation: resource.installation,
+      installationCrd: resource.installationCrd,
     },
   };
 }
