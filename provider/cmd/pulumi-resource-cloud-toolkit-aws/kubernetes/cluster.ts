@@ -553,7 +553,9 @@ users:
         namespace: "kube-system",
         version: "1.1.21",
         values: {
-          ENABLE_PREFIX_DELEGATION: "true",
+          env: {
+            ENABLE_PREFIX_DELEGATION: "true",
+          }
         },
       },
       opts
