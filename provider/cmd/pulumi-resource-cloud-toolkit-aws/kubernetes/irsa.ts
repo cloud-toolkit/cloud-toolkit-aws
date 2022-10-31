@@ -84,8 +84,8 @@ export class Irsa extends pulumi.ComponentResource {
 
   private setupPolicies(opts?: pulumi.ResourceOptions): aws.iam.Policy[] {
     const list: aws.iam.Policy[] = [];
-    for (const policyDocument of this.args.policies) {
-      const policy = new aws.iam.Policy(this.name, {
+    for (const [key, policyDocument] of this.args.policies.entries()) {
+      const policy = new aws.iam.Policy(`${this.name}-${key}`, {
         policy: policyDocument,
       }, opts);
       list.push(policy);

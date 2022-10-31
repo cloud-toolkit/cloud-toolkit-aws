@@ -17,6 +17,8 @@ import {
   ClusterAddonsArgs,
   defaultClusterAddonsArgs,
 } from "./clusterAddonsArgs";
+import { AdotApplication } from "./adotApplication";
+import { AdotOperator } from "./adotOperator";
 
 export { ClusterAddonsArgs };
 
@@ -71,6 +73,16 @@ export class ClusterAddons extends pulumi.ComponentResource {
    */
   public readonly awsLoadBalancerController: AwsLoadBalancerController;
 
+  /**
+   * The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
+   */
+  public readonly adotApplication: AdotApplication
+
+  /**
+   * The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
+   */
+  public readonly adotOperator: AdotOperator
+
   constructor(
     name: string,
     args: ClusterAddonsArgs,
@@ -115,6 +127,14 @@ export class ClusterAddons extends pulumi.ComponentResource {
     this.calico = this.setupCalico(argocdApplicationsOpts);
     this.ebsCsiDriver = this.setupAwsEbsCsiDriver(argocdApplicationsOpts)
     this.clusterAutoscaler = this.setupClusterAutoscaler(argocdApplicationsOpts);
+
+    this.adotOperator = this.setupAdotOperator(argocdApplicationsOpts);
+
+    const adotApplicationOpts = pulumi.mergeOptions(opts, {
+      parent: this,
+      dependsOn: [this.adotOperator],
+    });
+    this.adotApplication = this.setupAdotApplication(adotApplicationOpts);
 
 
     this.registerOutputs({
@@ -260,6 +280,51 @@ export class ClusterAddons extends pulumi.ComponentResource {
         createNamespace: false,
         identityProvidersArn: this.args.identityProvidersArn,
         issuerUrl: this.args.issuerUrl,
+        clusterName: this.args.clusterName,
+      },
+      opts
+    );
+  }
+
+  private setupAdotApplication(
+    opts?: pulumi.ResourceOptions
+  ): AdotApplication {
+    const region = pulumi.output(aws.getRegion());
+    return new AdotApplication(
+      `${this.name}-adot`,
+      {
+        name: "adotApplication",
+        namespace: "system-observability",
+        k8sProvider: this.args.k8sProvider,
+        identityProvidersArn: [...this.args.identityProvidersArn],
+        serviceAccountName: "adot-applications",
+        issuerUrl: this.args.issuerUrl,
+        logging: this.args.observability?.logging,
+        metrics: this.args.observability?.metrics,
+        awsRegion: region.name,
+        clusterName: this.args.clusterName,
+      },
+      opts
+    );
+  }
+
+  private setupAdotOperator(
+    opts?: pulumi.ResourceOptions
+  ): AdotOperator {
+    const region = pulumi.output(aws.getRegion());
+    return new AdotOperator(
+      `${this.name}-adot`,
+      {
+        name: "adotApplication",
+        namespace: "system-observability",
+        createNamespace: true,
+        k8sProvider: this.args.k8sProvider,
+        identityProvidersArn: [...this.args.identityProvidersArn],
+        serviceAccountName: "adot-applications",
+        issuerUrl: this.args.issuerUrl,
+        logging: this.args.observability?.logging,
+        metrics: this.args.observability?.metrics,
+        awsRegion: region.name,
         clusterName: this.args.clusterName,
       },
       opts

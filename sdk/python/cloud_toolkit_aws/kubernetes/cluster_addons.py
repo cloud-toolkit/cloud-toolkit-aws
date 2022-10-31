@@ -23,7 +23,8 @@ class ClusterAddonsArgs:
                  k8s_provider: pulumi.Input['pulumi_kubernetes.Provider'],
                  zone_arns: pulumi.Input[Sequence[pulumi.Input[str]]],
                  zone_id: pulumi.Input[str],
-                 ingress: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']] = None):
+                 ingress: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']] = None,
+                 observability: Optional[pulumi.Input['AdotApplicationArgsArgs']] = None):
         """
         The set of arguments for constructing a ClusterAddons resource.
         :param pulumi.Input[str] cluster_name: The EKS Cluster name.
@@ -34,6 +35,7 @@ class ClusterAddonsArgs:
         :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
         :param pulumi.Input[str] zone_id: The main DNS Zone id.
         :param pulumi.Input['ClusterAddonsIngressArgsArgs'] ingress: The configuration for Ingress Controller.
+        :param pulumi.Input['AdotApplicationArgsArgs'] observability: The ADOT configuration.
         """
         pulumi.set(__self__, "cluster_name", cluster_name)
         pulumi.set(__self__, "domain", domain)
@@ -44,6 +46,8 @@ class ClusterAddonsArgs:
         pulumi.set(__self__, "zone_id", zone_id)
         if ingress is not None:
             pulumi.set(__self__, "ingress", ingress)
+        if observability is not None:
+            pulumi.set(__self__, "observability", observability)
 
     @property
     @pulumi.getter(name="clusterName")
@@ -141,6 +145,18 @@ class ClusterAddonsArgs:
     def ingress(self, value: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']]):
         pulumi.set(self, "ingress", value)
 
+    @property
+    @pulumi.getter
+    def observability(self) -> Optional[pulumi.Input['AdotApplicationArgsArgs']]:
+        """
+        The ADOT configuration.
+        """
+        return pulumi.get(self, "observability")
+
+    @observability.setter
+    def observability(self, value: Optional[pulumi.Input['AdotApplicationArgsArgs']]):
+        pulumi.set(self, "observability", value)
+
 
 class ClusterAddons(pulumi.ComponentResource):
     @overload
@@ -153,6 +169,7 @@ class ClusterAddons(pulumi.ComponentResource):
                  ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']]] = None,
                  issuer_url: Optional[pulumi.Input[str]] = None,
                  k8s_provider: Optional[pulumi.Input['pulumi_kubernetes.Provider']] = None,
+                 observability: Optional[pulumi.Input[pulumi.InputType['AdotApplicationArgsArgs']]] = None,
                  zone_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  zone_id: Optional[pulumi.Input[str]] = None,
                  __props__=None):
@@ -167,6 +184,7 @@ class ClusterAddons(pulumi.ComponentResource):
         :param pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']] ingress: The configuration for Ingress Controller.
         :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
         :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
+        :param pulumi.Input[pulumi.InputType['AdotApplicationArgsArgs']] observability: The ADOT configuration.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
         :param pulumi.Input[str] zone_id: The main DNS Zone id.
         """
@@ -200,6 +218,7 @@ class ClusterAddons(pulumi.ComponentResource):
                  ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']]] = None,
                  issuer_url: Optional[pulumi.Input[str]] = None,
                  k8s_provider: Optional[pulumi.Input['pulumi_kubernetes.Provider']] = None,
+                 observability: Optional[pulumi.Input[pulumi.InputType['AdotApplicationArgsArgs']]] = None,
                  zone_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  zone_id: Optional[pulumi.Input[str]] = None,
                  __props__=None):
@@ -229,6 +248,7 @@ class ClusterAddons(pulumi.ComponentResource):
             if k8s_provider is None and not opts.urn:
                 raise TypeError("Missing required property 'k8s_provider'")
             __props__.__dict__["k8s_provider"] = k8s_provider
+            __props__.__dict__["observability"] = observability
             if zone_arns is None and not opts.urn:
                 raise TypeError("Missing required property 'zone_arns'")
             __props__.__dict__["zone_arns"] = zone_arns
@@ -236,6 +256,8 @@ class ClusterAddons(pulumi.ComponentResource):
                 raise TypeError("Missing required property 'zone_id'")
             __props__.__dict__["zone_id"] = zone_id
             __props__.__dict__["admin_ingress_nginx"] = None
+            __props__.__dict__["adot_application"] = None
+            __props__.__dict__["adot_operator"] = None
             __props__.__dict__["argocd"] = None
             __props__.__dict__["aws_load_balancer_controller"] = None
             __props__.__dict__["calico"] = None
@@ -258,6 +280,22 @@ class ClusterAddons(pulumi.ComponentResource):
         The IngressNginx addon used for admin access.
         """
         return pulumi.get(self, "admin_ingress_nginx")
+
+    @property
+    @pulumi.getter(name="adotApplication")
+    def adot_application(self) -> pulumi.Output[Any]:
+        """
+        The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
+        """
+        return pulumi.get(self, "adot_application")
+
+    @property
+    @pulumi.getter(name="adotOperator")
+    def adot_operator(self) -> pulumi.Output[Any]:
+        """
+        The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
+        """
+        return pulumi.get(self, "adot_operator")
 
     @property
     @pulumi.getter

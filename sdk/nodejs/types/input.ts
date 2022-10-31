@@ -118,6 +118,13 @@ export namespace kubernetes {
         enabled: pulumi.Input<boolean>;
     }
 
+    export interface AdotApplicationArgsArgs {
+        awsRegion: pulumi.Input<string>;
+        clusterName: pulumi.Input<string>;
+        logging?: pulumi.Input<inputs.kubernetes.LoggingOptionsArgsArgs>;
+        metrics?: pulumi.Input<inputs.kubernetes.MetricsOptionsArgsArgs>;
+    }
+
     export interface ClusterAddonsIngressArgsArgs {
         /**
          * Configure the admin IngressController.
@@ -224,6 +231,22 @@ export namespace kubernetes {
          * The Zone id.
          */
         zoneId: pulumi.Input<string>;
+    }
+
+    export interface LoggingItemArgsArgs {
+        dataRetention: pulumi.Input<number>;
+        enabled: pulumi.Input<boolean>;
+    }
+
+    export interface LoggingOptionsArgsArgs {
+        applications: pulumi.Input<inputs.kubernetes.LoggingItemArgsArgs>;
+        dataplane: pulumi.Input<inputs.kubernetes.LoggingItemArgsArgs>;
+        host: pulumi.Input<inputs.kubernetes.LoggingItemArgsArgs>;
+    }
+
+    export interface MetricsOptionsArgsArgs {
+        dataRetention: pulumi.Input<number>;
+        enabled: pulumi.Input<boolean>;
     }
 
 }

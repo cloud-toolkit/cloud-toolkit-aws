@@ -1,5 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
+import {AdotApplicationArgs} from "./adotApplicationArgs"
 import * as aws from "@pulumi/aws";
 
 export interface ClusterAddonsArgs {
@@ -27,6 +28,11 @@ export interface ClusterAddonsArgs {
    * The domain used by the cluster.
    */
   domain: string;
+
+  /**
+   * The ADOT configuration.
+   */
+  observability?: AdotApplicationArgs;
 
   /**
    * The configuration for Ingress Controller.

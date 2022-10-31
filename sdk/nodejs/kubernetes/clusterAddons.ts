@@ -9,7 +9,7 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {ArgoCD, AwsEbsCsiDriver, AwsLoadBalancerController, Calico, CertManager, ClusterAutoscaler, Dashboard, ExternalDns, IngressNginx} from "./index";
+import {AdotApplication, AdotOperator, ArgoCD, AwsEbsCsiDriver, AwsLoadBalancerController, Calico, CertManager, ClusterAutoscaler, Dashboard, ExternalDns, IngressNginx} from "./index";
 
 /**
  * ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -33,6 +33,14 @@ export class ClusterAddons extends pulumi.ComponentResource {
      * The IngressNginx addon used for admin access.
      */
     public /*out*/ readonly adminIngressNginx!: pulumi.Output<IngressNginx>;
+    /**
+     * The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
+     */
+    public /*out*/ readonly adotApplication!: pulumi.Output<AdotApplication>;
+    /**
+     * The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
+     */
+    public /*out*/ readonly adotOperator!: pulumi.Output<AdotOperator>;
     /**
      * The ArgoCD addon.
      */
@@ -104,9 +112,12 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["ingress"] = args ? args.ingress : undefined;
             resourceInputs["issuerUrl"] = args ? args.issuerUrl : undefined;
             resourceInputs["k8sProvider"] = args ? args.k8sProvider : undefined;
+            resourceInputs["observability"] = args ? args.observability : undefined;
             resourceInputs["zoneArns"] = args ? args.zoneArns : undefined;
             resourceInputs["zoneId"] = args ? args.zoneId : undefined;
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
+            resourceInputs["adotApplication"] = undefined /*out*/;
+            resourceInputs["adotOperator"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
@@ -117,6 +128,8 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["externalDns"] = undefined /*out*/;
         } else {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
+            resourceInputs["adotApplication"] = undefined /*out*/;
+            resourceInputs["adotOperator"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
@@ -159,6 +172,10 @@ export interface ClusterAddonsArgs {
      * The Pulumi provider used for Kubernetes resources.
      */
     k8sProvider: pulumi.Input<pulumiKubernetes.Provider>;
+    /**
+     * The ADOT configuration.
+     */
+    observability?: pulumi.Input<inputs.kubernetes.AdotApplicationArgsArgs>;
     /**
      * The list of DNS Zone arns to be used by CertManager and ExternalDNS.
      */
