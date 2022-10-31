@@ -12,6 +12,7 @@ from ._enums import *
 
 __all__ = [
     'AddonsArgsArgs',
+    'AdotApplicationArgsArgs',
     'ClusterAddonsIngressArgsArgs',
     'ClusterAddonsIngressItemArgsArgs',
     'ClusterApiArgsArgs',
@@ -22,6 +23,9 @@ __all__ = [
     'ClusterPrivateApiArgsArgs',
     'ClusterPublicApiArgsArgs',
     'IngressNginxTlsArgsArgs',
+    'LoggingItemArgsArgs',
+    'LoggingOptionsArgsArgs',
+    'MetricsOptionsArgsArgs',
 ]
 
 @pulumi.input_type
@@ -44,6 +48,57 @@ class AddonsArgsArgs:
     @enabled.setter
     def enabled(self, value: pulumi.Input[bool]):
         pulumi.set(self, "enabled", value)
+
+
+@pulumi.input_type
+class AdotApplicationArgsArgs:
+    def __init__(__self__, *,
+                 aws_region: pulumi.Input[str],
+                 cluster_name: pulumi.Input[str],
+                 logging: Optional[pulumi.Input['LoggingOptionsArgsArgs']] = None,
+                 metrics: Optional[pulumi.Input['MetricsOptionsArgsArgs']] = None):
+        pulumi.set(__self__, "aws_region", aws_region)
+        pulumi.set(__self__, "cluster_name", cluster_name)
+        if logging is not None:
+            pulumi.set(__self__, "logging", logging)
+        if metrics is not None:
+            pulumi.set(__self__, "metrics", metrics)
+
+    @property
+    @pulumi.getter(name="awsRegion")
+    def aws_region(self) -> pulumi.Input[str]:
+        return pulumi.get(self, "aws_region")
+
+    @aws_region.setter
+    def aws_region(self, value: pulumi.Input[str]):
+        pulumi.set(self, "aws_region", value)
+
+    @property
+    @pulumi.getter(name="clusterName")
+    def cluster_name(self) -> pulumi.Input[str]:
+        return pulumi.get(self, "cluster_name")
+
+    @cluster_name.setter
+    def cluster_name(self, value: pulumi.Input[str]):
+        pulumi.set(self, "cluster_name", value)
+
+    @property
+    @pulumi.getter
+    def logging(self) -> Optional[pulumi.Input['LoggingOptionsArgsArgs']]:
+        return pulumi.get(self, "logging")
+
+    @logging.setter
+    def logging(self, value: Optional[pulumi.Input['LoggingOptionsArgsArgs']]):
+        pulumi.set(self, "logging", value)
+
+    @property
+    @pulumi.getter
+    def metrics(self) -> Optional[pulumi.Input['MetricsOptionsArgsArgs']]:
+        return pulumi.get(self, "metrics")
+
+    @metrics.setter
+    def metrics(self, value: Optional[pulumi.Input['MetricsOptionsArgsArgs']]):
+        pulumi.set(self, "metrics", value)
 
 
 @pulumi.input_type
@@ -537,6 +592,98 @@ class IngressNginxTlsArgsArgs:
 
     @enabled.setter
     def enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enabled", value)
+
+
+@pulumi.input_type
+class LoggingItemArgsArgs:
+    def __init__(__self__, *,
+                 data_retention: pulumi.Input[float],
+                 enabled: pulumi.Input[bool]):
+        pulumi.set(__self__, "data_retention", data_retention)
+        pulumi.set(__self__, "enabled", enabled)
+
+    @property
+    @pulumi.getter(name="dataRetention")
+    def data_retention(self) -> pulumi.Input[float]:
+        return pulumi.get(self, "data_retention")
+
+    @data_retention.setter
+    def data_retention(self, value: pulumi.Input[float]):
+        pulumi.set(self, "data_retention", value)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> pulumi.Input[bool]:
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: pulumi.Input[bool]):
+        pulumi.set(self, "enabled", value)
+
+
+@pulumi.input_type
+class LoggingOptionsArgsArgs:
+    def __init__(__self__, *,
+                 applications: pulumi.Input['LoggingItemArgsArgs'],
+                 dataplane: pulumi.Input['LoggingItemArgsArgs'],
+                 host: pulumi.Input['LoggingItemArgsArgs']):
+        pulumi.set(__self__, "applications", applications)
+        pulumi.set(__self__, "dataplane", dataplane)
+        pulumi.set(__self__, "host", host)
+
+    @property
+    @pulumi.getter
+    def applications(self) -> pulumi.Input['LoggingItemArgsArgs']:
+        return pulumi.get(self, "applications")
+
+    @applications.setter
+    def applications(self, value: pulumi.Input['LoggingItemArgsArgs']):
+        pulumi.set(self, "applications", value)
+
+    @property
+    @pulumi.getter
+    def dataplane(self) -> pulumi.Input['LoggingItemArgsArgs']:
+        return pulumi.get(self, "dataplane")
+
+    @dataplane.setter
+    def dataplane(self, value: pulumi.Input['LoggingItemArgsArgs']):
+        pulumi.set(self, "dataplane", value)
+
+    @property
+    @pulumi.getter
+    def host(self) -> pulumi.Input['LoggingItemArgsArgs']:
+        return pulumi.get(self, "host")
+
+    @host.setter
+    def host(self, value: pulumi.Input['LoggingItemArgsArgs']):
+        pulumi.set(self, "host", value)
+
+
+@pulumi.input_type
+class MetricsOptionsArgsArgs:
+    def __init__(__self__, *,
+                 data_retention: pulumi.Input[float],
+                 enabled: pulumi.Input[bool]):
+        pulumi.set(__self__, "data_retention", data_retention)
+        pulumi.set(__self__, "enabled", enabled)
+
+    @property
+    @pulumi.getter(name="dataRetention")
+    def data_retention(self) -> pulumi.Input[float]:
+        return pulumi.get(self, "data_retention")
+
+    @data_retention.setter
+    def data_retention(self, value: pulumi.Input[float]):
+        pulumi.set(self, "data_retention", value)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> pulumi.Input[bool]:
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: pulumi.Input[bool]):
         pulumi.set(self, "enabled", value)
 
 
