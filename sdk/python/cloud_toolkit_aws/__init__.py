@@ -64,6 +64,8 @@ _utilities.register(
   "mod": "kubernetes",
   "fqn": "cloud_toolkit_aws.kubernetes",
   "classes": {
+   "cloud-toolkit-aws:kubernetes:AdotApplication": "AdotApplication",
+   "cloud-toolkit-aws:kubernetes:AdotOperator": "AdotOperator",
    "cloud-toolkit-aws:kubernetes:ApplicationAddon": "ApplicationAddon",
    "cloud-toolkit-aws:kubernetes:ArgoCD": "ArgoCD",
    "cloud-toolkit-aws:kubernetes:AwsEbsCsiDriver": "AwsEbsCsiDriver",

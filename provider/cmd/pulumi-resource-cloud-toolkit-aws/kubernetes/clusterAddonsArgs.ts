@@ -1,5 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
+import {AdotApplicationArgs} from "./adotApplicationArgs"
 import * as aws from "@pulumi/aws";
 
 export interface ClusterAddonsArgs {
@@ -22,6 +23,11 @@ export interface ClusterAddonsArgs {
    * The OIDC Identity Provider url.
    */
   issuerUrl: pulumi.Input<string>;
+
+  /**
+   * The ADOT configuration.
+   */
+  observability?: AdotApplicationArgs;
 
   /**
    * The configuration for Ingress Controller.

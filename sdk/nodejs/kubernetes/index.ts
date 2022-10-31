@@ -5,6 +5,14 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "../utilities";
 
 // Export members:
+export { AdotApplicationArgs } from "./adotApplication";
+export type AdotApplication = import("./adotApplication").AdotApplication;
+export const AdotApplication: typeof import("./adotApplication").AdotApplication = null as any;
+
+export { AdotOperatorArgs } from "./adotOperator";
+export type AdotOperator = import("./adotOperator").AdotOperator;
+export const AdotOperator: typeof import("./adotOperator").AdotOperator = null as any;
+
 export { ApplicationAddonArgs } from "./applicationAddon";
 export type ApplicationAddon = import("./applicationAddon").ApplicationAddon;
 export const ApplicationAddon: typeof import("./applicationAddon").ApplicationAddon = null as any;
@@ -61,6 +69,8 @@ export { NodeGroupArgs } from "./nodeGroup";
 export type NodeGroup = import("./nodeGroup").NodeGroup;
 export const NodeGroup: typeof import("./nodeGroup").NodeGroup = null as any;
 
+utilities.lazyLoad(exports, ["AdotApplication"], () => require("./adotApplication"));
+utilities.lazyLoad(exports, ["AdotOperator"], () => require("./adotOperator"));
 utilities.lazyLoad(exports, ["ApplicationAddon"], () => require("./applicationAddon"));
 utilities.lazyLoad(exports, ["ArgoCD"], () => require("./argoCD"));
 utilities.lazyLoad(exports, ["AwsEbsCsiDriver"], () => require("./awsEbsCsiDriver"));
@@ -83,6 +93,10 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
+            case "cloud-toolkit-aws:kubernetes:AdotApplication":
+                return new AdotApplication(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:AdotOperator":
+                return new AdotOperator(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:ApplicationAddon":
                 return new ApplicationAddon(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:ArgoCD":
