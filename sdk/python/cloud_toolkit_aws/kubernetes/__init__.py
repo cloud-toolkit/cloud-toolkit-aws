@@ -6,6 +6,8 @@ from .. import _utilities
 import typing
 # Export this package's modules as members:
 from ._enums import *
+from .adot_application import *
+from .adot_operator import *
 from .application_addon import *
 from .argo_cd import *
 from .aws_ebs_csi_driver import *

@@ -20,6 +20,8 @@
         "email/emailSender.ts",
         "email/index.ts",
         "index.ts",
+        "kubernetes/adotApplication.ts",
+        "kubernetes/adotOperator.ts",
         "kubernetes/applicationAddon.ts",
         "kubernetes/argoCD.ts",
         "kubernetes/awsEbsCsiDriver.ts",

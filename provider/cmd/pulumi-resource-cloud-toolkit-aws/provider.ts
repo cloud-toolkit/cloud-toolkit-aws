@@ -45,6 +45,10 @@ import { Mysql, MysqlArgs} from "./databases/mysql";
 import { Calico, CalicoArgs } from "./kubernetes/calico";
 import { Dashboard, DashboardArgs } from "./kubernetes/dashboard";
 import { AwsEbsCsiDriver, AwsEbsCsiDriverArgs } from "./kubernetes/ebsCsiDriver";
+import { AdotApplication } from "./kubernetes/adotApplication";
+import { AdotApplicationArgs } from "./kubernetes/adotApplicationArgs";
+import { AdotOperator } from "./kubernetes/adotOperator";
+import { AdotOperatorArgs } from "./kubernetes/adotOperatorArgs";
 
 
 export class Provider implements pulumi.provider.Provider {
@@ -85,6 +89,10 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesEbsDriver(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:ClusterAutoscaler":
         return await constructKubernetesClusterAutoscaler(name, inputs, options);
+      case "cloudToolkit:aws:kubernetes:AdotApplication":
+        return await constructKubernetesAdotApplication(name, inputs, options);
+      case "cloudToolkit:aws:kubernetes:AdotOperator":
+        return await constructKubernetesAdotOperator(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -339,6 +347,41 @@ async function constructKubernetesClusterAutoscaler(
     state: {
       application: resource.application,
       irsa: resource.irsa,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesAdotApplication(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new AdotApplication(name, inputs as AdotApplicationArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
+      CWLogGroup: resource.CWLogGroup,
+      adotCollectorIrsa: resource.adotCollectorIRSA,
+      fluentBitIrsa: resource.fluentBitIRSA,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesAdotOperator(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new AdotOperator(name, inputs as AdotOperatorArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
       namespace: resource.namespace,
     },
   };
