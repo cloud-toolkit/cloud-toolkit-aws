@@ -42,9 +42,43 @@ export interface ClusterArgs {
   addons?: AddonsArgs;
 
   /**
-   * The base domain.
+   * Configure the cluster networking.
    */
-  baseDomain?: string;
+  networking?: ClusterNetworkingArgs;
+}
+
+export interface ClusterNetworkingArgs {
+  /**
+   * Configure the access to admin applications.
+   */
+  admin?: ClusterNetworkingIngressArgs;
+
+  /**
+   * Configure the access to applications.
+   */
+  default?: ClusterNetworkingIngressArgs;
+}
+
+export interface ClusterNetworkingIngressArgs {
+  /**
+   * Use a public Load Balancer to expose the IngressController.
+   */
+  public?: boolean;
+
+  /**
+   * The domain used to expose the IngressController.
+   */
+  domain: string;
+
+  /**
+   * Set a whitelist to access the IngressController.
+   */
+  whitelist?: pulumi.Input<string>[];
+
+  /**
+   * Enable TLS termination in Load Balancer.
+   */
+  enableTlsTermination?: boolean;
 }
 
 export interface AddonsArgs {

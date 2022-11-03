@@ -24,41 +24,21 @@ export interface ClusterAddonsArgs {
   issuerUrl: pulumi.Input<string>;
 
   /**
-   * The domain used by the cluster.
-   */
-  domain: string;
-
-  /**
    * The configuration for Ingress Controller.
    */
   ingress?: ClusterAddonsIngressArgs;
-
-  /**
-   * The main DNS Zone id.
-   */
-  zoneId: pulumi.Input<string>;
-
-  /**
-   * The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-   */
-  zoneArns: pulumi.Input<string>[];
 }
 
 export interface ClusterAddonsIngressArgs {
-  /**
-   * Enable the IngressControllers.
-   */
-  enabled?: boolean;
-
   /**
    * Configure the admin IngressController.
    */
   admin?: ClusterAddonsIngressItemArgs;
 
   /**
-   * Configure the global IngressController.
+   * Configure the default IngressController.
    */
-  global?: ClusterAddonsIngressItemArgs;
+  default?: ClusterAddonsIngressItemArgs;
 }
 
 export interface ClusterAddonsIngressItemArgs {
@@ -66,6 +46,11 @@ export interface ClusterAddonsIngressItemArgs {
    * Use a public Load Balancer to expose the IngressController.
    */
   public?: boolean;
+
+  /**
+   * The domain used to expose the IngressController.
+   */
+  domain?: string;
 
   /**
    * Set a whitelist to access the IngressController.
@@ -84,11 +69,12 @@ export const defaultClusterAddonsArgs = {
     admin: {
       public: true,
       whitelist: ["0.0.0.0/0"],
-      enableTlsTermination: false,
+      enableTlsTermination: true,
     },
-    global: {
+    default: {
       public: true,
       whitelist: ["0.0.0.0/0"],
+      enableTlsTermination: true,
     }
   }
 };

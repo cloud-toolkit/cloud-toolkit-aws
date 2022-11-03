@@ -93,12 +93,40 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
         value: "60",
       });
       tlsParameters.push({
+        name: "controller.containerPort.http",
+        value: "80",
+      });
+      tlsParameters.push({
+        name: "controller.containerPort.https",
+        value: "80",
+      });
+      tlsParameters.push({
+        name: "controller.containerPort.tohttps",
+        value: "2443",
+      });
+      tlsParameters.push({
+        name: "controller.service.targetPorts.http",
+        value: "tohttps",
+      });
+      tlsParameters.push({
         name: "controller.service.targetPorts.https",
         value: "http",
       });
       tlsParameters.push({
-        name: "controller.config.ssl-redirect",
-        value: "false",
+        name: "controller.allow-snippet-annotations",
+        value: "true",
+      });
+      tlsParameters.push({
+        name: "controller.config.http-snippet",
+        value: "server { listen 2443; return 308 https://$$host$$request_uri; }",
+      });
+      tlsParameters.push({
+        name: "controller.config.proxy-real-ip-cidr",
+        value: "0.0.0.0/0",
+      });
+      tlsParameters.push({
+        name: "controller.config.use-forwarded-headers",
+        value: "true",
       });
     }
 
@@ -129,6 +157,10 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
               value: this.args.className,
             },
             {
+              name: "controller.ingressClassResource.default",
+              value: this.args.default?.toString(),
+            },
+            {
               name: "controller.replicaCount",
               value: "2",
             },
@@ -138,7 +170,7 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
             },
             {
               name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol",
-              value: this.args.tls?.enabled ? "http" : "tcp",
+              value: "tcp",
             },
             {
               name: "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled",
