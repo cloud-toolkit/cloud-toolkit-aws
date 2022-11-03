@@ -20,7 +20,7 @@ class ClusterArgs:
     def __init__(__self__, *,
                  addons: Optional[pulumi.Input['AddonsArgsArgs']] = None,
                  api: Optional[pulumi.Input['ClusterApiArgsArgs']] = None,
-                 base_domain: Optional[pulumi.Input[str]] = None,
+                 networking: Optional[pulumi.Input['ClusterNetworkingArgsArgs']] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]]] = None,
                  oidc_providers: Optional[pulumi.Input['ClusterOidcProvidersArgsArgs']] = None,
                  private_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -31,7 +31,7 @@ class ClusterArgs:
         The set of arguments for constructing a Cluster resource.
         :param pulumi.Input['AddonsArgsArgs'] addons: The addons installed in the cluster.
         :param pulumi.Input['ClusterApiArgsArgs'] api: Configure the Kubernetes cluster API.
-        :param pulumi.Input[str] base_domain: The base domain.
+        :param pulumi.Input['ClusterNetworkingArgsArgs'] networking: Configure the cluster networking.
         :param pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]] node_groups: The NodeGroups to be assigned to this cluster.
         :param pulumi.Input['ClusterOidcProvidersArgsArgs'] oidc_providers: The OIDC Providers configuration.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_subnet_ids: The list of private subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
@@ -43,8 +43,8 @@ class ClusterArgs:
             pulumi.set(__self__, "addons", addons)
         if api is not None:
             pulumi.set(__self__, "api", api)
-        if base_domain is not None:
-            pulumi.set(__self__, "base_domain", base_domain)
+        if networking is not None:
+            pulumi.set(__self__, "networking", networking)
         if node_groups is not None:
             pulumi.set(__self__, "node_groups", node_groups)
         if oidc_providers is not None:
@@ -83,16 +83,16 @@ class ClusterArgs:
         pulumi.set(self, "api", value)
 
     @property
-    @pulumi.getter(name="baseDomain")
-    def base_domain(self) -> Optional[pulumi.Input[str]]:
+    @pulumi.getter
+    def networking(self) -> Optional[pulumi.Input['ClusterNetworkingArgsArgs']]:
         """
-        The base domain.
+        Configure the cluster networking.
         """
-        return pulumi.get(self, "base_domain")
+        return pulumi.get(self, "networking")
 
-    @base_domain.setter
-    def base_domain(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "base_domain", value)
+    @networking.setter
+    def networking(self, value: Optional[pulumi.Input['ClusterNetworkingArgsArgs']]):
+        pulumi.set(self, "networking", value)
 
     @property
     @pulumi.getter(name="nodeGroups")
@@ -174,7 +174,7 @@ class Cluster(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
-                 base_domain: Optional[pulumi.Input[str]] = None,
+                 networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]]] = None,
                  oidc_providers: Optional[pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']]] = None,
                  private_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -189,7 +189,7 @@ class Cluster(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[pulumi.InputType['AddonsArgsArgs']] addons: The addons installed in the cluster.
         :param pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']] api: Configure the Kubernetes cluster API.
-        :param pulumi.Input[str] base_domain: The base domain.
+        :param pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']] networking: Configure the cluster networking.
         :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]] node_groups: The NodeGroups to be assigned to this cluster.
         :param pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']] oidc_providers: The OIDC Providers configuration.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_subnet_ids: The list of private subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
@@ -223,7 +223,7 @@ class Cluster(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
-                 base_domain: Optional[pulumi.Input[str]] = None,
+                 networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]]] = None,
                  oidc_providers: Optional[pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']]] = None,
                  private_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -243,7 +243,7 @@ class Cluster(pulumi.ComponentResource):
 
             __props__.__dict__["addons"] = addons
             __props__.__dict__["api"] = api
-            __props__.__dict__["base_domain"] = base_domain
+            __props__.__dict__["networking"] = networking
             __props__.__dict__["node_groups"] = node_groups
             __props__.__dict__["oidc_providers"] = oidc_providers
             __props__.__dict__["private_subnet_ids"] = private_subnet_ids
@@ -254,7 +254,6 @@ class Cluster(pulumi.ComponentResource):
             __props__.__dict__["cluster_addons"] = None
             __props__.__dict__["cni_chart"] = None
             __props__.__dict__["default_oidc_provider"] = None
-            __props__.__dict__["domain"] = None
             __props__.__dict__["kubeconfig"] = None
             __props__.__dict__["provider"] = None
             __props__.__dict__["provisioner_provider"] = None
@@ -302,14 +301,6 @@ class Cluster(pulumi.ComponentResource):
         The default OIDC Provider.
         """
         return pulumi.get(self, "default_oidc_provider")
-
-    @property
-    @pulumi.getter
-    def domain(self) -> pulumi.Output[str]:
-        """
-        The VPC CNI Chart installed in the cluster.
-        """
-        return pulumi.get(self, "domain")
 
     @property
     @pulumi.getter

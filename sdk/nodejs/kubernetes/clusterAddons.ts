@@ -32,7 +32,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
     /**
      * The IngressNginx addon used for admin access.
      */
-    public /*out*/ readonly adminIngressNginx!: pulumi.Output<IngressNginx>;
+    public /*out*/ readonly adminIngressNginx!: pulumi.Output<IngressNginx | undefined>;
     /**
      * The ArgoCD addon.
      */
@@ -58,6 +58,10 @@ export class ClusterAddons extends pulumi.ComponentResource {
      */
     public /*out*/ readonly dashboard!: pulumi.Output<Dashboard>;
     /**
+     * The IngressNginx addon used for default access.
+     */
+    public /*out*/ readonly defaultIngressNginx!: pulumi.Output<IngressNginx | undefined>;
+    /**
      * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
      */
     public /*out*/ readonly ebsCsiDriver!: pulumi.Output<AwsEbsCsiDriver>;
@@ -80,9 +84,6 @@ export class ClusterAddons extends pulumi.ComponentResource {
             if ((!args || args.clusterName === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'clusterName'");
             }
-            if ((!args || args.domain === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'domain'");
-            }
             if ((!args || args.identityProvidersArn === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'identityProvidersArn'");
             }
@@ -92,20 +93,11 @@ export class ClusterAddons extends pulumi.ComponentResource {
             if ((!args || args.k8sProvider === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'k8sProvider'");
             }
-            if ((!args || args.zoneArns === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'zoneArns'");
-            }
-            if ((!args || args.zoneId === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'zoneId'");
-            }
             resourceInputs["clusterName"] = args ? args.clusterName : undefined;
-            resourceInputs["domain"] = args ? args.domain : undefined;
             resourceInputs["identityProvidersArn"] = args ? args.identityProvidersArn : undefined;
             resourceInputs["ingress"] = args ? args.ingress : undefined;
             resourceInputs["issuerUrl"] = args ? args.issuerUrl : undefined;
             resourceInputs["k8sProvider"] = args ? args.k8sProvider : undefined;
-            resourceInputs["zoneArns"] = args ? args.zoneArns : undefined;
-            resourceInputs["zoneId"] = args ? args.zoneId : undefined;
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
@@ -113,6 +105,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["clusterAutoscaler"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
+            resourceInputs["defaultIngressNginx"] = undefined /*out*/;
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         } else {
@@ -123,6 +116,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["clusterAutoscaler"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
+            resourceInputs["defaultIngressNginx"] = undefined /*out*/;
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         }
@@ -140,10 +134,6 @@ export interface ClusterAddonsArgs {
      */
     clusterName: pulumi.Input<string>;
     /**
-     * The domain used by the cluster.
-     */
-    domain: pulumi.Input<string>;
-    /**
      * The OIDC Identity Provider arn.
      */
     identityProvidersArn: pulumi.Input<pulumi.Input<string>[]>;
@@ -159,12 +149,4 @@ export interface ClusterAddonsArgs {
      * The Pulumi provider used for Kubernetes resources.
      */
     k8sProvider: pulumi.Input<pulumiKubernetes.Provider>;
-    /**
-     * The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-     */
-    zoneArns: pulumi.Input<pulumi.Input<string>[]>;
-    /**
-     * The main DNS Zone id.
-     */
-    zoneId: pulumi.Input<string>;
 }

@@ -15,6 +15,8 @@ __all__ = [
     'ClusterAddonsIngressArgsArgs',
     'ClusterAddonsIngressItemArgsArgs',
     'ClusterApiArgsArgs',
+    'ClusterNetworkingArgsArgs',
+    'ClusterNetworkingIngressArgsArgs',
     'ClusterNodeGroupArgsArgs',
     'ClusterOidcProvidersArgsArgs',
     'ClusterPrivateApiArgsArgs',
@@ -48,19 +50,15 @@ class AddonsArgsArgs:
 class ClusterAddonsIngressArgsArgs:
     def __init__(__self__, *,
                  admin: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None,
-                 enabled: Optional[pulumi.Input[bool]] = None,
-                 global_: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None):
+                 default: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None):
         """
         :param pulumi.Input['ClusterAddonsIngressItemArgsArgs'] admin: Configure the admin IngressController.
-        :param pulumi.Input[bool] enabled: Enable the IngressControllers.
-        :param pulumi.Input['ClusterAddonsIngressItemArgsArgs'] global_: Configure the global IngressController.
+        :param pulumi.Input['ClusterAddonsIngressItemArgsArgs'] default: Configure the default IngressController.
         """
         if admin is not None:
             pulumi.set(__self__, "admin", admin)
-        if enabled is not None:
-            pulumi.set(__self__, "enabled", enabled)
-        if global_ is not None:
-            pulumi.set(__self__, "global_", global_)
+        if default is not None:
+            pulumi.set(__self__, "default", default)
 
     @property
     @pulumi.getter
@@ -76,46 +74,50 @@ class ClusterAddonsIngressArgsArgs:
 
     @property
     @pulumi.getter
-    def enabled(self) -> Optional[pulumi.Input[bool]]:
+    def default(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]:
         """
-        Enable the IngressControllers.
+        Configure the default IngressController.
         """
-        return pulumi.get(self, "enabled")
+        return pulumi.get(self, "default")
 
-    @enabled.setter
-    def enabled(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "enabled", value)
-
-    @property
-    @pulumi.getter(name="global")
-    def global_(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]:
-        """
-        Configure the global IngressController.
-        """
-        return pulumi.get(self, "global_")
-
-    @global_.setter
-    def global_(self, value: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]):
-        pulumi.set(self, "global_", value)
+    @default.setter
+    def default(self, value: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]):
+        pulumi.set(self, "default", value)
 
 
 @pulumi.input_type
 class ClusterAddonsIngressItemArgsArgs:
     def __init__(__self__, *,
+                 domain: Optional[pulumi.Input[str]] = None,
                  enable_tls_termination: Optional[pulumi.Input[bool]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
+        :param pulumi.Input[str] domain: The domain used to expose the IngressController.
         :param pulumi.Input[bool] enable_tls_termination: Enable TLS termination in Load Balancer.
         :param pulumi.Input[bool] public: Use a public Load Balancer to expose the IngressController.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: Set a whitelist to access the IngressController.
         """
+        if domain is not None:
+            pulumi.set(__self__, "domain", domain)
         if enable_tls_termination is not None:
             pulumi.set(__self__, "enable_tls_termination", enable_tls_termination)
         if public is not None:
             pulumi.set(__self__, "public", public)
         if whitelist is not None:
             pulumi.set(__self__, "whitelist", whitelist)
+
+    @property
+    @pulumi.getter
+    def domain(self) -> Optional[pulumi.Input[str]]:
+        """
+        The domain used to expose the IngressController.
+        """
+        return pulumi.get(self, "domain")
+
+    @domain.setter
+    def domain(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "domain", value)
 
     @property
     @pulumi.getter(name="enableTlsTermination")
@@ -191,6 +193,115 @@ class ClusterApiArgsArgs:
     @public.setter
     def public(self, value: Optional[pulumi.Input['ClusterPublicApiArgsArgs']]):
         pulumi.set(self, "public", value)
+
+
+@pulumi.input_type
+class ClusterNetworkingArgsArgs:
+    def __init__(__self__, *,
+                 admin: Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']] = None,
+                 default: Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']] = None):
+        """
+        :param pulumi.Input['ClusterNetworkingIngressArgsArgs'] admin: Configure the access to admin applications.
+        :param pulumi.Input['ClusterNetworkingIngressArgsArgs'] default: Configure the access to applications.
+        """
+        if admin is not None:
+            pulumi.set(__self__, "admin", admin)
+        if default is not None:
+            pulumi.set(__self__, "default", default)
+
+    @property
+    @pulumi.getter
+    def admin(self) -> Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']]:
+        """
+        Configure the access to admin applications.
+        """
+        return pulumi.get(self, "admin")
+
+    @admin.setter
+    def admin(self, value: Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']]):
+        pulumi.set(self, "admin", value)
+
+    @property
+    @pulumi.getter
+    def default(self) -> Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']]:
+        """
+        Configure the access to applications.
+        """
+        return pulumi.get(self, "default")
+
+    @default.setter
+    def default(self, value: Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']]):
+        pulumi.set(self, "default", value)
+
+
+@pulumi.input_type
+class ClusterNetworkingIngressArgsArgs:
+    def __init__(__self__, *,
+                 domain: pulumi.Input[str],
+                 enable_tls_termination: Optional[pulumi.Input[bool]] = None,
+                 public: Optional[pulumi.Input[bool]] = None,
+                 whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        """
+        :param pulumi.Input[str] domain: The domain used to expose the IngressController.
+        :param pulumi.Input[bool] enable_tls_termination: Enable TLS termination in Load Balancer.
+        :param pulumi.Input[bool] public: Use a public Load Balancer to expose the IngressController.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: Set a whitelist to access the IngressController.
+        """
+        pulumi.set(__self__, "domain", domain)
+        if enable_tls_termination is not None:
+            pulumi.set(__self__, "enable_tls_termination", enable_tls_termination)
+        if public is not None:
+            pulumi.set(__self__, "public", public)
+        if whitelist is not None:
+            pulumi.set(__self__, "whitelist", whitelist)
+
+    @property
+    @pulumi.getter
+    def domain(self) -> pulumi.Input[str]:
+        """
+        The domain used to expose the IngressController.
+        """
+        return pulumi.get(self, "domain")
+
+    @domain.setter
+    def domain(self, value: pulumi.Input[str]):
+        pulumi.set(self, "domain", value)
+
+    @property
+    @pulumi.getter(name="enableTlsTermination")
+    def enable_tls_termination(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable TLS termination in Load Balancer.
+        """
+        return pulumi.get(self, "enable_tls_termination")
+
+    @enable_tls_termination.setter
+    def enable_tls_termination(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enable_tls_termination", value)
+
+    @property
+    @pulumi.getter
+    def public(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Use a public Load Balancer to expose the IngressController.
+        """
+        return pulumi.get(self, "public")
+
+    @public.setter
+    def public(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "public", value)
+
+    @property
+    @pulumi.getter
+    def whitelist(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        Set a whitelist to access the IngressController.
+        """
+        return pulumi.get(self, "whitelist")
+
+    @whitelist.setter
+    def whitelist(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "whitelist", value)
 
 
 @pulumi.input_type
