@@ -47,10 +47,6 @@ export class Cluster extends pulumi.ComponentResource {
      */
     public /*out*/ readonly defaultOidcProvider!: pulumi.Output<pulumiAws.iam.OpenIdConnectProvider | undefined>;
     /**
-     * The VPC CNI Chart installed in the cluster.
-     */
-    public /*out*/ readonly domain!: pulumi.Output<string>;
-    /**
      * The kubeconfig content for this cluster.
      */
     public /*out*/ readonly kubeconfig!: pulumi.Output<string>;
@@ -104,7 +100,7 @@ export class Cluster extends pulumi.ComponentResource {
         if (!opts.id) {
             resourceInputs["addons"] = args ? args.addons : undefined;
             resourceInputs["api"] = args ? args.api : undefined;
-            resourceInputs["baseDomain"] = args ? args.baseDomain : undefined;
+            resourceInputs["networking"] = args ? args.networking : undefined;
             resourceInputs["nodeGroups"] = args ? args.nodeGroups : undefined;
             resourceInputs["oidcProviders"] = args ? args.oidcProviders : undefined;
             resourceInputs["privateSubnetIds"] = args ? args.privateSubnetIds : undefined;
@@ -115,7 +111,6 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
             resourceInputs["defaultOidcProvider"] = undefined /*out*/;
-            resourceInputs["domain"] = undefined /*out*/;
             resourceInputs["kubeconfig"] = undefined /*out*/;
             resourceInputs["provider"] = undefined /*out*/;
             resourceInputs["provisionerProvider"] = undefined /*out*/;
@@ -130,7 +125,6 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
             resourceInputs["defaultOidcProvider"] = undefined /*out*/;
-            resourceInputs["domain"] = undefined /*out*/;
             resourceInputs["kubeconfig"] = undefined /*out*/;
             resourceInputs["nodeGroups"] = undefined /*out*/;
             resourceInputs["provider"] = undefined /*out*/;
@@ -160,9 +154,9 @@ export interface ClusterArgs {
      */
     api?: pulumi.Input<inputs.kubernetes.ClusterApiArgsArgs>;
     /**
-     * The base domain.
+     * Configure the cluster networking.
      */
-    baseDomain?: pulumi.Input<string>;
+    networking?: pulumi.Input<inputs.kubernetes.ClusterNetworkingArgsArgs>;
     /**
      * The NodeGroups to be assigned to this cluster.
      */

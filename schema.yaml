@@ -350,40 +350,22 @@ types:
       issuerUrl:
         description: The OIDC Identity Provider url.
         type: string
-      domain:
-        description: The domain used by the cluster.
-        type: string
       ingress:
         description: The configuration for Ingress Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
-      zoneId:
-        description: The main DNS Zone id.
-        type: string
-      zoneArns:
-        description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-        type: array
-        items:
-          description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-          type: string
     type: object
     required:
       - k8sProvider
       - clusterName
       - identityProvidersArn
       - issuerUrl
-      - domain
-      - zoneId
-      - zoneArns
   cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs:
     properties:
-      enabled:
-        description: Enable the IngressControllers.
-        type: boolean
       admin:
         description: Configure the admin IngressController.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs"
-      global:
-        description: Configure the global IngressController.
+      default:
+        description: Configure the default IngressController.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs"
     type: object
     required: []
@@ -392,6 +374,9 @@ types:
       public:
         description: Use a public Load Balancer to expose the IngressController.
         type: boolean
+      domain:
+        description: The domain used to expose the IngressController.
+        type: string
       whitelist:
         description: Set a whitelist to access the IngressController.
         type: array
@@ -442,11 +427,41 @@ types:
       addons:
         description: The addons installed in the cluster.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
-      baseDomain:
-        description: The base domain.
-        type: string
+      networking:
+        description: Configure the cluster networking.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
     type: object
     required: []
+  cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs:
+    properties:
+      admin:
+        description: Configure the access to admin applications.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingIngressArgs"
+      default:
+        description: Configure the access to applications.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingIngressArgs"
+    type: object
+    required: []
+  cloud-toolkit-aws:kubernetes:ClusterNetworkingIngressArgs:
+    properties:
+      public:
+        description: Use a public Load Balancer to expose the IngressController.
+        type: boolean
+      domain:
+        description: The domain used to expose the IngressController.
+        type: string
+      whitelist:
+        description: Set a whitelist to access the IngressController.
+        type: array
+        items:
+          description: Set a whitelist to access the IngressController.
+          type: string
+      enableTlsTermination:
+        description: Enable TLS termination in Load Balancer.
+        type: boolean
+    type: object
+    required:
+      - domain
   cloud-toolkit-aws:kubernetes:AddonsArgs:
     properties:
       enabled:
@@ -569,6 +584,9 @@ types:
           type: string
       public:
         description: Expose the IngressController with a public Load Balancer.
+        type: boolean
+      default:
+        description: Set this IngressController with the defaul IngressClass.
         type: boolean
     type: object
     required:
@@ -1654,9 +1672,6 @@ resources:
       clusterAddons:
         description: The VPC CNI Chart installed in the cluster.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddons"
-      domain:
-        description: The VPC CNI Chart installed in the cluster.
-        type: string
     required:
       - subnetTags
       - provisionerRole
@@ -1670,7 +1685,6 @@ resources:
       - provider
       - nodeGroups
       - cniChart
-      - domain
     inputProperties:
       vpcId:
         description: The VPC ID where the cluster will be deployed
@@ -1709,9 +1723,9 @@ resources:
       addons:
         description: The addons installed in the cluster.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
-      baseDomain:
-        description: The base domain.
-        type: string
+      networking:
+        description: Configure the cluster networking.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
     requiredInputs: []
     isComponent: true
     type: object
@@ -1727,6 +1741,9 @@ resources:
         $ref: "#/types/cloud-toolkit-aws:kubernetes:CertManager"
       adminIngressNginx:
         description: The IngressNginx addon used for admin access.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginx"
+      defaultIngressNginx:
+        description: The IngressNginx addon used for default access.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginx"
       externalDns:
         description: The ExternalDns addon.
@@ -1750,7 +1767,6 @@ resources:
     required:
       - argocd
       - certManager
-      - adminIngressNginx
       - externalDns
       - dashboard
       - calico
@@ -1773,29 +1789,14 @@ resources:
       issuerUrl:
         description: The OIDC Identity Provider url.
         type: string
-      domain:
-        description: The domain used by the cluster.
-        type: string
       ingress:
         description: The configuration for Ingress Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
-      zoneId:
-        description: The main DNS Zone id.
-        type: string
-      zoneArns:
-        description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-        type: array
-        items:
-          description: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-          type: string
     requiredInputs:
       - k8sProvider
       - clusterName
       - identityProvidersArn
       - issuerUrl
-      - domain
-      - zoneId
-      - zoneArns
     isComponent: true
     type: object
   cloud-toolkit-aws:kubernetes:ClusterAutoscaler:
@@ -1915,6 +1916,9 @@ resources:
           type: string
       public:
         description: Expose the IngressController with a public Load Balancer.
+        type: boolean
+      default:
+        description: Set this IngressController with the defaul IngressClass.
         type: boolean
     requiredInputs:
       - className

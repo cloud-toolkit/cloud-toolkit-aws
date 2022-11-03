@@ -17,31 +17,22 @@ __all__ = ['ClusterAddonsArgs', 'ClusterAddons']
 class ClusterAddonsArgs:
     def __init__(__self__, *,
                  cluster_name: pulumi.Input[str],
-                 domain: pulumi.Input[str],
                  identity_providers_arn: pulumi.Input[Sequence[pulumi.Input[str]]],
                  issuer_url: pulumi.Input[str],
                  k8s_provider: pulumi.Input['pulumi_kubernetes.Provider'],
-                 zone_arns: pulumi.Input[Sequence[pulumi.Input[str]]],
-                 zone_id: pulumi.Input[str],
                  ingress: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']] = None):
         """
         The set of arguments for constructing a ClusterAddons resource.
         :param pulumi.Input[str] cluster_name: The EKS Cluster name.
-        :param pulumi.Input[str] domain: The domain used by the cluster.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn.
         :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
         :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
-        :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-        :param pulumi.Input[str] zone_id: The main DNS Zone id.
         :param pulumi.Input['ClusterAddonsIngressArgsArgs'] ingress: The configuration for Ingress Controller.
         """
         pulumi.set(__self__, "cluster_name", cluster_name)
-        pulumi.set(__self__, "domain", domain)
         pulumi.set(__self__, "identity_providers_arn", identity_providers_arn)
         pulumi.set(__self__, "issuer_url", issuer_url)
         pulumi.set(__self__, "k8s_provider", k8s_provider)
-        pulumi.set(__self__, "zone_arns", zone_arns)
-        pulumi.set(__self__, "zone_id", zone_id)
         if ingress is not None:
             pulumi.set(__self__, "ingress", ingress)
 
@@ -56,18 +47,6 @@ class ClusterAddonsArgs:
     @cluster_name.setter
     def cluster_name(self, value: pulumi.Input[str]):
         pulumi.set(self, "cluster_name", value)
-
-    @property
-    @pulumi.getter
-    def domain(self) -> pulumi.Input[str]:
-        """
-        The domain used by the cluster.
-        """
-        return pulumi.get(self, "domain")
-
-    @domain.setter
-    def domain(self, value: pulumi.Input[str]):
-        pulumi.set(self, "domain", value)
 
     @property
     @pulumi.getter(name="identityProvidersArn")
@@ -106,30 +85,6 @@ class ClusterAddonsArgs:
         pulumi.set(self, "k8s_provider", value)
 
     @property
-    @pulumi.getter(name="zoneArns")
-    def zone_arns(self) -> pulumi.Input[Sequence[pulumi.Input[str]]]:
-        """
-        The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-        """
-        return pulumi.get(self, "zone_arns")
-
-    @zone_arns.setter
-    def zone_arns(self, value: pulumi.Input[Sequence[pulumi.Input[str]]]):
-        pulumi.set(self, "zone_arns", value)
-
-    @property
-    @pulumi.getter(name="zoneId")
-    def zone_id(self) -> pulumi.Input[str]:
-        """
-        The main DNS Zone id.
-        """
-        return pulumi.get(self, "zone_id")
-
-    @zone_id.setter
-    def zone_id(self, value: pulumi.Input[str]):
-        pulumi.set(self, "zone_id", value)
-
-    @property
     @pulumi.getter
     def ingress(self) -> Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']]:
         """
@@ -148,13 +103,10 @@ class ClusterAddons(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 domain: Optional[pulumi.Input[str]] = None,
                  identity_providers_arn: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']]] = None,
                  issuer_url: Optional[pulumi.Input[str]] = None,
                  k8s_provider: Optional[pulumi.Input['pulumi_kubernetes.Provider']] = None,
-                 zone_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 zone_id: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -162,13 +114,10 @@ class ClusterAddons(pulumi.ComponentResource):
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] cluster_name: The EKS Cluster name.
-        :param pulumi.Input[str] domain: The domain used by the cluster.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn.
         :param pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']] ingress: The configuration for Ingress Controller.
         :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
         :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
-        :param pulumi.Input[Sequence[pulumi.Input[str]]] zone_arns: The list of DNS Zone arns to be used by CertManager and ExternalDNS.
-        :param pulumi.Input[str] zone_id: The main DNS Zone id.
         """
         ...
     @overload
@@ -195,13 +144,10 @@ class ClusterAddons(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 domain: Optional[pulumi.Input[str]] = None,
                  identity_providers_arn: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']]] = None,
                  issuer_url: Optional[pulumi.Input[str]] = None,
                  k8s_provider: Optional[pulumi.Input['pulumi_kubernetes.Provider']] = None,
-                 zone_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 zone_id: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -216,9 +162,6 @@ class ClusterAddons(pulumi.ComponentResource):
             if cluster_name is None and not opts.urn:
                 raise TypeError("Missing required property 'cluster_name'")
             __props__.__dict__["cluster_name"] = cluster_name
-            if domain is None and not opts.urn:
-                raise TypeError("Missing required property 'domain'")
-            __props__.__dict__["domain"] = domain
             if identity_providers_arn is None and not opts.urn:
                 raise TypeError("Missing required property 'identity_providers_arn'")
             __props__.__dict__["identity_providers_arn"] = identity_providers_arn
@@ -229,12 +172,6 @@ class ClusterAddons(pulumi.ComponentResource):
             if k8s_provider is None and not opts.urn:
                 raise TypeError("Missing required property 'k8s_provider'")
             __props__.__dict__["k8s_provider"] = k8s_provider
-            if zone_arns is None and not opts.urn:
-                raise TypeError("Missing required property 'zone_arns'")
-            __props__.__dict__["zone_arns"] = zone_arns
-            if zone_id is None and not opts.urn:
-                raise TypeError("Missing required property 'zone_id'")
-            __props__.__dict__["zone_id"] = zone_id
             __props__.__dict__["admin_ingress_nginx"] = None
             __props__.__dict__["argocd"] = None
             __props__.__dict__["aws_load_balancer_controller"] = None
@@ -242,6 +179,7 @@ class ClusterAddons(pulumi.ComponentResource):
             __props__.__dict__["cert_manager"] = None
             __props__.__dict__["cluster_autoscaler"] = None
             __props__.__dict__["dashboard"] = None
+            __props__.__dict__["default_ingress_nginx"] = None
             __props__.__dict__["ebs_csi_driver"] = None
             __props__.__dict__["external_dns"] = None
         super(ClusterAddons, __self__).__init__(
@@ -253,7 +191,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="adminIngressNginx")
-    def admin_ingress_nginx(self) -> pulumi.Output[Any]:
+    def admin_ingress_nginx(self) -> pulumi.Output[Optional[Any]]:
         """
         The IngressNginx addon used for admin access.
         """
@@ -306,6 +244,14 @@ class ClusterAddons(pulumi.ComponentResource):
         The Kubernetes dashboard addon.
         """
         return pulumi.get(self, "dashboard")
+
+    @property
+    @pulumi.getter(name="defaultIngressNginx")
+    def default_ingress_nginx(self) -> pulumi.Output[Optional[Any]]:
+        """
+        The IngressNginx addon used for default access.
+        """
+        return pulumi.get(self, "default_ingress_nginx")
 
     @property
     @pulumi.getter(name="ebsCsiDriver")

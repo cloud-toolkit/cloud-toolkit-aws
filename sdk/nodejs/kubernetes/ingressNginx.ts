@@ -57,6 +57,7 @@ export class IngressNginx extends pulumi.ComponentResource {
                 throw new Error("Missing required property 'className'");
             }
             resourceInputs["className"] = args ? args.className : undefined;
+            resourceInputs["default"] = args ? args.default : undefined;
             resourceInputs["public"] = args ? args.public : undefined;
             resourceInputs["tls"] = args ? args.tls : undefined;
             resourceInputs["whitelist"] = args ? args.whitelist : undefined;
@@ -81,6 +82,10 @@ export interface IngressNginxArgs {
      * The Ingress class name.
      */
     className: pulumi.Input<string>;
+    /**
+     * Set this IngressController with the defaul IngressClass.
+     */
+    default?: pulumi.Input<boolean>;
     /**
      * Expose the IngressController with a public Load Balancer.
      */
