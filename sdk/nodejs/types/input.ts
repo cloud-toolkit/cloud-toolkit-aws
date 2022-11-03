@@ -111,18 +111,20 @@ export namespace email {
 }
 
 export namespace kubernetes {
-    export interface AddonsArgsArgs {
-        /**
-         * Enable the ClusterAddons.
-         */
+    export interface AdotApplicationLoggingArgsArgs {
+        applications?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingItemArgsArgs>;
+        dataplane?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingItemArgsArgs>;
+        host?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingItemArgsArgs>;
+    }
+
+    export interface AdotApplicationLoggingItemArgsArgs {
+        dataRetention: pulumi.Input<number>;
         enabled: pulumi.Input<boolean>;
     }
 
-    export interface AdotApplicationArgsArgs {
-        awsRegion: pulumi.Input<string>;
-        clusterName: pulumi.Input<string>;
-        logging?: pulumi.Input<inputs.kubernetes.LoggingOptionsArgsArgs>;
-        metrics?: pulumi.Input<inputs.kubernetes.MetricsOptionsArgsArgs>;
+    export interface AdotApplicationMetricsArgsArgs {
+        dataRetention: pulumi.Input<number>;
+        enabled: pulumi.Input<boolean>;
     }
 
     export interface ClusterAddonsIngressArgsArgs {
@@ -261,22 +263,6 @@ export namespace kubernetes {
          * The Zone id.
          */
         zoneId: pulumi.Input<string>;
-    }
-
-    export interface LoggingItemArgsArgs {
-        dataRetention: pulumi.Input<number>;
-        enabled: pulumi.Input<boolean>;
-    }
-
-    export interface LoggingOptionsArgsArgs {
-        applications: pulumi.Input<inputs.kubernetes.LoggingItemArgsArgs>;
-        dataplane: pulumi.Input<inputs.kubernetes.LoggingItemArgsArgs>;
-        host: pulumi.Input<inputs.kubernetes.LoggingItemArgsArgs>;
-    }
-
-    export interface MetricsOptionsArgsArgs {
-        dataRetention: pulumi.Input<number>;
-        enabled: pulumi.Input<boolean>;
     }
 
 }

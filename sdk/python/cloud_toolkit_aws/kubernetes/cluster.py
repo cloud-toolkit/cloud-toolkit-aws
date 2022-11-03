@@ -18,8 +18,9 @@ __all__ = ['ClusterArgs', 'Cluster']
 @pulumi.input_type
 class ClusterArgs:
     def __init__(__self__, *,
-                 addons: Optional[pulumi.Input['AddonsArgsArgs']] = None,
                  api: Optional[pulumi.Input['ClusterApiArgsArgs']] = None,
+                 logging: Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']] = None,
+                 metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None,
                  networking: Optional[pulumi.Input['ClusterNetworkingArgsArgs']] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]]] = None,
                  oidc_providers: Optional[pulumi.Input['ClusterOidcProvidersArgsArgs']] = None,
@@ -29,8 +30,9 @@ class ClusterArgs:
                  vpc_id: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Cluster resource.
-        :param pulumi.Input['AddonsArgsArgs'] addons: The addons installed in the cluster.
         :param pulumi.Input['ClusterApiArgsArgs'] api: Configure the Kubernetes cluster API.
+        :param pulumi.Input['AdotApplicationLoggingArgsArgs'] logging: Configure the cluster observability for logging.
+        :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure the cluster observability for metrics.
         :param pulumi.Input['ClusterNetworkingArgsArgs'] networking: Configure the cluster networking.
         :param pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]] node_groups: The NodeGroups to be assigned to this cluster.
         :param pulumi.Input['ClusterOidcProvidersArgsArgs'] oidc_providers: The OIDC Providers configuration.
@@ -39,10 +41,12 @@ class ClusterArgs:
         :param pulumi.Input[str] version: Desired Kubernetes version for control plane. Defaults to '1.22'.
         :param pulumi.Input[str] vpc_id: The VPC ID where the cluster will be deployed
         """
-        if addons is not None:
-            pulumi.set(__self__, "addons", addons)
         if api is not None:
             pulumi.set(__self__, "api", api)
+        if logging is not None:
+            pulumi.set(__self__, "logging", logging)
+        if metrics is not None:
+            pulumi.set(__self__, "metrics", metrics)
         if networking is not None:
             pulumi.set(__self__, "networking", networking)
         if node_groups is not None:
@@ -60,18 +64,6 @@ class ClusterArgs:
 
     @property
     @pulumi.getter
-    def addons(self) -> Optional[pulumi.Input['AddonsArgsArgs']]:
-        """
-        The addons installed in the cluster.
-        """
-        return pulumi.get(self, "addons")
-
-    @addons.setter
-    def addons(self, value: Optional[pulumi.Input['AddonsArgsArgs']]):
-        pulumi.set(self, "addons", value)
-
-    @property
-    @pulumi.getter
     def api(self) -> Optional[pulumi.Input['ClusterApiArgsArgs']]:
         """
         Configure the Kubernetes cluster API.
@@ -81,6 +73,30 @@ class ClusterArgs:
     @api.setter
     def api(self, value: Optional[pulumi.Input['ClusterApiArgsArgs']]):
         pulumi.set(self, "api", value)
+
+    @property
+    @pulumi.getter
+    def logging(self) -> Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']]:
+        """
+        Configure the cluster observability for logging.
+        """
+        return pulumi.get(self, "logging")
+
+    @logging.setter
+    def logging(self, value: Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']]):
+        pulumi.set(self, "logging", value)
+
+    @property
+    @pulumi.getter
+    def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]:
+        """
+        Configure the cluster observability for metrics.
+        """
+        return pulumi.get(self, "metrics")
+
+    @metrics.setter
+    def metrics(self, value: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]):
+        pulumi.set(self, "metrics", value)
 
     @property
     @pulumi.getter
@@ -172,8 +188,9 @@ class Cluster(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']]] = None,
+                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]]] = None,
                  oidc_providers: Optional[pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']]] = None,
@@ -187,8 +204,9 @@ class Cluster(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[pulumi.InputType['AddonsArgsArgs']] addons: The addons installed in the cluster.
         :param pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']] api: Configure the Kubernetes cluster API.
+        :param pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']] logging: Configure the cluster observability for logging.
+        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure the cluster observability for metrics.
         :param pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']] networking: Configure the cluster networking.
         :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]] node_groups: The NodeGroups to be assigned to this cluster.
         :param pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']] oidc_providers: The OIDC Providers configuration.
@@ -221,8 +239,9 @@ class Cluster(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']]] = None,
+                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]]] = None,
                  oidc_providers: Optional[pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']]] = None,
@@ -241,8 +260,9 @@ class Cluster(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = ClusterArgs.__new__(ClusterArgs)
 
-            __props__.__dict__["addons"] = addons
             __props__.__dict__["api"] = api
+            __props__.__dict__["logging"] = logging
+            __props__.__dict__["metrics"] = metrics
             __props__.__dict__["networking"] = networking
             __props__.__dict__["node_groups"] = node_groups
             __props__.__dict__["oidc_providers"] = oidc_providers

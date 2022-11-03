@@ -567,6 +567,8 @@ users:
       identityProvidersArn: [this.defaultOidcProvider?.arn || ""],
       issuerUrl: this.defaultOidcProvider?.url || "",
       clusterName: this.cluster.name,
+      logging: this.config.logging,
+      metrics: this.config.metrics,
       ingress: ingress,
     }, opts);
   }

@@ -98,8 +98,9 @@ export class Cluster extends pulumi.ComponentResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            resourceInputs["addons"] = args ? args.addons : undefined;
             resourceInputs["api"] = args ? args.api : undefined;
+            resourceInputs["logging"] = args ? args.logging : undefined;
+            resourceInputs["metrics"] = args ? args.metrics : undefined;
             resourceInputs["networking"] = args ? args.networking : undefined;
             resourceInputs["nodeGroups"] = args ? args.nodeGroups : undefined;
             resourceInputs["oidcProviders"] = args ? args.oidcProviders : undefined;
@@ -146,13 +147,17 @@ export class Cluster extends pulumi.ComponentResource {
  */
 export interface ClusterArgs {
     /**
-     * The addons installed in the cluster.
-     */
-    addons?: pulumi.Input<inputs.kubernetes.AddonsArgsArgs>;
-    /**
      * Configure the Kubernetes cluster API.
      */
     api?: pulumi.Input<inputs.kubernetes.ClusterApiArgsArgs>;
+    /**
+     * Configure the cluster observability for logging.
+     */
+    logging?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingArgsArgs>;
+    /**
+     * Configure the cluster observability for metrics.
+     */
+    metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgsArgs>;
     /**
      * Configure the cluster networking.
      */
