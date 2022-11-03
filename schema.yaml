@@ -265,7 +265,7 @@ types:
     required:
       - name
       - token
-  cloud-toolkit-aws:kubernetes:LoggingItemArgs:
+  cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs:
     properties:
       enabled:
         description: ""
@@ -277,7 +277,7 @@ types:
     required:
       - enabled
       - dataRetention
-  cloud-toolkit-aws:kubernetes:MetricsOptionsArgs:
+  cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs:
     properties:
       enabled:
         description: ""
@@ -289,30 +289,27 @@ types:
     required:
       - enabled
       - dataRetention
-  cloud-toolkit-aws:kubernetes:LoggingOptionsArgs:
+  cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs:
     properties:
       applications:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:LoggingItemArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs"
       dataplane:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:LoggingItemArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs"
       host:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:LoggingItemArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs"
     type: object
-    required:
-      - applications
-      - dataplane
-      - host
+    required: []
   cloud-toolkit-aws:kubernetes:AdotApplicationArgs:
     properties:
       logging:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:LoggingOptionsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
       metrics:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:MetricsOptionsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
       clusterName:
         description: ""
         type: string
@@ -325,12 +322,6 @@ types:
       - awsRegion
   cloud-toolkit-aws:kubernetes:AdotOperatorArgs:
     properties:
-      logging:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:LoggingOptionsArgs"
-      metrics:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:MetricsOptionsArgs"
       clusterName:
         description: ""
         type: string
@@ -426,9 +417,12 @@ types:
       issuerUrl:
         description: The OIDC Identity Provider url.
         type: string
-      observability:
-        description: The ADOT configuration.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationArgs"
+      logging:
+        description: Configure the cluster observability for logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
+      metrics:
+        description: Configure the cluster observability for metrics.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
       ingress:
         description: The configuration for Ingress Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
@@ -503,12 +497,15 @@ types:
       oidcProviders:
         description: The OIDC Providers configuration.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
-      addons:
-        description: The addons installed in the cluster.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
       networking:
         description: Configure the cluster networking.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
+      logging:
+        description: Configure the cluster observability for logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
+      metrics:
+        description: Configure the cluster observability for metrics.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
     type: object
     required: []
   cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs:
@@ -1605,10 +1602,10 @@ resources:
     inputProperties:
       logging:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:LoggingOptionsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
       metrics:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:MetricsOptionsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
       clusterName:
         description: ""
         type: string
@@ -1632,12 +1629,6 @@ resources:
     required:
       - application
     inputProperties:
-      logging:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:LoggingOptionsArgs"
-      metrics:
-        description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:MetricsOptionsArgs"
       clusterName:
         description: ""
         type: string
@@ -1869,12 +1860,15 @@ resources:
       oidcProviders:
         description: The OIDC Providers configuration.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
-      addons:
-        description: The addons installed in the cluster.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
       networking:
         description: Configure the cluster networking.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
+      logging:
+        description: Configure the cluster observability for logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
+      metrics:
+        description: Configure the cluster observability for metrics.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
     requiredInputs: []
     isComponent: true
     type: object
@@ -1914,7 +1908,7 @@ resources:
         description: The AWS LoadBalancer Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AwsLoadBalancerController"
       adminZoneArn:
-        description: Route53 Zone arn used for admin IngressController.
+        description: ""
         type: string
       adminZoneId:
         description: Route53 Zone id used for admin IngressController.
@@ -1926,7 +1920,7 @@ resources:
         description: Route53 Zone id used for default IngressController.
         type: string
       adotApplication:
-        description: The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
+        description: ""
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplication"
       adotOperator:
         description: The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
@@ -1958,9 +1952,12 @@ resources:
       issuerUrl:
         description: The OIDC Identity Provider url.
         type: string
-      observability:
-        description: The ADOT configuration.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationArgs"
+      logging:
+        description: Configure the cluster observability for logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
+      metrics:
+        description: Configure the cluster observability for metrics.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
       ingress:
         description: The configuration for Ingress Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"

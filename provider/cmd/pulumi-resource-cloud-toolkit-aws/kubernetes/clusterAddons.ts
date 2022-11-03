@@ -109,11 +109,6 @@ export class ClusterAddons extends pulumi.ComponentResource {
    */
   public readonly adotOperator: AdotOperator
 
-  public adminZoneArn?: pulumi.Input<string>;
-  public adminZoneId?: pulumi.Input<string>;
-  public defaultZoneArn?: pulumi.Input<string>;
-  public defaultZoneId?: pulumi.Input<string>;
-
   constructor(
     name: string,
     args: ClusterAddonsArgs,
@@ -399,16 +394,16 @@ export class ClusterAddons extends pulumi.ComponentResource {
   ): AdotApplication {
     const region = pulumi.output(aws.getRegion());
     return new AdotApplication(
-      `${this.name}-adot`,
+      `${this.name}-adot-application`,
       {
-        name: "adotApplication",
+        name: "adot-application",
         namespace: "system-observability",
         k8sProvider: this.args.k8sProvider,
         identityProvidersArn: [...this.args.identityProvidersArn],
         serviceAccountName: "adot-applications",
         issuerUrl: this.args.issuerUrl,
-        logging: this.args.observability?.logging,
-        metrics: this.args.observability?.metrics,
+        logging: this.args.logging,
+        metrics: this.args.metrics,
         awsRegion: region.name,
         clusterName: this.args.clusterName,
       },
@@ -421,17 +416,15 @@ export class ClusterAddons extends pulumi.ComponentResource {
   ): AdotOperator {
     const region = pulumi.output(aws.getRegion());
     return new AdotOperator(
-      `${this.name}-adot`,
+      `${this.name}-adot-operator`,
       {
-        name: "adotApplication",
+        name: "adot-operator",
         namespace: "system-observability",
         createNamespace: true,
         k8sProvider: this.args.k8sProvider,
         identityProvidersArn: [...this.args.identityProvidersArn],
-        serviceAccountName: "adot-applications",
+        serviceAccountName: "adot-operator",
         issuerUrl: this.args.issuerUrl,
-        logging: this.args.observability?.logging,
-        metrics: this.args.observability?.metrics,
         awsRegion: region.name,
         clusterName: this.args.clusterName,
       },

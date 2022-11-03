@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
-import {AdotApplicationArgs} from "./adotApplicationArgs"
+import { AdotApplicationMetricsArgs, AdotApplicationLoggingArgs } from "./adotApplicationArgs";
 import * as aws from "@pulumi/aws";
 
 export interface ClusterAddonsArgs {
@@ -25,9 +25,14 @@ export interface ClusterAddonsArgs {
   issuerUrl: pulumi.Input<string>;
 
   /**
-   * The ADOT configuration.
+   * Configure the cluster observability for logging.
    */
-  observability?: AdotApplicationArgs;
+  logging?: AdotApplicationLoggingArgs;
+
+  /**
+   * Configure the cluster observability for metrics.
+   */
+  metrics?: AdotApplicationMetricsArgs;
 
   /**
    * The configuration for Ingress Controller.
@@ -82,5 +87,23 @@ export const defaultClusterAddonsArgs = {
       whitelist: ["0.0.0.0/0"],
       enableTlsTermination: true,
     }
-  }
+  },
+  logging: {
+    applications: {
+      enabled: true,
+      dataRetention: 1,
+    },
+    dataplane: {
+      enabled: false,
+      dataRetention: 1,
+    },
+    host: {
+      enabled: false,
+      dataRetention: 1,
+    },
+  },
+  metrics: {
+    enabled: true,
+    dataRetention: 1,
+  },
 };
