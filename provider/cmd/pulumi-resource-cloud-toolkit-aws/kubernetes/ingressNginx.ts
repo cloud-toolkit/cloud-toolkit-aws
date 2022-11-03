@@ -145,8 +145,12 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
               value: "true",
             },
             {
+              name: "controller.ingressClass",
+              value: this.args.className,
+            },
+            {
               name: "controller.ingressClassResource.controllerValue",
-              value: pulumi.interpolate`k8s.io/${this.args.className}`,
+              value: pulumi.interpolate`k8s.io/ingress-${this.args.className}`,
             },
             {
               name: "controller.ingressClassResource.enabled",
