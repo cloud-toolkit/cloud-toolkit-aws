@@ -124,16 +124,16 @@ export namespace kubernetes {
          */
         admin?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
         /**
-         * Enable the IngressControllers.
+         * Configure the default IngressController.
          */
-        enabled?: pulumi.Input<boolean>;
-        /**
-         * Configure the global IngressController.
-         */
-        global?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
+        default?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
     }
 
     export interface ClusterAddonsIngressItemArgsArgs {
+        /**
+         * The domain used to expose the IngressController.
+         */
+        domain?: pulumi.Input<string>;
         /**
          * Enable TLS termination in Load Balancer.
          */
@@ -157,6 +157,36 @@ export namespace kubernetes {
          * Configure the public endpoint for the Kubernetes API.
          */
         public?: pulumi.Input<inputs.kubernetes.ClusterPublicApiArgsArgs>;
+    }
+
+    export interface ClusterNetworkingArgsArgs {
+        /**
+         * Configure the access to admin applications.
+         */
+        admin?: pulumi.Input<inputs.kubernetes.ClusterNetworkingIngressArgsArgs>;
+        /**
+         * Configure the access to applications.
+         */
+        default?: pulumi.Input<inputs.kubernetes.ClusterNetworkingIngressArgsArgs>;
+    }
+
+    export interface ClusterNetworkingIngressArgsArgs {
+        /**
+         * The domain used to expose the IngressController.
+         */
+        domain: pulumi.Input<string>;
+        /**
+         * Enable TLS termination in Load Balancer.
+         */
+        enableTlsTermination?: pulumi.Input<boolean>;
+        /**
+         * Use a public Load Balancer to expose the IngressController.
+         */
+        public?: pulumi.Input<boolean>;
+        /**
+         * Set a whitelist to access the IngressController.
+         */
+        whitelist?: pulumi.Input<pulumi.Input<string>[]>;
     }
 
     export interface ClusterNodeGroupArgsArgs {

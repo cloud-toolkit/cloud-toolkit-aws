@@ -17,17 +17,21 @@ __all__ = ['IngressNginxArgs', 'IngressNginx']
 class IngressNginxArgs:
     def __init__(__self__, *,
                  class_name: pulumi.Input[str],
+                 default: Optional[pulumi.Input[bool]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
                  tls: Optional[pulumi.Input['IngressNginxTlsArgsArgs']] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
         The set of arguments for constructing a IngressNginx resource.
         :param pulumi.Input[str] class_name: The Ingress class name.
+        :param pulumi.Input[bool] default: Set this IngressController with the defaul IngressClass.
         :param pulumi.Input[bool] public: Expose the IngressController with a public Load Balancer.
         :param pulumi.Input['IngressNginxTlsArgsArgs'] tls: The domain associated to the IngressController.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: The whitelist of CIDR to access to the Ingress Controller.
         """
         pulumi.set(__self__, "class_name", class_name)
+        if default is not None:
+            pulumi.set(__self__, "default", default)
         if public is not None:
             pulumi.set(__self__, "public", public)
         if tls is not None:
@@ -46,6 +50,18 @@ class IngressNginxArgs:
     @class_name.setter
     def class_name(self, value: pulumi.Input[str]):
         pulumi.set(self, "class_name", value)
+
+    @property
+    @pulumi.getter
+    def default(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Set this IngressController with the defaul IngressClass.
+        """
+        return pulumi.get(self, "default")
+
+    @default.setter
+    def default(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "default", value)
 
     @property
     @pulumi.getter
@@ -90,6 +106,7 @@ class IngressNginx(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  class_name: Optional[pulumi.Input[str]] = None,
+                 default: Optional[pulumi.Input[bool]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
                  tls: Optional[pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -100,6 +117,7 @@ class IngressNginx(pulumi.ComponentResource):
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] class_name: The Ingress class name.
+        :param pulumi.Input[bool] default: Set this IngressController with the defaul IngressClass.
         :param pulumi.Input[bool] public: Expose the IngressController with a public Load Balancer.
         :param pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']] tls: The domain associated to the IngressController.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: The whitelist of CIDR to access to the Ingress Controller.
@@ -129,6 +147,7 @@ class IngressNginx(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  class_name: Optional[pulumi.Input[str]] = None,
+                 default: Optional[pulumi.Input[bool]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
                  tls: Optional[pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -146,6 +165,7 @@ class IngressNginx(pulumi.ComponentResource):
             if class_name is None and not opts.urn:
                 raise TypeError("Missing required property 'class_name'")
             __props__.__dict__["class_name"] = class_name
+            __props__.__dict__["default"] = default
             __props__.__dict__["public"] = public
             __props__.__dict__["tls"] = tls
             __props__.__dict__["whitelist"] = whitelist
