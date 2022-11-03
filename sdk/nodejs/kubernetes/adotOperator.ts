@@ -2,9 +2,6 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
-import * as inputs from "../types/input";
-import * as outputs from "../types/output";
-import * as enums from "../types/enums";
 import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
@@ -46,8 +43,6 @@ export class AdotOperator extends pulumi.ComponentResource {
             }
             resourceInputs["awsRegion"] = args ? args.awsRegion : undefined;
             resourceInputs["clusterName"] = args ? args.clusterName : undefined;
-            resourceInputs["logging"] = args ? args.logging : undefined;
-            resourceInputs["metrics"] = args ? args.metrics : undefined;
             resourceInputs["application"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         } else {
@@ -65,6 +60,4 @@ export class AdotOperator extends pulumi.ComponentResource {
 export interface AdotOperatorArgs {
     awsRegion: pulumi.Input<string>;
     clusterName: pulumi.Input<string>;
-    logging?: pulumi.Input<inputs.kubernetes.LoggingOptionsArgsArgs>;
-    metrics?: pulumi.Input<inputs.kubernetes.MetricsOptionsArgsArgs>;
 }

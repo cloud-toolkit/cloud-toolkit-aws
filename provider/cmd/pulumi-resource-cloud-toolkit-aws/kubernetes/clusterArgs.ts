@@ -1,4 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
+import { AdotApplicationMetricsArgs, AdotApplicationLoggingArgs } from "./adotApplicationArgs";
 
 export interface ClusterArgs {
   /**
@@ -45,6 +46,16 @@ export interface ClusterArgs {
    * Configure the cluster networking.
    */
   networking?: ClusterNetworkingArgs;
+
+  /**
+   * Configure the cluster observability for logging.
+   */
+  logging?: AdotApplicationLoggingArgs;
+
+  /**
+   * Configure the cluster observability for metrics.
+   */
+  metrics?: AdotApplicationMetricsArgs;
 }
 
 export interface ClusterNetworkingArgs {

@@ -33,17 +33,11 @@ export class ClusterAddons extends pulumi.ComponentResource {
      * The IngressNginx addon used for admin access.
      */
     public /*out*/ readonly adminIngressNginx!: pulumi.Output<IngressNginx | undefined>;
-    /**
-     * Route53 Zone arn used for admin IngressController.
-     */
     public /*out*/ readonly adminZoneArn!: pulumi.Output<string | undefined>;
     /**
      * Route53 Zone id used for admin IngressController.
      */
     public /*out*/ readonly adminZoneId!: pulumi.Output<string | undefined>;
-    /**
-     * The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
-     */
     public /*out*/ readonly adotApplication!: pulumi.Output<AdotApplication>;
     /**
      * The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
@@ -122,7 +116,8 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["ingress"] = args ? args.ingress : undefined;
             resourceInputs["issuerUrl"] = args ? args.issuerUrl : undefined;
             resourceInputs["k8sProvider"] = args ? args.k8sProvider : undefined;
-            resourceInputs["observability"] = args ? args.observability : undefined;
+            resourceInputs["logging"] = args ? args.logging : undefined;
+            resourceInputs["metrics"] = args ? args.metrics : undefined;
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["adminZoneArn"] = undefined /*out*/;
             resourceInputs["adminZoneId"] = undefined /*out*/;
@@ -187,7 +182,11 @@ export interface ClusterAddonsArgs {
      */
     k8sProvider: pulumi.Input<pulumiKubernetes.Provider>;
     /**
-     * The ADOT configuration.
+     * Configure the cluster observability for logging.
      */
-    observability?: pulumi.Input<inputs.kubernetes.AdotApplicationArgsArgs>;
+    logging?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingArgsArgs>;
+    /**
+     * Configure the cluster observability for metrics.
+     */
+    metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgsArgs>;
 }

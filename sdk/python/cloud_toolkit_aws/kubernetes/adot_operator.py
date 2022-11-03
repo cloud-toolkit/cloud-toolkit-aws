@@ -8,7 +8,6 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
-from ._inputs import *
 import pulumi_kubernetes
 
 __all__ = ['AdotOperatorArgs', 'AdotOperator']
@@ -17,18 +16,12 @@ __all__ = ['AdotOperatorArgs', 'AdotOperator']
 class AdotOperatorArgs:
     def __init__(__self__, *,
                  aws_region: pulumi.Input[str],
-                 cluster_name: pulumi.Input[str],
-                 logging: Optional[pulumi.Input['LoggingOptionsArgsArgs']] = None,
-                 metrics: Optional[pulumi.Input['MetricsOptionsArgsArgs']] = None):
+                 cluster_name: pulumi.Input[str]):
         """
         The set of arguments for constructing a AdotOperator resource.
         """
         pulumi.set(__self__, "aws_region", aws_region)
         pulumi.set(__self__, "cluster_name", cluster_name)
-        if logging is not None:
-            pulumi.set(__self__, "logging", logging)
-        if metrics is not None:
-            pulumi.set(__self__, "metrics", metrics)
 
     @property
     @pulumi.getter(name="awsRegion")
@@ -48,24 +41,6 @@ class AdotOperatorArgs:
     def cluster_name(self, value: pulumi.Input[str]):
         pulumi.set(self, "cluster_name", value)
 
-    @property
-    @pulumi.getter
-    def logging(self) -> Optional[pulumi.Input['LoggingOptionsArgsArgs']]:
-        return pulumi.get(self, "logging")
-
-    @logging.setter
-    def logging(self, value: Optional[pulumi.Input['LoggingOptionsArgsArgs']]):
-        pulumi.set(self, "logging", value)
-
-    @property
-    @pulumi.getter
-    def metrics(self) -> Optional[pulumi.Input['MetricsOptionsArgsArgs']]:
-        return pulumi.get(self, "metrics")
-
-    @metrics.setter
-    def metrics(self, value: Optional[pulumi.Input['MetricsOptionsArgsArgs']]):
-        pulumi.set(self, "metrics", value)
-
 
 class AdotOperator(pulumi.ComponentResource):
     @overload
@@ -74,8 +49,6 @@ class AdotOperator(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['LoggingOptionsArgsArgs']]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['MetricsOptionsArgsArgs']]] = None,
                  __props__=None):
         """
         Create a AdotOperator resource with the given unique name, props, and options.
@@ -107,8 +80,6 @@ class AdotOperator(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['LoggingOptionsArgsArgs']]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['MetricsOptionsArgsArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -126,8 +97,6 @@ class AdotOperator(pulumi.ComponentResource):
             if cluster_name is None and not opts.urn:
                 raise TypeError("Missing required property 'cluster_name'")
             __props__.__dict__["cluster_name"] = cluster_name
-            __props__.__dict__["logging"] = logging
-            __props__.__dict__["metrics"] = metrics
             __props__.__dict__["application"] = None
             __props__.__dict__["namespace"] = None
         super(AdotOperator, __self__).__init__(
