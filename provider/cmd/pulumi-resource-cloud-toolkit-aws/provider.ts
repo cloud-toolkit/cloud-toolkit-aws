@@ -178,11 +178,16 @@ async function constructKubernetesClusterAddons(
   return {
     urn: resource.urn,
     state: {
-      argocd: resource.argocd,
-      certManager: resource.certManager,
-      externalDns: resource.externalDns,
       adminIngressNginx: resource.adminIngressNginx,
-      dashboard: resource.dashboard
+      argocd: resource.argocd,
+      awsLoadBalancerController: resource.awsLoadBalancerController,
+      calico: resource.calico,
+      certManager: resource.certManager,
+      clusterAutoscaler: resource.clusterAutoscaler,
+      dashboard: resource.dashboard,
+      defaultIngressNginx: resource.defaultIngressNginx,
+      ebsCsiDriver: resource.ebsCsiDriver,
+      externalDns: resource.externalDns,
     },
   };
 }
