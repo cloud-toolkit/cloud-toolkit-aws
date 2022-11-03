@@ -73,7 +73,7 @@ export class Dashboard extends ApplicationAddon<DashboardArgs> {
                             value: "HTTPS",
                         },
                         {
-                            name: "ingress.annotation.nginx\\.ingress\\.kubernetes\\.io/force-ssl-redirect",
+                            name: "ingress.annotation.nginx\\.ingress\\.kubernetes\\.io/ssl-redirect",
                             value: "true",
                         },
                         {
