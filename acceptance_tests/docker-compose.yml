@@ -1,0 +1,14 @@
+version: '3.5'
+
+services:
+
+  acceptance_tests:
+    build: "."
+    container_name: acceptance_tests
+    working_dir: /acceptance_tests
+    volumes:
+      - .:/acceptance_tests
+    logging:
+      options:
+        max-file: "5"
+        max-size: "5m"
