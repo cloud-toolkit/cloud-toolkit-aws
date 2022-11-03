@@ -52,12 +52,14 @@ gen_python_sdk::
 	cd provider/cmd/${CODEGEN} && go run . python ../../../sdk/python ${SCHEMA_PATH}
 	cp ${WORKING_DIR}/README.md sdk/python
 
-build_python_sdk:: PYPI_VERSION := ${VERSION}
+build_python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
 build_python_sdk:: gen_python_sdk
 	cd sdk/python/ && \
+		echo "module fake_python_module // Exclude this directory from Go tools\n\ngo 1.17" > go.mod && \
+		cp ../../README.md . && \
 		python3 setup.py clean --all 2>/dev/null && \
 		rm -rf ./bin/ ../python.bin/ && cp -R . ../python.bin && mv ../python.bin ./bin && \
-		sed -i.bak -e "s/\$${VERSION}/${PYPI_VERSION}/g" -e "s/\$${PLUGIN_VERSION}/${VERSION}/g" ./bin/setup.py && \
+		sed -i.bak -e 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' -e 's/^PLUGIN_VERSION = .*/PLUGIN_VERSION = "$(VERSION)"/g' ./bin/setup.py && \
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
 
