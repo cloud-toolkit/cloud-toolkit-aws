@@ -5,7 +5,16 @@ import {
   Certificate,
   CertificateArgs,
 } from "./commons";
-import { Queue, QueueArgs } from "./serverless/queue";
+import {
+  // StaticWeb
+  StaticWeb,
+  StaticWebArgs,
+  TYPENAME_STATICWEB,
+  // Queue
+  Queue,
+  QueueArgs,
+  TYPENAME_QUEUE,
+} from "./serverless";
 import { EmailSender, EmailSenderArgs } from "./email/sender";
 import {
   ArgoCD,
@@ -59,8 +68,10 @@ export class Provider implements pulumi.provider.Provider {
     switch (type) {
       case "cloud-toolkit-aws:common:Certificate":
         return await constructCertificate(name, inputs, options);
-      case "cloud-toolkit-aws:serverless:Queue":
+      case TYPENAME_QUEUE:
         return await constructQueue(name, inputs, options);
+      case TYPENAME_STATICWEB:
+          return await constructStaticWeb(name, inputs, options);
       case "cloud-toolkit-aws:email:EmailSender":
         return await constructEmailSender(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:Cluster":
@@ -351,6 +362,30 @@ async function constructQueue(
     state: {
       sqsQueue: q.sqsQueue,
       deadLetterQueue: q.deadLetterQueue
+    },
+  };
+}
+
+async function constructStaticWeb(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const staticweb = new StaticWeb(name, inputs as  StaticWebArgs, options);
+  
+  return {
+    urn: staticweb.urn,
+    state: {
+      contentBucket: staticweb.contentBucket,
+      logsBucket: staticweb.logsBucket,
+      contentBucketPolicy: staticweb.contentBucketPolicy,
+      originAccessIdentity: staticweb.originAccessIdentity,
+      distribution: staticweb.distribution,
+      certificate: staticweb.certificate,
+      domainValidationOptions: staticweb.domainValidationOptions,
+      certificateValidation: staticweb.certificateValidation,
+      DNSRecords: staticweb.DNSRecords,
+      DNSRecordsForValidation: staticweb.DNSRecordsForValidation,
     },
   };
 }

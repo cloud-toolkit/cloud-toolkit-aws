@@ -11,9 +11,43 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
+    'CdnCacheArgsArgs',
+    'CdnDnsArgsArgs',
     'DeadLetterQueueTypeArgsArgs',
     'QueueArgsArgs',
 ]
+
+@pulumi.input_type
+class CdnCacheArgsArgs:
+    def __init__(__self__, *,
+                 ttl: pulumi.Input[float]):
+        pulumi.set(__self__, "ttl", ttl)
+
+    @property
+    @pulumi.getter
+    def ttl(self) -> pulumi.Input[float]:
+        return pulumi.get(self, "ttl")
+
+    @ttl.setter
+    def ttl(self, value: pulumi.Input[float]):
+        pulumi.set(self, "ttl", value)
+
+
+@pulumi.input_type
+class CdnDnsArgsArgs:
+    def __init__(__self__, *,
+                 ttl: pulumi.Input[float]):
+        pulumi.set(__self__, "ttl", ttl)
+
+    @property
+    @pulumi.getter
+    def ttl(self) -> pulumi.Input[float]:
+        return pulumi.get(self, "ttl")
+
+    @ttl.setter
+    def ttl(self, value: pulumi.Input[float]):
+        pulumi.set(self, "ttl", value)
+
 
 @pulumi.input_type
 class DeadLetterQueueTypeArgsArgs:

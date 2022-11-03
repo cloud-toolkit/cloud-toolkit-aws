@@ -45,6 +45,7 @@
         "provider.ts",
         "serverless/index.ts",
         "serverless/queue.ts",
+        "serverless/staticWeb.ts",
         "storage/bucket.ts",
         "storage/index.ts",
         "types/enums/databases/index.ts",

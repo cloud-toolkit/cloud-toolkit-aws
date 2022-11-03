@@ -426,6 +426,14 @@ export namespace landingzone {
 }
 
 export namespace serverless {
+    export interface CdnCacheArgsArgs {
+        ttl: pulumi.Input<number>;
+    }
+
+    export interface CdnDnsArgsArgs {
+        ttl: pulumi.Input<number>;
+    }
+
     export interface DeadLetterQueueTypeArgsArgs {
         /**
          * Enables the feature.
@@ -467,6 +475,7 @@ export namespace serverless {
          */
         policy?: pulumi.Input<string>;
     }
+
 }
 
 export namespace storage {
