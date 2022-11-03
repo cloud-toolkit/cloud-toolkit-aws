@@ -7,4 +7,6 @@ import typing
 # Export this package's modules as members:
 from ._enums import *
 from .queue import *
+from .static_web import *
 from ._inputs import *
+from . import outputs

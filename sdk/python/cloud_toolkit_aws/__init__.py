@@ -100,7 +100,8 @@ _utilities.register(
   "mod": "serverless",
   "fqn": "cloud_toolkit_aws.serverless",
   "classes": {
-   "cloud-toolkit-aws:serverless:Queue": "Queue"
+   "cloud-toolkit-aws:serverless:Queue": "Queue",
+   "cloud-toolkit-aws:serverless:StaticWeb": "StaticWeb"
   }
  },
  {

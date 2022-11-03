@@ -9,7 +9,7 @@ export { QueueArgs };
 /**
  * Type Name for the component
  */
-export const TYPENAME = "cloud-toolkit-aws:serverless:Queue";
+export const TYPENAME_QUEUE = "cloud-toolkit-aws:serverless:Queue";
 
 const PERMISSIVE_MAX_RECEIVED_COUNT = 10;
 const RESTRICTIVE_MAX_RECEIVED_COUNT = 1;
@@ -55,7 +55,7 @@ export class Queue extends pulumi.ComponentResource {
    * @param {pulumi.ResourceOptions} opts
    */
   constructor(name: string, data: QueueArgs, opts?: pulumi.ResourceOptions) {
-    super(TYPENAME, name, data, opts);
+    super(TYPENAME_QUEUE, name, data, opts);
     data = validateConfig(data);
     const QueueArgs = <aws.sqs.QueueArgs>{
       fifoQueue: data.isFifo,
