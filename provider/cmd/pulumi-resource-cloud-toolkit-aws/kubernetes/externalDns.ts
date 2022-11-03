@@ -64,22 +64,27 @@ export class ExternalDns extends ApplicationAddon<ExternalDnsArgs> {
   }
 
   protected getIAMPolicy(): pulumi.Output<string> {
+    const statements = [
+      {
+        effect: "Allow",
+        resources: ["*"],
+        actions: [
+          "route53:ListHostedZones",
+          "route53:ListresourceRecordSets",
+        ],
+      }
+    ];
+
+    for (const zoneArn of this.args.zoneArns) {
+      statements.push({
+        effect: "Allow",
+        resources: [zoneArn as string],
+        actions: ["route53:ChangeresourceRecordSets"],
+      });
+    }
+
     const policyObject = <aws.iam.GetPolicyDocumentOutputArgs>{
-      statements: [
-        {
-          effect: "Allow",
-          resources: ["*"],
-          actions: [
-            "route53:ListHostedZones",
-            "route53:ListresourceRecordSets",
-          ],
-        },
-        {
-          effect: "Allow",
-          resources: this.args.zoneArns,
-          actions: ["route53:ChangeresourceRecordSets"],
-        },
-      ],
+      statements: statements,
     };
 
     const policyDocument = aws.iam.getPolicyDocumentOutput(policyObject);

@@ -40,12 +40,18 @@ export class ClusterAddons extends pulumi.ComponentResource {
   /**
    * The IngressNginx addon used for admin access.
    */
-  public readonly adminIngressNginx: IngressNginx;
+  public readonly adminIngressNginx?: IngressNginx;
+
+  /**
+   * The IngressNginx addon used for default access.
+   */
+  public readonly defaultIngressNginx?: IngressNginx;
 
   /**
    * The ExternalDns addon.
    */
   public readonly externalDns: ExternalDns;
+
   /**
    * The Kubernetes dashboard addon.
    */
@@ -54,12 +60,12 @@ export class ClusterAddons extends pulumi.ComponentResource {
   /**
    * The Calico addon used to manage network policies.
    */
-     public readonly calico: Calico;
+  public readonly calico: Calico;
 
-     /**
-      * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
-      */
-     public readonly ebsCsiDriver: AwsEbsCsiDriver;
+  /**
+   * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
+   */
+  public readonly ebsCsiDriver: AwsEbsCsiDriver;
 
   /**
    * The Kubernetes ClusterAutoscaler addon.
@@ -70,6 +76,11 @@ export class ClusterAddons extends pulumi.ComponentResource {
    * The AWS LoadBalancer Controller.
    */
   public readonly awsLoadBalancerController: AwsLoadBalancerController;
+
+  public adminZoneArn?: pulumi.Input<string>;
+  public adminZoneId?: pulumi.Input<string>;
+  public defaultZoneArn?: pulumi.Input<string>;
+  public defaultZoneId?: pulumi.Input<string>;
 
   constructor(
     name: string,
@@ -84,6 +95,18 @@ export class ClusterAddons extends pulumi.ComponentResource {
       parent: this,
     });
     this.argocd = this.setupArgoCD(resourceOpts);
+
+    // DNS Zone
+    if (this.args.ingress?.admin?.domain !== undefined) {
+      const zoneData = this.getZoneData(this.args.ingress.admin.domain);
+      this.adminZoneArn = zoneData.then(zone => zone.arn);
+      this.adminZoneId = zoneData.then(zone => zone.id);
+    }
+    if (this.args.ingress?.default?.domain !== undefined) {
+      const zoneData = this.getZoneData(this.args.ingress.default.domain);
+      this.defaultZoneArn = zoneData.then(zone => zone.arn);
+      this.defaultZoneId = zoneData.then(zone => zone.id);
+    }
 
     // Create ResourceOptions for Applications
     const argocdApplicationsOpts = pulumi.mergeOptions(opts, {
@@ -103,29 +126,42 @@ export class ClusterAddons extends pulumi.ComponentResource {
     this.externalDns = this.setupExternalDns(argocdApplicationsOpts);
     this.awsLoadBalancerController = this.setupAwsLoadBalancerController(argocdApplicationsOpts);
 
-    const ingressOpts = pulumi.mergeOptions(argocdApplicationsOpts, {
-      dependsOn: [
-        this.certManager,
-        this.awsLoadBalancerController,
-      ],
-    });
-    this.adminIngressNginx = this.setupAdminIngressNginx(ingressOpts);
+    if (this.args.ingress?.admin?.domain !== undefined) {
+      const ingressOpts = pulumi.mergeOptions(argocdApplicationsOpts, {
+        dependsOn: [
+          this.certManager,
+          this.awsLoadBalancerController,
+        ],
+      });
+      this.adminIngressNginx = this.setupAdminIngressNginx(ingressOpts);
+    }
+
+    if (this.args.ingress?.default?.domain !== undefined) {
+      const defaultIngressOpts = pulumi.mergeOptions(argocdApplicationsOpts, {
+        dependsOn: [
+          this.certManager,
+          this.awsLoadBalancerController,
+        ],
+      });
+      this.defaultIngressNginx = this.setupDefaultIngressNginx(defaultIngressOpts);
+    }
 
     this.dashboard = this.setupDashboard(argocdApplicationsOpts)
     this.calico = this.setupCalico(argocdApplicationsOpts);
     this.ebsCsiDriver = this.setupAwsEbsCsiDriver(argocdApplicationsOpts)
     this.clusterAutoscaler = this.setupClusterAutoscaler(argocdApplicationsOpts);
 
-
     this.registerOutputs({
-      argocd: this.argocd,
-      certManager: this.certManager,
-      externalDns: this.externalDns,
       adminIngressNginx: this.adminIngressNginx,
-      dashboard: this.dashboard,
+      argocd: this.argocd,
+      awsLoadBalancerController: this.awsLoadBalancerController,
       calico: this.calico,
+      certManager: this.certManager,
+      clusterAutoscaler: this.clusterAutoscaler,
+      dashboard: this.dashboard,
+      defaultIngressNginx: this.defaultIngressNginx,
       ebsCsiDriver: this.ebsCsiDriver,
-      clusterAutoscaler: this.clusterAutoscaler
+      externalDns: this.externalDns,
     });
   }
 
@@ -140,7 +176,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
       name: "argocd",
       namespace: "system-argocd",
       k8sProvider: this.args.k8sProvider,
-      hostname: `argocd.${this.args.domain}`,
+      hostname: `argocd.${this.args.ingress?.admin?.domain}`,
     }, opts);
   }
 
@@ -153,7 +189,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
       identityProvidersArn: [...this.args.identityProvidersArn],
       serviceAccountName: "cert-manager",
       issuerUrl: this.args.issuerUrl,
-      zoneArns: this.args.zoneArns,
+      zoneArns: this.getAllZoneArns(),
     }, opts);
   }
 
@@ -166,25 +202,48 @@ export class ClusterAddons extends pulumi.ComponentResource {
       identityProvidersArn: [...this.args.identityProvidersArn],
       serviceAccountName: "external-dns",
       issuerUrl: this.args.issuerUrl,
-      zoneArns: this.args.zoneArns,
+      zoneArns: this.getAllZoneArns(),
     }, opts);
   }
 
 
-  private setupAdminIngressNginx(opts?: pulumi.ResourceOptions): IngressNginx {
-    return new IngressNginx(`${this.name}-ingress-nginx-admin`, {
-      createNamespace: true,
-      name: "ingress-admin",
-      namespace: "system-ingress",
-      k8sProvider: this.args.k8sProvider,
-      className: "admin",
-      public: true,
-      tls: {
-        enabled: this.args.ingress?.admin?.enableTlsTermination,
-        domain: this.args.domain,
-        zoneId: this.args.zoneId,
-      },
-    }, opts);
+  private setupAdminIngressNginx(opts?: pulumi.ResourceOptions): IngressNginx | undefined {
+    if (this.args.ingress?.admin?.domain !== undefined) {
+      return new IngressNginx(`${this.name}-ingress-nginx-admin`, {
+        createNamespace: true,
+        name: "ingress-admin",
+        namespace: "system-ingress-admin",
+        k8sProvider: this.args.k8sProvider,
+        className: "admin",
+        public: this.args.ingress?.admin?.public,
+        tls: {
+          enabled: this.args.ingress.admin.enableTlsTermination,
+          domain: this.args.ingress.admin.domain,
+          zoneId: this.adminZoneId!,
+        },
+      }, opts);
+    }
+    return;
+  }
+
+  private setupDefaultIngressNginx(opts?: pulumi.ResourceOptions): IngressNginx | undefined {
+    if (this.args.ingress?.default?.domain !== undefined) {
+      return new IngressNginx(`${this.name}-ingress-nginx-default`, {
+        createNamespace: true,
+        name: "ingress-default",
+        namespace: "system-ingress-default",
+        k8sProvider: this.args.k8sProvider,
+        className: "nginx",
+        public: this.args.ingress?.default?.public,
+        default: true,
+        tls: {
+          enabled: this.args.ingress.default.enableTlsTermination,
+          domain: this.args.ingress.default.domain,
+          zoneId: this.defaultZoneId!,
+        },
+      }, opts);
+    }
+    return;
   }
 
   private setupDashboard(
@@ -197,7 +256,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
         name: "dashboard",
         namespace: "system-dashboard",
         k8sProvider: this.args.k8sProvider,
-        hostname: `dashboard.${this.args.domain}`,
+        hostname: `dashboard.${this.args.ingress?.admin?.domain}`,
       },
       opts
     );
@@ -264,5 +323,34 @@ export class ClusterAddons extends pulumi.ComponentResource {
       },
       opts
     );
+  }
+
+  private async getZoneData(domain: string): Promise<{id: string, arn: string}> {
+    const domainParts = domain.split(".");
+    const topLevelDomain = `${domainParts[domainParts.length-2]}.${domainParts[domainParts.length-1]}`;
+    try {
+      const invokeOpts = {parent: this, async: true};
+      const zone = await aws.route53.getZone({
+        name: topLevelDomain,
+      }, invokeOpts);
+      return {
+        id: zone.id,
+        arn: zone.arn,
+      };
+    } catch (error) {
+      pulumi.log.error(`Unable to find zone for ${domain}`, this);
+      throw error;
+    }
+  }
+
+  private getAllZoneArns(): pulumi.Input<string>[] {
+    const list: pulumi.Input<string>[] = [];
+    if (this.adminZoneArn !== undefined) {
+      list.push(this.adminZoneArn);
+    }
+    if (this.defaultZoneArn !== undefined) {
+      list.push(this.defaultZoneArn);
+    }
+    return list
   }
 }

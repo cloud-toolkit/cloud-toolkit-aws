@@ -21,6 +21,11 @@ export interface IngressNginxArgs extends ApplicationAddonArgs {
    * Expose the IngressController with a public Load Balancer.
    */
   public?: boolean;
+
+  /**
+   * Set this IngressController with the defaul IngressClass.
+   */
+  default?: boolean;
 }
 
 export interface IngressNginxTlsArgs {
@@ -44,6 +49,7 @@ export const defaultArgs = {
   className: "",
   whitelist: [],
   public: true,
+  default: false,
   tls: {
     enabled: true,
   }

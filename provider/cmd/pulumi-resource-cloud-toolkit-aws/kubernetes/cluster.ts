@@ -5,6 +5,7 @@ import * as tls from "@pulumi/tls";
 import defaultsDeep from "lodash.defaultsdeep";
 import { NodeGroup } from "./nodeGroup";
 import { ClusterAddons } from "./clusterAddons";
+import { ClusterAddonsIngressArgs } from "./clusterAddonsArgs";
 import {
   ClusterArgs,
   ClusterSubnetsType,
@@ -92,19 +93,10 @@ export class Cluster extends pulumi.ComponentResource {
    */
   public readonly clusterAddons?: pulumi.Input<ClusterAddons>;
 
-  /**
-   * The VPC CNI Chart installed in the cluster.
-   */
-  public readonly domain: string;
-
   public vpcId: Promise<string>;
   public allSubnetIds: Promise<pulumi.Input<string>[]>;
   public privateSubnetIds: Promise<pulumi.Input<string>[]>;
   public publicSubnetIds: Promise<pulumi.Input<string>[]>;
-
-  public zoneId: Promise<pulumi.Input<string>>;
-  public zoneArn: Promise<pulumi.Input<string>>;
-  public dnsZone: Promise<aws.route53.Zone | undefined>;
 
   constructor(
     name: string,
@@ -126,13 +118,6 @@ export class Cluster extends pulumi.ComponentResource {
     const resourceOpts = pulumi.mergeOptions(opts, {
       parent: this,
     });
-
-    // DNS
-    this.domain = this.setupClusterDomain();
-    const zoneData = this.getExternalZoneData(resourceOpts);
-    this.zoneId = zoneData.then(zone => zone.id);
-    this.zoneArn = zoneData.then(zone => zone.arn);
-    this.dnsZone = zoneData.then(zone => zone.dnsZone);
 
     // Provisioner
     this.provisionerRole = this.setupProvisionerRole(resourceOpts);
@@ -192,7 +177,6 @@ export class Cluster extends pulumi.ComponentResource {
       cniChart: this.cniChart,
       clusterAddons: this.clusterAddons,
       defaultOidcProvider: this.defaultOidcProvider,
-      domain: this.domain,
       kubeconfig: this.kubeconfig,
       nodeGroups: this.nodeGroups,
       provider: this.provider,
@@ -214,10 +198,6 @@ export class Cluster extends pulumi.ComponentResource {
     }
 
     return args;
-  }
-
-  private setupClusterDomain(): string {
-    return `${this.name}.${this.config.baseDomain}`;
   }
 
   private setupSubnetTags(
@@ -564,71 +544,29 @@ users:
   }
 
   private setupClusterAddons(opts: pulumi.ResourceOptions): pulumi.Input<ClusterAddons> {
-    const zoneArn = pulumi.output(this.zoneArn);
-    const zoneId = pulumi.output(this.zoneId);
-    return this.dnsZone.then(zone => {
-      let enableTlsTermination = false;
-      if (zone === undefined) {
-        enableTlsTermination = true;
+      const ingress = <ClusterAddonsIngressArgs>{};
+      if (this.config.networking?.admin?.domain !== undefined) {
+        ingress["admin"] = {
+          domain: this.config.networking.admin.domain,
+          enableTlsTermination: this.config.networking.admin.enableTlsTermination,
+          whitelist: this.config.networking.admin.whitelist,
+        };
       }
+      if (this.config.networking?.default?.domain !== undefined) {
+        ingress["default"] = {
+          domain: this.config.networking.default.domain,
+          enableTlsTermination: this.config.networking.default.enableTlsTermination,
+          whitelist: this.config.networking.default.whitelist,
+        };
+      }
+
       return new ClusterAddons(`${this.name}`, {
         k8sProvider: this.provider,
         identityProvidersArn: [this.defaultOidcProvider?.arn || ""],
         issuerUrl: this.defaultOidcProvider?.url || "",
-        domain: this.domain,
-        zoneId: zoneId,
-        zoneArns: [zoneArn],
         clusterName: this.cluster.name,
-        ingress: {
-          admin: {
-            enableTlsTermination: enableTlsTermination,
-          },
-        }
+        ingress: ingress,
       }, opts);
-    });
-  }
-
-  private setupDnsZone(opts: pulumi.ResourceOptions): aws.route53.Zone {
-    const zone = new aws.route53.Zone(
-      this.name,
-      {
-        name: this.domain,
-        forceDestroy: true,
-        vpcs: [{
-          vpcId: this.vpcId,
-        }],
-      },
-      opts
-    );
-    return zone;
-  }
-
-  private async getExternalZoneData(opts: pulumi.ResourceOptions): Promise<{id: pulumi.Input<string>, arn: pulumi.Input<string>, dnsZone?: aws.route53.Zone}> {
-    try {
-      const invokeOpts = {parent: this, async: true};
-      const zone = await aws.route53.getZone({
-        name: this.config.baseDomain,
-      }, invokeOpts);
-      return {
-        id: zone.id,
-        arn: zone.arn,
-      };
-    } catch (error) {
-      if (error instanceof Error) {
-        const msg = error.message;
-        if (!msg.includes("no matching Route53Zone found")) {
-          pulumi.log.error(msg, this);
-        }
-        const dnsZone = this.setupDnsZone(opts);
-        return {
-          id: dnsZone.id.apply(id => id),
-          arn: dnsZone.arn.apply(arn => arn),
-          dnsZone: dnsZone,
-        };
-      }
-
-      throw error;
-    }
   }
 
   /**
