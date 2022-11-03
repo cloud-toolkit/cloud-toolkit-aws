@@ -1177,6 +1177,55 @@ types:
         type: string
     type: object
     required: []
+  cloud-toolkit-aws:serverless:StaticWebArgs:
+    properties:
+      domain:
+        description: ""
+        type: string
+      includeWWW:
+        description: ""
+        type: boolean
+      configureDNS:
+        description: ""
+        type: boolean
+      cache:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:serverless:CdnCacheArgs"
+      dns:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:serverless:CdnDnsArgs"
+      priceClass:
+        description: ""
+        type: string
+    type: object
+    required: []
+  cloud-toolkit-aws:serverless:CdnCacheArgs:
+    properties:
+      ttl:
+        description: ""
+        type: number
+    type: object
+    required:
+      - ttl
+  cloud-toolkit-aws:serverless:CdnDnsArgs:
+    properties:
+      ttl:
+        description: ""
+        type: number
+    type: object
+    required:
+      - ttl
+  cloud-toolkit-aws:serverless:DNSRecordsArgs:
+    properties:
+      domainRecord:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:route53%2frecord:Record
+      wwwDomainRecord:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:route53%2frecord:Record
+    type: object
+    required:
+      - domainRecord
   cloud-toolkit-aws:storage:BucketArgs:
     properties:
       public:
@@ -2522,6 +2571,78 @@ resources:
         type: number
       policy:
         description: Custom policy for the Queue.
+        type: string
+    requiredInputs: []
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:serverless:StaticWeb:
+    description: ""
+    properties:
+      name:
+        description: ""
+        type: string
+      eastRegion:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/provider
+      contentBucket:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:storage:Bucket"
+      logsBucket:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucket:Bucket
+      contentBucketPolicy:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPolicy:BucketPolicy
+      originAccessIdentity:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudfront%2foriginAccessIdentity:OriginAccessIdentity
+      distribution:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudfront%2fdistribution:Distribution
+      certificate:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:acm%2fcertificate:Certificate
+      domainValidationOptions:
+        description: ""
+        type: array
+        items:
+          description: ""
+          $ref: /aws/v5.10.0/schema.json#/types/aws:acm%2fCertificateDomainValidationOption:CertificateDomainValidationOption
+      certificateValidation:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:acm%2fcertificateValidation:CertificateValidation
+      DNSRecords:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:serverless:DNSRecordsArgs"
+      DNSRecordsForValidation:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:serverless:DNSRecordsArgs"
+    required:
+      - name
+      - eastRegion
+      - contentBucket
+      - logsBucket
+      - contentBucketPolicy
+      - originAccessIdentity
+      - distribution
+    inputProperties:
+      domain:
+        description: ""
+        type: string
+      includeWWW:
+        description: ""
+        type: boolean
+      configureDNS:
+        description: ""
+        type: boolean
+      cache:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:serverless:CdnCacheArgs"
+      dns:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:serverless:CdnDnsArgs"
+      priceClass:
+        description: ""
         type: string
     requiredInputs: []
     isComponent: true

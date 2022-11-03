@@ -82,6 +82,11 @@ export namespace landingzone {
 }
 
 export namespace serverless {
+    export interface DNSRecordsArgs {
+        domainRecord: pulumiAws.route53.Record;
+        wwwDomainRecord?: pulumiAws.route53.Record;
+    }
+
 }
 
 export namespace storage {
