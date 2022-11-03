@@ -38,7 +38,10 @@ export class Calico extends ApplicationAddon<CalicoArgs> {
     this.installationCrd = this.setupInstallationCrd(installationCrdOpts);
 
     const installationOpts = pulumi.mergeOptions(resourceOpts, {
-      dependsOn: this.namespace
+      dependsOn: [
+        this.application,
+        this.installationCrd,
+      ],
     });
     this.installation = this.setupInstallation(resourceOpts);
 
