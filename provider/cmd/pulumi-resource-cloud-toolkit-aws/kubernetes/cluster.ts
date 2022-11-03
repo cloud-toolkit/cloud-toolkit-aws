@@ -346,6 +346,7 @@ export class Cluster extends pulumi.ComponentResource {
     return new aws.iam.Role(
       `${this.name}-provisioner`,
       {
+        name: `${this.name}-provisioner`,
         assumeRolePolicy: aws
         .getCallerIdentity({ parent: this, async: true })
         .then(
