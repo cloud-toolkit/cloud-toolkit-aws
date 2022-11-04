@@ -173,6 +173,8 @@ class ClusterAddons(pulumi.ComponentResource):
                 raise TypeError("Missing required property 'k8s_provider'")
             __props__.__dict__["k8s_provider"] = k8s_provider
             __props__.__dict__["admin_ingress_nginx"] = None
+            __props__.__dict__["admin_zone_arn"] = None
+            __props__.__dict__["admin_zone_id"] = None
             __props__.__dict__["argocd"] = None
             __props__.__dict__["aws_load_balancer_controller"] = None
             __props__.__dict__["calico"] = None
@@ -180,6 +182,8 @@ class ClusterAddons(pulumi.ComponentResource):
             __props__.__dict__["cluster_autoscaler"] = None
             __props__.__dict__["dashboard"] = None
             __props__.__dict__["default_ingress_nginx"] = None
+            __props__.__dict__["default_zone_arn"] = None
+            __props__.__dict__["default_zone_id"] = None
             __props__.__dict__["ebs_csi_driver"] = None
             __props__.__dict__["external_dns"] = None
         super(ClusterAddons, __self__).__init__(
@@ -196,6 +200,22 @@ class ClusterAddons(pulumi.ComponentResource):
         The IngressNginx addon used for admin access.
         """
         return pulumi.get(self, "admin_ingress_nginx")
+
+    @property
+    @pulumi.getter(name="adminZoneArn")
+    def admin_zone_arn(self) -> pulumi.Output[Optional[str]]:
+        """
+        Route53 Zone arn used for admin IngressController.
+        """
+        return pulumi.get(self, "admin_zone_arn")
+
+    @property
+    @pulumi.getter(name="adminZoneId")
+    def admin_zone_id(self) -> pulumi.Output[Optional[str]]:
+        """
+        Route53 Zone id used for admin IngressController.
+        """
+        return pulumi.get(self, "admin_zone_id")
 
     @property
     @pulumi.getter
@@ -252,6 +272,22 @@ class ClusterAddons(pulumi.ComponentResource):
         The IngressNginx addon used for default access.
         """
         return pulumi.get(self, "default_ingress_nginx")
+
+    @property
+    @pulumi.getter(name="defaultZoneArn")
+    def default_zone_arn(self) -> pulumi.Output[Optional[str]]:
+        """
+        Route53 Zone arn used for default IngressController.
+        """
+        return pulumi.get(self, "default_zone_arn")
+
+    @property
+    @pulumi.getter(name="defaultZoneId")
+    def default_zone_id(self) -> pulumi.Output[Optional[str]]:
+        """
+        Route53 Zone id used for default IngressController.
+        """
+        return pulumi.get(self, "default_zone_id")
 
     @property
     @pulumi.getter(name="ebsCsiDriver")

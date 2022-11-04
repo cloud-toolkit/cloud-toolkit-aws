@@ -34,6 +34,14 @@ export class ClusterAddons extends pulumi.ComponentResource {
      */
     public /*out*/ readonly adminIngressNginx!: pulumi.Output<IngressNginx | undefined>;
     /**
+     * Route53 Zone arn used for admin IngressController.
+     */
+    public /*out*/ readonly adminZoneArn!: pulumi.Output<string | undefined>;
+    /**
+     * Route53 Zone id used for admin IngressController.
+     */
+    public /*out*/ readonly adminZoneId!: pulumi.Output<string | undefined>;
+    /**
      * The ArgoCD addon.
      */
     public /*out*/ readonly argocd!: pulumi.Output<ArgoCD>;
@@ -61,6 +69,14 @@ export class ClusterAddons extends pulumi.ComponentResource {
      * The IngressNginx addon used for default access.
      */
     public /*out*/ readonly defaultIngressNginx!: pulumi.Output<IngressNginx | undefined>;
+    /**
+     * Route53 Zone arn used for default IngressController.
+     */
+    public /*out*/ readonly defaultZoneArn!: pulumi.Output<string | undefined>;
+    /**
+     * Route53 Zone id used for default IngressController.
+     */
+    public /*out*/ readonly defaultZoneId!: pulumi.Output<string | undefined>;
     /**
      * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
      */
@@ -99,6 +115,8 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["issuerUrl"] = args ? args.issuerUrl : undefined;
             resourceInputs["k8sProvider"] = args ? args.k8sProvider : undefined;
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
+            resourceInputs["adminZoneArn"] = undefined /*out*/;
+            resourceInputs["adminZoneId"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
@@ -106,10 +124,14 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["clusterAutoscaler"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
             resourceInputs["defaultIngressNginx"] = undefined /*out*/;
+            resourceInputs["defaultZoneArn"] = undefined /*out*/;
+            resourceInputs["defaultZoneId"] = undefined /*out*/;
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         } else {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
+            resourceInputs["adminZoneArn"] = undefined /*out*/;
+            resourceInputs["adminZoneId"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
@@ -117,6 +139,8 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["clusterAutoscaler"] = undefined /*out*/;
             resourceInputs["dashboard"] = undefined /*out*/;
             resourceInputs["defaultIngressNginx"] = undefined /*out*/;
+            resourceInputs["defaultZoneArn"] = undefined /*out*/;
+            resourceInputs["defaultZoneId"] = undefined /*out*/;
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
         }
