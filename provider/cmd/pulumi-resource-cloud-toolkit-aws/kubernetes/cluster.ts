@@ -91,7 +91,7 @@ export class Cluster extends pulumi.ComponentResource {
   /**
    * The VPC CNI Chart installed in the cluster.
    */
-  public readonly clusterAddons?: pulumi.Input<ClusterAddons>;
+  public readonly clusterAddons?: ClusterAddons;
 
   public vpcId: Promise<string>;
   public allSubnetIds: Promise<pulumi.Input<string>[]>;
@@ -165,10 +165,10 @@ export class Cluster extends pulumi.ComponentResource {
     };
     this.cniChart = this.setupCni(chartsOpts);
 
-    const addonsOpts = pulumi.mergeOptions(resourceOpts, {
-      dependsOn: [this.cniChart],
-    });
     if (this.config.addons?.enabled) {
+      const addonsOpts = pulumi.mergeOptions(resourceOpts, {
+        dependsOn: [this.cniChart],
+      });
       this.clusterAddons = this.setupClusterAddons(addonsOpts);
     }
 
@@ -542,30 +542,32 @@ users:
     );
   }
 
-  private setupClusterAddons(opts: pulumi.ResourceOptions): pulumi.Input<ClusterAddons> {
-      const ingress = <ClusterAddonsIngressArgs>{};
-      if (this.config.networking?.admin?.domain !== undefined) {
-        ingress["admin"] = {
-          domain: this.config.networking.admin.domain,
-          enableTlsTermination: this.config.networking.admin.enableTlsTermination,
-          whitelist: this.config.networking.admin.whitelist,
-        };
-      }
-      if (this.config.networking?.default?.domain !== undefined) {
-        ingress["default"] = {
-          domain: this.config.networking.default.domain,
-          enableTlsTermination: this.config.networking.default.enableTlsTermination,
-          whitelist: this.config.networking.default.whitelist,
-        };
-      }
+  private setupClusterAddons(opts: pulumi.ResourceOptions): ClusterAddons {
+    const ingress = <ClusterAddonsIngressArgs>{};
+    if (this.config.networking?.admin?.domain !== undefined) {
+      ingress["admin"] = {
+        domain: this.config.networking.admin.domain,
+        enableTlsTermination: this.config.networking.admin.enableTlsTermination,
+        whitelist: this.config.networking.admin.whitelist,
+        public: this.config.networking.admin.public,
+      };
+    }
+    if (this.config.networking?.default?.domain !== undefined) {
+      ingress["default"] = {
+        domain: this.config.networking.default.domain,
+        enableTlsTermination: this.config.networking.default.enableTlsTermination,
+        whitelist: this.config.networking.default.whitelist,
+        public: this.config.networking.default.public,
+      };
+    }
 
-      return new ClusterAddons(`${this.name}`, {
-        k8sProvider: this.provider,
-        identityProvidersArn: [this.defaultOidcProvider?.arn || ""],
-        issuerUrl: this.defaultOidcProvider?.url || "",
-        clusterName: this.cluster.name,
-        ingress: ingress,
-      }, opts);
+    return new ClusterAddons(`${this.name}`, {
+      k8sProvider: this.provider,
+      identityProvidersArn: [this.defaultOidcProvider?.arn || ""],
+      issuerUrl: this.defaultOidcProvider?.url || "",
+      clusterName: this.cluster.name,
+      ingress: ingress,
+    }, opts);
   }
 
   /**
