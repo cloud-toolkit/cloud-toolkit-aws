@@ -77,10 +77,25 @@ export class ClusterAddons extends pulumi.ComponentResource {
    */
   public readonly awsLoadBalancerController: AwsLoadBalancerController;
 
-  public adminZoneArn?: pulumi.Input<string>;
-  public adminZoneId?: pulumi.Input<string>;
-  public defaultZoneArn?: pulumi.Input<string>;
-  public defaultZoneId?: pulumi.Input<string>;
+  /**
+   * Route53 Zone arn used for admin IngressController.
+   */
+  public readonly adminZoneArn?: pulumi.Input<string>;
+
+  /**
+   * Route53 Zone id used for admin IngressController.
+   */
+  public readonly adminZoneId?: pulumi.Input<string>;
+
+  /**
+   * Route53 Zone arn used for default IngressController.
+   */
+  public readonly defaultZoneArn?: pulumi.Input<string>;
+
+  /**
+   * Route53 Zone id used for default IngressController.
+   */
+  public readonly defaultZoneId?: pulumi.Input<string>;
 
   constructor(
     name: string,

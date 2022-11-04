@@ -1764,6 +1764,18 @@ resources:
       awsLoadBalancerController:
         description: The AWS LoadBalancer Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AwsLoadBalancerController"
+      adminZoneArn:
+        description: Route53 Zone arn used for admin IngressController.
+        type: string
+      adminZoneId:
+        description: Route53 Zone id used for admin IngressController.
+        type: string
+      defaultZoneArn:
+        description: Route53 Zone arn used for default IngressController.
+        type: string
+      defaultZoneId:
+        description: Route53 Zone id used for default IngressController.
+        type: string
     required:
       - argocd
       - certManager
