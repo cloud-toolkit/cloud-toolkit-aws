@@ -202,7 +202,7 @@ export class IngressNginx extends ApplicationAddon<IngressNginxArgs> {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: this.args.namespace,
+        namespace: this.namespace?.metadata.name || this.args.namespace,
       },
       syncPolicy: {
         automated: {
