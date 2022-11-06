@@ -25,9 +25,7 @@ export class AdotOperator extends ApplicationAddon<AdotOperatorArgs> {
     const resourceOpts = pulumi.mergeOptions(opts, {
       parent: this,
     });
-
     this.namespace = this.setupNamespace(resourceOpts);
-
     this.application = this.setupApplication(resourceOpts);
   }
 
@@ -50,7 +48,7 @@ export class AdotOperator extends ApplicationAddon<AdotOperatorArgs> {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: this.args.namespace,
+        namespace: this.namespace?.metadata.name || this.args.namespace,
       },
       syncPolicy: {
         automated: {
