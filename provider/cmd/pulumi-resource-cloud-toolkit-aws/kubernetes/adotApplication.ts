@@ -36,24 +36,25 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
 
     this.namespace = this.setupNamespace(resourceOpts);
 
-    this.fluentBitIRSA = this.setupIrsaForFluentBit();
-    this.adotCollectorIRSA = this.setupIrsaForAdotCollector();
+    this.fluentBitIRSA = this.setupIrsaForFluentBit(resourceOpts);
+    this.adotCollectorIRSA = this.setupIrsaForAdotCollector(resourceOpts);
 
-    this.CWLogGroup = this.createCWLogGroup();
+    this.CWLogGroup = this.createCWLogGroup(resourceOpts);
 
-    this.application = this.setupApplication(resourceOpts);
+    const applicationOpts = pulumi.mergeOptions(resourceOpts, {
+      dependsOn: [this.fluentBitIRSA, this.adotCollectorIRSA],
+    })
+    this.application = this.setupApplication(applicationOpts);
   }
 
-  private createCWLogGroup(): aws.cloudwatch.LogGroup {
+  private createCWLogGroup(opts: pulumi.ResourceOptions): aws.cloudwatch.LogGroup {
     return new aws.cloudwatch.LogGroup(
-      `${this.name}performance`,
+      `${this.name}-performance`,
       {
         name: pulumi.interpolate`/aws/containerinsights/${this.args.clusterName}/performance`,
         retentionInDays: this.args.metrics?.dataRetention,
       },
-      {
-        parent: this,
-      }
+      opts
     );
   }
 
@@ -145,8 +146,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
     return `fluent-bit`;
   }
 
-  setupIrsaForFluentBit(opts?: pulumi.ResourceOptions): Irsa {
-
+  setupIrsaForFluentBit(opts: pulumi.ResourceOptions): Irsa {
     return new Irsa(`${this.name}-fluentbit`, {
       identityProvidersArn: [...this.args.identityProvidersArn],
       issuerUrl: this.args.issuerUrl,
@@ -206,8 +206,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
     return policyDocument.json
   }
 
-  private setupIrsaForAdotCollector(opts?: pulumi.ResourceOptions): Irsa {
-
+  private setupIrsaForAdotCollector(opts: pulumi.ResourceOptions): Irsa {
     return new Irsa(`${this.name}-adot-application`, {
       identityProvidersArn: [...this.args.identityProvidersArn],
       issuerUrl: this.args.issuerUrl,
@@ -230,7 +229,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
       source: {
         repoURL: "https://open-telemetry.github.io/opentelemetry-helm-charts",
         chart: "opentelemetry-operator",
-        targetRevision: "0.8.3",
+        targetRevision: "0.17.0",
         helm: {
           releaseName: "opentelemetry-operator",
         },
@@ -263,7 +262,6 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
   }
 
   getApplicationSpec(): any {
-    pulumi.log.info(JSON.stringify(this.args.logging), this);
     return {
       project: "default",
       source: {
@@ -364,7 +362,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: this.args.namespace,
+        namespace: this.namespace?.metadata.name || this.args.namespace,
       },
       syncPolicy: {
         automated: {
