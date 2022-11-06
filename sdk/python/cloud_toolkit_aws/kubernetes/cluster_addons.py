@@ -246,6 +246,9 @@ class ClusterAddons(pulumi.ComponentResource):
     @property
     @pulumi.getter(name="adminZoneArn")
     def admin_zone_arn(self) -> pulumi.Output[Optional[str]]:
+        """
+        Route53 Zone arn used for admin IngressController.
+        """
         return pulumi.get(self, "admin_zone_arn")
 
     @property
@@ -259,6 +262,9 @@ class ClusterAddons(pulumi.ComponentResource):
     @property
     @pulumi.getter(name="adotApplication")
     def adot_application(self) -> pulumi.Output[Any]:
+        """
+        The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
+        """
         return pulumi.get(self, "adot_application")
 
     @property

@@ -33,11 +33,17 @@ export class ClusterAddons extends pulumi.ComponentResource {
      * The IngressNginx addon used for admin access.
      */
     public /*out*/ readonly adminIngressNginx!: pulumi.Output<IngressNginx | undefined>;
+    /**
+     * Route53 Zone arn used for admin IngressController.
+     */
     public /*out*/ readonly adminZoneArn!: pulumi.Output<string | undefined>;
     /**
      * Route53 Zone id used for admin IngressController.
      */
     public /*out*/ readonly adminZoneId!: pulumi.Output<string | undefined>;
+    /**
+     * The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
+     */
     public /*out*/ readonly adotApplication!: pulumi.Output<AdotApplication>;
     /**
      * The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.

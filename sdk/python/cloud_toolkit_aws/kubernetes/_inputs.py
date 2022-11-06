@@ -11,6 +11,7 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
+    'AddonsArgsArgs',
     'AdotApplicationLoggingArgsArgs',
     'AdotApplicationLoggingItemArgsArgs',
     'AdotApplicationMetricsArgsArgs',
@@ -25,6 +26,28 @@ __all__ = [
     'ClusterPublicApiArgsArgs',
     'IngressNginxTlsArgsArgs',
 ]
+
+@pulumi.input_type
+class AddonsArgsArgs:
+    def __init__(__self__, *,
+                 enabled: pulumi.Input[bool]):
+        """
+        :param pulumi.Input[bool] enabled: Enable the ClusterAddons.
+        """
+        pulumi.set(__self__, "enabled", enabled)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> pulumi.Input[bool]:
+        """
+        Enable the ClusterAddons.
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: pulumi.Input[bool]):
+        pulumi.set(self, "enabled", value)
+
 
 @pulumi.input_type
 class AdotApplicationLoggingArgsArgs:
