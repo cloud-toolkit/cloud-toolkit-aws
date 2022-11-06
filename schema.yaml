@@ -497,6 +497,9 @@ types:
       oidcProviders:
         description: The OIDC Providers configuration.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
+      addons:
+        description: The addons installed in the cluster.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
       networking:
         description: Configure the cluster networking.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
@@ -1860,6 +1863,9 @@ resources:
       oidcProviders:
         description: The OIDC Providers configuration.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
+      addons:
+        description: The addons installed in the cluster.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
       networking:
         description: Configure the cluster networking.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
@@ -1908,7 +1914,7 @@ resources:
         description: The AWS LoadBalancer Controller.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AwsLoadBalancerController"
       adminZoneArn:
-        description: ""
+        description: Route53 Zone arn used for admin IngressController.
         type: string
       adminZoneId:
         description: Route53 Zone id used for admin IngressController.
@@ -1920,7 +1926,7 @@ resources:
         description: Route53 Zone id used for default IngressController.
         type: string
       adotApplication:
-        description: ""
+        description: The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplication"
       adotOperator:
         description: The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
