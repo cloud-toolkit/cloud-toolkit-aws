@@ -24,18 +24,16 @@ export class Calico extends ApplicationAddon<CalicoArgs> {
 
     this.namespace = this.setupNamespace(resourceOpts);
 
-    const applicationOpts = pulumi.mergeOptions(opts, {
-      dependsOn: this.namespace
-    });
-    this.application = this.setupApplication(resourceOpts);
-
     const installationCrdOpts = pulumi.mergeOptions(resourceOpts, {
-      dependsOn: [
-        this.application,
-      ],
+      dependsOn: this.namespace,
       provider: this.args.k8sProvider,
     });
     this.installationCrd = this.setupInstallationCrd(installationCrdOpts);
+
+    const applicationOpts = pulumi.mergeOptions(opts, {
+      dependsOn: this.installationCrd
+    });
+    this.application = this.setupApplication(resourceOpts);
 
     const installationOpts = pulumi.mergeOptions(resourceOpts, {
       dependsOn: [
@@ -82,7 +80,7 @@ export class Calico extends ApplicationAddon<CalicoArgs> {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "system-calico",
+        namespace: this.namespace?.metadata.name || this.args.namespace,
       },
       syncPolicy: {
         automated: {

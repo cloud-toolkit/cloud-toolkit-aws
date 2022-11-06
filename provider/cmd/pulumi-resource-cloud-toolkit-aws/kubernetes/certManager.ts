@@ -36,6 +36,10 @@ export class CertManager extends ApplicationAddon<CertManagerArgs> {
 
     this.namespace = this.setupNamespace(resourceOpts);
     this.irsa = this.setupIrsa(resourceOpts);
+
+    const applicationOpts = pulumi.mergeOptions(resourceOpts, {
+      dependsOn: [this.irsa],
+    });
     this.application = this.setupApplication(resourceOpts);
 
     this.registerOutputs({
@@ -122,7 +126,7 @@ export class CertManager extends ApplicationAddon<CertManagerArgs> {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: this.args.namespace,
+        namespace: this.namespace?.metadata.name || this.args.namespace,
       },
       syncPolicy: {
         automated: {
