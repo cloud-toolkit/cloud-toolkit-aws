@@ -98,6 +98,7 @@ export class Cluster extends pulumi.ComponentResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
+            resourceInputs["addons"] = args ? args.addons : undefined;
             resourceInputs["api"] = args ? args.api : undefined;
             resourceInputs["logging"] = args ? args.logging : undefined;
             resourceInputs["metrics"] = args ? args.metrics : undefined;
@@ -146,6 +147,10 @@ export class Cluster extends pulumi.ComponentResource {
  * The set of arguments for constructing a Cluster resource.
  */
 export interface ClusterArgs {
+    /**
+     * The addons installed in the cluster.
+     */
+    addons?: pulumi.Input<inputs.kubernetes.AddonsArgsArgs>;
     /**
      * Configure the Kubernetes cluster API.
      */

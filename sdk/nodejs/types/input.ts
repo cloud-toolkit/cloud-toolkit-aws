@@ -111,6 +111,13 @@ export namespace email {
 }
 
 export namespace kubernetes {
+    export interface AddonsArgsArgs {
+        /**
+         * Enable the ClusterAddons.
+         */
+        enabled: pulumi.Input<boolean>;
+    }
+
     export interface AdotApplicationLoggingArgsArgs {
         applications?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingItemArgsArgs>;
         dataplane?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingItemArgsArgs>;

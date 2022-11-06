@@ -18,6 +18,7 @@ __all__ = ['ClusterArgs', 'Cluster']
 @pulumi.input_type
 class ClusterArgs:
     def __init__(__self__, *,
+                 addons: Optional[pulumi.Input['AddonsArgsArgs']] = None,
                  api: Optional[pulumi.Input['ClusterApiArgsArgs']] = None,
                  logging: Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']] = None,
                  metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None,
@@ -30,6 +31,7 @@ class ClusterArgs:
                  vpc_id: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Cluster resource.
+        :param pulumi.Input['AddonsArgsArgs'] addons: The addons installed in the cluster.
         :param pulumi.Input['ClusterApiArgsArgs'] api: Configure the Kubernetes cluster API.
         :param pulumi.Input['AdotApplicationLoggingArgsArgs'] logging: Configure the cluster observability for logging.
         :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure the cluster observability for metrics.
@@ -41,6 +43,8 @@ class ClusterArgs:
         :param pulumi.Input[str] version: Desired Kubernetes version for control plane. Defaults to '1.22'.
         :param pulumi.Input[str] vpc_id: The VPC ID where the cluster will be deployed
         """
+        if addons is not None:
+            pulumi.set(__self__, "addons", addons)
         if api is not None:
             pulumi.set(__self__, "api", api)
         if logging is not None:
@@ -61,6 +65,18 @@ class ClusterArgs:
             pulumi.set(__self__, "version", version)
         if vpc_id is not None:
             pulumi.set(__self__, "vpc_id", vpc_id)
+
+    @property
+    @pulumi.getter
+    def addons(self) -> Optional[pulumi.Input['AddonsArgsArgs']]:
+        """
+        The addons installed in the cluster.
+        """
+        return pulumi.get(self, "addons")
+
+    @addons.setter
+    def addons(self, value: Optional[pulumi.Input['AddonsArgsArgs']]):
+        pulumi.set(self, "addons", value)
 
     @property
     @pulumi.getter
@@ -188,6 +204,7 @@ class Cluster(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
                  logging: Optional[pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']]] = None,
                  metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
@@ -204,6 +221,7 @@ class Cluster(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[pulumi.InputType['AddonsArgsArgs']] addons: The addons installed in the cluster.
         :param pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']] api: Configure the Kubernetes cluster API.
         :param pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']] logging: Configure the cluster observability for logging.
         :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure the cluster observability for metrics.
@@ -239,6 +257,7 @@ class Cluster(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
                  logging: Optional[pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']]] = None,
                  metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
@@ -260,6 +279,7 @@ class Cluster(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = ClusterArgs.__new__(ClusterArgs)
 
+            __props__.__dict__["addons"] = addons
             __props__.__dict__["api"] = api
             __props__.__dict__["logging"] = logging
             __props__.__dict__["metrics"] = metrics
