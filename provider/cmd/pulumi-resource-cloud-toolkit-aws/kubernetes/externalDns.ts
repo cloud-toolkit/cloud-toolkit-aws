@@ -119,7 +119,7 @@ export class ExternalDns extends ApplicationAddon<ExternalDnsArgs> {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: this.args.namespace,
+        namespace: this.namespace?.metadata.name || this.args.namespace,
       },
       syncPolicy: {
         automated: {
