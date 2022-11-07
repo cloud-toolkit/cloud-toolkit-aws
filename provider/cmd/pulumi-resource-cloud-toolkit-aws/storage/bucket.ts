@@ -116,9 +116,10 @@ export class Bucket extends pulumi.ComponentResource {
    * @param {pulumi.ResourceOptions} opts
    */
   constructor(name: string, config: BucketArgs, opts?: pulumi.ResourceOptions) {
-    super("cloudToolkit:aws:storage:Bucket", name, {}, opts);
+    const _config = validateConfig(config);
+    super("cloudToolkit:aws:storage:Bucket", name, _config, opts);
     this.name = name;
-    this.config = validateConfig(config);
+    this.config = _config;    
 
     // Create ResourceOptions for child components
     const resourceOpts = {
