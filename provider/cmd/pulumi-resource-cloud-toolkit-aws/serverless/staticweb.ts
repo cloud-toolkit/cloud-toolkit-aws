@@ -29,30 +29,80 @@ function getDomainAndSubdomain(domain: string): {
 }
 
 export class StaticWeb extends pulumi.ComponentResource {
+  /**
+   * Staticweb name
+   * 
+   * @type {string}
+   */
   public readonly name: string;
-
+  /**
+   * AWS eastRegion provider. It is required to create and validate certificates 
+   * 
+   * @type {aws.Provide}
+   */
   public readonly eastRegion: aws.Provider;
-
+  /**
+   * Content bucket 
+   * 
+   * @type {Bucket}
+   */
   public readonly contentBucket: Bucket;
-
+  /**
+   * Logs bucket 
+   * 
+   * @type {aws.s3.Bucket}
+   */
   public readonly logsBucket: aws.s3.Bucket;
-
+  /**
+   * Bucket policy to connect Cloud Front distribution
+   * 
+   * @type {aws.s3.BucketPolicy}
+   */
   public readonly contentBucketPolicy: aws.s3.BucketPolicy;
-
+  /**
+   * OriginAccessIdentity to have access to content bucket
+   * 
+   * @type {aws.cloudfront.OriginAccessIdentity}
+   */
   public readonly originAccessIdentity: aws.cloudfront.OriginAccessIdentity;
-
+  /**
+   * CloudFront Distribution
+   * 
+   * @type {aws.cloudfront.Distribution}
+   */
   public readonly distribution: aws.cloudfront.Distribution;
-
+  /**
+   * CloudFront Distribution
+   * 
+   * @type {aws.cloudfront.Distribution}
+   */
   public readonly certificate?: aws.acm.Certificate;
-
+  /**
+   * CloudFront Distribution
+   * 
+   * @type {aws.cloudfront.Distribution}
+   */
   public readonly domainValidationOptions?: pulumi.Output<
     aws.types.output.acm.CertificateDomainValidationOption[]
   >;
-
+  /**
+   * AWS certificate validation
+   * 
+   * @type {aws.acm.CertificateValidation}
+   */
   public readonly certificateValidation?: aws.acm.CertificateValidation;
 
+  /**
+   * DNS Records to expose staticweb
+   * 
+   * @type {DNSRecordsArgs}
+   */
   public readonly DNSRecords?: DNSRecordsArgs;
-
+  /**
+   * DNS Records to validate the certificate
+   * 
+   * @type {DNSRecordsArgs}
+   */
   public readonly DNSRecordsForValidation?: DNSRecordsArgs;
 
   constructor(name: string, args: StaticWebArgs, opts?: pulumi.ResourceOptions) {
@@ -91,7 +141,7 @@ export class StaticWeb extends pulumi.ComponentResource {
     }
 
     this.registerOutputs({
-      contentBucket: pulumi.output(this.contentBucket),
+      contentBucket: this.contentBucket,
       logsBucket: this.logsBucket,
       contentBucketPolicy: this.contentBucketPolicy,
       originAccessIdentity: this.originAccessIdentity,
