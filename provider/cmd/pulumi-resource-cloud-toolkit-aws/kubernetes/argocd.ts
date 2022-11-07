@@ -129,7 +129,7 @@ export class ArgoCD extends pulumi.ComponentResource {
     opts?: pulumi.ResourceOptions
   ): kubernetes.helm.v3.Chart {
     const helmChart = new kubernetes.helm.v3.Chart(
-      this.name,
+      this.args.name,
       {
         chart: chart,
         namespace: this.namespace.metadata.name,
