@@ -75,8 +75,20 @@ export class AdotApplication extends pulumi.ComponentResource {
  * The set of arguments for constructing a AdotApplication resource.
  */
 export interface AdotApplicationArgs {
+    /**
+     * The AWS Region.
+     */
     awsRegion: pulumi.Input<string>;
+    /**
+     * The cluster name.
+     */
     clusterName: pulumi.Input<string>;
+    /**
+     * Configure logging.
+     */
     logging?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingArgsArgs>;
+    /**
+     * Configure metrics.
+     */
     metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgsArgs>;
 }

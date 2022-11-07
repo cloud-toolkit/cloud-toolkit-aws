@@ -23,6 +23,10 @@ class AdotApplicationArgs:
                  metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None):
         """
         The set of arguments for constructing a AdotApplication resource.
+        :param pulumi.Input[str] aws_region: The AWS Region.
+        :param pulumi.Input[str] cluster_name: The cluster name.
+        :param pulumi.Input['AdotApplicationLoggingArgsArgs'] logging: Configure logging.
+        :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure metrics.
         """
         pulumi.set(__self__, "aws_region", aws_region)
         pulumi.set(__self__, "cluster_name", cluster_name)
@@ -34,6 +38,9 @@ class AdotApplicationArgs:
     @property
     @pulumi.getter(name="awsRegion")
     def aws_region(self) -> pulumi.Input[str]:
+        """
+        The AWS Region.
+        """
         return pulumi.get(self, "aws_region")
 
     @aws_region.setter
@@ -43,6 +50,9 @@ class AdotApplicationArgs:
     @property
     @pulumi.getter(name="clusterName")
     def cluster_name(self) -> pulumi.Input[str]:
+        """
+        The cluster name.
+        """
         return pulumi.get(self, "cluster_name")
 
     @cluster_name.setter
@@ -52,6 +62,9 @@ class AdotApplicationArgs:
     @property
     @pulumi.getter
     def logging(self) -> Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']]:
+        """
+        Configure logging.
+        """
         return pulumi.get(self, "logging")
 
     @logging.setter
@@ -61,6 +74,9 @@ class AdotApplicationArgs:
     @property
     @pulumi.getter
     def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]:
+        """
+        Configure metrics.
+        """
         return pulumi.get(self, "metrics")
 
     @metrics.setter
@@ -82,6 +98,10 @@ class AdotApplication(pulumi.ComponentResource):
         Create a AdotApplication resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] aws_region: The AWS Region.
+        :param pulumi.Input[str] cluster_name: The cluster name.
+        :param pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']] logging: Configure logging.
+        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure metrics.
         """
         ...
     @overload

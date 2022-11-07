@@ -59,5 +59,8 @@ export class AwsLoadBalancerController extends pulumi.ComponentResource {
  * The set of arguments for constructing a AwsLoadBalancerController resource.
  */
 export interface AwsLoadBalancerControllerArgs {
+    /**
+     * The Cluster name.
+     */
     clusterName: pulumi.Input<string>;
 }

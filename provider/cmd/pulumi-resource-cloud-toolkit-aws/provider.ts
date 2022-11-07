@@ -187,6 +187,8 @@ async function constructKubernetesClusterAddons(
     urn: resource.urn,
     state: {
       adminIngressNginx: resource.adminIngressNginx,
+      adotApplication: resource.adotApplication,
+      adotOperator: resource.adotOperator,
       argocd: resource.argocd,
       awsLoadBalancerController: resource.awsLoadBalancerController,
       calico: resource.calico,

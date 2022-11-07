@@ -59,5 +59,8 @@ export class ClusterAutoscaler extends pulumi.ComponentResource {
  * The set of arguments for constructing a ClusterAutoscaler resource.
  */
 export interface ClusterAutoscalerArgs {
+    /**
+     * The Cluster name.
+     */
     clusterName: pulumi.Input<string>;
 }
