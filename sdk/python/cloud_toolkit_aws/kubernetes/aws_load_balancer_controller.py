@@ -18,12 +18,16 @@ class AwsLoadBalancerControllerArgs:
                  cluster_name: pulumi.Input[str]):
         """
         The set of arguments for constructing a AwsLoadBalancerController resource.
+        :param pulumi.Input[str] cluster_name: The Cluster name.
         """
         pulumi.set(__self__, "cluster_name", cluster_name)
 
     @property
     @pulumi.getter(name="clusterName")
     def cluster_name(self) -> pulumi.Input[str]:
+        """
+        The Cluster name.
+        """
         return pulumi.get(self, "cluster_name")
 
     @cluster_name.setter
@@ -42,6 +46,7 @@ class AwsLoadBalancerController(pulumi.ComponentResource):
         Create a AwsLoadBalancerController resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] cluster_name: The Cluster name.
         """
         ...
     @overload

@@ -7,8 +7,6 @@ import { ApplicationAddon } from "./applicationAddon"
 import { IrsaApplicationAddonArgs } from "./applicationAddonArgs";
 
 export interface AdotOperatorArgs extends IrsaApplicationAddonArgs {
-    clusterName: pulumi.Input<string>;
-    awsRegion: pulumi.Input<string>;
 }
 
 export const AdotOperatorDefaultArgs = {

@@ -55,6 +55,11 @@ class AdotApplicationLoggingArgsArgs:
                  applications: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None,
                  dataplane: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None,
                  host: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None):
+        """
+        :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] applications: Configure applications logging.
+        :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] dataplane: Configure data plane logging.
+        :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] host: Configure host logging.
+        """
         if applications is not None:
             pulumi.set(__self__, "applications", applications)
         if dataplane is not None:
@@ -65,6 +70,9 @@ class AdotApplicationLoggingArgsArgs:
     @property
     @pulumi.getter
     def applications(self) -> Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]:
+        """
+        Configure applications logging.
+        """
         return pulumi.get(self, "applications")
 
     @applications.setter
@@ -74,6 +82,9 @@ class AdotApplicationLoggingArgsArgs:
     @property
     @pulumi.getter
     def dataplane(self) -> Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]:
+        """
+        Configure data plane logging.
+        """
         return pulumi.get(self, "dataplane")
 
     @dataplane.setter
@@ -83,6 +94,9 @@ class AdotApplicationLoggingArgsArgs:
     @property
     @pulumi.getter
     def host(self) -> Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]:
+        """
+        Configure host logging.
+        """
         return pulumi.get(self, "host")
 
     @host.setter
@@ -95,12 +109,19 @@ class AdotApplicationLoggingItemArgsArgs:
     def __init__(__self__, *,
                  data_retention: pulumi.Input[float],
                  enabled: pulumi.Input[bool]):
+        """
+        :param pulumi.Input[float] data_retention: Data retention expressed in days.
+        :param pulumi.Input[bool] enabled: Enable logging.
+        """
         pulumi.set(__self__, "data_retention", data_retention)
         pulumi.set(__self__, "enabled", enabled)
 
     @property
     @pulumi.getter(name="dataRetention")
     def data_retention(self) -> pulumi.Input[float]:
+        """
+        Data retention expressed in days.
+        """
         return pulumi.get(self, "data_retention")
 
     @data_retention.setter
@@ -110,6 +131,9 @@ class AdotApplicationLoggingItemArgsArgs:
     @property
     @pulumi.getter
     def enabled(self) -> pulumi.Input[bool]:
+        """
+        Enable logging.
+        """
         return pulumi.get(self, "enabled")
 
     @enabled.setter
@@ -122,12 +146,19 @@ class AdotApplicationMetricsArgsArgs:
     def __init__(__self__, *,
                  data_retention: pulumi.Input[float],
                  enabled: pulumi.Input[bool]):
+        """
+        :param pulumi.Input[float] data_retention: Data retention expressed in days.
+        :param pulumi.Input[bool] enabled: Enable metrics.
+        """
         pulumi.set(__self__, "data_retention", data_retention)
         pulumi.set(__self__, "enabled", enabled)
 
     @property
     @pulumi.getter(name="dataRetention")
     def data_retention(self) -> pulumi.Input[float]:
+        """
+        Data retention expressed in days.
+        """
         return pulumi.get(self, "data_retention")
 
     @data_retention.setter
@@ -137,6 +168,9 @@ class AdotApplicationMetricsArgsArgs:
     @property
     @pulumi.getter
     def enabled(self) -> pulumi.Input[bool]:
+        """
+        Enable metrics.
+        """
         return pulumi.get(self, "enabled")
 
     @enabled.setter
