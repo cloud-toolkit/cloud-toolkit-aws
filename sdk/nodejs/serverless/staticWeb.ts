@@ -26,17 +26,53 @@ export class StaticWeb extends pulumi.ComponentResource {
         return obj['__pulumiType'] === StaticWeb.__pulumiType;
     }
 
+    /**
+     * DNS Records to expose staticweb
+     */
     public /*out*/ readonly DNSRecords!: pulumi.Output<outputs.serverless.DNSRecordsArgs | undefined>;
+    /**
+     * DNS Records to validate the certificate
+     */
     public /*out*/ readonly DNSRecordsForValidation!: pulumi.Output<outputs.serverless.DNSRecordsArgs | undefined>;
+    /**
+     * CloudFront Distribution
+     */
     public /*out*/ readonly certificate!: pulumi.Output<pulumiAws.acm.Certificate | undefined>;
+    /**
+     * AWS certificate validation
+     */
     public /*out*/ readonly certificateValidation!: pulumi.Output<pulumiAws.acm.CertificateValidation | undefined>;
+    /**
+     * Content bucket
+     */
     public /*out*/ readonly contentBucket!: pulumi.Output<Bucket>;
+    /**
+     * Bucket policy to connect Cloud Front distribution
+     */
     public /*out*/ readonly contentBucketPolicy!: pulumi.Output<pulumiAws.s3.BucketPolicy>;
+    /**
+     * CloudFront Distribution
+     */
     public /*out*/ readonly distribution!: pulumi.Output<pulumiAws.cloudfront.Distribution>;
+    /**
+     * CloudFront Distribution
+     */
     public /*out*/ readonly domainValidationOptions!: pulumi.Output<pulumiAws.types.output.acm.CertificateDomainValidationOption[] | undefined>;
+    /**
+     * AWS eastRegion provider. It is required to create and validate certificates
+     */
     public /*out*/ readonly eastRegion!: pulumi.Output<pulumiAws.Provider>;
+    /**
+     * Logs bucket
+     */
     public /*out*/ readonly logsBucket!: pulumi.Output<pulumiAws.s3.Bucket>;
+    /**
+     * Staticweb name
+     */
     public /*out*/ readonly name!: pulumi.Output<string>;
+    /**
+     * OriginAccessIdentity to have access to content bucket
+     */
     public /*out*/ readonly originAccessIdentity!: pulumi.Output<pulumiAws.cloudfront.OriginAccessIdentity>;
 
     /**
@@ -91,10 +127,28 @@ export class StaticWeb extends pulumi.ComponentResource {
  * The set of arguments for constructing a StaticWeb resource.
  */
 export interface StaticWebArgs {
+    /**
+     * Cloud Front distribution cache
+     */
     cache?: pulumi.Input<inputs.serverless.CdnCacheArgsArgs>;
+    /**
+     * Set to true to configure DNS
+     */
     configureDNS?: pulumi.Input<boolean>;
+    /**
+     * DNS configuration
+     */
     dns?: pulumi.Input<inputs.serverless.CdnDnsArgsArgs>;
+    /**
+     * Set to true to add an alias to wwww.<domain>
+     */
     domain?: pulumi.Input<string>;
+    /**
+     * Set to true to add an alias to wwww.<domain>
+     */
     includeWWW?: pulumi.Input<boolean>;
+    /**
+     * Cloud Front distribution priceClass
+     */
     priceClass?: pulumi.Input<string>;
 }

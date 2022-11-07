@@ -21,11 +21,17 @@ __all__ = [
 class CdnCacheArgsArgs:
     def __init__(__self__, *,
                  ttl: pulumi.Input[float]):
+        """
+        :param pulumi.Input[float] ttl: Cloud Front distribution cache time to live
+        """
         pulumi.set(__self__, "ttl", ttl)
 
     @property
     @pulumi.getter
     def ttl(self) -> pulumi.Input[float]:
+        """
+        Cloud Front distribution cache time to live
+        """
         return pulumi.get(self, "ttl")
 
     @ttl.setter
@@ -37,11 +43,17 @@ class CdnCacheArgsArgs:
 class CdnDnsArgsArgs:
     def __init__(__self__, *,
                  ttl: pulumi.Input[float]):
+        """
+        :param pulumi.Input[float] ttl: DNS time to live
+        """
         pulumi.set(__self__, "ttl", ttl)
 
     @property
     @pulumi.getter
     def ttl(self) -> pulumi.Input[float]:
+        """
+        DNS time to live
+        """
         return pulumi.get(self, "ttl")
 
     @ttl.setter
