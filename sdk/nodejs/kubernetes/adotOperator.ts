@@ -31,18 +31,10 @@ export class AdotOperator extends pulumi.ComponentResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args: AdotOperatorArgs, opts?: pulumi.ComponentResourceOptions) {
+    constructor(name: string, args?: AdotOperatorArgs, opts?: pulumi.ComponentResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            if ((!args || args.awsRegion === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'awsRegion'");
-            }
-            if ((!args || args.clusterName === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'clusterName'");
-            }
-            resourceInputs["awsRegion"] = args ? args.awsRegion : undefined;
-            resourceInputs["clusterName"] = args ? args.clusterName : undefined;
             resourceInputs["application"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         } else {
@@ -58,6 +50,4 @@ export class AdotOperator extends pulumi.ComponentResource {
  * The set of arguments for constructing a AdotOperator resource.
  */
 export interface AdotOperatorArgs {
-    awsRegion: pulumi.Input<string>;
-    clusterName: pulumi.Input<string>;
 }

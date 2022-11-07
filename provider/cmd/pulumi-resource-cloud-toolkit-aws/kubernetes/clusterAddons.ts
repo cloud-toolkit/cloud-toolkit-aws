@@ -188,6 +188,8 @@ export class ClusterAddons extends pulumi.ComponentResource {
 
     this.registerOutputs({
       adminIngressNginx: this.adminIngressNginx,
+      adotApplication: this.adotApplication,
+      adotOperator: this.adotOperator,
       argocd: this.argocd,
       awsLoadBalancerController: this.awsLoadBalancerController,
       calico: this.calico,
@@ -425,8 +427,6 @@ export class ClusterAddons extends pulumi.ComponentResource {
         identityProvidersArn: [...this.args.identityProvidersArn],
         serviceAccountName: "adot-operator",
         issuerUrl: this.args.issuerUrl,
-        awsRegion: region.name,
-        clusterName: this.args.clusterName,
       },
       opts
     );

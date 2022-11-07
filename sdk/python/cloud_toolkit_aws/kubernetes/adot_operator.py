@@ -14,32 +14,11 @@ __all__ = ['AdotOperatorArgs', 'AdotOperator']
 
 @pulumi.input_type
 class AdotOperatorArgs:
-    def __init__(__self__, *,
-                 aws_region: pulumi.Input[str],
-                 cluster_name: pulumi.Input[str]):
+    def __init__(__self__):
         """
         The set of arguments for constructing a AdotOperator resource.
         """
-        pulumi.set(__self__, "aws_region", aws_region)
-        pulumi.set(__self__, "cluster_name", cluster_name)
-
-    @property
-    @pulumi.getter(name="awsRegion")
-    def aws_region(self) -> pulumi.Input[str]:
-        return pulumi.get(self, "aws_region")
-
-    @aws_region.setter
-    def aws_region(self, value: pulumi.Input[str]):
-        pulumi.set(self, "aws_region", value)
-
-    @property
-    @pulumi.getter(name="clusterName")
-    def cluster_name(self) -> pulumi.Input[str]:
-        return pulumi.get(self, "cluster_name")
-
-    @cluster_name.setter
-    def cluster_name(self, value: pulumi.Input[str]):
-        pulumi.set(self, "cluster_name", value)
+        pass
 
 
 class AdotOperator(pulumi.ComponentResource):
@@ -47,8 +26,6 @@ class AdotOperator(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 aws_region: Optional[pulumi.Input[str]] = None,
-                 cluster_name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         Create a AdotOperator resource with the given unique name, props, and options.
@@ -59,7 +36,7 @@ class AdotOperator(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: AdotOperatorArgs,
+                 args: Optional[AdotOperatorArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Create a AdotOperator resource with the given unique name, props, and options.
@@ -78,8 +55,6 @@ class AdotOperator(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 aws_region: Optional[pulumi.Input[str]] = None,
-                 cluster_name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -91,12 +66,6 @@ class AdotOperator(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = AdotOperatorArgs.__new__(AdotOperatorArgs)
 
-            if aws_region is None and not opts.urn:
-                raise TypeError("Missing required property 'aws_region'")
-            __props__.__dict__["aws_region"] = aws_region
-            if cluster_name is None and not opts.urn:
-                raise TypeError("Missing required property 'cluster_name'")
-            __props__.__dict__["cluster_name"] = cluster_name
             __props__.__dict__["application"] = None
             __props__.__dict__["namespace"] = None
         super(AdotOperator, __self__).__init__(
