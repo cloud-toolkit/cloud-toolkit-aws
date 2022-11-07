@@ -1180,29 +1180,29 @@ types:
   cloud-toolkit-aws:serverless:StaticWebArgs:
     properties:
       domain:
-        description: ""
+        description: Set to true to add an alias to wwww.<domain>
         type: string
       includeWWW:
-        description: ""
+        description: Set to true to add an alias to wwww.<domain>
         type: boolean
       configureDNS:
-        description: ""
+        description: Set to true to configure DNS
         type: boolean
       cache:
-        description: ""
+        description: Cloud Front distribution cache
         $ref: "#/types/cloud-toolkit-aws:serverless:CdnCacheArgs"
       dns:
-        description: ""
+        description: DNS configuration
         $ref: "#/types/cloud-toolkit-aws:serverless:CdnDnsArgs"
       priceClass:
-        description: ""
+        description: Cloud Front distribution priceClass
         type: string
     type: object
     required: []
   cloud-toolkit-aws:serverless:CdnCacheArgs:
     properties:
       ttl:
-        description: ""
+        description: Cloud Front distribution cache time to live
         type: number
     type: object
     required:
@@ -1210,7 +1210,7 @@ types:
   cloud-toolkit-aws:serverless:CdnDnsArgs:
     properties:
       ttl:
-        description: ""
+        description: DNS time to live
         type: number
     type: object
     required:
@@ -2579,43 +2579,44 @@ resources:
     description: ""
     properties:
       name:
-        description: ""
+        description: Staticweb name
         type: string
       eastRegion:
-        description: ""
+        description: AWS eastRegion provider. It is required to create and validate
+          certificates
         $ref: /aws/v5.10.0/schema.json#/provider
       contentBucket:
-        description: ""
+        description: Content bucket
         $ref: "#/types/cloud-toolkit-aws:storage:Bucket"
       logsBucket:
-        description: ""
+        description: Logs bucket
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucket:Bucket
       contentBucketPolicy:
-        description: ""
+        description: Bucket policy to connect Cloud Front distribution
         $ref: /aws/v5.10.0/schema.json#/resources/aws:s3%2fbucketPolicy:BucketPolicy
       originAccessIdentity:
-        description: ""
+        description: OriginAccessIdentity to have access to content bucket
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudfront%2foriginAccessIdentity:OriginAccessIdentity
       distribution:
-        description: ""
+        description: CloudFront Distribution
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudfront%2fdistribution:Distribution
       certificate:
-        description: ""
+        description: CloudFront Distribution
         $ref: /aws/v5.10.0/schema.json#/resources/aws:acm%2fcertificate:Certificate
       domainValidationOptions:
-        description: ""
+        description: CloudFront Distribution
         type: array
         items:
-          description: ""
+          description: CloudFront Distribution
           $ref: /aws/v5.10.0/schema.json#/types/aws:acm%2fCertificateDomainValidationOption:CertificateDomainValidationOption
       certificateValidation:
-        description: ""
+        description: AWS certificate validation
         $ref: /aws/v5.10.0/schema.json#/resources/aws:acm%2fcertificateValidation:CertificateValidation
       DNSRecords:
-        description: ""
+        description: DNS Records to expose staticweb
         $ref: "#/types/cloud-toolkit-aws:serverless:DNSRecordsArgs"
       DNSRecordsForValidation:
-        description: ""
+        description: DNS Records to validate the certificate
         $ref: "#/types/cloud-toolkit-aws:serverless:DNSRecordsArgs"
     required:
       - name
@@ -2627,22 +2628,22 @@ resources:
       - distribution
     inputProperties:
       domain:
-        description: ""
+        description: Set to true to add an alias to wwww.<domain>
         type: string
       includeWWW:
-        description: ""
+        description: Set to true to add an alias to wwww.<domain>
         type: boolean
       configureDNS:
-        description: ""
+        description: Set to true to configure DNS
         type: boolean
       cache:
-        description: ""
+        description: Cloud Front distribution cache
         $ref: "#/types/cloud-toolkit-aws:serverless:CdnCacheArgs"
       dns:
-        description: ""
+        description: DNS configuration
         $ref: "#/types/cloud-toolkit-aws:serverless:CdnDnsArgs"
       priceClass:
-        description: ""
+        description: Cloud Front distribution priceClass
         type: string
     requiredInputs: []
     isComponent: true

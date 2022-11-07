@@ -494,10 +494,16 @@ export namespace landingzone {
 
 export namespace serverless {
     export interface CdnCacheArgsArgs {
+        /**
+         * Cloud Front distribution cache time to live
+         */
         ttl: pulumi.Input<number>;
     }
 
     export interface CdnDnsArgsArgs {
+        /**
+         * DNS time to live
+         */
         ttl: pulumi.Input<number>;
     }
 
