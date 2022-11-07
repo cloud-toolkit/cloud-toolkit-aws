@@ -211,7 +211,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
       name: "argocd",
       namespace: "system-argocd",
       k8sProvider: this.args.k8sProvider,
-      hostname: `argocd.${this.args.ingress?.admin?.domain}`,
+      hostname: this.args.ingress?.admin?.domain !== undefined ? `argocd.${this.args.ingress?.admin?.domain}` : undefined,
     }, opts);
   }
 
@@ -291,7 +291,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
         name: "dashboard",
         namespace: "system-dashboard",
         k8sProvider: this.args.k8sProvider,
-        hostname: `dashboard.${this.args.ingress?.admin?.domain}`,
+        hostname: this.args.ingress?.admin?.domain !== undefined ? `dashboard.${this.args.ingress?.admin?.domain}` : undefined,
       },
       opts
     );
