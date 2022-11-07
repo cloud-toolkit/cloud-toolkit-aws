@@ -6,7 +6,7 @@ import { Bucket, BucketArgs } from "../storage";
 
 export { StaticWebArgs, DNSRecordsArgs };
 
-export const TYPENAME_STATICWEB = "cloud-toolkit-aws:serverless:Queue";
+export const TYPENAME_STATICWEB = "cloud-toolkit-aws:serverless:StaticWeb";
 
 function getDomainAndSubdomain(domain: string): {
   subdomain: string;
@@ -89,6 +89,19 @@ export class StaticWeb extends pulumi.ComponentResource {
     if (validatedArgs.configureDNS) {
       this.DNSRecords = this.createDNSRecords(validatedArgs);
     }
+
+    this.registerOutputs({
+      contentBucket: pulumi.output(this.contentBucket),
+      logsBucket: this.logsBucket,
+      contentBucketPolicy: this.contentBucketPolicy,
+      originAccessIdentity: this.originAccessIdentity,
+      distribution: this.distribution,
+      certificate: this.certificate,
+      domainValidationOptions: this.domainValidationOptions,
+      certificateValidation: this.certificateValidation,
+      DNSRecords: this.DNSRecords,
+      DNSRecordsForValidation: this.DNSRecordsForValidation,
+    });
   }
 
   validateArgs(args: StaticWebArgs): StaticWebArgs {
@@ -189,11 +202,11 @@ export class StaticWeb extends pulumi.ComponentResource {
     const { domain, includeWWW, dns } = args;
 
     if (domain === undefined) {
-      throw new Error("domain field must be defined");
+      throw new Error("Domain field must be defined");
     }
 
     if (this.domainValidationOptions === undefined) {
-      throw new Error("domain validation options must be defined");
+      throw new Error("Domain validation options must be defined");
     }
 
     const domainParts = getDomainAndSubdomain(domain);
@@ -241,7 +254,7 @@ export class StaticWeb extends pulumi.ComponentResource {
     }
 
     if (this.certificate === undefined) {
-      throw new Error("certificate must be defined");
+      throw new Error("Certificate must be defined");
     }
 
     // if config.includeWWW include the validation record for the www subdomain
@@ -270,7 +283,7 @@ export class StaticWeb extends pulumi.ComponentResource {
     const { domain, includeWWW } = args;
 
     if (domain === undefined) {
-      throw new Error("domain field must be defined");
+      throw new Error("Domain field must be defined");
     }
 
     const domainParts = getDomainAndSubdomain(domain);
