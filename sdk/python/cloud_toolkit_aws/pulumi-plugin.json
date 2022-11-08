@@ -1,5 +1,0 @@
-{
-  "resource": true,
-  "name": "cloud-toolkit-aws",
-  "server": "github://api.github.com/cloud-toolkit/cloud-toolkit-aws"
-}
