@@ -117,7 +117,7 @@ export class Bucket extends pulumi.ComponentResource {
    */
   constructor(name: string, config: BucketArgs, opts?: pulumi.ResourceOptions) {
     const _config = validateConfig(config);
-    super("cloudToolkit:aws:storage:Bucket", name, _config, opts);
+    super("cloud-toolkit-aws:storage:Bucket", name, _config, opts);
     this.name = name;
     this.config = _config;    
 
