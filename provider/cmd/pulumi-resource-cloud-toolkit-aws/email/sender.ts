@@ -179,7 +179,7 @@ export class EmailSender extends pulumi.ComponentResource {
     args: EmailSenderArgs,
     opts?: pulumi.ResourceOptions
   ) {
-    super("cloudToolkit:aws:email:EmailSender", name, args, opts);
+    super("cloud-toolkit-aws:email:EmailSender", name, args, opts);
     this.name = name;
     this.args = validateArgs(args);
     this.address = this.args.identity;
