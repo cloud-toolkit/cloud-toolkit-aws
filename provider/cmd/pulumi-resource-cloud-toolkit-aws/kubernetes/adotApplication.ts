@@ -269,7 +269,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
         chart: "adot-exporter-for-eks-on-ec2",
         targetRevision: "0.8.0",
         helm: {
-          releaseName: "adot",
+          releaseName: "adot-exporter-for-eks-on-ec2",
           parameters: [
             {
               name: "global.namespaceOverride",
