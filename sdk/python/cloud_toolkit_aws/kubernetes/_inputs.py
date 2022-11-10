@@ -52,20 +52,35 @@ class AddonsArgsArgs:
 @pulumi.input_type
 class AdotApplicationLoggingArgsArgs:
     def __init__(__self__, *,
+                 enabled: pulumi.Input[bool],
                  applications: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None,
                  dataplane: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None,
                  host: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None):
         """
+        :param pulumi.Input[bool] enabled: Enable logging.
         :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] applications: Configure applications logging.
         :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] dataplane: Configure data plane logging.
         :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] host: Configure host logging.
         """
+        pulumi.set(__self__, "enabled", enabled)
         if applications is not None:
             pulumi.set(__self__, "applications", applications)
         if dataplane is not None:
             pulumi.set(__self__, "dataplane", dataplane)
         if host is not None:
             pulumi.set(__self__, "host", host)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> pulumi.Input[bool]:
+        """
+        Enable logging.
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: pulumi.Input[bool]):
+        pulumi.set(self, "enabled", value)
 
     @property
     @pulumi.getter
@@ -107,14 +122,11 @@ class AdotApplicationLoggingArgsArgs:
 @pulumi.input_type
 class AdotApplicationLoggingItemArgsArgs:
     def __init__(__self__, *,
-                 data_retention: pulumi.Input[float],
-                 enabled: pulumi.Input[bool]):
+                 data_retention: pulumi.Input[float]):
         """
         :param pulumi.Input[float] data_retention: Data retention expressed in days.
-        :param pulumi.Input[bool] enabled: Enable logging.
         """
         pulumi.set(__self__, "data_retention", data_retention)
-        pulumi.set(__self__, "enabled", enabled)
 
     @property
     @pulumi.getter(name="dataRetention")
@@ -127,54 +139,44 @@ class AdotApplicationLoggingItemArgsArgs:
     @data_retention.setter
     def data_retention(self, value: pulumi.Input[float]):
         pulumi.set(self, "data_retention", value)
-
-    @property
-    @pulumi.getter
-    def enabled(self) -> pulumi.Input[bool]:
-        """
-        Enable logging.
-        """
-        return pulumi.get(self, "enabled")
-
-    @enabled.setter
-    def enabled(self, value: pulumi.Input[bool]):
-        pulumi.set(self, "enabled", value)
 
 
 @pulumi.input_type
 class AdotApplicationMetricsArgsArgs:
     def __init__(__self__, *,
-                 data_retention: pulumi.Input[float],
-                 enabled: pulumi.Input[bool]):
+                 data_retention: Optional[pulumi.Input[float]] = None,
+                 enabled: Optional[pulumi.Input[bool]] = None):
         """
         :param pulumi.Input[float] data_retention: Data retention expressed in days.
         :param pulumi.Input[bool] enabled: Enable metrics.
         """
-        pulumi.set(__self__, "data_retention", data_retention)
-        pulumi.set(__self__, "enabled", enabled)
+        if data_retention is not None:
+            pulumi.set(__self__, "data_retention", data_retention)
+        if enabled is not None:
+            pulumi.set(__self__, "enabled", enabled)
 
     @property
     @pulumi.getter(name="dataRetention")
-    def data_retention(self) -> pulumi.Input[float]:
+    def data_retention(self) -> Optional[pulumi.Input[float]]:
         """
         Data retention expressed in days.
         """
         return pulumi.get(self, "data_retention")
 
     @data_retention.setter
-    def data_retention(self, value: pulumi.Input[float]):
+    def data_retention(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "data_retention", value)
 
     @property
     @pulumi.getter
-    def enabled(self) -> pulumi.Input[bool]:
+    def enabled(self) -> Optional[pulumi.Input[bool]]:
         """
         Enable metrics.
         """
         return pulumi.get(self, "enabled")
 
     @enabled.setter
-    def enabled(self, value: pulumi.Input[bool]):
+    def enabled(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "enabled", value)
 
 

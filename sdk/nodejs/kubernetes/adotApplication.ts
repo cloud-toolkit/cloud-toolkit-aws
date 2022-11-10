@@ -27,10 +27,13 @@ export class AdotApplication extends pulumi.ComponentResource {
         return obj['__pulumiType'] === AdotApplication.__pulumiType;
     }
 
-    public /*out*/ readonly CWLogGroup!: pulumi.Output<pulumiAws.cloudwatch.LogGroup>;
-    public /*out*/ readonly adotCollectorIRSA!: pulumi.Output<Irsa>;
+    public /*out*/ readonly adotCollectorIRSA!: pulumi.Output<Irsa | undefined>;
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
-    public /*out*/ readonly fluentBitIRSA!: pulumi.Output<Irsa>;
+    public /*out*/ readonly fluentBitIRSA!: pulumi.Output<Irsa | undefined>;
+    public /*out*/ readonly logGroupApplicationLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
+    public /*out*/ readonly logGroupDataplaneLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
+    public /*out*/ readonly logGroupHostLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
+    public /*out*/ readonly logGroupMetrics!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
 
     /**
@@ -54,16 +57,22 @@ export class AdotApplication extends pulumi.ComponentResource {
             resourceInputs["clusterName"] = args ? args.clusterName : undefined;
             resourceInputs["logging"] = args ? args.logging : undefined;
             resourceInputs["metrics"] = args ? args.metrics : undefined;
-            resourceInputs["CWLogGroup"] = undefined /*out*/;
             resourceInputs["adotCollectorIRSA"] = undefined /*out*/;
             resourceInputs["application"] = undefined /*out*/;
             resourceInputs["fluentBitIRSA"] = undefined /*out*/;
+            resourceInputs["logGroupApplicationLog"] = undefined /*out*/;
+            resourceInputs["logGroupDataplaneLog"] = undefined /*out*/;
+            resourceInputs["logGroupHostLog"] = undefined /*out*/;
+            resourceInputs["logGroupMetrics"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         } else {
-            resourceInputs["CWLogGroup"] = undefined /*out*/;
             resourceInputs["adotCollectorIRSA"] = undefined /*out*/;
             resourceInputs["application"] = undefined /*out*/;
             resourceInputs["fluentBitIRSA"] = undefined /*out*/;
+            resourceInputs["logGroupApplicationLog"] = undefined /*out*/;
+            resourceInputs["logGroupDataplaneLog"] = undefined /*out*/;
+            resourceInputs["logGroupHostLog"] = undefined /*out*/;
+            resourceInputs["logGroupMetrics"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);

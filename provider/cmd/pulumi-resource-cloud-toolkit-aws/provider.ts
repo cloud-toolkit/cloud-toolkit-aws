@@ -375,10 +375,13 @@ async function constructKubernetesAdotApplication(
   return {
     urn: resource.urn,
     state: {
+      adotCollectorIRSA: resource.adotCollectorIRSA,
       application: resource.application,
-      CWLogGroup: resource.CWLogGroup,
-      adotCollectorIrsa: resource.adotCollectorIRSA,
-      fluentBitIrsa: resource.fluentBitIRSA,
+      fluentBitIRSA: resource.fluentBitIRSA,
+      logGroupApplicationLog: resource.logGroupApplicationLog,
+      logGroupDataplaneLog: resource.logGroupDataplaneLog,
+      logGroupHostLog: resource.logGroupHostLog,
+      logGroupMetrics: resource.logGroupMetrics,
       namespace: resource.namespace,
     },
   };

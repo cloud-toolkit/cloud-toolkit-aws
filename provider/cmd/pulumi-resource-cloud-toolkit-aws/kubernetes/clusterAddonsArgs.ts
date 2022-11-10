@@ -89,16 +89,14 @@ export const defaultClusterAddonsArgs = {
     }
   },
   logging: {
+    enabled: true,
     applications: {
-      enabled: true,
       dataRetention: 1,
     },
     dataplane: {
-      enabled: false,
       dataRetention: 1,
     },
     host: {
-      enabled: false,
       dataRetention: 1,
     },
   },
