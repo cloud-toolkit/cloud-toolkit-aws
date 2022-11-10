@@ -8,11 +8,6 @@ import { IrsaApplicationAddonArgs } from "./applicationAddonArgs";
 
 export interface AdotApplicationLoggingItemArgs {
   /**
-   * Enable logging.
-   */
-  enabled: boolean;
-
-  /**
    * Data retention expressed in days.
    */
   dataRetention: number;
@@ -22,15 +17,20 @@ export interface AdotApplicationMetricsArgs {
   /**
    * Enable metrics.
    */
-  enabled: boolean;
+  enabled?: boolean;
 
   /**
    * Data retention expressed in days.
    */
-  dataRetention: number;
+  dataRetention?: number;
 }
 
 export interface AdotApplicationLoggingArgs {
+  /**
+   * Enable logging.
+   */
+  enabled: boolean;
+
   /**
    * Configure applications logging.
    */

@@ -267,15 +267,11 @@ types:
       - token
   cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs:
     properties:
-      enabled:
-        description: Enable logging.
-        type: boolean
       dataRetention:
         description: Data retention expressed in days.
         type: number
     type: object
     required:
-      - enabled
       - dataRetention
   cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs:
     properties:
@@ -286,11 +282,12 @@ types:
         description: Data retention expressed in days.
         type: number
     type: object
-    required:
-      - enabled
-      - dataRetention
+    required: []
   cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs:
     properties:
+      enabled:
+        description: Enable logging.
+        type: boolean
       applications:
         description: Configure applications logging.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs"
@@ -301,7 +298,8 @@ types:
         description: Configure host logging.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs"
     type: object
-    required: []
+    required:
+      - enabled
   cloud-toolkit-aws:kubernetes:AdotApplicationArgs:
     properties:
       logging:
@@ -1626,7 +1624,16 @@ resources:
       namespace:
         description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
-      CWLogGroup:
+      logGroupApplicationLog:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
+      logGroupDataplaneLog:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
+      logGroupHostLog:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
+      logGroupMetrics:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
       fluentBitIRSA:
@@ -1639,9 +1646,6 @@ resources:
         description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
     required:
-      - CWLogGroup
-      - fluentBitIRSA
-      - adotCollectorIRSA
       - application
     inputProperties:
       logging:

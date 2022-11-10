@@ -10,11 +10,13 @@ import { AdotApplicationArgs, AdotApplicationDefaultArgs } from "./adotApplicati
 export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
   public readonly namespace?: kubernetes.core.v1.Namespace;
 
-  public readonly CWLogGroup: aws.cloudwatch.LogGroup;
+  public readonly logGroupApplicationLog?: aws.cloudwatch.LogGroup;
+  public readonly logGroupDataplaneLog?: aws.cloudwatch.LogGroup;
+  public readonly logGroupHostLog?: aws.cloudwatch.LogGroup;
+  public readonly logGroupMetrics?: aws.cloudwatch.LogGroup;
 
-  public readonly fluentBitIRSA: Irsa;
-
-  public readonly adotCollectorIRSA: Irsa;
+  public readonly fluentBitIRSA?: Irsa;
+  public readonly adotCollectorIRSA?: Irsa;
 
   public readonly application: kubernetes.apiextensions.CustomResource;
 
@@ -36,18 +38,76 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
 
     this.namespace = this.setupNamespace(resourceOpts);
 
-    this.fluentBitIRSA = this.setupIrsaForFluentBit(resourceOpts);
-    this.adotCollectorIRSA = this.setupIrsaForAdotCollector(resourceOpts);
 
-    this.CWLogGroup = this.createCWLogGroup(resourceOpts);
+    const applicationDependsOn: pulumi.Input<pulumi.Resource>[] = [];
+    if (this.args.metrics?.enabled) {
+      this.adotCollectorIRSA = this.setupIrsaForAdotCollector(resourceOpts);
+      this.logGroupMetrics = this.createMetricsLogGroup(resourceOpts);
+      applicationDependsOn.push(this.adotCollectorIRSA);
+      applicationDependsOn.push(this.logGroupMetrics);
+    }
+    if (this.args.logging?.enabled) {
+      this.fluentBitIRSA = this.setupIrsaForFluentBit(resourceOpts);
+      this.logGroupApplicationLog = this.createApplicationLogGroup(resourceOpts);
+      this.logGroupHostLog = this.createHostLogGroup(resourceOpts);
+      this.logGroupDataplaneLog = this.createDataplaneLogGroup(resourceOpts);
+      applicationDependsOn.push(this.fluentBitIRSA);
+      applicationDependsOn.push(this.logGroupApplicationLog);
+      applicationDependsOn.push(this.logGroupHostLog);
+      applicationDependsOn.push(this.logGroupDataplaneLog);
+    }
 
     const applicationOpts = pulumi.mergeOptions(resourceOpts, {
-      dependsOn: [this.fluentBitIRSA, this.adotCollectorIRSA],
+      dependsOn: applicationDependsOn,
     })
     this.application = this.setupApplication(applicationOpts);
+
+    this.registerOutputs({
+      adotCollectorIRSA: this.adotCollectorIRSA,
+      application: this.application,
+      fluentBitIRSA: this.fluentBitIRSA,
+      logGroupApplicationLog: this.logGroupApplicationLog,
+      logGroupDataplaneLog: this.logGroupDataplaneLog,
+      logGroupHostLog: this.logGroupHostLog,
+      logGroupMetrics: this.logGroupMetrics,
+      namespace: this.namespace,
+    });
   }
 
-  private createCWLogGroup(opts: pulumi.ResourceOptions): aws.cloudwatch.LogGroup {
+  private createApplicationLogGroup(opts: pulumi.ResourceOptions): aws.cloudwatch.LogGroup {
+    return new aws.cloudwatch.LogGroup(
+      `${this.name}-application`,
+      {
+        name: pulumi.interpolate`/aws/containerinsights/${this.args.clusterName}/application`,
+        retentionInDays: this.args.logging?.applications?.dataRetention,
+      },
+      opts
+    );
+  }
+
+  private createHostLogGroup(opts: pulumi.ResourceOptions): aws.cloudwatch.LogGroup {
+    return new aws.cloudwatch.LogGroup(
+      `${this.name}-host`,
+      {
+        name: pulumi.interpolate`/aws/containerinsights/${this.args.clusterName}/host`,
+        retentionInDays: this.args.logging?.host?.dataRetention,
+      },
+      opts
+    );
+  }
+
+  private createDataplaneLogGroup(opts: pulumi.ResourceOptions): aws.cloudwatch.LogGroup {
+    return new aws.cloudwatch.LogGroup(
+      `${this.name}-dataplane`,
+      {
+        name: pulumi.interpolate`/aws/containerinsights/${this.args.clusterName}/dataplane`,
+        retentionInDays: this.args.logging?.dataplane?.dataRetention,
+      },
+      opts
+    );
+  }
+
+  private createMetricsLogGroup(opts: pulumi.ResourceOptions): aws.cloudwatch.LogGroup {
     return new aws.cloudwatch.LogGroup(
       `${this.name}-performance`,
       {
@@ -60,7 +120,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
 
   getFluentbitApplicationConfig(fluentBitRoleArn: string) {
     return {
-      enabled: true,
+      enabled: this.args.logging?.enabled,
       namespace: this.args.namespace,
       serviceAccount: {
         // name: this.getFluentBitName(),
@@ -71,19 +131,16 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
       output: {
         applicationLog: {
           log_retention: {
-            enabled: this.args.logging?.applications?.enabled,
             days: this.args.logging?.applications?.dataRetention,
           },
         },
         dataplaneLog: {
           log_retention: {
-            enabled: this.args.logging?.dataplane?.enabled,
             days: this.args.logging?.dataplane?.dataRetention,
           },
         },
         hostLog: {
           log_retention: {
-            enabled: this.args.logging?.host?.enabled,
             days: this.args.logging?.host?.dataRetention,
           },
         },
@@ -294,7 +351,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
             // fluentbit
             {
               name: "fluentbit.enabled",
-              value: "true",
+              value: `${this.args.logging?.enabled}`,
             },
             {
               name: "fluentbit.namespace",
@@ -302,27 +359,15 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
             },
             {
               name: "fluentbit.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn",
-              value: this.fluentBitIRSA.role.arn,
-            },
-            {
-              name: "fluentbit.output.applicationLog.log_retention.enabled",
-              value: `${this.args.logging?.applications?.enabled}`,
+              value: this.fluentBitIRSA?.role?.arn,
             },
             {
               name: "fluentbit.output.applicationLog.log_retention.days",
               value: `${this.args.logging?.applications?.dataRetention}`,
             },
             {
-              name: "fluentbit.output.dataplaneLog.log_retention.enabled",
-              value: `${this.args.logging?.dataplane?.enabled}`,
-            },
-            {
               name: "fluentbit.output.dataplaneLog.log_retention.days",
               value: `${this.args.logging?.dataplane?.dataRetention}`,
-            },
-            {
-              name: "fluentbit.output.hostLog.log_retention.enabled",
-              value: `${this.args.logging?.host?.enabled}`,
             },
             {
               name: "fluentbit.output.hostLog.log_retention.days",
@@ -331,7 +376,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
             // adot collector
             {
               name: "adotCollector.daemonSet.enabled",
-              value: "true",
+              value: `${this.args.metrics?.enabled}`,
             },
             {
               name: "adotCollector.daemonSet.createNamespace",
@@ -347,7 +392,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
             },
             {
               name: "adotCollector.daemonSet.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn",
-              value: this.adotCollectorIRSA.role.arn,
+              value: this.adotCollectorIRSA?.role?.arn,
             },
             {
               name: "adotCollector.daemonSet.service.metrics.receivers[0]",
@@ -368,7 +413,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
         automated: {
           prune: true,
           selfHeal: true,
-          allowEmpty: false,
+          allowEmpty: true,
         },
         retry: {
           limit: 10,
