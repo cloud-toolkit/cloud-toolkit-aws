@@ -149,10 +149,13 @@ class AdotApplication(pulumi.ComponentResource):
             __props__.__dict__["cluster_name"] = cluster_name
             __props__.__dict__["logging"] = logging
             __props__.__dict__["metrics"] = metrics
-            __props__.__dict__["cw_log_group"] = None
             __props__.__dict__["adot_collector_irsa"] = None
             __props__.__dict__["application"] = None
             __props__.__dict__["fluent_bit_irsa"] = None
+            __props__.__dict__["log_group_application_log"] = None
+            __props__.__dict__["log_group_dataplane_log"] = None
+            __props__.__dict__["log_group_host_log"] = None
+            __props__.__dict__["log_group_metrics"] = None
             __props__.__dict__["namespace"] = None
         super(AdotApplication, __self__).__init__(
             'cloud-toolkit-aws:kubernetes:AdotApplication',
@@ -162,13 +165,8 @@ class AdotApplication(pulumi.ComponentResource):
             remote=True)
 
     @property
-    @pulumi.getter(name="CWLogGroup")
-    def cw_log_group(self) -> pulumi.Output['pulumi_aws.cloudwatch.LogGroup']:
-        return pulumi.get(self, "cw_log_group")
-
-    @property
     @pulumi.getter(name="adotCollectorIRSA")
-    def adot_collector_irsa(self) -> pulumi.Output[Any]:
+    def adot_collector_irsa(self) -> pulumi.Output[Optional[Any]]:
         return pulumi.get(self, "adot_collector_irsa")
 
     @property
@@ -178,8 +176,28 @@ class AdotApplication(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="fluentBitIRSA")
-    def fluent_bit_irsa(self) -> pulumi.Output[Any]:
+    def fluent_bit_irsa(self) -> pulumi.Output[Optional[Any]]:
         return pulumi.get(self, "fluent_bit_irsa")
+
+    @property
+    @pulumi.getter(name="logGroupApplicationLog")
+    def log_group_application_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        return pulumi.get(self, "log_group_application_log")
+
+    @property
+    @pulumi.getter(name="logGroupDataplaneLog")
+    def log_group_dataplane_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        return pulumi.get(self, "log_group_dataplane_log")
+
+    @property
+    @pulumi.getter(name="logGroupHostLog")
+    def log_group_host_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        return pulumi.get(self, "log_group_host_log")
+
+    @property
+    @pulumi.getter(name="logGroupMetrics")
+    def log_group_metrics(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        return pulumi.get(self, "log_group_metrics")
 
     @property
     @pulumi.getter

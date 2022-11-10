@@ -128,6 +128,10 @@ export namespace kubernetes {
          */
         dataplane?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingItemArgsArgs>;
         /**
+         * Enable logging.
+         */
+        enabled: pulumi.Input<boolean>;
+        /**
          * Configure host logging.
          */
         host?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingItemArgsArgs>;
@@ -138,21 +142,17 @@ export namespace kubernetes {
          * Data retention expressed in days.
          */
         dataRetention: pulumi.Input<number>;
-        /**
-         * Enable logging.
-         */
-        enabled: pulumi.Input<boolean>;
     }
 
     export interface AdotApplicationMetricsArgsArgs {
         /**
          * Data retention expressed in days.
          */
-        dataRetention: pulumi.Input<number>;
+        dataRetention?: pulumi.Input<number>;
         /**
          * Enable metrics.
          */
-        enabled: pulumi.Input<boolean>;
+        enabled?: pulumi.Input<boolean>;
     }
 
     export interface ClusterAddonsIngressArgsArgs {
