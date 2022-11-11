@@ -207,7 +207,9 @@ export class Cluster extends pulumi.ComponentResource {
   }
 
   private validateArgs(a: ClusterArgs): ClusterArgs {
-    const args = defaultsDeep({ ...a }, defaultClusterArgs);
+    const {nodeGroups,...cleanClusterArgs} = a;
+    const args = defaultsDeep({ ...cleanClusterArgs }, defaultClusterArgs);
+    args.nodeGroups = a.nodeGroups || defaultNodeGroups;
 
     for (const [index, nodeGroup] of args.nodeGroups.entries()) {
       args.nodeGroups[index] = defaultsDeep({ ...nodeGroup }, defaultNodeGroup);
