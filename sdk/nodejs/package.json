@@ -1,5 +1,5 @@
 {
-    "name": "@cloud-toolkit/cloud-toolkit-aws",
+    "name": "@cloudtoolkit/aws",
     "version": "${VERSION}",
     "keywords": [
         "pulumi",
