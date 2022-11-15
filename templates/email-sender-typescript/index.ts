@@ -2,7 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 import {
   EmailSender,
   EmailSenderArgs,
-} from "@cloud-toolkit/cloud-toolkit-aws/email";
+} from "@cloudtoolkit/aws/email";
 
 // Retrieve base config
 const config = new pulumi.Config();

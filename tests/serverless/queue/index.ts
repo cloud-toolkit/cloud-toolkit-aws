@@ -1,5 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as ct from "@cloud-toolkit/cloud-toolkit-aws";
+import * as ct from "@cloudtoolkit/aws";
 
 const config = new pulumi.Config();
 const name = pulumi.getStack();
