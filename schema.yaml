@@ -2726,7 +2726,7 @@ language:
     devDependencies:
       typescript: ^4.0.0
     respectSchemaVersion: true
-    packageName: "@cloud-toolkit/cloud-toolkit-aws"
+    packageName: "@cloudtoolkit/aws"
   python:
     requires:
       pulumi: ">=3.0.0,<4.0.0"
