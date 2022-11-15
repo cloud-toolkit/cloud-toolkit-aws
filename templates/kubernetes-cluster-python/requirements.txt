@@ -1,2 +1,2 @@
 pulumi>=3.0.0,<4.0.0
--e /tmp/bin #cloud_toolkit_aws
+cloud-toolkit-aws>=0.5.2
