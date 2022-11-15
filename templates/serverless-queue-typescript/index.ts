@@ -3,7 +3,7 @@ import {
   Queue,
   QueueArgs,
   DeadLetterQueueTypes
-} from "@cloud-toolkit/cloud-toolkit-aws/serverless";
+} from "@cloudtoolkit/aws/serverless";
 
 // Retrieve base config
 const config = new pulumi.Config();

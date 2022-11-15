@@ -2,7 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 
 import {
   Cluster,
-} from "@cloud-toolkit/cloud-toolkit-aws/kubernetes";
+} from "@cloudtoolkit/aws/kubernetes";
 
 const config = new pulumi.Config();
 
