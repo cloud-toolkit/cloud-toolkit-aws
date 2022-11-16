@@ -78,6 +78,7 @@ _utilities.register(
    "cloud-toolkit-aws:kubernetes:Dashboard": "Dashboard",
    "cloud-toolkit-aws:kubernetes:ExternalDns": "ExternalDns",
    "cloud-toolkit-aws:kubernetes:Fluentbit": "Fluentbit",
+   "cloud-toolkit-aws:kubernetes:IamAuthenticator": "IamAuthenticator",
    "cloud-toolkit-aws:kubernetes:IngressNginx": "IngressNginx",
    "cloud-toolkit-aws:kubernetes:Irsa": "Irsa",
    "cloud-toolkit-aws:kubernetes:NodeGroup": "NodeGroup",

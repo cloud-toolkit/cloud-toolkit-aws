@@ -9,10 +9,13 @@ import { ClusterAddonsIngressArgs } from "./clusterAddonsArgs";
 import {
   ClusterArgs,
   ClusterSubnetsType,
+  ClusterNodeGroupArgs,
   defaultVersion,
   defaultClusterArgs,
   defaultNodeGroup,
+  defaultNodeGroups,
 } from "./clusterArgs";
+import { IamAuthenticator } from "./iamAuthenticator";
 
 export { ClusterArgs, ClusterSubnetsType };
 
@@ -93,6 +96,11 @@ export class Cluster extends pulumi.ComponentResource {
    */
   public readonly clusterAddons?: ClusterAddons;
 
+  /**
+   * The IAM Authenticator to integrate AWS IAM with Kubernetes authentication.
+   */
+  public readonly iamAuthenticator: IamAuthenticator;
+
   public vpcId: Promise<string>;
   public allSubnetIds: Promise<pulumi.Input<string>[]>;
   public privateSubnetIds: Promise<pulumi.Input<string>[]>;
@@ -145,10 +153,18 @@ export class Cluster extends pulumi.ComponentResource {
     this.kubeconfig = this.setupKubeconfig();
     this.provider = this.setupKubernetesProvider();
 
+    // IAM Authenticator
+    this.iamAuthenticator = this.setupIamAuthenticator({
+      ...resourceOpts,
+    });
+
     // Node Groups
     this.nodeGroups = this.setupNodeGroups({
       ...resourceOpts,
-      dependsOn: [this.cluster],
+      dependsOn: [
+        this.cluster,
+        this.iamAuthenticator,
+      ],
     });
 
     // OIDC Providers
@@ -197,6 +213,10 @@ export class Cluster extends pulumi.ComponentResource {
       args.nodeGroups[index] = defaultsDeep({ ...nodeGroup }, defaultNodeGroup);
     }
 
+    if (args.authentication?.accounts === undefined) {
+      const accountId = aws.getCallerIdentity().then(i => i.accountId);
+      args.authentication.accounts = [accountId];
+    }
     return args;
   }
 
@@ -295,6 +315,38 @@ export class Cluster extends pulumi.ComponentResource {
       {
         policyArn: "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
         role: this.role.name,
+      },
+      opts
+    );
+  }
+
+  private setupIamAuthenticator(
+    opts: pulumi.ResourceOptions
+  ): IamAuthenticator {
+    const nodeGroupRoles = [];
+
+    const accountId = aws.getCallerIdentity().then(i => i.accountId);
+    for (const nodeGroup of this.config.nodeGroups || []) {
+      const roleName = this.getNodeGroupName(nodeGroup);
+      nodeGroupRoles.push({
+        rolearn: pulumi.interpolate`arn:aws:iam::${accountId}:role/${roleName}`,
+        username: "system:node:{{EC2PrivateDNSName}}",
+        groups: [
+          "system:bootstrappers",
+          "system:nodes",
+        ]
+      });
+    }
+    return new IamAuthenticator(
+      this.name,
+      {
+        clusterArn: this.cluster.arn,
+        kubeconfig: this.kubeconfig,
+        accounts: this.config.authentication?.accounts,
+        clusterAdmins: this.config.authentication?.clusterAdmins,
+        nodeGroupRoles: nodeGroupRoles,
+        roles: this.config.authentication?.roles,
+        users: this.config.authentication?.users,
       },
       opts
     );
@@ -435,7 +487,7 @@ export class Cluster extends pulumi.ComponentResource {
         : this.publicSubnetIds || this.config.publicSubnetIds || [];
 
       const ng = new NodeGroup(
-        `${this.name}-${nodeGroupClusterArgs.name}`,
+        this.getNodeGroupName(nodeGroupClusterArgs),
         {
           ...nodeGroupClusterArgs,
           clusterName: this.cluster.name,
@@ -450,6 +502,10 @@ export class Cluster extends pulumi.ComponentResource {
       nodeGroups.push(ng);
     }
     return nodeGroups;
+  }
+
+  private getNodeGroupName(nodeGroup: ClusterNodeGroupArgs): string {
+    return `${this.name}-${nodeGroup.name}`;
   }
 
   private setupDefaultOidcProvider(

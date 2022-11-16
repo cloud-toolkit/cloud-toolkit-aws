@@ -75,6 +75,11 @@ export type Fluentbit = import("./fluentbit").Fluentbit;
 export const Fluentbit: typeof import("./fluentbit").Fluentbit = null as any;
 utilities.lazyLoad(exports, ["Fluentbit"], () => require("./fluentbit"));
 
+export { IamAuthenticatorArgs } from "./iamAuthenticator";
+export type IamAuthenticator = import("./iamAuthenticator").IamAuthenticator;
+export const IamAuthenticator: typeof import("./iamAuthenticator").IamAuthenticator = null as any;
+utilities.lazyLoad(exports, ["IamAuthenticator"], () => require("./iamAuthenticator"));
+
 export { IngressNginxArgs } from "./ingressNginx";
 export type IngressNginx = import("./ingressNginx").IngressNginx;
 export const IngressNginx: typeof import("./ingressNginx").IngressNginx = null as any;
@@ -131,6 +136,8 @@ const _module = {
                 return new ExternalDns(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Fluentbit":
                 return new Fluentbit(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:IamAuthenticator":
+                return new IamAuthenticator(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:IngressNginx":
                 return new IngressNginx(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Irsa":

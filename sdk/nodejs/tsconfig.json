@@ -38,6 +38,7 @@
         "kubernetes/dashboard.ts",
         "kubernetes/externalDns.ts",
         "kubernetes/fluentbit.ts",
+        "kubernetes/iamAuthenticator.ts",
         "kubernetes/index.ts",
         "kubernetes/ingressNginx.ts",
         "kubernetes/irsa.ts",
