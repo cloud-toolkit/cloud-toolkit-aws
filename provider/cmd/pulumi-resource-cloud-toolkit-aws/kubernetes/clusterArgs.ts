@@ -1,6 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import { AdotApplicationMetricsArgs } from "./adotApplicationArgs";
 import { FluentbitLoggingArgs } from "./fluentbitArgs";
+import { IamAuthenticatorUserArgs, IamAuthenticatorRoleArgs } from "./iamAuthenticatorArgs";
 
 export interface ClusterArgs {
   /**
@@ -57,6 +58,33 @@ export interface ClusterArgs {
    * Configure the cluster observability for metrics.
    */
   metrics?: AdotApplicationMetricsArgs;
+
+  /**
+   * Configure authentication integrated with AWS IAM.
+   */
+  authentication?: ClusterAuthenticationArgs;
+}
+
+export interface ClusterAuthenticationArgs {
+  /**
+   * The list of AWS Accounts that can authenticate with the API Server.
+   */
+  accounts?: pulumi.Input<string>[];
+
+  /**
+   * The list of AWS IAM Users names to be configured as cluster-admin.
+   */
+  clusterAdmins?: pulumi.Input<string>[];
+
+  /**
+   * The list of AWS IAM Roles that can authenticate with the API server.
+   */
+  roles?: IamAuthenticatorRoleArgs[];
+
+  /**
+   * The list of AWS IAM Users that can authenticate with the API server.
+   */
+  users?: IamAuthenticatorUserArgs[];
 }
 
 export interface ClusterNetworkingArgs {
@@ -212,5 +240,9 @@ export const defaultClusterArgs = {
   version: defaultVersion,
   addons: {
     enabled: true,
+  },
+  authentication: {
+    users: [],
+    roles: [],
   }
 };

@@ -16,6 +16,7 @@ __all__ = [
     'ClusterAddonsIngressArgsArgs',
     'ClusterAddonsIngressItemArgsArgs',
     'ClusterApiArgsArgs',
+    'ClusterAuthenticationArgsArgs',
     'ClusterNetworkingArgsArgs',
     'ClusterNetworkingIngressArgsArgs',
     'ClusterNodeGroupArgsArgs',
@@ -24,6 +25,8 @@ __all__ = [
     'ClusterPublicApiArgsArgs',
     'FluentbitLoggingArgsArgs',
     'FluentbitLoggingItemArgsArgs',
+    'IamAuthenticatorRoleArgsArgs',
+    'IamAuthenticatorUserArgsArgs',
     'IngressNginxTlsArgsArgs',
     'ProjectResourcesArgsArgs',
 ]
@@ -236,6 +239,77 @@ class ClusterApiArgsArgs:
     @public.setter
     def public(self, value: Optional[pulumi.Input['ClusterPublicApiArgsArgs']]):
         pulumi.set(self, "public", value)
+
+
+@pulumi.input_type
+class ClusterAuthenticationArgsArgs:
+    def __init__(__self__, *,
+                 accounts: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 cluster_admins: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]] = None,
+                 users: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]] = None):
+        """
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] accounts: The list of AWS Accounts that can authenticate with the API Server.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] cluster_admins: The list of AWS IAM Users names to be configured as cluster-admin.
+        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]] roles: The list of AWS IAM Roles that can authenticate with the API server.
+        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]] users: The list of AWS IAM Users that can authenticate with the API server.
+        """
+        if accounts is not None:
+            pulumi.set(__self__, "accounts", accounts)
+        if cluster_admins is not None:
+            pulumi.set(__self__, "cluster_admins", cluster_admins)
+        if roles is not None:
+            pulumi.set(__self__, "roles", roles)
+        if users is not None:
+            pulumi.set(__self__, "users", users)
+
+    @property
+    @pulumi.getter
+    def accounts(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        The list of AWS Accounts that can authenticate with the API Server.
+        """
+        return pulumi.get(self, "accounts")
+
+    @accounts.setter
+    def accounts(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "accounts", value)
+
+    @property
+    @pulumi.getter(name="clusterAdmins")
+    def cluster_admins(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        The list of AWS IAM Users names to be configured as cluster-admin.
+        """
+        return pulumi.get(self, "cluster_admins")
+
+    @cluster_admins.setter
+    def cluster_admins(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "cluster_admins", value)
+
+    @property
+    @pulumi.getter
+    def roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]]:
+        """
+        The list of AWS IAM Roles that can authenticate with the API server.
+        """
+        return pulumi.get(self, "roles")
+
+    @roles.setter
+    def roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]]):
+        pulumi.set(self, "roles", value)
+
+    @property
+    @pulumi.getter
+    def users(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]]:
+        """
+        The list of AWS IAM Users that can authenticate with the API server.
+        """
+        return pulumi.get(self, "users")
+
+    @users.setter
+    def users(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]]):
+        pulumi.set(self, "users", value)
 
 
 @pulumi.input_type
@@ -621,6 +695,112 @@ class FluentbitLoggingItemArgsArgs:
     @data_retention.setter
     def data_retention(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "data_retention", value)
+
+
+@pulumi.input_type
+class IamAuthenticatorRoleArgsArgs:
+    def __init__(__self__, *,
+                 rolearn: pulumi.Input[str],
+                 username: pulumi.Input[str],
+                 groups: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        """
+        :param pulumi.Input[str] rolearn: The AWS IAM Role arn.
+        :param pulumi.Input[str] username: The Kubernetes username to be associated with the AWS IAM Role.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] groups: The list of Kubernetes groups to be associated with the AWS IAM Role.
+        """
+        pulumi.set(__self__, "rolearn", rolearn)
+        pulumi.set(__self__, "username", username)
+        if groups is not None:
+            pulumi.set(__self__, "groups", groups)
+
+    @property
+    @pulumi.getter
+    def rolearn(self) -> pulumi.Input[str]:
+        """
+        The AWS IAM Role arn.
+        """
+        return pulumi.get(self, "rolearn")
+
+    @rolearn.setter
+    def rolearn(self, value: pulumi.Input[str]):
+        pulumi.set(self, "rolearn", value)
+
+    @property
+    @pulumi.getter
+    def username(self) -> pulumi.Input[str]:
+        """
+        The Kubernetes username to be associated with the AWS IAM Role.
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: pulumi.Input[str]):
+        pulumi.set(self, "username", value)
+
+    @property
+    @pulumi.getter
+    def groups(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        The list of Kubernetes groups to be associated with the AWS IAM Role.
+        """
+        return pulumi.get(self, "groups")
+
+    @groups.setter
+    def groups(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "groups", value)
+
+
+@pulumi.input_type
+class IamAuthenticatorUserArgsArgs:
+    def __init__(__self__, *,
+                 userarn: pulumi.Input[str],
+                 username: pulumi.Input[str],
+                 groups: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        """
+        :param pulumi.Input[str] userarn: The AWS IAM User arn.
+        :param pulumi.Input[str] username: The Kubernetes username to be associated with the AWS IAM User.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] groups: The list of Kubernetes groups to be associated with the AWS IAM User.
+        """
+        pulumi.set(__self__, "userarn", userarn)
+        pulumi.set(__self__, "username", username)
+        if groups is not None:
+            pulumi.set(__self__, "groups", groups)
+
+    @property
+    @pulumi.getter
+    def userarn(self) -> pulumi.Input[str]:
+        """
+        The AWS IAM User arn.
+        """
+        return pulumi.get(self, "userarn")
+
+    @userarn.setter
+    def userarn(self, value: pulumi.Input[str]):
+        pulumi.set(self, "userarn", value)
+
+    @property
+    @pulumi.getter
+    def username(self) -> pulumi.Input[str]:
+        """
+        The Kubernetes username to be associated with the AWS IAM User.
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: pulumi.Input[str]):
+        pulumi.set(self, "username", value)
+
+    @property
+    @pulumi.getter
+    def groups(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        The list of Kubernetes groups to be associated with the AWS IAM User.
+        """
+        return pulumi.get(self, "groups")
+
+    @groups.setter
+    def groups(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "groups", value)
 
 
 @pulumi.input_type

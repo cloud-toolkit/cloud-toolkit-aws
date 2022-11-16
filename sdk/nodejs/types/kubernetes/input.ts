@@ -69,6 +69,25 @@ export interface ClusterApiArgsArgs {
     public?: pulumi.Input<inputs.kubernetes.ClusterPublicApiArgsArgs>;
 }
 
+export interface ClusterAuthenticationArgsArgs {
+    /**
+     * The list of AWS Accounts that can authenticate with the API Server.
+     */
+    accounts?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The list of AWS IAM Users names to be configured as cluster-admin.
+     */
+    clusterAdmins?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The list of AWS IAM Roles that can authenticate with the API server.
+     */
+    roles?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorRoleArgsArgs>[]>;
+    /**
+     * The list of AWS IAM Users that can authenticate with the API server.
+     */
+    users?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorUserArgsArgs>[]>;
+}
+
 export interface ClusterNetworkingArgsArgs {
     /**
      * Configure the access to admin applications.
@@ -175,6 +194,36 @@ export interface FluentbitLoggingItemArgsArgs {
      * Enable logging.
      */
     enabled: pulumi.Input<boolean>;
+}
+
+export interface IamAuthenticatorRoleArgsArgs {
+    /**
+     * The list of Kubernetes groups to be associated with the AWS IAM Role.
+     */
+    groups?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The AWS IAM Role arn.
+     */
+    rolearn: pulumi.Input<string>;
+    /**
+     * The Kubernetes username to be associated with the AWS IAM Role.
+     */
+    username: pulumi.Input<string>;
+}
+
+export interface IamAuthenticatorUserArgsArgs {
+    /**
+     * The list of Kubernetes groups to be associated with the AWS IAM User.
+     */
+    groups?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The AWS IAM User arn.
+     */
+    userarn: pulumi.Input<string>;
+    /**
+     * The Kubernetes username to be associated with the AWS IAM User.
+     */
+    username: pulumi.Input<string>;
 }
 
 export interface IngressNginxTlsArgsArgs {
