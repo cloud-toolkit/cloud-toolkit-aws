@@ -2,6 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 import minimalConfiguration from "./fixtures/cluster-minimal-configuration";
 import customNetworking from "./fixtures/cluster-custom-netwokring";
 import nodeGroupConfiguration from "./fixtures/cluster-node-group";
+import withoutNodeGroupConfiguration from "./fixtures/cluster-withoutNodeGroups";
 import customVpcConfiguration from "./fixtures/cluster-customVpc";
 import publicSubnetIdsConfiguration from "./fixtures/cluster-customPublicSubnetIds";
 import privateSubnetIdsConfiguration from "./fixtures/cluster-customPrivateSubnetIds";
@@ -156,6 +157,24 @@ describe("Minimal configuration", function () {
     expect(instance.defaultOidcProvider).toBeDefined();
   });
 });
+
+describe("Without Node Groups", function () {
+  let component: typeof import("../cluster");
+  let instance;
+
+  beforeAll(async function () {
+    component = await import("../cluster");
+  });
+
+  test("It shouldn't create any NodeGroups", async function () {
+    instance = new component.Cluster(
+      "without-node-group",
+      withoutNodeGroupConfiguration
+    );
+    expect(instance.nodeGroups.length).toBe(0);
+  });
+});
+
 
 describe("Custom Node Groups", function () {
   let component: typeof import("../cluster");
