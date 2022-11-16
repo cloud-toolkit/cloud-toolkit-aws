@@ -9,6 +9,7 @@ import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
 from ..cluster_addons import ClusterAddons
+from ..iam_authenticator import IamAuthenticator
 from ..node_group import NodeGroup
 from ._enums import *
 from ._inputs import *
@@ -22,6 +23,7 @@ class ClusterArgs:
     def __init__(__self__, *,
                  addons: Optional[pulumi.Input['AddonsArgsArgs']] = None,
                  api: Optional[pulumi.Input['ClusterApiArgsArgs']] = None,
+                 authentication: Optional[pulumi.Input['ClusterAuthenticationArgsArgs']] = None,
                  logging: Optional[pulumi.Input['FluentbitLoggingArgsArgs']] = None,
                  metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None,
                  networking: Optional[pulumi.Input['ClusterNetworkingArgsArgs']] = None,
@@ -35,6 +37,7 @@ class ClusterArgs:
         The set of arguments for constructing a Cluster resource.
         :param pulumi.Input['AddonsArgsArgs'] addons: The addons installed in the cluster.
         :param pulumi.Input['ClusterApiArgsArgs'] api: Configure the Kubernetes cluster API.
+        :param pulumi.Input['ClusterAuthenticationArgsArgs'] authentication: Configure authentication integrated with AWS IAM.
         :param pulumi.Input['FluentbitLoggingArgsArgs'] logging: Configure the cluster observability for logging.
         :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure the cluster observability for metrics.
         :param pulumi.Input['ClusterNetworkingArgsArgs'] networking: Configure the cluster networking.
@@ -49,6 +52,8 @@ class ClusterArgs:
             pulumi.set(__self__, "addons", addons)
         if api is not None:
             pulumi.set(__self__, "api", api)
+        if authentication is not None:
+            pulumi.set(__self__, "authentication", authentication)
         if logging is not None:
             pulumi.set(__self__, "logging", logging)
         if metrics is not None:
@@ -91,6 +96,18 @@ class ClusterArgs:
     @api.setter
     def api(self, value: Optional[pulumi.Input['ClusterApiArgsArgs']]):
         pulumi.set(self, "api", value)
+
+    @property
+    @pulumi.getter
+    def authentication(self) -> Optional[pulumi.Input['ClusterAuthenticationArgsArgs']]:
+        """
+        Configure authentication integrated with AWS IAM.
+        """
+        return pulumi.get(self, "authentication")
+
+    @authentication.setter
+    def authentication(self, value: Optional[pulumi.Input['ClusterAuthenticationArgsArgs']]):
+        pulumi.set(self, "authentication", value)
 
     @property
     @pulumi.getter
@@ -208,6 +225,7 @@ class Cluster(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
+                 authentication: Optional[pulumi.Input[pulumi.InputType['ClusterAuthenticationArgsArgs']]] = None,
                  logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
                  metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
@@ -225,6 +243,7 @@ class Cluster(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[pulumi.InputType['AddonsArgsArgs']] addons: The addons installed in the cluster.
         :param pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']] api: Configure the Kubernetes cluster API.
+        :param pulumi.Input[pulumi.InputType['ClusterAuthenticationArgsArgs']] authentication: Configure authentication integrated with AWS IAM.
         :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']] logging: Configure the cluster observability for logging.
         :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure the cluster observability for metrics.
         :param pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']] networking: Configure the cluster networking.
@@ -261,6 +280,7 @@ class Cluster(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
+                 authentication: Optional[pulumi.Input[pulumi.InputType['ClusterAuthenticationArgsArgs']]] = None,
                  logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
                  metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
@@ -283,6 +303,7 @@ class Cluster(pulumi.ComponentResource):
 
             __props__.__dict__["addons"] = addons
             __props__.__dict__["api"] = api
+            __props__.__dict__["authentication"] = authentication
             __props__.__dict__["logging"] = logging
             __props__.__dict__["metrics"] = metrics
             __props__.__dict__["networking"] = networking
@@ -296,6 +317,7 @@ class Cluster(pulumi.ComponentResource):
             __props__.__dict__["cluster_addons"] = None
             __props__.__dict__["cni_chart"] = None
             __props__.__dict__["default_oidc_provider"] = None
+            __props__.__dict__["iam_authenticator"] = None
             __props__.__dict__["kubeconfig"] = None
             __props__.__dict__["provider"] = None
             __props__.__dict__["provisioner_provider"] = None
@@ -343,6 +365,14 @@ class Cluster(pulumi.ComponentResource):
         The default OIDC Provider.
         """
         return pulumi.get(self, "default_oidc_provider")
+
+    @property
+    @pulumi.getter(name="iamAuthenticator")
+    def iam_authenticator(self) -> pulumi.Output['IamAuthenticator']:
+        """
+        The IAM Authenticator to integrate AWS IAM with Kubernetes authentication.
+        """
+        return pulumi.get(self, "iam_authenticator")
 
     @property
     @pulumi.getter

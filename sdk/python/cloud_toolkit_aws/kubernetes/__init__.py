@@ -20,6 +20,7 @@ from .cluster_autoscaler import *
 from .dashboard import *
 from .external_dns import *
 from .fluentbit import *
+from .iam_authenticator import *
 from .ingress_nginx import *
 from .irsa import *
 from .node_group import *

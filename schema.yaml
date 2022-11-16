@@ -479,6 +479,37 @@ types:
       metrics:
         description: Configure the cluster observability for metrics.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
+      authentication:
+        description: Configure authentication integrated with AWS IAM.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAuthenticationArgs"
+    type: object
+    required: []
+  cloud-toolkit-aws:kubernetes:ClusterAuthenticationArgs:
+    properties:
+      accounts:
+        description: The list of AWS Accounts that can authenticate with the API Server.
+        type: array
+        items:
+          description: The list of AWS Accounts that can authenticate with the API Server.
+          type: string
+      clusterAdmins:
+        description: The list of AWS IAM Users names to be configured as cluster-admin.
+        type: array
+        items:
+          description: The list of AWS IAM Users names to be configured as cluster-admin.
+          type: string
+      roles:
+        description: The list of AWS IAM Roles that can authenticate with the API server.
+        type: array
+        items:
+          description: The list of AWS IAM Roles that can authenticate with the API server.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+      users:
+        description: The list of AWS IAM Users that can authenticate with the API server.
+        type: array
+        items:
+          description: The list of AWS IAM Users that can authenticate with the API server.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUserArgs"
     type: object
     required: []
   cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs:
@@ -656,6 +687,86 @@ types:
     required:
       - clusterName
       - awsRegion
+  cloud-toolkit-aws:kubernetes:IamAuthenticatorArgs:
+    properties:
+      accounts:
+        description: List of AWS Accounts allowed to authenticate in the cluster.
+        type: array
+        items:
+          description: List of AWS Accounts allowed to authenticate in the cluster.
+          type: string
+      clusterArn:
+        description: The EKS Cluster ARN.
+        type: string
+      kubeconfig:
+        description: The Kubeconfig to access to the cluster.
+        type: string
+      roles:
+        description: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
+        type: array
+        items:
+          description: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+      nodeGroupRoles:
+        description: The list of AWS IAM Roles for NodeGroups to generate the aws-auth
+          ConfigMap.
+        type: array
+        items:
+          description: The list of AWS IAM Roles for NodeGroups to generate the aws-auth
+            ConfigMap.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+      users:
+        description: The list of AWS IAM Users to generate the aws-auth ConfigMap.
+        type: array
+        items:
+          description: The list of AWS IAM Users to generate the aws-auth ConfigMap.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUserArgs"
+      clusterAdmins:
+        description: The list of AWS IAM Users names to be configured as cluster-admin.
+        type: array
+        items:
+          description: The list of AWS IAM Users names to be configured as cluster-admin.
+          type: string
+    type: object
+    required:
+      - clusterArn
+      - kubeconfig
+  cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs:
+    properties:
+      rolearn:
+        description: The AWS IAM Role arn.
+        type: string
+      groups:
+        description: The list of Kubernetes groups to be associated with the AWS IAM Role.
+        type: array
+        items:
+          description: The list of Kubernetes groups to be associated with the AWS IAM Role.
+          type: string
+      username:
+        description: The Kubernetes username to be associated with the AWS IAM Role.
+        type: string
+    type: object
+    required:
+      - rolearn
+      - username
+  cloud-toolkit-aws:kubernetes:IamAuthenticatorUserArgs:
+    properties:
+      userarn:
+        description: The AWS IAM User arn.
+        type: string
+      groups:
+        description: The list of Kubernetes groups to be associated with the AWS IAM User.
+        type: array
+        items:
+          description: The list of Kubernetes groups to be associated with the AWS IAM User.
+          type: string
+      username:
+        description: The Kubernetes username to be associated with the AWS IAM User.
+        type: string
+    type: object
+    required:
+      - userarn
+      - username
   cloud-toolkit-aws:kubernetes:IngressNginxArgs:
     properties:
       tls:
@@ -1915,6 +2026,10 @@ resources:
       clusterAddons:
         description: The VPC CNI Chart installed in the cluster.
         $ref: "#/resources/cloud-toolkit-aws:kubernetes:ClusterAddons"
+      iamAuthenticator:
+        description: The IAM Authenticator to integrate AWS IAM with Kubernetes
+          authentication.
+        $ref: "#/resources/cloud-toolkit-aws:kubernetes:IamAuthenticator"
     required:
       - subnetTags
       - provisionerRole
@@ -1928,6 +2043,7 @@ resources:
       - provider
       - nodeGroups
       - cniChart
+      - iamAuthenticator
     inputProperties:
       vpcId:
         description: The VPC ID where the cluster will be deployed
@@ -1975,6 +2091,9 @@ resources:
       metrics:
         description: Configure the cluster observability for metrics.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
+      authentication:
+        description: Configure authentication integrated with AWS IAM.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAuthenticationArgs"
     requiredInputs: []
     isComponent: true
     type: object
@@ -2201,6 +2320,96 @@ resources:
     requiredInputs:
       - clusterName
       - awsRegion
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:kubernetes:IamAuthenticator:
+    description: IamAuthenticator is a component that integrates the AWS IAM service
+      with the Kubernetes authentication system. He receives a list of AWS IAM
+      users and roles to enable their authentication to the cluster.
+    properties:
+      clusterAdminUserGroupMemberships:
+        description: The list of AWS IAM UserGroupMemebership to provide cluster-admin
+          access to the given users.
+        type: array
+        items:
+          description: The list of AWS IAM UserGroupMemebership to provide cluster-admin
+            access to the given users.
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fuserGroupMembership:UserGroupMembership
+      clusterAdminGroup:
+        description: The AWS IAM Group that has admin permission in the cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fgroup:Group
+      clusterAdminGroupPolicy:
+        description: The AWS IAM Group Policy that has admin permission in the cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fgroupPolicy:GroupPolicy
+      clusterAdminRolePolicy:
+        description: The AWS IAM Group Policy that has admin permission in the cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicy:RolePolicy
+      clusterAdminRole:
+        description: The AWS IAM Role that has admin permission in the cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
+      clusterUserPolicy:
+        description: The AWS IAM Group Policy that has admin permission in the cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicy:Policy
+      clusterUserPolicyAttachment:
+        description: The AWS IAM Group Policy that has admin permission in the cluster.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2fpolicyAttachment:PolicyAttachment
+      configMap:
+        description: The Path applied to the authentication ConfigMap.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:ConfigMap
+      provider:
+        description: The Kubernetes provider.
+        $ref: /kubernetes/v3.21.2/schema.json#/provider
+    required:
+      - clusterAdminUserGroupMemberships
+      - clusterAdminGroup
+      - clusterAdminGroupPolicy
+      - clusterAdminRolePolicy
+      - clusterAdminRole
+      - clusterUserPolicy
+      - configMap
+      - provider
+    inputProperties:
+      accounts:
+        description: List of AWS Accounts allowed to authenticate in the cluster.
+        type: array
+        items:
+          description: List of AWS Accounts allowed to authenticate in the cluster.
+          type: string
+      clusterArn:
+        description: The EKS Cluster ARN.
+        type: string
+      kubeconfig:
+        description: The Kubeconfig to access to the cluster.
+        type: string
+      roles:
+        description: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
+        type: array
+        items:
+          description: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+      nodeGroupRoles:
+        description: The list of AWS IAM Roles for NodeGroups to generate the aws-auth
+          ConfigMap.
+        type: array
+        items:
+          description: The list of AWS IAM Roles for NodeGroups to generate the aws-auth
+            ConfigMap.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+      users:
+        description: The list of AWS IAM Users to generate the aws-auth ConfigMap.
+        type: array
+        items:
+          description: The list of AWS IAM Users to generate the aws-auth ConfigMap.
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUserArgs"
+      clusterAdmins:
+        description: The list of AWS IAM Users names to be configured as cluster-admin.
+        type: array
+        items:
+          description: The list of AWS IAM Users names to be configured as cluster-admin.
+          type: string
+    requiredInputs:
+      - clusterArn
+      - kubeconfig
     isComponent: true
     type: object
   cloud-toolkit-aws:kubernetes:IngressNginx:

@@ -10,7 +10,7 @@ import * as utilities from "../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {ClusterAddons, NodeGroup} from "./index";
+import {ClusterAddons, IamAuthenticator, NodeGroup} from "./index";
 
 /**
  * Cluster is a component that deploys a production-ready Kubernetes cluster. It setups the AWS IAM and netwokring, as well many Kubernetes services to run application in production.
@@ -46,6 +46,10 @@ export class Cluster extends pulumi.ComponentResource {
      * The default OIDC Provider.
      */
     public /*out*/ readonly defaultOidcProvider!: pulumi.Output<pulumiAws.iam.OpenIdConnectProvider | undefined>;
+    /**
+     * The IAM Authenticator to integrate AWS IAM with Kubernetes authentication.
+     */
+    public /*out*/ readonly iamAuthenticator!: pulumi.Output<IamAuthenticator>;
     /**
      * The kubeconfig content for this cluster.
      */
@@ -100,6 +104,7 @@ export class Cluster extends pulumi.ComponentResource {
         if (!opts.id) {
             resourceInputs["addons"] = args ? args.addons : undefined;
             resourceInputs["api"] = args ? args.api : undefined;
+            resourceInputs["authentication"] = args ? args.authentication : undefined;
             resourceInputs["logging"] = args ? args.logging : undefined;
             resourceInputs["metrics"] = args ? args.metrics : undefined;
             resourceInputs["networking"] = args ? args.networking : undefined;
@@ -113,6 +118,7 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
             resourceInputs["defaultOidcProvider"] = undefined /*out*/;
+            resourceInputs["iamAuthenticator"] = undefined /*out*/;
             resourceInputs["kubeconfig"] = undefined /*out*/;
             resourceInputs["provider"] = undefined /*out*/;
             resourceInputs["provisionerProvider"] = undefined /*out*/;
@@ -127,6 +133,7 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["clusterAddons"] = undefined /*out*/;
             resourceInputs["cniChart"] = undefined /*out*/;
             resourceInputs["defaultOidcProvider"] = undefined /*out*/;
+            resourceInputs["iamAuthenticator"] = undefined /*out*/;
             resourceInputs["kubeconfig"] = undefined /*out*/;
             resourceInputs["nodeGroups"] = undefined /*out*/;
             resourceInputs["provider"] = undefined /*out*/;
@@ -155,6 +162,10 @@ export interface ClusterArgs {
      * Configure the Kubernetes cluster API.
      */
     api?: pulumi.Input<inputs.kubernetes.ClusterApiArgsArgs>;
+    /**
+     * Configure authentication integrated with AWS IAM.
+     */
+    authentication?: pulumi.Input<inputs.kubernetes.ClusterAuthenticationArgsArgs>;
     /**
      * Configure the cluster observability for logging.
      */
