@@ -4,7 +4,6 @@ import * as aws from "@pulumi/aws";
 import * as kubernetes from "@pulumi/kubernetes";
 import defaultsDeep from "lodash.defaultsdeep";
 import { ApplicationAddon } from "./applicationAddon"
-import { IrsaApplicationAddonArgs } from "./applicationAddonArgs";
 import { AdotApplicationArgs, AdotApplicationDefaultArgs } from "./adotApplicationArgs"
 
 export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
@@ -37,7 +36,6 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
     });
 
     this.namespace = this.setupNamespace(resourceOpts);
-
 
     const applicationDependsOn: pulumi.Input<pulumi.Resource>[] = [];
     if (this.args.metrics?.enabled) {
@@ -280,44 +278,6 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
     return defaultsDeep({ ...a }, AdotApplicationDefaultArgs);
   }
 
-  private getOperatorApplicationSpec(): any {
-    return {
-      project: "default",
-      source: {
-        repoURL: "https://open-telemetry.github.io/opentelemetry-helm-charts",
-        chart: "opentelemetry-operator",
-        targetRevision: "0.17.0",
-        helm: {
-          releaseName: "opentelemetry-operator",
-        },
-      },
-      destination: {
-        server: "https://kubernetes.default.svc",
-        namespace: this.args.namespace,
-      },
-      syncPolicy: {
-        automated: {
-          prune: true,
-          selfHeal: true,
-          allowEmpty: false,
-        },
-        retry: {
-          limit: 10,
-          backoff: {
-            duration: "5s",
-            factor: 2,
-            maxDuration: "1m",
-          },
-        },
-        syncOptions: [
-          "Validate=false",
-          "PrunePropagationPolicy=foreground",
-          "PruneLast=true",
-        ],
-      },
-    };
-  }
-
   getApplicationSpec(): any {
     return {
       project: "default",
@@ -328,10 +288,6 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
         helm: {
           releaseName: "adot-exporter-for-eks-on-ec2",
           parameters: [
-            {
-              name: "global.namespaceOverride",
-              value: this.args.namespace,
-            },
             {
               name: "awsRegion",
               value: this.args.awsRegion,
@@ -355,7 +311,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
             },
             {
               name: "fluentbit.namespace",
-              value: this.args.namespace,
+              value: "system-logging",
             },
             {
               name: "fluentbit.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn",
