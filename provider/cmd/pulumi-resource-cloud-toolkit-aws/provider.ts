@@ -100,9 +100,9 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesEbsDriver(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:ClusterAutoscaler":
         return await constructKubernetesClusterAutoscaler(name, inputs, options);
-      case "cloudToolkit:aws:kubernetes:AdotApplication":
+      case "cloud-toolkit-aws:kubernetes:AdotApplication":
         return await constructKubernetesAdotApplication(name, inputs, options);
-      case "cloudToolkit:aws:kubernetes:AdotOperator":
+      case "cloud-toolkit-aws:kubernetes:AdotOperator":
         return await constructKubernetesAdotOperator(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);

@@ -7,16 +7,44 @@ import { ApplicationAddon } from "./applicationAddon"
 import { AdotApplicationArgs, AdotApplicationDefaultArgs } from "./adotApplicationArgs"
 
 export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
+  /**
+   * The Namespace used to deploy the component.
+   */
   public readonly namespace?: kubernetes.core.v1.Namespace;
 
+  /**
+   * AWS LogGroup used to store application logs.
+   */
   public readonly logGroupApplicationLog?: aws.cloudwatch.LogGroup;
+
+  /**
+   * AWS LogGroup used to store dataplane logs.
+   */
   public readonly logGroupDataplaneLog?: aws.cloudwatch.LogGroup;
+
+  /**
+   * AWS LogGroup used to store host logs.
+   */
   public readonly logGroupHostLog?: aws.cloudwatch.LogGroup;
+
+  /**
+   * AWS LogGroup used to store metrics.
+   */
   public readonly logGroupMetrics?: aws.cloudwatch.LogGroup;
 
+  /**
+   * IRSA used by FluentBit.
+   */
   public readonly fluentBitIRSA?: Irsa;
+
+  /**
+   * IRSA used by AdotCollector.
+   */
   public readonly adotCollectorIRSA?: Irsa;
 
+  /**
+   * The ArgoCD Application to deploy the component.
+   */
   public readonly application: kubernetes.apiextensions.CustomResource;
 
   constructor(
@@ -25,7 +53,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
     opts?: pulumi.ComponentResourceOptions
   ) {
     super(
-      "cloudToolkit:aws:kubernetes:AdotApplication",
+      "cloud-toolkit-aws:kubernetes:AdotApplication",
       name,
       args,
       opts

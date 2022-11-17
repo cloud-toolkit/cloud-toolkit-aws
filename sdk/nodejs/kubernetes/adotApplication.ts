@@ -27,13 +27,37 @@ export class AdotApplication extends pulumi.ComponentResource {
         return obj['__pulumiType'] === AdotApplication.__pulumiType;
     }
 
+    /**
+     * IRSA used by AdotCollector.
+     */
     public /*out*/ readonly adotCollectorIRSA!: pulumi.Output<Irsa | undefined>;
+    /**
+     * The ArgoCD Application to deploy the component.
+     */
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
+    /**
+     * IRSA used by FluentBit.
+     */
     public /*out*/ readonly fluentBitIRSA!: pulumi.Output<Irsa | undefined>;
+    /**
+     * AWS LogGroup used to store application logs.
+     */
     public /*out*/ readonly logGroupApplicationLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
+    /**
+     * AWS LogGroup used to store dataplane logs.
+     */
     public /*out*/ readonly logGroupDataplaneLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
+    /**
+     * AWS LogGroup used to store host logs.
+     */
     public /*out*/ readonly logGroupHostLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
+    /**
+     * AWS LogGroup used to store metrics.
+     */
     public /*out*/ readonly logGroupMetrics!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
+    /**
+     * The Namespace used to deploy the component.
+     */
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
 
     /**

@@ -167,40 +167,64 @@ class AdotApplication(pulumi.ComponentResource):
     @property
     @pulumi.getter(name="adotCollectorIRSA")
     def adot_collector_irsa(self) -> pulumi.Output[Optional[Any]]:
+        """
+        IRSA used by AdotCollector.
+        """
         return pulumi.get(self, "adot_collector_irsa")
 
     @property
     @pulumi.getter
     def application(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
+        """
+        The ArgoCD Application to deploy the component.
+        """
         return pulumi.get(self, "application")
 
     @property
     @pulumi.getter(name="fluentBitIRSA")
     def fluent_bit_irsa(self) -> pulumi.Output[Optional[Any]]:
+        """
+        IRSA used by FluentBit.
+        """
         return pulumi.get(self, "fluent_bit_irsa")
 
     @property
     @pulumi.getter(name="logGroupApplicationLog")
     def log_group_application_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        """
+        AWS LogGroup used to store application logs.
+        """
         return pulumi.get(self, "log_group_application_log")
 
     @property
     @pulumi.getter(name="logGroupDataplaneLog")
     def log_group_dataplane_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        """
+        AWS LogGroup used to store dataplane logs.
+        """
         return pulumi.get(self, "log_group_dataplane_log")
 
     @property
     @pulumi.getter(name="logGroupHostLog")
     def log_group_host_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        """
+        AWS LogGroup used to store host logs.
+        """
         return pulumi.get(self, "log_group_host_log")
 
     @property
     @pulumi.getter(name="logGroupMetrics")
     def log_group_metrics(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        """
+        AWS LogGroup used to store metrics.
+        """
         return pulumi.get(self, "log_group_metrics")
 
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Output[Optional['pulumi_kubernetes.core.v1.Namespace']]:
+        """
+        The Namespace used to deploy the component.
+        """
         return pulumi.get(self, "namespace")
 

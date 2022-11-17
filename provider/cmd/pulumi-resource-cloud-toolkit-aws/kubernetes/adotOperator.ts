@@ -16,7 +16,7 @@ export class AdotOperator extends ApplicationAddon<AdotOperatorArgs> {
     opts?: pulumi.ComponentResourceOptions
   ) {
     super(
-      "cloudToolkit:aws:kubernetes:AdotOperator",
+      "cloud-toolkit-aws:kubernetes:AdotOperator",
       name,
       args,
       opts
