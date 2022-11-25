@@ -1,5 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
-import { AdotApplicationMetricsArgs, AdotApplicationLoggingArgs } from "./adotApplicationArgs";
+import { AdotApplicationMetricsArgs } from "./adotApplicationArgs";
+import { FluentbitLoggingArgs } from "./fluentbitArgs";
 
 export interface ClusterArgs {
   /**
@@ -50,7 +51,7 @@ export interface ClusterArgs {
   /**
    * Configure the cluster observability for logging.
    */
-  logging?: AdotApplicationLoggingArgs;
+  logging?: FluentbitLoggingArgs;
 
   /**
    * Configure the cluster observability for metrics.

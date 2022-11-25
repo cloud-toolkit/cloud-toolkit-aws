@@ -9,7 +9,7 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {AdotApplication, AdotOperator, ArgoCD, AwsEbsCsiDriver, AwsLoadBalancerController, Calico, CertManager, ClusterAutoscaler, Dashboard, ExternalDns, IngressNginx} from "./index";
+import {AdotApplication, AdotOperator, ArgoCD, AwsEbsCsiDriver, AwsLoadBalancerController, Calico, CertManager, ClusterAutoscaler, Dashboard, ExternalDns, Fluentbit, IngressNginx} from "./index";
 
 /**
  * ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -42,7 +42,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
      */
     public /*out*/ readonly adminZoneId!: pulumi.Output<string | undefined>;
     /**
-     * The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
+     * The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
      */
     public /*out*/ readonly adotApplication!: pulumi.Output<AdotApplication>;
     /**
@@ -93,6 +93,10 @@ export class ClusterAddons extends pulumi.ComponentResource {
      * The ExternalDns addon.
      */
     public /*out*/ readonly externalDns!: pulumi.Output<ExternalDns>;
+    /**
+     * The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
+     */
+    public /*out*/ readonly fluentbit!: pulumi.Output<Fluentbit>;
 
     /**
      * Create a ClusterAddons resource with the given unique name, arguments, and options.
@@ -140,6 +144,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["defaultZoneId"] = undefined /*out*/;
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
+            resourceInputs["fluentbit"] = undefined /*out*/;
         } else {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["adminZoneArn"] = undefined /*out*/;
@@ -157,6 +162,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["defaultZoneId"] = undefined /*out*/;
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
+            resourceInputs["fluentbit"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(ClusterAddons.__pulumiType, name, resourceInputs, opts, true /*remote*/);
@@ -190,7 +196,7 @@ export interface ClusterAddonsArgs {
     /**
      * Configure the cluster observability for logging.
      */
-    logging?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingArgsArgs>;
+    logging?: pulumi.Input<inputs.kubernetes.FluentbitLoggingArgsArgs>;
     /**
      * Configure the cluster observability for metrics.
      */

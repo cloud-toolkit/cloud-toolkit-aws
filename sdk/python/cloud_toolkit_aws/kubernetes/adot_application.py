@@ -20,19 +20,15 @@ class AdotApplicationArgs:
     def __init__(__self__, *,
                  aws_region: pulumi.Input[str],
                  cluster_name: pulumi.Input[str],
-                 logging: Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']] = None,
                  metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None):
         """
         The set of arguments for constructing a AdotApplication resource.
         :param pulumi.Input[str] aws_region: The AWS Region.
         :param pulumi.Input[str] cluster_name: The cluster name.
-        :param pulumi.Input['AdotApplicationLoggingArgsArgs'] logging: Configure logging.
         :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure metrics.
         """
         pulumi.set(__self__, "aws_region", aws_region)
         pulumi.set(__self__, "cluster_name", cluster_name)
-        if logging is not None:
-            pulumi.set(__self__, "logging", logging)
         if metrics is not None:
             pulumi.set(__self__, "metrics", metrics)
 
@@ -62,18 +58,6 @@ class AdotApplicationArgs:
 
     @property
     @pulumi.getter
-    def logging(self) -> Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']]:
-        """
-        Configure logging.
-        """
-        return pulumi.get(self, "logging")
-
-    @logging.setter
-    def logging(self, value: Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']]):
-        pulumi.set(self, "logging", value)
-
-    @property
-    @pulumi.getter
     def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]:
         """
         Configure metrics.
@@ -92,7 +76,6 @@ class AdotApplication(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']]] = None,
                  metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
                  __props__=None):
         """
@@ -101,7 +84,6 @@ class AdotApplication(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] aws_region: The AWS Region.
         :param pulumi.Input[str] cluster_name: The cluster name.
-        :param pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']] logging: Configure logging.
         :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure metrics.
         """
         ...
@@ -129,7 +111,6 @@ class AdotApplication(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']]] = None,
                  metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
@@ -148,14 +129,9 @@ class AdotApplication(pulumi.ComponentResource):
             if cluster_name is None and not opts.urn:
                 raise TypeError("Missing required property 'cluster_name'")
             __props__.__dict__["cluster_name"] = cluster_name
-            __props__.__dict__["logging"] = logging
             __props__.__dict__["metrics"] = metrics
             __props__.__dict__["adot_collector_irsa"] = None
             __props__.__dict__["application"] = None
-            __props__.__dict__["fluent_bit_irsa"] = None
-            __props__.__dict__["log_group_application_log"] = None
-            __props__.__dict__["log_group_dataplane_log"] = None
-            __props__.__dict__["log_group_host_log"] = None
             __props__.__dict__["log_group_metrics"] = None
             __props__.__dict__["namespace"] = None
         super(AdotApplication, __self__).__init__(
@@ -174,26 +150,6 @@ class AdotApplication(pulumi.ComponentResource):
     @pulumi.getter
     def application(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
         return pulumi.get(self, "application")
-
-    @property
-    @pulumi.getter(name="fluentBitIRSA")
-    def fluent_bit_irsa(self) -> pulumi.Output['Irsa']:
-        return pulumi.get(self, "fluent_bit_irsa")
-
-    @property
-    @pulumi.getter(name="logGroupApplicationLog")
-    def log_group_application_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
-        return pulumi.get(self, "log_group_application_log")
-
-    @property
-    @pulumi.getter(name="logGroupDataplaneLog")
-    def log_group_dataplane_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
-        return pulumi.get(self, "log_group_dataplane_log")
-
-    @property
-    @pulumi.getter(name="logGroupHostLog")
-    def log_group_host_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
-        return pulumi.get(self, "log_group_host_log")
 
     @property
     @pulumi.getter(name="logGroupMetrics")

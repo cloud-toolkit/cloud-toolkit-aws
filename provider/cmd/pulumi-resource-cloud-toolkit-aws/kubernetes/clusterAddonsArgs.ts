@@ -1,6 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
-import { AdotApplicationMetricsArgs, AdotApplicationLoggingArgs } from "./adotApplicationArgs";
+import { AdotApplicationMetricsArgs } from "./adotApplicationArgs";
+import { FluentbitLoggingArgs  } from "./fluentbitArgs";
 import * as aws from "@pulumi/aws";
 
 export interface ClusterAddonsArgs {
@@ -27,7 +28,7 @@ export interface ClusterAddonsArgs {
   /**
    * Configure the cluster observability for logging.
    */
-  logging?: AdotApplicationLoggingArgs;
+  logging?: FluentbitLoggingArgs;
 
   /**
    * Configure the cluster observability for metrics.

@@ -25,33 +25,8 @@ export interface AdotApplicationMetricsArgs {
   dataRetention?: number;
 }
 
-export interface AdotApplicationLoggingArgs {
-  /**
-   * Enable logging.
-   */
-  enabled: boolean;
-
-  /**
-   * Configure applications logging.
-   */
-  applications?: AdotApplicationLoggingItemArgs;
-
-  /**
-   * Configure data plane logging.
-   */
-  dataplane?: AdotApplicationLoggingItemArgs;
-
-  /**
-   * Configure host logging.
-   */
-  host?: AdotApplicationLoggingItemArgs;
-}
 
 export interface AdotApplicationArgs extends IrsaApplicationAddonArgs {
-  /**
-   * Configure logging.
-   */
-  logging?: AdotApplicationLoggingArgs;
 
   /**
    * Configure metrics.
@@ -69,27 +44,10 @@ export interface AdotApplicationArgs extends IrsaApplicationAddonArgs {
   awsRegion: pulumi.Input<string>;
 }
 
-export const defaultLoggingEnabled = true;
-export const defaultLoggingDataRetention = 7;
-
 export const defaultMetricsEnabled = true;
 export const defaultMetricsDataRetention = 7;
 
 export const AdotApplicationDefaultArgs = {
-  logging: {
-    applications: {
-      enabled: defaultLoggingEnabled,
-      dataRetention: defaultLoggingDataRetention,
-    },
-    dataPlane: {
-      enabled: defaultLoggingEnabled,
-      dataRetention: defaultLoggingDataRetention,
-    },
-    host: {
-      enabled: defaultLoggingEnabled,
-      dataRetention: defaultLoggingDataRetention,
-    },
-  },
   metrics: {
     enabled: defaultMetricsEnabled,
     dataRetention: defaultMetricsDataRetention,
