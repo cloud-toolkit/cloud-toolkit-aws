@@ -19,6 +19,7 @@ from .cluster_addons import *
 from .cluster_autoscaler import *
 from .dashboard import *
 from .external_dns import *
+from .fluentbit import *
 from .ingress_nginx import *
 from .irsa import *
 from .node_group import *

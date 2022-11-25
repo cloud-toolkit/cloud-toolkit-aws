@@ -158,7 +158,7 @@ export interface ClusterArgs {
     /**
      * Configure the cluster observability for logging.
      */
-    logging?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingArgsArgs>;
+    logging?: pulumi.Input<inputs.kubernetes.FluentbitLoggingArgsArgs>;
     /**
      * Configure the cluster observability for metrics.
      */

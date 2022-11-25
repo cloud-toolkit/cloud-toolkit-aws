@@ -70,6 +70,10 @@ export type ExternalDns = import("./externalDns").ExternalDns;
 export const ExternalDns: typeof import("./externalDns").ExternalDns = null as any;
 utilities.lazyLoad(exports, ["ExternalDns"], () => require("./externalDns"));
 
+export { FluentbitArgs } from "./fluentbit";
+export type Fluentbit = import("./fluentbit").Fluentbit;
+export const Fluentbit: typeof import("./fluentbit").Fluentbit = null as any;
+
 export { IngressNginxArgs } from "./ingressNginx";
 export type IngressNginx = import("./ingressNginx").IngressNginx;
 export const IngressNginx: typeof import("./ingressNginx").IngressNginx = null as any;
@@ -83,6 +87,23 @@ utilities.lazyLoad(exports, ["Irsa"], () => require("./irsa"));
 export { NodeGroupArgs } from "./nodeGroup";
 export type NodeGroup = import("./nodeGroup").NodeGroup;
 export const NodeGroup: typeof import("./nodeGroup").NodeGroup = null as any;
+
+utilities.lazyLoad(exports, ["AdotApplication"], () => require("./adotApplication"));
+utilities.lazyLoad(exports, ["AdotOperator"], () => require("./adotOperator"));
+utilities.lazyLoad(exports, ["ApplicationAddon"], () => require("./applicationAddon"));
+utilities.lazyLoad(exports, ["ArgoCD"], () => require("./argoCD"));
+utilities.lazyLoad(exports, ["AwsEbsCsiDriver"], () => require("./awsEbsCsiDriver"));
+utilities.lazyLoad(exports, ["AwsLoadBalancerController"], () => require("./awsLoadBalancerController"));
+utilities.lazyLoad(exports, ["Calico"], () => require("./calico"));
+utilities.lazyLoad(exports, ["CertManager"], () => require("./certManager"));
+utilities.lazyLoad(exports, ["Cluster"], () => require("./cluster"));
+utilities.lazyLoad(exports, ["ClusterAddons"], () => require("./clusterAddons"));
+utilities.lazyLoad(exports, ["ClusterAutoscaler"], () => require("./clusterAutoscaler"));
+utilities.lazyLoad(exports, ["Dashboard"], () => require("./dashboard"));
+utilities.lazyLoad(exports, ["ExternalDns"], () => require("./externalDns"));
+utilities.lazyLoad(exports, ["Fluentbit"], () => require("./fluentbit"));
+utilities.lazyLoad(exports, ["IngressNginx"], () => require("./ingressNginx"));
+utilities.lazyLoad(exports, ["Irsa"], () => require("./irsa"));
 utilities.lazyLoad(exports, ["NodeGroup"], () => require("./nodeGroup"));
 
 
@@ -119,6 +140,8 @@ const _module = {
                 return new Dashboard(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:ExternalDns":
                 return new ExternalDns(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:Fluentbit":
+                return new Fluentbit(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:IngressNginx":
                 return new IngressNginx(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Irsa":

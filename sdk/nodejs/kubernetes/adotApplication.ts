@@ -29,10 +29,6 @@ export class AdotApplication extends pulumi.ComponentResource {
 
     public /*out*/ readonly adotCollectorIRSA!: pulumi.Output<Irsa | undefined>;
     public /*out*/ readonly application!: pulumi.Output<pulumiKubernetes.apiextensions.CustomResource>;
-    public /*out*/ readonly fluentBitIRSA!: pulumi.Output<Irsa | undefined>;
-    public /*out*/ readonly logGroupApplicationLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
-    public /*out*/ readonly logGroupDataplaneLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
-    public /*out*/ readonly logGroupHostLog!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
     public /*out*/ readonly logGroupMetrics!: pulumi.Output<pulumiAws.cloudwatch.LogGroup | undefined>;
     public /*out*/ readonly namespace!: pulumi.Output<pulumiKubernetes.core.v1.Namespace | undefined>;
 
@@ -55,23 +51,14 @@ export class AdotApplication extends pulumi.ComponentResource {
             }
             resourceInputs["awsRegion"] = args ? args.awsRegion : undefined;
             resourceInputs["clusterName"] = args ? args.clusterName : undefined;
-            resourceInputs["logging"] = args ? args.logging : undefined;
             resourceInputs["metrics"] = args ? args.metrics : undefined;
             resourceInputs["adotCollectorIRSA"] = undefined /*out*/;
             resourceInputs["application"] = undefined /*out*/;
-            resourceInputs["fluentBitIRSA"] = undefined /*out*/;
-            resourceInputs["logGroupApplicationLog"] = undefined /*out*/;
-            resourceInputs["logGroupDataplaneLog"] = undefined /*out*/;
-            resourceInputs["logGroupHostLog"] = undefined /*out*/;
             resourceInputs["logGroupMetrics"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         } else {
             resourceInputs["adotCollectorIRSA"] = undefined /*out*/;
             resourceInputs["application"] = undefined /*out*/;
-            resourceInputs["fluentBitIRSA"] = undefined /*out*/;
-            resourceInputs["logGroupApplicationLog"] = undefined /*out*/;
-            resourceInputs["logGroupDataplaneLog"] = undefined /*out*/;
-            resourceInputs["logGroupHostLog"] = undefined /*out*/;
             resourceInputs["logGroupMetrics"] = undefined /*out*/;
             resourceInputs["namespace"] = undefined /*out*/;
         }
@@ -92,10 +79,6 @@ export interface AdotApplicationArgs {
      * The cluster name.
      */
     clusterName: pulumi.Input<string>;
-    /**
-     * Configure logging.
-     */
-    logging?: pulumi.Input<inputs.kubernetes.AdotApplicationLoggingArgsArgs>;
     /**
      * Configure metrics.
      */

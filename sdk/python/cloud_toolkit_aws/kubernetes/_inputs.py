@@ -12,8 +12,6 @@ from ._enums import *
 
 __all__ = [
     'AddonsArgsArgs',
-    'AdotApplicationLoggingArgsArgs',
-    'AdotApplicationLoggingItemArgsArgs',
     'AdotApplicationMetricsArgsArgs',
     'ClusterAddonsIngressArgsArgs',
     'ClusterAddonsIngressItemArgsArgs',
@@ -24,6 +22,8 @@ __all__ = [
     'ClusterOidcProvidersArgsArgs',
     'ClusterPrivateApiArgsArgs',
     'ClusterPublicApiArgsArgs',
+    'FluentbitLoggingArgsArgs',
+    'FluentbitLoggingItemArgsArgs',
     'IngressNginxTlsArgsArgs',
 ]
 
@@ -47,98 +47,6 @@ class AddonsArgsArgs:
     @enabled.setter
     def enabled(self, value: pulumi.Input[bool]):
         pulumi.set(self, "enabled", value)
-
-
-@pulumi.input_type
-class AdotApplicationLoggingArgsArgs:
-    def __init__(__self__, *,
-                 enabled: pulumi.Input[bool],
-                 applications: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None,
-                 dataplane: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None,
-                 host: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']] = None):
-        """
-        :param pulumi.Input[bool] enabled: Enable logging.
-        :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] applications: Configure applications logging.
-        :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] dataplane: Configure data plane logging.
-        :param pulumi.Input['AdotApplicationLoggingItemArgsArgs'] host: Configure host logging.
-        """
-        pulumi.set(__self__, "enabled", enabled)
-        if applications is not None:
-            pulumi.set(__self__, "applications", applications)
-        if dataplane is not None:
-            pulumi.set(__self__, "dataplane", dataplane)
-        if host is not None:
-            pulumi.set(__self__, "host", host)
-
-    @property
-    @pulumi.getter
-    def enabled(self) -> pulumi.Input[bool]:
-        """
-        Enable logging.
-        """
-        return pulumi.get(self, "enabled")
-
-    @enabled.setter
-    def enabled(self, value: pulumi.Input[bool]):
-        pulumi.set(self, "enabled", value)
-
-    @property
-    @pulumi.getter
-    def applications(self) -> Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]:
-        """
-        Configure applications logging.
-        """
-        return pulumi.get(self, "applications")
-
-    @applications.setter
-    def applications(self, value: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]):
-        pulumi.set(self, "applications", value)
-
-    @property
-    @pulumi.getter
-    def dataplane(self) -> Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]:
-        """
-        Configure data plane logging.
-        """
-        return pulumi.get(self, "dataplane")
-
-    @dataplane.setter
-    def dataplane(self, value: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]):
-        pulumi.set(self, "dataplane", value)
-
-    @property
-    @pulumi.getter
-    def host(self) -> Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]:
-        """
-        Configure host logging.
-        """
-        return pulumi.get(self, "host")
-
-    @host.setter
-    def host(self, value: Optional[pulumi.Input['AdotApplicationLoggingItemArgsArgs']]):
-        pulumi.set(self, "host", value)
-
-
-@pulumi.input_type
-class AdotApplicationLoggingItemArgsArgs:
-    def __init__(__self__, *,
-                 data_retention: pulumi.Input[float]):
-        """
-        :param pulumi.Input[float] data_retention: Data retention expressed in days.
-        """
-        pulumi.set(__self__, "data_retention", data_retention)
-
-    @property
-    @pulumi.getter(name="dataRetention")
-    def data_retention(self) -> pulumi.Input[float]:
-        """
-        Data retention expressed in days.
-        """
-        return pulumi.get(self, "data_retention")
-
-    @data_retention.setter
-    def data_retention(self, value: pulumi.Input[float]):
-        pulumi.set(self, "data_retention", value)
 
 
 @pulumi.input_type
@@ -619,6 +527,98 @@ class ClusterPublicApiArgsArgs:
     @whitelist.setter
     def whitelist(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
         pulumi.set(self, "whitelist", value)
+
+
+@pulumi.input_type
+class FluentbitLoggingArgsArgs:
+    def __init__(__self__, *,
+                 enabled: pulumi.Input[bool],
+                 applications: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None,
+                 dataplane: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None,
+                 host: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None):
+        """
+        :param pulumi.Input[bool] enabled: Enable logging.
+        :param pulumi.Input['FluentbitLoggingItemArgsArgs'] applications: Configure applications logging.
+        :param pulumi.Input['FluentbitLoggingItemArgsArgs'] dataplane: Configure data plane logging.
+        :param pulumi.Input['FluentbitLoggingItemArgsArgs'] host: Configure host logging.
+        """
+        pulumi.set(__self__, "enabled", enabled)
+        if applications is not None:
+            pulumi.set(__self__, "applications", applications)
+        if dataplane is not None:
+            pulumi.set(__self__, "dataplane", dataplane)
+        if host is not None:
+            pulumi.set(__self__, "host", host)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> pulumi.Input[bool]:
+        """
+        Enable logging.
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: pulumi.Input[bool]):
+        pulumi.set(self, "enabled", value)
+
+    @property
+    @pulumi.getter
+    def applications(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]:
+        """
+        Configure applications logging.
+        """
+        return pulumi.get(self, "applications")
+
+    @applications.setter
+    def applications(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]):
+        pulumi.set(self, "applications", value)
+
+    @property
+    @pulumi.getter
+    def dataplane(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]:
+        """
+        Configure data plane logging.
+        """
+        return pulumi.get(self, "dataplane")
+
+    @dataplane.setter
+    def dataplane(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]):
+        pulumi.set(self, "dataplane", value)
+
+    @property
+    @pulumi.getter
+    def host(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]:
+        """
+        Configure host logging.
+        """
+        return pulumi.get(self, "host")
+
+    @host.setter
+    def host(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]):
+        pulumi.set(self, "host", value)
+
+
+@pulumi.input_type
+class FluentbitLoggingItemArgsArgs:
+    def __init__(__self__, *,
+                 data_retention: pulumi.Input[float]):
+        """
+        :param pulumi.Input[float] data_retention: Data retention expressed in days.
+        """
+        pulumi.set(__self__, "data_retention", data_retention)
+
+    @property
+    @pulumi.getter(name="dataRetention")
+    def data_retention(self) -> pulumi.Input[float]:
+        """
+        Data retention expressed in days.
+        """
+        return pulumi.get(self, "data_retention")
+
+    @data_retention.setter
+    def data_retention(self, value: pulumi.Input[float]):
+        pulumi.set(self, "data_retention", value)
 
 
 @pulumi.input_type
