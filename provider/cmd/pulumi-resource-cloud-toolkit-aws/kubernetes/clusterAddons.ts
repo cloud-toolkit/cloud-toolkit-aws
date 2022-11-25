@@ -19,6 +19,7 @@ import {
 } from "./clusterAddonsArgs";
 import { AdotApplication } from "./adotApplication";
 import { AdotOperator } from "./adotOperator";
+import {Fluentbit} from "./fluentbit"
 
 export { ClusterAddonsArgs };
 
@@ -100,7 +101,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
   public readonly defaultZoneId?: pulumi.Input<string>;
 
   /**
-   * The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
+   * The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
    */
   public readonly adotApplication: AdotApplication
 
@@ -108,6 +109,12 @@ export class ClusterAddons extends pulumi.ComponentResource {
    * The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
    */
   public readonly adotOperator: AdotOperator
+
+  /**
+   * The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
+  */
+  public readonly fluentbit: Fluentbit
+
 
   constructor(
     name: string,
@@ -189,6 +196,9 @@ export class ClusterAddons extends pulumi.ComponentResource {
       dependsOn: [this.adotOperator],
     });
     this.adotApplication = this.setupAdotApplication(adotApplicationOpts);
+
+    this.fluentbit = this.setupFluentbit(argocdApplicationsOpts);
+
 
     this.registerOutputs({
       adminIngressNginx: this.adminIngressNginx,
@@ -408,7 +418,6 @@ export class ClusterAddons extends pulumi.ComponentResource {
         identityProvidersArn: [...this.args.identityProvidersArn],
         serviceAccountName: "adot-applications",
         issuerUrl: this.args.issuerUrl,
-        logging: this.args.logging,
         metrics: this.args.metrics,
         awsRegion: region.name,
         clusterName: this.args.clusterName,
@@ -435,4 +444,28 @@ export class ClusterAddons extends pulumi.ComponentResource {
       opts
     );
   }
+
+  private setupFluentbit(
+    opts?: pulumi.ResourceOptions
+  ): Fluentbit {
+    const region = pulumi.output(aws.getRegion());
+    return new Fluentbit(
+      `${this.name}-fluent-bit`,
+      {
+        name: "fluent-bit",
+        namespace: "system-logging",
+        createNamespace: true,
+        k8sProvider: this.args.k8sProvider,
+        identityProvidersArn: [...this.args.identityProvidersArn],
+        serviceAccountName: "fluent-bit",
+        issuerUrl: this.args.issuerUrl,
+        logging: this.args.logging,
+        awsRegion: region.name,
+        clusterName: this.args.clusterName,
+      },
+      opts
+    );
+  }
+
+
 }

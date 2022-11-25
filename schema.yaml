@@ -283,28 +283,8 @@ types:
         type: number
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs:
-    properties:
-      enabled:
-        description: Enable logging.
-        type: boolean
-      applications:
-        description: Configure applications logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs"
-      dataplane:
-        description: Configure data plane logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs"
-      host:
-        description: Configure host logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs"
-    type: object
-    required:
-      - enabled
   cloud-toolkit-aws:kubernetes:AdotApplicationArgs:
     properties:
-      logging:
-        description: Configure logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
       metrics:
         description: Configure metrics.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
@@ -409,7 +389,7 @@ types:
         type: string
       logging:
         description: Configure the cluster observability for logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
       metrics:
         description: Configure the cluster observability for metrics.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
@@ -495,7 +475,7 @@ types:
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
       logging:
         description: Configure the cluster observability for logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
       metrics:
         description: Configure the cluster observability for metrics.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
@@ -637,6 +617,46 @@ types:
     type: object
     required:
       - zoneArns
+  cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs:
+    properties:
+      dataRetention:
+        description: Data retention expressed in days.
+        type: number
+    type: object
+    required:
+      - dataRetention
+  cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs:
+    properties:
+      enabled:
+        description: Enable logging.
+        type: boolean
+      applications:
+        description: Configure applications logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs"
+      dataplane:
+        description: Configure data plane logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs"
+      host:
+        description: Configure host logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs"
+    type: object
+    required:
+      - enabled
+  cloud-toolkit-aws:kubernetes:FluentbitArgs:
+    properties:
+      logging:
+        description: Configure logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
+      clusterName:
+        description: The cluster name.
+        type: string
+      awsRegion:
+        description: The AWS Region.
+        type: string
+    type: object
+    required:
+      - clusterName
+      - awsRegion
   cloud-toolkit-aws:kubernetes:IngressNginxArgs:
     properties:
       tls:
@@ -1624,21 +1644,9 @@ resources:
       namespace:
         description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
-      logGroupApplicationLog:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
-      logGroupDataplaneLog:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
-      logGroupHostLog:
-        description: ""
-        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
       logGroupMetrics:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
-      fluentBitIRSA:
-        description: ""
-        $ref: "#/resources/cloud-toolkit-aws:kubernetes:Irsa"
       adotCollectorIRSA:
         description: ""
         $ref: "#/resources/cloud-toolkit-aws:kubernetes:Irsa"
@@ -1648,9 +1656,6 @@ resources:
     required:
       - application
     inputProperties:
-      logging:
-        description: Configure logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
       metrics:
         description: Configure metrics.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
@@ -1908,7 +1913,7 @@ resources:
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
       logging:
         description: Configure the cluster observability for logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
       metrics:
         description: Configure the cluster observability for metrics.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
@@ -1963,11 +1968,14 @@ resources:
         description: Route53 Zone id used for default IngressController.
         type: string
       adotApplication:
-        description: The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
-        $ref: "#/resources/cloud-toolkit-aws:kubernetes:AdotApplication"
+        description: The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplication"
       adotOperator:
         description: The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
-        $ref: "#/resources/cloud-toolkit-aws:kubernetes:AdotOperator"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotOperator"
+      fluentbit:
+        description: The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:Fluentbit"
     required:
       - argocd
       - certManager
@@ -1979,6 +1987,7 @@ resources:
       - awsLoadBalancerController
       - adotApplication
       - adotOperator
+      - fluentbit
     inputProperties:
       k8sProvider:
         description: The Pulumi provider used for Kubernetes resources.
@@ -1997,7 +2006,7 @@ resources:
         type: string
       logging:
         description: Configure the cluster observability for logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
       metrics:
         description: Configure the cluster observability for metrics.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
@@ -2096,6 +2105,44 @@ resources:
           type: string
     requiredInputs:
       - zoneArns
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:kubernetes:Fluentbit:
+    description: ""
+    properties:
+      namespace:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
+      logGroupApplicationLog:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
+      logGroupDataplaneLog:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
+      logGroupHostLog:
+        description: ""
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
+      fluentBitIRSA:
+        description: ""
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:Irsa"
+      application:
+        description: ""
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
+    required:
+      - application
+    inputProperties:
+      logging:
+        description: Configure logging.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
+      clusterName:
+        description: The cluster name.
+        type: string
+      awsRegion:
+        description: The AWS Region.
+        type: string
+    requiredInputs:
+      - clusterName
+      - awsRegion
     isComponent: true
     type: object
   cloud-toolkit-aws:kubernetes:IngressNginx:

@@ -58,6 +58,8 @@ import { AdotApplication } from "./kubernetes/adotApplication";
 import { AdotApplicationArgs } from "./kubernetes/adotApplicationArgs";
 import { AdotOperator } from "./kubernetes/adotOperator";
 import { AdotOperatorArgs } from "./kubernetes/adotOperatorArgs";
+import { Fluentbit } from "./kubernetes/fluentbit";
+import { FluentbitArgs } from "./kubernetes/fluentbitArgs";
 
 
 export class Provider implements pulumi.provider.Provider {
@@ -104,6 +106,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesAdotApplication(name, inputs, options);
       case "cloudToolkit:aws:kubernetes:AdotOperator":
         return await constructKubernetesAdotOperator(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:Fluentbit":
+        return await constructKubernetesFluentbit(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -377,11 +381,27 @@ async function constructKubernetesAdotApplication(
     state: {
       adotCollectorIRSA: resource.adotCollectorIRSA,
       application: resource.application,
+      logGroupMetrics: resource.logGroupMetrics,
+      namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesFluentbit(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new Fluentbit(name, inputs as FluentbitArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      application: resource.application,
       fluentBitIRSA: resource.fluentBitIRSA,
       logGroupApplicationLog: resource.logGroupApplicationLog,
       logGroupDataplaneLog: resource.logGroupDataplaneLog,
       logGroupHostLog: resource.logGroupHostLog,
-      logGroupMetrics: resource.logGroupMetrics,
       namespace: resource.namespace,
     },
   };

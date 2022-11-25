@@ -22,7 +22,7 @@ class ClusterArgs:
     def __init__(__self__, *,
                  addons: Optional[pulumi.Input['AddonsArgsArgs']] = None,
                  api: Optional[pulumi.Input['ClusterApiArgsArgs']] = None,
-                 logging: Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']] = None,
+                 logging: Optional[pulumi.Input['FluentbitLoggingArgsArgs']] = None,
                  metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None,
                  networking: Optional[pulumi.Input['ClusterNetworkingArgsArgs']] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]]] = None,
@@ -35,7 +35,7 @@ class ClusterArgs:
         The set of arguments for constructing a Cluster resource.
         :param pulumi.Input['AddonsArgsArgs'] addons: The addons installed in the cluster.
         :param pulumi.Input['ClusterApiArgsArgs'] api: Configure the Kubernetes cluster API.
-        :param pulumi.Input['AdotApplicationLoggingArgsArgs'] logging: Configure the cluster observability for logging.
+        :param pulumi.Input['FluentbitLoggingArgsArgs'] logging: Configure the cluster observability for logging.
         :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure the cluster observability for metrics.
         :param pulumi.Input['ClusterNetworkingArgsArgs'] networking: Configure the cluster networking.
         :param pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]] node_groups: The NodeGroups to be assigned to this cluster.
@@ -94,14 +94,14 @@ class ClusterArgs:
 
     @property
     @pulumi.getter
-    def logging(self) -> Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']]:
+    def logging(self) -> Optional[pulumi.Input['FluentbitLoggingArgsArgs']]:
         """
         Configure the cluster observability for logging.
         """
         return pulumi.get(self, "logging")
 
     @logging.setter
-    def logging(self, value: Optional[pulumi.Input['AdotApplicationLoggingArgsArgs']]):
+    def logging(self, value: Optional[pulumi.Input['FluentbitLoggingArgsArgs']]):
         pulumi.set(self, "logging", value)
 
     @property
@@ -208,7 +208,7 @@ class Cluster(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
                  metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]]] = None,
@@ -225,7 +225,7 @@ class Cluster(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[pulumi.InputType['AddonsArgsArgs']] addons: The addons installed in the cluster.
         :param pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']] api: Configure the Kubernetes cluster API.
-        :param pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']] logging: Configure the cluster observability for logging.
+        :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']] logging: Configure the cluster observability for logging.
         :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure the cluster observability for metrics.
         :param pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']] networking: Configure the cluster networking.
         :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]] node_groups: The NodeGroups to be assigned to this cluster.
@@ -261,7 +261,7 @@ class Cluster(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
                  api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['AdotApplicationLoggingArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
                  metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
                  node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]]] = None,
