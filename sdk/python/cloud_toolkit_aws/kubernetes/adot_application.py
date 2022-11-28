@@ -8,6 +8,7 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
+from ..irsa import Irsa
 from ._inputs import *
 import pulumi_aws
 import pulumi_kubernetes
@@ -168,7 +169,7 @@ class AdotApplication(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="adotCollectorIRSA")
-    def adot_collector_irsa(self) -> pulumi.Output[Any]:
+    def adot_collector_irsa(self) -> pulumi.Output['Irsa']:
         return pulumi.get(self, "adot_collector_irsa")
 
     @property
@@ -178,7 +179,7 @@ class AdotApplication(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="fluentBitIRSA")
-    def fluent_bit_irsa(self) -> pulumi.Output[Any]:
+    def fluent_bit_irsa(self) -> pulumi.Output['Irsa']:
         return pulumi.get(self, "fluent_bit_irsa")
 
     @property

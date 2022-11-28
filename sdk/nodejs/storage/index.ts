@@ -8,8 +8,8 @@ import * as utilities from "../utilities";
 export { BucketArgs } from "./bucket";
 export type Bucket = import("./bucket").Bucket;
 export const Bucket: typeof import("./bucket").Bucket = null as any;
-
 utilities.lazyLoad(exports, ["Bucket"], () => require("./bucket"));
+
 
 // Export enums:
 export * from "../types/enums/storage";

@@ -8,13 +8,13 @@ import * as utilities from "../utilities";
 export { QueueArgs } from "./queue";
 export type Queue = import("./queue").Queue;
 export const Queue: typeof import("./queue").Queue = null as any;
+utilities.lazyLoad(exports, ["Queue"], () => require("./queue"));
 
 export { StaticWebArgs } from "./staticWeb";
 export type StaticWeb = import("./staticWeb").StaticWeb;
 export const StaticWeb: typeof import("./staticWeb").StaticWeb = null as any;
-
-utilities.lazyLoad(exports, ["Queue"], () => require("./queue"));
 utilities.lazyLoad(exports, ["StaticWeb"], () => require("./staticWeb"));
+
 
 // Export enums:
 export * from "../types/enums/serverless";
