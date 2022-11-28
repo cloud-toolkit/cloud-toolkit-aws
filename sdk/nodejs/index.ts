@@ -40,5 +40,3 @@ pulumi.runtime.registerResourcePackage("cloud-toolkit-aws", {
         return new Provider(name, <any>undefined, { urn });
     },
 });
-import "@pulumi/aws";
-import "@pulumi/kubernetes";
