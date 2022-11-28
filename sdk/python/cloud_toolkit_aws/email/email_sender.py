@@ -11,6 +11,7 @@ from .. import _utilities
 from . import outputs
 from .. import serverless
 from .. import serverless as _serverless
+from ..queue import _serverless.Queue
 from ._inputs import *
 import pulumi_aws
 
@@ -258,7 +259,7 @@ class EmailSender(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="bounceQueues")
-    def bounce_queues(self) -> pulumi.Output[Sequence[Any]]:
+    def bounce_queues(self) -> pulumi.Output[Sequence['_serverless.Queue']]:
         """
         SQS Queues subscribed to the SNS Topic that receives bounced emails. These Queues were created automatically by the Email Sender component.
         """
@@ -306,7 +307,7 @@ class EmailSender(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="complaintQueues")
-    def complaint_queues(self) -> pulumi.Output[Sequence[Any]]:
+    def complaint_queues(self) -> pulumi.Output[Sequence['_serverless.Queue']]:
         """
         SQS Queues subscribed to the SNS Topic that receives complained emails. These Queues were created automatically by the Email Sender component.
         """
@@ -354,7 +355,7 @@ class EmailSender(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="deliveryQueues")
-    def delivery_queues(self) -> pulumi.Output[Sequence[Any]]:
+    def delivery_queues(self) -> pulumi.Output[Sequence['_serverless.Queue']]:
         """
         SQS Queues subscribed to the SNS Topic that receives delivered emails. These Queues were created automatically by the Email Sender component.
         """

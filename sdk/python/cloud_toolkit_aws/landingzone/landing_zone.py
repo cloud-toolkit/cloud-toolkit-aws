@@ -8,6 +8,8 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
+from ..audit_logging import AuditLogging
+from ..organization import Organization
 from ._inputs import *
 
 __all__ = ['LandingZoneArgs', 'LandingZone']
@@ -122,7 +124,7 @@ class LandingZone(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="auditLogging")
-    def audit_logging(self) -> pulumi.Output[Optional[Any]]:
+    def audit_logging(self) -> pulumi.Output[Optional['AuditLogging']]:
         """
         The AuditLogging component.
         """
@@ -130,7 +132,7 @@ class LandingZone(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def organization(self) -> pulumi.Output[Any]:
+    def organization(self) -> pulumi.Output['Organization']:
         """
         The Organization components.
         """

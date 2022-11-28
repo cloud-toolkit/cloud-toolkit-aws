@@ -8,6 +8,7 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
+from ..irsa import Irsa
 import pulumi_kubernetes
 
 __all__ = ['CertManagerArgs', 'CertManager']
@@ -106,7 +107,7 @@ class CertManager(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def irsa(self) -> pulumi.Output[Any]:
+    def irsa(self) -> pulumi.Output['Irsa']:
         """
         The IAM roles for service accounts.
         """

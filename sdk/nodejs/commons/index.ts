@@ -8,8 +8,8 @@ import * as utilities from "../utilities";
 export { CertificateArgs } from "./certificate";
 export type Certificate = import("./certificate").Certificate;
 export const Certificate: typeof import("./certificate").Certificate = null as any;
-
 utilities.lazyLoad(exports, ["Certificate"], () => require("./certificate"));
+
 
 const _module = {
     version: utilities.getVersion(),

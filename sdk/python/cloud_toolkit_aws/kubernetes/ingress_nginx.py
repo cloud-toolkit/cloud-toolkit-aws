@@ -8,6 +8,7 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
+from ..certificate import _commons.Certificate
 from ._inputs import *
 import pulumi_kubernetes
 
@@ -189,7 +190,7 @@ class IngressNginx(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def certificate(self) -> pulumi.Output[Optional[Any]]:
+    def certificate(self) -> pulumi.Output[Optional['_commons.Certificate']]:
         """
         The ACM Certificates used for TLS encryption.
         """

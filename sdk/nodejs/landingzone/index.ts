@@ -8,33 +8,33 @@ import * as utilities from "../utilities";
 export { AccountIamArgs } from "./accountIam";
 export type AccountIam = import("./accountIam").AccountIam;
 export const AccountIam: typeof import("./accountIam").AccountIam = null as any;
+utilities.lazyLoad(exports, ["AccountIam"], () => require("./accountIam"));
 
 export { AuditLoggingArgs } from "./auditLogging";
 export type AuditLogging = import("./auditLogging").AuditLogging;
 export const AuditLogging: typeof import("./auditLogging").AuditLogging = null as any;
+utilities.lazyLoad(exports, ["AuditLogging"], () => require("./auditLogging"));
 
 export { IamTrustedAccountArgs } from "./iamTrustedAccount";
 export type IamTrustedAccount = import("./iamTrustedAccount").IamTrustedAccount;
 export const IamTrustedAccount: typeof import("./iamTrustedAccount").IamTrustedAccount = null as any;
+utilities.lazyLoad(exports, ["IamTrustedAccount"], () => require("./iamTrustedAccount"));
 
 export { IamTrustingAccountArgs } from "./iamTrustingAccount";
 export type IamTrustingAccount = import("./iamTrustingAccount").IamTrustingAccount;
 export const IamTrustingAccount: typeof import("./iamTrustingAccount").IamTrustingAccount = null as any;
+utilities.lazyLoad(exports, ["IamTrustingAccount"], () => require("./iamTrustingAccount"));
 
 export { LandingZoneArgs } from "./landingZone";
 export type LandingZone = import("./landingZone").LandingZone;
 export const LandingZone: typeof import("./landingZone").LandingZone = null as any;
+utilities.lazyLoad(exports, ["LandingZone"], () => require("./landingZone"));
 
 export { OrganizationArgs } from "./organization";
 export type Organization = import("./organization").Organization;
 export const Organization: typeof import("./organization").Organization = null as any;
-
-utilities.lazyLoad(exports, ["AccountIam"], () => require("./accountIam"));
-utilities.lazyLoad(exports, ["AuditLogging"], () => require("./auditLogging"));
-utilities.lazyLoad(exports, ["IamTrustedAccount"], () => require("./iamTrustedAccount"));
-utilities.lazyLoad(exports, ["IamTrustingAccount"], () => require("./iamTrustingAccount"));
-utilities.lazyLoad(exports, ["LandingZone"], () => require("./landingZone"));
 utilities.lazyLoad(exports, ["Organization"], () => require("./organization"));
+
 
 const _module = {
     version: utilities.getVersion(),
