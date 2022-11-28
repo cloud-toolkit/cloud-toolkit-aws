@@ -8,6 +8,17 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
+from ..adot_application import AdotApplication
+from ..adot_operator import AdotOperator
+from ..argo_cd import ArgoCD
+from ..aws_ebs_csi_driver import AwsEbsCsiDriver
+from ..aws_load_balancer_controller import AwsLoadBalancerController
+from ..calico import Calico
+from ..cert_manager import CertManager
+from ..cluster_autoscaler import ClusterAutoscaler
+from ..dashboard import Dashboard
+from ..external_dns import ExternalDns
+from ..ingress_nginx import IngressNginx
 from ._inputs import *
 import pulumi_kubernetes
 
@@ -237,7 +248,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="adminIngressNginx")
-    def admin_ingress_nginx(self) -> pulumi.Output[Optional[Any]]:
+    def admin_ingress_nginx(self) -> pulumi.Output[Optional['IngressNginx']]:
         """
         The IngressNginx addon used for admin access.
         """
@@ -261,7 +272,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="adotApplication")
-    def adot_application(self) -> pulumi.Output[Any]:
+    def adot_application(self) -> pulumi.Output['AdotApplication']:
         """
         The OpenTelemetry (ADOT) application that sends logs to CloudWatch.
         """
@@ -269,7 +280,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="adotOperator")
-    def adot_operator(self) -> pulumi.Output[Any]:
+    def adot_operator(self) -> pulumi.Output['AdotOperator']:
         """
         The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
         """
@@ -277,7 +288,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def argocd(self) -> pulumi.Output[Any]:
+    def argocd(self) -> pulumi.Output['ArgoCD']:
         """
         The ArgoCD addon.
         """
@@ -285,7 +296,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="awsLoadBalancerController")
-    def aws_load_balancer_controller(self) -> pulumi.Output[Any]:
+    def aws_load_balancer_controller(self) -> pulumi.Output['AwsLoadBalancerController']:
         """
         The AWS LoadBalancer Controller.
         """
@@ -293,7 +304,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def calico(self) -> pulumi.Output[Any]:
+    def calico(self) -> pulumi.Output['Calico']:
         """
         The Calico addon used to manage network policies.
         """
@@ -301,7 +312,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="certManager")
-    def cert_manager(self) -> pulumi.Output[Any]:
+    def cert_manager(self) -> pulumi.Output['CertManager']:
         """
         The CertManager addon.
         """
@@ -309,7 +320,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="clusterAutoscaler")
-    def cluster_autoscaler(self) -> pulumi.Output[Any]:
+    def cluster_autoscaler(self) -> pulumi.Output['ClusterAutoscaler']:
         """
         The Kubernetes ClusterAutoscaler addon.
         """
@@ -317,7 +328,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def dashboard(self) -> pulumi.Output[Any]:
+    def dashboard(self) -> pulumi.Output['Dashboard']:
         """
         The Kubernetes dashboard addon.
         """
@@ -325,7 +336,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="defaultIngressNginx")
-    def default_ingress_nginx(self) -> pulumi.Output[Optional[Any]]:
+    def default_ingress_nginx(self) -> pulumi.Output[Optional['IngressNginx']]:
         """
         The IngressNginx addon used for default access.
         """
@@ -349,7 +360,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="ebsCsiDriver")
-    def ebs_csi_driver(self) -> pulumi.Output[Any]:
+    def ebs_csi_driver(self) -> pulumi.Output['AwsEbsCsiDriver']:
         """
         The EBS CSI driver that allows to create volumes using the block storage service of AWS.
         """
@@ -357,7 +368,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="externalDns")
-    def external_dns(self) -> pulumi.Output[Any]:
+    def external_dns(self) -> pulumi.Output['ExternalDns']:
         """
         The ExternalDns addon.
         """

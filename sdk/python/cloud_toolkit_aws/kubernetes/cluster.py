@@ -8,6 +8,8 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
+from ..cluster_addons import ClusterAddons
+from ..node_group import NodeGroup
 from ._enums import *
 from ._inputs import *
 import pulumi_aws
@@ -320,7 +322,7 @@ class Cluster(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="clusterAddons")
-    def cluster_addons(self) -> pulumi.Output[Optional[Any]]:
+    def cluster_addons(self) -> pulumi.Output[Optional['ClusterAddons']]:
         """
         The VPC CNI Chart installed in the cluster.
         """
@@ -352,7 +354,7 @@ class Cluster(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="nodeGroups")
-    def node_groups(self) -> pulumi.Output[Sequence[Any]]:
+    def node_groups(self) -> pulumi.Output[Sequence['NodeGroup']]:
         """
         The Node Groups associated to the cluster.
         """

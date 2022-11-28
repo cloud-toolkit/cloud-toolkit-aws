@@ -9,6 +9,7 @@ import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
 from . import outputs
+from ..bucket import _storage.Bucket
 from ._inputs import *
 import pulumi_aws
 
@@ -240,7 +241,7 @@ class StaticWeb(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="contentBucket")
-    def content_bucket(self) -> pulumi.Output[Any]:
+    def content_bucket(self) -> pulumi.Output['_storage.Bucket']:
         """
         Content bucket
         """

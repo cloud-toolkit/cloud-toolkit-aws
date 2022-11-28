@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
         "outDir": "bin",
         "target": "es2016",
         "module": "commonjs",
@@ -10,6 +11,9 @@
         "experimentalDecorators": true,
         "noFallthroughCasesInSwitch": true,
         "forceConsistentCasingInFileNames": true,
+        "paths": {
+            "@/*": ["*"]
+        },
         "strict": true
     },
     "files": [
@@ -50,6 +54,15 @@
         "serverless/staticWeb.ts",
         "storage/bucket.ts",
         "storage/index.ts",
+        "types/commons/index.ts",
+        "types/commons/input.ts",
+        "types/commons/output.ts",
+        "types/databases/index.ts",
+        "types/databases/input.ts",
+        "types/databases/output.ts",
+        "types/email/index.ts",
+        "types/email/input.ts",
+        "types/email/output.ts",
         "types/enums/databases/index.ts",
         "types/enums/email/index.ts",
         "types/enums/index.ts",
@@ -58,7 +71,19 @@
         "types/enums/storage/index.ts",
         "types/index.ts",
         "types/input.ts",
+        "types/kubernetes/index.ts",
+        "types/kubernetes/input.ts",
+        "types/kubernetes/output.ts",
+        "types/landingzone/index.ts",
+        "types/landingzone/input.ts",
+        "types/landingzone/output.ts",
         "types/output.ts",
+        "types/serverless/index.ts",
+        "types/serverless/input.ts",
+        "types/serverless/output.ts",
+        "types/storage/index.ts",
+        "types/storage/input.ts",
+        "types/storage/output.ts",
         "utilities.ts"
     ]
 }

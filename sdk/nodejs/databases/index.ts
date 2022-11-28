@@ -8,8 +8,8 @@ import * as utilities from "../utilities";
 export { MysqlArgs } from "./mysql";
 export type Mysql = import("./mysql").Mysql;
 export const Mysql: typeof import("./mysql").Mysql = null as any;
-
 utilities.lazyLoad(exports, ["Mysql"], () => require("./mysql"));
+
 
 // Export enums:
 export * from "../types/enums/databases";
