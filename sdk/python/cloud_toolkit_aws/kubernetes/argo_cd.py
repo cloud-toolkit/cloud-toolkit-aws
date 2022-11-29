@@ -108,7 +108,7 @@ class ArgoCD(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def chart(self) -> pulumi.Output['pulumi_kubernetes.helm.v3.Chart']:
+    def chart(self) -> pulumi.Output['pulumi_kubernetes.helm.v3.Release']:
         """
         The Helm Chart used to deploy ArgoCD.
         """

@@ -32,7 +32,7 @@ export class ArgoCD extends pulumi.ComponentResource {
     /**
      * The Helm Chart used to deploy ArgoCD.
      */
-    public /*out*/ readonly chart!: pulumi.Output<pulumiKubernetes.helm.v3.Chart>;
+    public /*out*/ readonly chart!: pulumi.Output<pulumiKubernetes.helm.v3.Release>;
     /**
      * The Namespace used to deploy the component.
      */
