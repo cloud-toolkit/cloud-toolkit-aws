@@ -17,3 +17,6 @@ I deploy the Kubernetes Cluster with Pulumi
 I destroy the Kubernetes Cluster with Pulumi
     Given I destroy the infrastructure present on the Pulumi project path "${ROOT_PROJECTS_PATH}/kubernetes"
      Then I delete the current Pulumi stack on the Pulumi project with path "${ROOT_PROJECTS_PATH}/kubernetes"
+
+I apply the file with name "${file_name}"
+    ${result} =  Run Process  kubectl  apply  -f  stderr=STDOUT  cwd=${ROOT_PROJECTS_PATH}/kubernetes
