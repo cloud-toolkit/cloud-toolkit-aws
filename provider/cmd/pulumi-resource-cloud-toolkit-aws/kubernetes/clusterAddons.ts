@@ -135,18 +135,22 @@ export class ClusterAddons extends pulumi.ComponentResource {
       this.defaultZoneId = zoneData.then(zone => zone.id);
     }
 
+    const argocdResourcesOpts = pulumi.mergeOptions(opts, {
+      parent: this,
+      dependsOn: [this.argocd],
+      provider: this.args.k8sProvider,
+    });
+    const argocdDeployment = kubernetes.apps.v1.Deployment.get(
+      "argocd-deployment",
+      pulumi.interpolate`${this.argocd.chart.namespace}/${this.argocd.chart.status.name}-server`,
+      argocdResourcesOpts
+    );
+
     // Create ResourceOptions for Applications
     const argocdApplicationsOpts = pulumi.mergeOptions(opts, {
       parent: this,
       dependsOn: [
-        this.argocd.chart.getResource(
-          "apps/v1/Deployment",
-          "system-argocd/kluster1-argocd-server"
-        ),
-        this.argocd.chart.getResource(
-          "apiextensions.k8s.io/v1/CustomResourceDefinition",
-          "argocdextensions.argoproj.io"
-        ),
+        argocdDeployment,
       ],
     });
     this.certManager = this.setupCertManager(argocdApplicationsOpts);
