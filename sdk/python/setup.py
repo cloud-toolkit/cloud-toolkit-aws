@@ -55,10 +55,10 @@ setup(name='cloud_toolkit_aws',
       },
       install_requires=[
           'parver>=0.2.1',
-          'pulumi>=3.0.0,<4.0.0',
-          'pulumi-aws>=5.10.0,<6.0.0',
-          'pulumi-kubernetes>=3.20.2,<4.0.0',
-          'pulumi-random>=4.8.2,<5.0.0',
+          'pulumi>=3.48.0,<4.0.0',
+          'pulumi-aws==5.21.1',
+          'pulumi-kubernetes==3.22.1',
+          'pulumi-random==4.8.2',
           'semver>=2.8.1'
       ],
       zip_safe=False)
