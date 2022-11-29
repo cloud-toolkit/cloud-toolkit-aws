@@ -1,5 +1,5 @@
-import * as ct from "@cloud-toolkit/cloud-toolkit-aws";
+import * as ct from "@cloudtoolkit/aws";
 
-const example = new ct.kubernetes.Cluster("component-test", {baseDomain: "astrokube.es"});
+const component_testing = new ct.kubernetes.Cluster("component-testing", {});
 
-export const kubeconfig = example.kubeconfig
+export const kubeconfig = component_testing.kubeconfig

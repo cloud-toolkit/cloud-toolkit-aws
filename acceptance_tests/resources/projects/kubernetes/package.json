@@ -4,8 +4,9 @@
         "@types/node": "^10.0.0"
     },
     "dependencies": {
-        "@cloud-toolkit/cloud-toolkit-aws": "github:cloud-toolkit/cloud-toolkit-aws#ts-v0.4.1",
-        "@pulumi/aws": "^5.10.0",
-        "@pulumi/pulumi": "^3.3.1"
+        "@cloudtoolkit/aws": "0.5.2",
+        "@pulumi/aws": "^5.16.0",
+        "@pulumi/kubernetes": "^3.22.1",
+        "@pulumi/pulumi": "^3.0.0"
     }
 }

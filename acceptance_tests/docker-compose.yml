@@ -8,6 +8,11 @@ services:
     working_dir: /acceptance_tests
     volumes:
       - .:/acceptance_tests
+    environment:
+       - AWS_PROFILE=${AWS_PROFILE}
+       - AWS_PROFILE_CONFIG=${AWS_PROFILE_CONFIG}
+       - AWS_PROFILE_CREDENTIALS=${AWS_PROFILE_CREDENTIALS}
+       - PULUMI_ACCESS_TOKEN=${PULUMI_ACCESS_TOKEN}
     logging:
       options:
         max-file: "5"

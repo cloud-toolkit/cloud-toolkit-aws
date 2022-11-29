@@ -1,4 +1,4 @@
-name: example-typescript
+name: component-tests
 runtime: nodejs
-description: A simple example
+description: Component testing project
 aws:region: eu-west-1
