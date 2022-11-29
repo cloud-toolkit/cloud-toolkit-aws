@@ -22,7 +22,7 @@ export class ArgoCD extends pulumi.ComponentResource {
   /**
    * The Helm Chart used to deploy ArgoCD.
    */
-  public readonly chart: kubernetes.helm.v3.Chart;
+  public readonly chart: kubernetes.helm.v3.Release;
 
   /**
    * The Namespace used to deploy the component.
@@ -127,14 +127,14 @@ export class ArgoCD extends pulumi.ComponentResource {
     repo: string,
     values: any,
     opts?: pulumi.ResourceOptions
-  ): kubernetes.helm.v3.Chart {
-    const helmChart = new kubernetes.helm.v3.Chart(
+  ): kubernetes.helm.v3.Release {
+    const helmChart = new kubernetes.helm.v3.Release(
       this.args.name,
       {
         chart: chart,
         namespace: this.namespace.metadata.name,
         version: version,
-        fetchOpts: {
+        repositoryOpts: {
           repo: repo,
         },
         values: values,
