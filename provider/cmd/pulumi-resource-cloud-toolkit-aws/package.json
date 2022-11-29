@@ -2,11 +2,11 @@
   "version": "${VERSION}",
   "bin": "bin/index.js",
   "dependencies": {
-    "@pulumi/aws": "^5.10.0",
-    "@pulumi/kubernetes": "^3.21.2",
-    "@pulumi/pulumi": "^3.34.1",
-    "@pulumi/random": "^4.8.2",
-    "@pulumi/tls": "^4.6.1",
+    "@pulumi/aws": "5.21.1",
+    "@pulumi/kubernetes": "3.22.1",
+    "@pulumi/pulumi": "3.48.0",
+    "@pulumi/random": "4.8.2",
+    "@pulumi/tls": "4.6.1",
     "lodash.defaultsdeep": "^4.6.1",
     "yaml": "^2.1.1"
   },
