@@ -60,6 +60,10 @@ import { AdotOperator } from "./kubernetes/adotOperator";
 import { AdotOperatorArgs } from "./kubernetes/adotOperatorArgs";
 import { Fluentbit } from "./kubernetes/fluentbit";
 import { FluentbitArgs } from "./kubernetes/fluentbitArgs";
+import {
+  Project,
+  ProjectArgs,
+} from "./kubernetes/project";
 
 
 export class Provider implements pulumi.provider.Provider {
@@ -108,6 +112,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesAdotOperator(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:Fluentbit":
         return await constructKubernetesFluentbit(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:Project":
+        return await constructKubernetesProject(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -419,6 +425,27 @@ async function constructKubernetesAdotOperator(
     state: {
       application: resource.application,
       namespace: resource.namespace,
+    },
+  };
+}
+
+async function constructKubernetesProject(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new Project(name, inputs as ProjectArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      adminRoleBinding: resource.adminRoleBinding,
+      clusterRole: resource.clusterRole,
+      clusterRoleBinding: resource.clusterRoleBinding,
+      editRoleBinding: resource.editRoleBinding,
+      namespace: resource.namespace,
+      resourceQuota: resource.resourceQuota,
+      viewRoleBinding: resource.viewRoleBinding,
     },
   };
 }

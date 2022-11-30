@@ -192,3 +192,21 @@ export interface IngressNginxTlsArgsArgs {
     zoneId: pulumi.Input<string>;
 }
 
+export interface ProjectResourcesArgsArgs {
+    /**
+     * Amount of reserverd CPU.
+     */
+    cpu?: pulumi.Input<string>;
+    /**
+     * Amount of CPU limit.
+     */
+    limitCpu?: pulumi.Input<string>;
+    /**
+     * Amount of Memory limit.
+     */
+    limitMemory?: pulumi.Input<string>;
+    /**
+     * Amount of reserved Memory.
+     */
+    memory?: pulumi.Input<string>;
+}
