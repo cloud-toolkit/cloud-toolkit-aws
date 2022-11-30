@@ -772,6 +772,65 @@ types:
       - clusterCA
       - clusterName
       - subnetIds
+  cloud-toolkit-aws:kubernetes:ProjectArgs:
+    properties:
+      name:
+        description: The Project name.
+        type: string
+      resources:
+        description: The cluster resources to be assigned to the project.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ProjectResourcesArgs"
+      kubeconfig:
+        description: Kubernetes provider used by Pulumi.
+        type: string
+      namespace:
+        description: The Namespace name where the addon will be installed.
+        type: string
+      adminUserArns:
+        description: The list of AWS IAM User arns that can access to this project with
+          'admin' role.
+        type: array
+        items:
+          description: The list of AWS IAM User arns that can access to this project with
+            'admin' role.
+          type: string
+      editUserArns:
+        description: The list of AWS IAM User arns that can access to this project with
+          'edit' role.
+        type: array
+        items:
+          description: The list of AWS IAM User arns that can access to this project with
+            'edit' role.
+          type: string
+      viewUserArns:
+        description: The list of AWS IAM User arns that can access to this project with
+          'view' role.
+        type: array
+        items:
+          description: The list of AWS IAM User arns that can access to this project with
+            'view' role.
+          type: string
+    type: object
+    required:
+      - name
+      - kubeconfig
+      - namespace
+  cloud-toolkit-aws:kubernetes:ProjectResourcesArgs:
+    properties:
+      cpu:
+        description: Amount of reserverd CPU.
+        type: string
+      memory:
+        description: Amount of reserved Memory.
+        type: string
+      limitCpu:
+        description: Amount of CPU limit.
+        type: string
+      limitMemory:
+        description: Amount of Memory limit.
+        type: string
+    type: object
+    required: []
   cloud-toolkit-aws:landingzone:AccountIamArgs:
     properties:
       alias:
@@ -2315,6 +2374,88 @@ resources:
       - clusterCA
       - clusterName
       - subnetIds
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:kubernetes:Project:
+    description: Project is a component that create the resources in the Cluster for
+      a set of AWS IAM Users and Roles, manging the access with the integration
+      with AWS IAM.
+    properties:
+      provider:
+        description: The Kubernetes provider used to provision Kubernetes resources.
+        $ref: /kubernetes/v3.21.2/schema.json#/provider
+      namespace:
+        description: The Namespace used by the project.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
+      resourceQuota:
+        description: ResourceQuota for the provisioned Namespace.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:ResourceQuota
+      clusterRole:
+        description: The Kubernetes ClusterRole used to grant minimal access to the cluster.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:rbac.authorization.k8s.io/v1:ClusterRole
+      clusterRoleBinding:
+        description: The Kubernetes ClusterRoleBinding to associate the ClusterRole to
+          the project.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:rbac.authorization.k8s.io/v1:ClusterRoleBinding
+      adminRoleBinding:
+        description: The Kubernetes RoleBinding for admin users.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:rbac.authorization.k8s.io/v1:RoleBinding
+      editRoleBinding:
+        description: The Kubernetes RoleBinding for edit users.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:rbac.authorization.k8s.io/v1:RoleBinding
+      viewRoleBinding:
+        description: The Kubernetes RoleBinding for view users.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:rbac.authorization.k8s.io/v1:RoleBinding
+    required:
+      - provider
+      - namespace
+      - resourceQuota
+      - clusterRole
+      - clusterRoleBinding
+      - adminRoleBinding
+      - editRoleBinding
+      - viewRoleBinding
+    inputProperties:
+      name:
+        description: The Project name.
+        type: string
+      resources:
+        description: The cluster resources to be assigned to the project.
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ProjectResourcesArgs"
+      kubeconfig:
+        description: Kubernetes provider used by Pulumi.
+        type: string
+      namespace:
+        description: The Namespace name where the addon will be installed.
+        type: string
+      adminUserArns:
+        description: The list of AWS IAM User arns that can access to this project with
+          'admin' role.
+        type: array
+        items:
+          description: The list of AWS IAM User arns that can access to this project with
+            'admin' role.
+          type: string
+      editUserArns:
+        description: The list of AWS IAM User arns that can access to this project with
+          'edit' role.
+        type: array
+        items:
+          description: The list of AWS IAM User arns that can access to this project with
+            'edit' role.
+          type: string
+      viewUserArns:
+        description: The list of AWS IAM User arns that can access to this project with
+          'view' role.
+        type: array
+        items:
+          description: The list of AWS IAM User arns that can access to this project with
+            'view' role.
+          type: string
+    requiredInputs:
+      - name
+      - kubeconfig
+      - namespace
     isComponent: true
     type: object
   cloud-toolkit-aws:landingzone:AccountIam:

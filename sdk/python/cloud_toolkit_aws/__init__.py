@@ -80,7 +80,8 @@ _utilities.register(
    "cloud-toolkit-aws:kubernetes:Fluentbit": "Fluentbit",
    "cloud-toolkit-aws:kubernetes:IngressNginx": "IngressNginx",
    "cloud-toolkit-aws:kubernetes:Irsa": "Irsa",
-   "cloud-toolkit-aws:kubernetes:NodeGroup": "NodeGroup"
+   "cloud-toolkit-aws:kubernetes:NodeGroup": "NodeGroup",
+   "cloud-toolkit-aws:kubernetes:Project": "Project"
   }
  },
  {

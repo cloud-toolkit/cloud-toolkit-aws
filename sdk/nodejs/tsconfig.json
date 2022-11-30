@@ -42,6 +42,7 @@
         "kubernetes/ingressNginx.ts",
         "kubernetes/irsa.ts",
         "kubernetes/nodeGroup.ts",
+        "kubernetes/project.ts",
         "landingzone/accountIam.ts",
         "landingzone/auditLogging.ts",
         "landingzone/iamTrustedAccount.ts",

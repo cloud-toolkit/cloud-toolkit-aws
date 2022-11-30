@@ -23,4 +23,5 @@ from .fluentbit import *
 from .ingress_nginx import *
 from .irsa import *
 from .node_group import *
+from .project import *
 from ._inputs import *
