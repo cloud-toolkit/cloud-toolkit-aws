@@ -1,1 +1,2 @@
 robotframework==6.0
+robotframework-kubelibrary==0.8.0

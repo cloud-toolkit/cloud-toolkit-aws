@@ -24,6 +24,29 @@ $> alias robot="python -m robot"
 
 Remember to add it to your `.bashrc`, `.zshrc` or equivalent so that it is available at the start of the terminal session.
 
+**IMPORTANT!** - Checking for errors when performing Pulumi operations depends on reading the stderr after the `pulumi` command. If the stderr is empty the test will be marked as `pass`, if not, it means that it is a `fail`.
+By default, if the system has a non up-to-date version of the Pulumi CLI Pulumi itself will print a warning to the stderr, instead of stdout. 
+
+```
+'warning: A new version of Pulumi is available. To upgrade from version '3.46.1' to '3.48.0', visit https://pulumi.com/docs/reference/install/ for manual instructions and release notes.' should be empty.
+```
+
+This will mark as failed every test that has a Pulumi operation. To avoid this behaviour export the following environment variable **before executing any test**:
+
+```bash
+$> export PULUMI_SKIP_UPDATE_CHECK=true
+```
+
+### Working with already existing stacks
+
+Exporting the following variable will skip the creation of a new Pulumi stack, with its up and destroy, and instead will use an existing one:
+
+```bash
+$> export EXISTING_PULUMI_STACK="component-tests-20221130085639"
+```
+
+Keep in mind the stack has to exist within the Pulumi project.
+
 ### IDE extensions:
 
 Robot Framework has support in the main IDEs used for Python development:
