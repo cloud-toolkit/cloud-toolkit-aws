@@ -90,6 +90,11 @@ export type NodeGroup = import("./nodeGroup").NodeGroup;
 export const NodeGroup: typeof import("./nodeGroup").NodeGroup = null as any;
 utilities.lazyLoad(exports, ["NodeGroup"], () => require("./nodeGroup"));
 
+export { ProjectArgs } from "./project";
+export type Project = import("./project").Project;
+export const Project: typeof import("./project").Project = null as any;
+utilities.lazyLoad(exports, ["Project"], () => require("./project"));
+
 
 // Export enums:
 export * from "../types/enums/kubernetes";
@@ -132,6 +137,8 @@ const _module = {
                 return new Irsa(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:NodeGroup":
                 return new NodeGroup(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:Project":
+                return new Project(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }

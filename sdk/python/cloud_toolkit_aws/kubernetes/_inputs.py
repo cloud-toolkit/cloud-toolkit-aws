@@ -25,6 +25,7 @@ __all__ = [
     'FluentbitLoggingArgsArgs',
     'FluentbitLoggingItemArgsArgs',
     'IngressNginxTlsArgsArgs',
+    'ProjectResourcesArgsArgs',
 ]
 
 @pulumi.input_type
@@ -673,5 +674,76 @@ class IngressNginxTlsArgsArgs:
     @enabled.setter
     def enabled(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "enabled", value)
+
+
+@pulumi.input_type
+class ProjectResourcesArgsArgs:
+    def __init__(__self__, *,
+                 cpu: Optional[pulumi.Input[str]] = None,
+                 limit_cpu: Optional[pulumi.Input[str]] = None,
+                 limit_memory: Optional[pulumi.Input[str]] = None,
+                 memory: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[str] cpu: Amount of reserverd CPU.
+        :param pulumi.Input[str] limit_cpu: Amount of CPU limit.
+        :param pulumi.Input[str] limit_memory: Amount of Memory limit.
+        :param pulumi.Input[str] memory: Amount of reserved Memory.
+        """
+        if cpu is not None:
+            pulumi.set(__self__, "cpu", cpu)
+        if limit_cpu is not None:
+            pulumi.set(__self__, "limit_cpu", limit_cpu)
+        if limit_memory is not None:
+            pulumi.set(__self__, "limit_memory", limit_memory)
+        if memory is not None:
+            pulumi.set(__self__, "memory", memory)
+
+    @property
+    @pulumi.getter
+    def cpu(self) -> Optional[pulumi.Input[str]]:
+        """
+        Amount of reserverd CPU.
+        """
+        return pulumi.get(self, "cpu")
+
+    @cpu.setter
+    def cpu(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "cpu", value)
+
+    @property
+    @pulumi.getter(name="limitCpu")
+    def limit_cpu(self) -> Optional[pulumi.Input[str]]:
+        """
+        Amount of CPU limit.
+        """
+        return pulumi.get(self, "limit_cpu")
+
+    @limit_cpu.setter
+    def limit_cpu(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "limit_cpu", value)
+
+    @property
+    @pulumi.getter(name="limitMemory")
+    def limit_memory(self) -> Optional[pulumi.Input[str]]:
+        """
+        Amount of Memory limit.
+        """
+        return pulumi.get(self, "limit_memory")
+
+    @limit_memory.setter
+    def limit_memory(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "limit_memory", value)
+
+    @property
+    @pulumi.getter
+    def memory(self) -> Optional[pulumi.Input[str]]:
+        """
+        Amount of reserved Memory.
+        """
+        return pulumi.get(self, "memory")
+
+    @memory.setter
+    def memory(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "memory", value)
 
 
