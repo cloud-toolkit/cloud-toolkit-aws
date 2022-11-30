@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.1 (Python 3.10.8 on linux)" generated="20221130 10:38:36.870" rpa="false" schemaversion="3">
+<suite id="s1" name="Kubernetes" source="/home/edu/Projects/Astrokube/cloud-toolkit-aws/acceptance_tests/test_suites/kubernetes">
+<kw name="I deploy the Kubernetes Cluster with Pulumi" library="kubernetes" type="SETUP">
+<kw name="Given I install the NodeJS dependencies on project with path &quot;${ROOT_PROJECTS_PATH}/kubernetes&quot;" library="pulumi" sourcename="I install the NodeJS dependencies on project with path &quot;${project_path}&quot;">
+<kw name="Run Process" library="Process">
+<var>${result}</var>
+<arg>npm</arg>
+<arg>install</arg>
+<arg>stderr=STDOUT</arg>
+<arg>cwd=${project_path}</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<msg timestamp="20221130 10:38:36.896" level="INFO">Starting process:
+npm install</msg>
+<msg timestamp="20221130 10:38:36.899" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20221130 10:38:38.130" level="INFO">Process completed.</msg>
+<msg timestamp="20221130 10:38:38.131" level="INFO">${result} = &lt;result object with rc 0&gt;</msg>
+<status status="PASS" starttime="20221130 10:38:36.896" endtime="20221130 10:38:38.131"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${result.stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221130 10:38:38.132" endtime="20221130 10:38:38.132"/>
+</kw>
+<status status="PASS" starttime="20221130 10:38:36.894" endtime="20221130 10:38:38.132"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;${EXISTING_STACK}&quot; == &quot;&quot;">
+<kw name="Get Current Date" library="robot.libraries.DateTime">
+<var>${date}</var>
+<arg>UTC</arg>
+<arg>exclude_millis=yes</arg>
+<arg>result_format=%Y%m%d%H%M%S</arg>
+<doc>Returns current local or UTC time with an optional increment.</doc>
+<status status="NOT RUN" starttime="20221130 10:38:38.133" endtime="20221130 10:38:38.133"/>
+</kw>
+<kw name="And I create a Pulumi stack with name &quot;component-tests-${date}&quot; on the Pulumi project with path &quot;${ROOT_PROJECTS_PATH}/kubernetes&quot;" library="pulumi" sourcename="I create a Pulumi stack with name &quot;${stack_name}&quot; on the Pulumi project with path &quot;${project_path}&quot;">
+<status status="NOT RUN" starttime="20221130 10:38:38.133" endtime="20221130 10:38:38.133"/>
+</kw>
+<kw name="Then I apply the infrastructure present on the Pulumi project path &quot;${ROOT_PROJECTS_PATH}/kubernetes&quot;" library="pulumi" sourcename="I apply the infrastructure present on the Pulumi project path &quot;${project_path}&quot;">
+<status status="NOT RUN" starttime="20221130 10:38:38.133" endtime="20221130 10:38:38.133"/>
+</kw>
+<status status="NOT RUN" starttime="20221130 10:38:38.133" endtime="20221130 10:38:38.133"/>
+</branch>
+<branch type="ELSE">
+<kw name="Then I select an existing Pulumi stack with name &quot;${EXISTING_STACK}&quot; on the Pulumi project with path &quot;${ROOT_PROJECTS_PATH}/kubernetes&quot;" library="pulumi" sourcename="I select an existing Pulumi stack with name &quot;${stack_name}&quot; on the Pulumi project with path &quot;${project_path}&quot;">
+<kw name="Run Process" library="Process">
+<var>${result}</var>
+<arg>pulumi</arg>
+<arg>stack</arg>
+<arg>select</arg>
+<arg>${stack_name}</arg>
+<arg>stderr=STDOUT</arg>
+<arg>timeout=10s</arg>
+<arg>cwd=${project_path}</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<msg timestamp="20221130 10:38:38.134" level="INFO">Starting process:
+pulumi stack select component-tests-20221130085639</msg>
+<msg timestamp="20221130 10:38:38.137" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20221130 10:38:39.240" level="INFO">Process completed.</msg>
+<msg timestamp="20221130 10:38:39.241" level="INFO">${result} = &lt;result object with rc 0&gt;</msg>
+<status status="PASS" starttime="20221130 10:38:38.134" endtime="20221130 10:38:39.241"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${result.stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221130 10:38:39.241" endtime="20221130 10:38:39.243"/>
+</kw>
+<status status="PASS" starttime="20221130 10:38:38.133" endtime="20221130 10:38:39.243"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>hey this is an else</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221130 10:38:39.243" endtime="20221130 10:38:39.243"/>
+</kw>
+<status status="PASS" starttime="20221130 10:38:38.133" endtime="20221130 10:38:39.243"/>
+</branch>
+<status status="PASS" starttime="20221130 10:38:38.133" endtime="20221130 10:38:39.243"/>
+</if>
+<status status="PASS" starttime="20221130 10:38:36.894" endtime="20221130 10:38:39.244"/>
+</kw>
+<suite id="s1-s1" name="Listing" source="/home/edu/Projects/Astrokube/cloud-toolkit-aws/acceptance_tests/test_suites/kubernetes/listing.robot">
+<test id="s1-s1-t1" name="Deployment exists" line="8">
+<kw name="Given I apply the YAML file with path &quot;basics/deployment&quot;" library="kubernetes" sourcename="I apply the YAML file with path &quot;${file_path}&quot;">
+<kw name="Run Process" library="Process">
+<var>${result}</var>
+<arg>kubectl</arg>
+<arg>apply</arg>
+<arg>-f</arg>
+<arg>yaml/${file_path}</arg>
+<arg>stderr=STDOUT</arg>
+<arg>cwd=${ROOT_PROJECTS_PATH}/kubernetes</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<msg timestamp="20221130 10:38:39.247" level="INFO">Starting process:
+kubectl apply -f yaml/basics/deployment</msg>
+<msg timestamp="20221130 10:38:39.250" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20221130 10:38:39.306" level="INFO">Process completed.</msg>
+<msg timestamp="20221130 10:38:39.307" level="INFO">${result} = &lt;result object with rc 1&gt;</msg>
+<status status="PASS" starttime="20221130 10:38:39.247" endtime="20221130 10:38:39.307"/>
+</kw>
+<status status="PASS" starttime="20221130 10:38:39.247" endtime="20221130 10:38:39.307"/>
+</kw>
+<kw name="Run Process" library="Process">
+<var>${result}</var>
+<arg>echo</arg>
+<arg>"It obviously exists"</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<msg timestamp="20221130 10:38:39.308" level="INFO">Starting process:
+echo "\"It obviously exists\""</msg>
+<msg timestamp="20221130 10:38:39.312" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20221130 10:38:39.312" level="INFO">Process completed.</msg>
+<msg timestamp="20221130 10:38:39.312" level="INFO">${result} = &lt;result object with rc 0&gt;</msg>
+<status status="PASS" starttime="20221130 10:38:39.308" endtime="20221130 10:38:39.312"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${result.stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221130 10:38:39.313" endtime="20221130 10:38:39.313"/>
+</kw>
+<tag>docker-ci</tag>
+<status status="PASS" starttime="20221130 10:38:39.246" endtime="20221130 10:38:39.313"/>
+</test>
+<status status="PASS" starttime="20221130 10:38:39.244" endtime="20221130 10:38:39.314"/>
+</suite>
+<kw name="I destroy the Kubernetes Cluster with Pulumi" library="kubernetes" type="TEARDOWN">
+<kw name="Skip If" library="BuiltIn">
+<arg>"${EXISTING_STACK}" != ""</arg>
+<doc>Skips the rest of the current test if the ``condition`` is True.</doc>
+<msg timestamp="20221130 10:38:39.315" level="SKIP">"component-tests-20221130085639" != ""</msg>
+<status status="SKIP" starttime="20221130 10:38:39.315" endtime="20221130 10:38:39.315"/>
+</kw>
+<kw name="Given I destroy the infrastructure present on the Pulumi project path &quot;${ROOT_PROJECTS_PATH}/kubernetes&quot;" library="pulumi" sourcename="I destroy the infrastructure present on the Pulumi project path &quot;${project_path}&quot;">
+<status status="NOT RUN" starttime="20221130 10:38:39.315" endtime="20221130 10:38:39.315"/>
+</kw>
+<kw name="Then I delete the current Pulumi stack on the Pulumi project with path &quot;${ROOT_PROJECTS_PATH}/kubernetes&quot;" library="pulumi" sourcename="I delete the current Pulumi stack on the Pulumi project with path &quot;${project_path}&quot;">
+<status status="NOT RUN" starttime="20221130 10:38:39.315" endtime="20221130 10:38:39.315"/>
+</kw>
+<status status="SKIP" starttime="20221130 10:38:39.314" endtime="20221130 10:38:39.316">"component-tests-20221130085639" != ""</status>
+</kw>
+<doc>Kubernetes</doc>
+<status status="SKIP" starttime="20221130 10:38:36.871" endtime="20221130 10:38:39.316">Skipped in suite teardown:
+"component-tests-20221130085639" != ""</status>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="0" skip="1">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="0" skip="1">docker-ci</stat>
+</tag>
+<suite>
+<stat pass="0" fail="0" skip="1" id="s1" name="Kubernetes">Kubernetes</stat>
+<stat pass="0" fail="0" skip="1" id="s1-s1" name="Listing">Kubernetes.Listing</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

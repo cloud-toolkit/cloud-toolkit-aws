@@ -17,6 +17,10 @@ I create a Pulumi stack with name "${stack_name}" on the Pulumi project with pat
   ${result} =  Run Process  pulumi  stack  init  ${stack_name}  stderr=STDOUT  timeout=10s  cwd=${project_path}
   Log To Console  ${result.stdout}
 
+I select an existing Pulumi stack with name "${stack_name}" on the Pulumi project with path "${project_path}"
+  ${result} =  Run Process  pulumi  stack  select  ${stack_name}  stderr=STDOUT  timeout=10s  cwd=${project_path}
+  Log To Console  ${result.stdout}
+
 I delete the current Pulumi stack on the Pulumi project with path "${project_path}"
   ${result} =  Run Process  pulumi  stack  rm  -y  stderr=STDOUT  timeout=30s  cwd=${project_path}
   Log To Console  ${result.stdout}
