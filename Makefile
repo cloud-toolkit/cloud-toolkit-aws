@@ -40,7 +40,7 @@ gen_nodejs_sdk::
 build_nodejs_sdk:: VERSION := $(shell pulumictl get version --language javascript)
 build_nodejs_sdk:: gen_nodejs_sdk
 	cd sdk/nodejs/ && \
-		echo "module fake_nodejs_module // Exclude this directory from Go tools\n\ngo 1.17" > go.mod && \
+		echo "module fake_nodejs_module // Exclude this directory from Go tools\n\ngo 1.18" > go.mod && \
 		npm install && \
 		npm run build && \
 		cp -R scripts bin/ && \
@@ -56,7 +56,7 @@ gen_python_sdk::
 build_python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
 build_python_sdk:: gen_python_sdk
 	cd sdk/python/ && \
-		echo "module fake_python_module // Exclude this directory from Go tools\n\ngo 1.17" > go.mod && \
+		echo "module fake_python_module // Exclude this directory from Go tools\n\ngo 1.18" > go.mod && \
 		cp ../../README.md . && \
 		python3 setup.py clean --all 2>/dev/null && \
 		rm -rf ./bin/ ../python.bin/ && cp -R . ../python.bin && mv ../python.bin ./bin && \
