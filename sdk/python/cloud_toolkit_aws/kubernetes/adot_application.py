@@ -143,7 +143,7 @@ class AdotApplication(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="adotCollectorIRSA")
-    def adot_collector_irsa(self) -> pulumi.Output['Irsa']:
+    def adot_collector_irsa(self) -> pulumi.Output[Optional['Irsa']]:
         return pulumi.get(self, "adot_collector_irsa")
 
     @property
