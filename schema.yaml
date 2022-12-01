@@ -1969,13 +1969,13 @@ resources:
         type: string
       adotApplication:
         description: The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplication"
+        $ref: "#/resources/cloud-toolkit-aws:kubernetes:AdotApplication"
       adotOperator:
         description: The OpenTelemetry (ADOT) operator that sends logs to CloudWatch.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotOperator"
+        $ref: "#/resources/cloud-toolkit-aws:kubernetes:AdotOperator"
       fluentbit:
         description: The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:Fluentbit"
+        $ref: "#/resources/cloud-toolkit-aws:kubernetes:Fluentbit"
     required:
       - argocd
       - certManager
@@ -2124,12 +2124,11 @@ resources:
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
       fluentBitIRSA:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:Irsa"
+        $ref: "#/resources/cloud-toolkit-aws:kubernetes:Irsa"
       application:
         description: ""
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:apiextensions.k8s.io:CustomResource
-    required:
-      - application
+    required: []
     inputProperties:
       logging:
         description: Configure logging.
