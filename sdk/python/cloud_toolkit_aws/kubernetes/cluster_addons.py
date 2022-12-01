@@ -18,6 +18,7 @@ from ..cert_manager import CertManager
 from ..cluster_autoscaler import ClusterAutoscaler
 from ..dashboard import Dashboard
 from ..external_dns import ExternalDns
+from ..fluentbit import Fluentbit
 from ..ingress_nginx import IngressNginx
 from ._inputs import *
 import pulumi_kubernetes
@@ -377,7 +378,7 @@ class ClusterAddons(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def fluentbit(self) -> pulumi.Output[Any]:
+    def fluentbit(self) -> pulumi.Output['Fluentbit']:
         """
         The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
         """
