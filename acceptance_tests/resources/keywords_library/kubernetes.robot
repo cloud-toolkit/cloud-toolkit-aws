@@ -10,7 +10,7 @@ Resource            pulumi.robot
 ${ROOT_PROJECTS_PATH}           ${CURDIR}/../../resources/projects
 ${KUBERNETES_PROJECT_PATH}      ${ROOT_PROJECTS_PATH}/kubernetes
 ${BASIC_RESOURCES_PATH}         ${KUBERNETES_PROJECT_PATH}/yamls/basics
-${KUBECONFIG_PATH}              ${KUBERNETES_PROJECT_PATH}/%{KUBECONFIG=kubeconfig}
+${KUBECONFIG_PATH}              %{KUBECONFIG=${KUBERNETES_PROJECT_PATH}/kubeconfig}
 ${KLIB_POD_TIMEOUT}             %{KLIB_POD_TIMEOUT=1min}
 ${KLIB_POD_RETRY_INTERVAL}      %{KLIB_POD_RETRY_INTERVAL=5sec}
 
