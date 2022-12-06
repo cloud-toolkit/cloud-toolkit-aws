@@ -431,6 +431,25 @@ types:
         type: boolean
     type: object
     required: []
+  cloud-toolkit-aws:kubernetes:ClusterAdminsArgs:
+    properties:
+      name:
+        description: The name for the group of Cluster Admins.
+        type: string
+      kubeconfig:
+        description: Kubernetes provider used by Pulumi.
+        type: string
+      userArns:
+        description: The list of AWS IAM User arns.
+        type: array
+        items:
+          description: The list of AWS IAM User arns.
+          type: string
+    type: object
+    required:
+      - name
+      - kubeconfig
+      - userArns
   cloud-toolkit-aws:kubernetes:ClusterArgs:
     properties:
       vpcId:
@@ -2195,6 +2214,40 @@ resources:
       - clusterName
       - identityProvidersArn
       - issuerUrl
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:kubernetes:ClusterAdmins:
+    description: ClusterAdmins is a component that create the resources in the
+      Cluster for a set of AWS IAM Users and Roles, manging the access with the
+      integration with AWS IAM.
+    properties:
+      provider:
+        description: The Kubernetes provider used to provision Kubernetes resources.
+        $ref: /kubernetes/v3.21.2/schema.json#/provider
+      clusterRoleBinding:
+        description: The Kubernetes ClusterRoleBinding to associate the ClusterRole to
+          the project.
+        $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:rbac.authorization.k8s.io/v1:ClusterRoleBinding
+    required:
+      - provider
+      - clusterRoleBinding
+    inputProperties:
+      name:
+        description: The name for the group of Cluster Admins.
+        type: string
+      kubeconfig:
+        description: Kubernetes provider used by Pulumi.
+        type: string
+      userArns:
+        description: The list of AWS IAM User arns.
+        type: array
+        items:
+          description: The list of AWS IAM User arns.
+          type: string
+    requiredInputs:
+      - name
+      - kubeconfig
+      - userArns
     isComponent: true
     type: object
   cloud-toolkit-aws:kubernetes:ClusterAutoscaler:

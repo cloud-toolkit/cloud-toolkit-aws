@@ -16,6 +16,7 @@ from .calico import *
 from .cert_manager import *
 from .cluster import *
 from .cluster_addons import *
+from .cluster_admins import *
 from .cluster_autoscaler import *
 from .dashboard import *
 from .external_dns import *
