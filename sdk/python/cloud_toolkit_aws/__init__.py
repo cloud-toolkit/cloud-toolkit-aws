@@ -74,6 +74,7 @@ _utilities.register(
    "cloud-toolkit-aws:kubernetes:CertManager": "CertManager",
    "cloud-toolkit-aws:kubernetes:Cluster": "Cluster",
    "cloud-toolkit-aws:kubernetes:ClusterAddons": "ClusterAddons",
+   "cloud-toolkit-aws:kubernetes:ClusterAdmins": "ClusterAdmins",
    "cloud-toolkit-aws:kubernetes:ClusterAutoscaler": "ClusterAutoscaler",
    "cloud-toolkit-aws:kubernetes:Dashboard": "Dashboard",
    "cloud-toolkit-aws:kubernetes:ExternalDns": "ExternalDns",
