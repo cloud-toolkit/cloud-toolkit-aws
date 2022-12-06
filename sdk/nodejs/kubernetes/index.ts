@@ -55,6 +55,11 @@ export type ClusterAddons = import("./clusterAddons").ClusterAddons;
 export const ClusterAddons: typeof import("./clusterAddons").ClusterAddons = null as any;
 utilities.lazyLoad(exports, ["ClusterAddons"], () => require("./clusterAddons"));
 
+export { ClusterAdminsArgs } from "./clusterAdmins";
+export type ClusterAdmins = import("./clusterAdmins").ClusterAdmins;
+export const ClusterAdmins: typeof import("./clusterAdmins").ClusterAdmins = null as any;
+utilities.lazyLoad(exports, ["ClusterAdmins"], () => require("./clusterAdmins"));
+
 export { ClusterAutoscalerArgs } from "./clusterAutoscaler";
 export type ClusterAutoscaler = import("./clusterAutoscaler").ClusterAutoscaler;
 export const ClusterAutoscaler: typeof import("./clusterAutoscaler").ClusterAutoscaler = null as any;
@@ -128,6 +133,8 @@ const _module = {
                 return new Cluster(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:ClusterAddons":
                 return new ClusterAddons(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:ClusterAdmins":
+                return new ClusterAdmins(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:ClusterAutoscaler":
                 return new ClusterAutoscaler(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Dashboard":

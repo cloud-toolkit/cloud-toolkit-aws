@@ -26,6 +26,8 @@ import {
   Cluster,
   ClusterAddons,
   ClusterAddonsArgs,
+  ClusterAdmins,
+  ClusterAdminsArgs,
   ClusterArgs,
   ClusterAutoscaler,
   ClusterAutoscalerArgs,
@@ -35,6 +37,8 @@ import {
   IngressNginxArgs,
   NodeGroup,
   NodeGroupArgs,
+  Project,
+  ProjectArgs,
 } from "./kubernetes";
 import {
   AccountIam,
@@ -48,7 +52,7 @@ import {
   LandingZone,
   LandingZoneArgs,
   Organization,
-  OrganizationArgs
+  OrganizationArgs,
 } from "./landingzone";
 import { Mysql, MysqlArgs} from "./databases/mysql";
 import { Calico, CalicoArgs } from "./kubernetes/calico";
@@ -60,10 +64,6 @@ import { AdotOperator } from "./kubernetes/adotOperator";
 import { AdotOperatorArgs } from "./kubernetes/adotOperatorArgs";
 import { Fluentbit } from "./kubernetes/fluentbit";
 import { FluentbitArgs } from "./kubernetes/fluentbitArgs";
-import {
-  Project,
-  ProjectArgs,
-} from "./kubernetes/project";
 
 
 export class Provider implements pulumi.provider.Provider {
@@ -114,6 +114,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesFluentbit(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:Project":
         return await constructKubernetesProject(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:ClusterAdmins":
+        return await constructKubernetesClusterAdmins(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
         return await constructLandingZoneAccountIam(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:Organization":
@@ -428,6 +430,23 @@ async function constructKubernetesAdotOperator(
     },
   };
 }
+
+async function constructKubernetesClusterAdmins(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new ClusterAdmins(name, inputs as ClusterAdminsArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      clusterRoleBinding: resource.clusterRoleBinding,
+      provider: resource.provider,
+    },
+  };
+}
+
 
 async function constructKubernetesProject(
   name: string,
