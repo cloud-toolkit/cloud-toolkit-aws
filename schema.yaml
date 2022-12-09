@@ -622,14 +622,14 @@ types:
       dataRetention:
         description: Data retention expressed in days.
         type: number
-    type: object
-    required:
-      - dataRetention
-  cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs:
-    properties:
       enabled:
         description: Enable logging.
         type: boolean
+    type: object
+    required:
+      - enabled
+  cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs:
+    properties:
       applications:
         description: Configure applications logging.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs"
@@ -640,8 +640,7 @@ types:
         description: Configure host logging.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs"
     type: object
-    required:
-      - enabled
+    required: []
   cloud-toolkit-aws:kubernetes:FluentbitArgs:
     properties:
       logging:
