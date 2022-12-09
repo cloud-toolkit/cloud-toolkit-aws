@@ -2107,22 +2107,23 @@ resources:
     isComponent: true
     type: object
   cloud-toolkit-aws:kubernetes:Fluentbit:
-    description: ""
+    description: Fluentbit is a component that deploy the Fluentbit component to
+      send logs to AWS CloudWatch.
     properties:
       namespace:
-        description: ""
+        description: The Namespace used to deploy the component.
         $ref: /kubernetes/v3.21.2/schema.json#/resources/kubernetes:core/v1:Namespace
       logGroupApplicationLog:
-        description: ""
+        description: The AWS CloudWatch LogGroup where application logs are stored.
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
       logGroupDataplaneLog:
-        description: ""
+        description: The AWS CloudWatch LogGroup where dataplane logs are stored.
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
       logGroupHostLog:
-        description: ""
+        description: The AWS CloudWatch LogGroup where Hosts logs are stored.
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
       fluentBitIRSA:
-        description: ""
+        description: IRSA for Fluentbit component
         $ref: "#/resources/cloud-toolkit-aws:kubernetes:Irsa"
       application:
         description: ""
