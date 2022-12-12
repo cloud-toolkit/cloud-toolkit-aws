@@ -309,7 +309,6 @@ export class Bucket extends pulumi.ComponentResource {
     return new aws.s3.BucketV2(
       this.name,
       {
-        bucket: this.name,
         forceDestroy: true,
       },
       opts
@@ -386,7 +385,7 @@ export class Bucket extends pulumi.ComponentResource {
     }
 
     return new aws.s3.BucketPolicy(
-      this.name,
+      `${this.name}-bucketPolicy`,
       {
         bucket: this.bucket.id,
         policy: pulumi.interpolate`{
