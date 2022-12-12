@@ -34,7 +34,7 @@ export class Fluentbit extends ApplicationAddon<FluentbitArgs> {
   /**
   * IRSA for Fluentbit component
   */
-  public readonly fluentBitIRSA?: Irsa;
+  public readonly irsa?: Irsa;
 
   public readonly application?: kubernetes.apiextensions.CustomResource;
 
@@ -59,8 +59,8 @@ export class Fluentbit extends ApplicationAddon<FluentbitArgs> {
     const applicationDependsOn: pulumi.Input<pulumi.Resource>[] = [];
 
     if (this.args.logging?.applications?.enabled || this.args.logging?.dataplane?.enabled || this.args.logging?.host?.enabled) {
-      this.fluentBitIRSA = this.setupIrsaForFluentBit(resourceOpts);
-      applicationDependsOn.push(this.fluentBitIRSA);
+      this.irsa = this.setupIrsaForFluentBit(resourceOpts);
+      applicationDependsOn.push(this.irsa);
 
       if (this.args.logging?.applications?.enabled ) {
         this.logGroupApplicationLog = this.createApplicationLogGroup(resourceOpts);
@@ -85,7 +85,7 @@ export class Fluentbit extends ApplicationAddon<FluentbitArgs> {
 
     this.registerOutputs({
       application: this.application,
-      fluentBitIRSA: this.fluentBitIRSA,
+      irsa: this.irsa,
       logGroupApplicationLog: this.logGroupApplicationLog,
       logGroupDataplaneLog: this.logGroupDataplaneLog,
       logGroupHostLog: this.logGroupHostLog,
@@ -242,7 +242,7 @@ export class Fluentbit extends ApplicationAddon<FluentbitArgs> {
     Match application.*
     region ${this.args.awsRegion}
     log_group_name ${this.logGroupApplicationLog?.name}
-    log_stream_prefix app.
+    log_stream_prefix $\${HOSTNAME}.
     log_retention_days ${this.logGroupApplicationLog?.retentionInDays}`
   }
 
@@ -256,7 +256,7 @@ export class Fluentbit extends ApplicationAddon<FluentbitArgs> {
     Match dataplane.*
     region ${this.args.awsRegion}
     log_group_name ${this.logGroupDataplaneLog?.name}
-    log_stream_prefix data.
+    log_stream_prefix $\${HOSTNAME}.
     log_retention_days ${this.logGroupDataplaneLog?.retentionInDays}
     extra_user_agent container-insights`
   }
@@ -271,9 +271,8 @@ export class Fluentbit extends ApplicationAddon<FluentbitArgs> {
     Match host.*
     region ${this.args.awsRegion}
     log_group_name ${this.logGroupHostLog?.name}
-    log_stream_prefix host.
+    log_stream_prefix $\${HOSTNAME}.
     log_retention_days ${this.logGroupHostLog?.retentionInDays}
-    auto_create_group true
     extra_user_agent container-insights`;
   }
 
@@ -360,6 +359,7 @@ export class Fluentbit extends ApplicationAddon<FluentbitArgs> {
   }
 
   getApplicationSpec(): any {
+
     return {
       project: "default",
       source: {
@@ -394,9 +394,14 @@ export class Fluentbit extends ApplicationAddon<FluentbitArgs> {
               value: this.getParserLogConfig()
             },
             {
-              name: "logLevel",
-              value: "debug"
+              name: "env[0].name",
+              value: "HOSTNAME"
             },
+            {
+              name: "env[0].valueFrom.fieldRef.fieldPath",
+              value: "spec\.nodeName"
+            },
+
           ],
         },
       },

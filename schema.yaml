@@ -1646,7 +1646,7 @@ resources:
       logGroupMetrics:
         description: ""
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
-      adotCollectorIRSA:
+      irsa:
         description: ""
         $ref: "#/resources/cloud-toolkit-aws:kubernetes:Irsa"
       application:
@@ -2122,7 +2122,7 @@ resources:
       logGroupHostLog:
         description: The AWS CloudWatch LogGroup where Hosts logs are stored.
         $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2flogGroup:LogGroup
-      fluentBitIRSA:
+      irsa:
         description: IRSA for Fluentbit component
         $ref: "#/resources/cloud-toolkit-aws:kubernetes:Irsa"
       application:
