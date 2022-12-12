@@ -1450,8 +1450,7 @@ types:
         description: Configures a static webpage using bucket files
         $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
     type: object
-    required:
-      - public
+    required: []
   cloud-toolkit-aws:storage:BucketEncryptionArgs:
     properties:
       enabled:
@@ -3166,8 +3165,7 @@ resources:
       website:
         description: Configures a static webpage using bucket files
         $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
-    requiredInputs:
-      - public
+    requiredInputs: []
     isComponent: true
     type: object
 language:
