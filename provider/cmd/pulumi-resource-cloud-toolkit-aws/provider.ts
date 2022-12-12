@@ -379,7 +379,7 @@ async function constructKubernetesAdotApplication(
   return {
     urn: resource.urn,
     state: {
-      adotCollectorIRSA: resource.adotCollectorIRSA,
+      irsa: resource.irsa,
       application: resource.application,
       logGroupMetrics: resource.logGroupMetrics,
       namespace: resource.namespace,
@@ -398,7 +398,7 @@ async function constructKubernetesFluentbit(
     urn: resource.urn,
     state: {
       application: resource.application,
-      fluentBitIRSA: resource.fluentBitIRSA,
+      irsa: resource.irsa,
       logGroupApplicationLog: resource.logGroupApplicationLog,
       logGroupDataplaneLog: resource.logGroupDataplaneLog,
       logGroupHostLog: resource.logGroupHostLog,

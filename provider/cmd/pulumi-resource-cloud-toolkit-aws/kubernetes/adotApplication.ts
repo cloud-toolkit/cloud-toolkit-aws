@@ -12,7 +12,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
 
   public readonly logGroupMetrics?: aws.cloudwatch.LogGroup;
 
-  public readonly adotCollectorIRSA?: Irsa;
+  public readonly irsa?: Irsa;
 
   public readonly application: kubernetes.apiextensions.CustomResource;
 
@@ -37,9 +37,9 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
 
     const applicationDependsOn: pulumi.Input<pulumi.Resource>[] = [];
     if (this.args.metrics?.enabled) {
-      this.adotCollectorIRSA = this.setupIrsaForAdotCollector(resourceOpts);
+      this.irsa = this.setupIrsaForAdotCollector(resourceOpts);
       this.logGroupMetrics = this.createMetricsLogGroup(resourceOpts);
-      applicationDependsOn.push(this.adotCollectorIRSA);
+      applicationDependsOn.push(this.irsa);
       applicationDependsOn.push(this.logGroupMetrics);
     }
 
@@ -50,7 +50,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
     this.application = this.setupApplication(applicationOpts);
 
     this.registerOutputs({
-      adotCollectorIRSA: this.adotCollectorIRSA,
+      irsa: this.irsa,
       application: this.application,
       logGroupMetrics: this.logGroupMetrics,
       namespace: this.namespace,
@@ -254,7 +254,7 @@ export class AdotApplication extends ApplicationAddon<AdotApplicationArgs> {
             },
             {
               name: "adotCollector.daemonSet.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn",
-              value: this.adotCollectorIRSA?.role?.arn,
+              value: this.irsa?.role?.arn,
             },
             {
               name: "adotCollector.daemonSet.service.metrics.receivers[0]",
