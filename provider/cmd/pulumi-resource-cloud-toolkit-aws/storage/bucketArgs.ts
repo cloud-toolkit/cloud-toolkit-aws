@@ -8,7 +8,7 @@ export interface BucketArgs {
   /**
    * Set to true to allow policies that may provide access to anyone.
   */
-  public: boolean;
+  public?: boolean;
 
   /**
    * Set a certain versioning mode for bucket objects
@@ -72,6 +72,7 @@ export enum BucketVersioningStateArgs {
 }
 
 export const defaultConfig = {
+  public: false,
   versioning: BucketVersioningStateArgs.Disabled,
   encryption: {
     enabled: false,
@@ -80,10 +81,6 @@ export const defaultConfig = {
 
 export function validateConfig(c: BucketArgs): BucketArgs {
   const config = defaultsDeep({ ...c }, defaultConfig);
-
-  if (config.public === undefined) {
-    throw Error("You must select if your bucket is public or not");
-  }
 
   if (
     config.website !== undefined &&
