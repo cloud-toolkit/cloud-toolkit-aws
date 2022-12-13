@@ -532,35 +532,20 @@ class ClusterPublicApiArgsArgs:
 @pulumi.input_type
 class FluentbitLoggingArgsArgs:
     def __init__(__self__, *,
-                 enabled: pulumi.Input[bool],
                  applications: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None,
                  dataplane: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None,
                  host: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None):
         """
-        :param pulumi.Input[bool] enabled: Enable logging.
         :param pulumi.Input['FluentbitLoggingItemArgsArgs'] applications: Configure applications logging.
         :param pulumi.Input['FluentbitLoggingItemArgsArgs'] dataplane: Configure data plane logging.
         :param pulumi.Input['FluentbitLoggingItemArgsArgs'] host: Configure host logging.
         """
-        pulumi.set(__self__, "enabled", enabled)
         if applications is not None:
             pulumi.set(__self__, "applications", applications)
         if dataplane is not None:
             pulumi.set(__self__, "dataplane", dataplane)
         if host is not None:
             pulumi.set(__self__, "host", host)
-
-    @property
-    @pulumi.getter
-    def enabled(self) -> pulumi.Input[bool]:
-        """
-        Enable logging.
-        """
-        return pulumi.get(self, "enabled")
-
-    @enabled.setter
-    def enabled(self, value: pulumi.Input[bool]):
-        pulumi.set(self, "enabled", value)
 
     @property
     @pulumi.getter
@@ -602,22 +587,38 @@ class FluentbitLoggingArgsArgs:
 @pulumi.input_type
 class FluentbitLoggingItemArgsArgs:
     def __init__(__self__, *,
-                 data_retention: pulumi.Input[float]):
+                 enabled: pulumi.Input[bool],
+                 data_retention: Optional[pulumi.Input[float]] = None):
         """
+        :param pulumi.Input[bool] enabled: Enable logging.
         :param pulumi.Input[float] data_retention: Data retention expressed in days.
         """
-        pulumi.set(__self__, "data_retention", data_retention)
+        pulumi.set(__self__, "enabled", enabled)
+        if data_retention is not None:
+            pulumi.set(__self__, "data_retention", data_retention)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> pulumi.Input[bool]:
+        """
+        Enable logging.
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: pulumi.Input[bool]):
+        pulumi.set(self, "enabled", value)
 
     @property
     @pulumi.getter(name="dataRetention")
-    def data_retention(self) -> pulumi.Input[float]:
+    def data_retention(self) -> Optional[pulumi.Input[float]]:
         """
         Data retention expressed in days.
         """
         return pulumi.get(self, "data_retention")
 
     @data_retention.setter
-    def data_retention(self, value: pulumi.Input[float]):
+    def data_retention(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "data_retention", value)
 
 
