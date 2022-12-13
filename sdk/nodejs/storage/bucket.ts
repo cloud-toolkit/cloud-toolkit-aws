@@ -83,13 +83,10 @@ export class Bucket extends pulumi.ComponentResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args: BucketArgs, opts?: pulumi.ComponentResourceOptions) {
+    constructor(name: string, args?: BucketArgs, opts?: pulumi.ComponentResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            if ((!args || args.public === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'public'");
-            }
             resourceInputs["encryption"] = args ? args.encryption : undefined;
             resourceInputs["public"] = args ? args.public : undefined;
             resourceInputs["replication"] = args ? args.replication : undefined;
@@ -136,7 +133,7 @@ export interface BucketArgs {
     /**
      * Set to true to allow policies that may provide access to anyone.
      */
-    public: pulumi.Input<boolean>;
+    public?: pulumi.Input<boolean>;
     /**
      * Configures replication parameters for the bucket
      */
