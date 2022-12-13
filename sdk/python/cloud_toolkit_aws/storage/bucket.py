@@ -17,40 +17,29 @@ __all__ = ['BucketArgs', 'Bucket']
 @pulumi.input_type
 class BucketArgs:
     def __init__(__self__, *,
-                 public: pulumi.Input[bool],
                  encryption: Optional[pulumi.Input['BucketEncryptionArgsArgs']] = None,
+                 public: Optional[pulumi.Input[bool]] = None,
                  replication: Optional[pulumi.Input['BucketReplicationArgsArgs']] = None,
                  versioning: Optional[pulumi.Input['BucketVersioningStateArgs']] = None,
                  website: Optional[pulumi.Input['BucketWebsiteArgsArgs']] = None):
         """
         The set of arguments for constructing a Bucket resource.
-        :param pulumi.Input[bool] public: Set to true to allow policies that may provide access to anyone.
         :param pulumi.Input['BucketEncryptionArgsArgs'] encryption: Configures encryption parameters for the bucket
+        :param pulumi.Input[bool] public: Set to true to allow policies that may provide access to anyone.
         :param pulumi.Input['BucketReplicationArgsArgs'] replication: Configures replication parameters for the bucket
         :param pulumi.Input['BucketVersioningStateArgs'] versioning: Set a certain versioning mode for bucket objects
         :param pulumi.Input['BucketWebsiteArgsArgs'] website: Configures a static webpage using bucket files
         """
-        pulumi.set(__self__, "public", public)
         if encryption is not None:
             pulumi.set(__self__, "encryption", encryption)
+        if public is not None:
+            pulumi.set(__self__, "public", public)
         if replication is not None:
             pulumi.set(__self__, "replication", replication)
         if versioning is not None:
             pulumi.set(__self__, "versioning", versioning)
         if website is not None:
             pulumi.set(__self__, "website", website)
-
-    @property
-    @pulumi.getter
-    def public(self) -> pulumi.Input[bool]:
-        """
-        Set to true to allow policies that may provide access to anyone.
-        """
-        return pulumi.get(self, "public")
-
-    @public.setter
-    def public(self, value: pulumi.Input[bool]):
-        pulumi.set(self, "public", value)
 
     @property
     @pulumi.getter
@@ -63,6 +52,18 @@ class BucketArgs:
     @encryption.setter
     def encryption(self, value: Optional[pulumi.Input['BucketEncryptionArgsArgs']]):
         pulumi.set(self, "encryption", value)
+
+    @property
+    @pulumi.getter
+    def public(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Set to true to allow policies that may provide access to anyone.
+        """
+        return pulumi.get(self, "public")
+
+    @public.setter
+    def public(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "public", value)
 
     @property
     @pulumi.getter
@@ -127,7 +128,7 @@ class Bucket(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: BucketArgs,
+                 args: Optional[BucketArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Cloud Toolkit component for Bcukets. Creates a Simple Bucket for object storage
@@ -164,8 +165,6 @@ class Bucket(pulumi.ComponentResource):
             __props__ = BucketArgs.__new__(BucketArgs)
 
             __props__.__dict__["encryption"] = encryption
-            if public is None and not opts.urn:
-                raise TypeError("Missing required property 'public'")
             __props__.__dict__["public"] = public
             __props__.__dict__["replication"] = replication
             __props__.__dict__["versioning"] = versioning
