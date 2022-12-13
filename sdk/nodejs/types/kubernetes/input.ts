@@ -161,10 +161,6 @@ export interface FluentbitLoggingArgsArgs {
      */
     dataplane?: pulumi.Input<inputs.kubernetes.FluentbitLoggingItemArgsArgs>;
     /**
-     * Enable logging.
-     */
-    enabled: pulumi.Input<boolean>;
-    /**
      * Configure host logging.
      */
     host?: pulumi.Input<inputs.kubernetes.FluentbitLoggingItemArgsArgs>;
@@ -174,7 +170,11 @@ export interface FluentbitLoggingItemArgsArgs {
     /**
      * Data retention expressed in days.
      */
-    dataRetention: pulumi.Input<number>;
+    dataRetention?: pulumi.Input<number>;
+    /**
+     * Enable logging.
+     */
+    enabled: pulumi.Input<boolean>;
 }
 
 export interface IngressNginxTlsArgsArgs {

@@ -13,24 +13,24 @@ from ._inputs import *
 import pulumi_aws
 import pulumi_kubernetes
 
-__all__ = ['AdotApplicationArgs', 'AdotApplication']
+__all__ = ['FluentbitArgs', 'Fluentbit']
 
 @pulumi.input_type
-class AdotApplicationArgs:
+class FluentbitArgs:
     def __init__(__self__, *,
                  aws_region: pulumi.Input[str],
                  cluster_name: pulumi.Input[str],
-                 metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None):
+                 logging: Optional[pulumi.Input['FluentbitLoggingArgsArgs']] = None):
         """
-        The set of arguments for constructing a AdotApplication resource.
+        The set of arguments for constructing a Fluentbit resource.
         :param pulumi.Input[str] aws_region: The AWS Region.
         :param pulumi.Input[str] cluster_name: The cluster name.
-        :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure metrics.
+        :param pulumi.Input['FluentbitLoggingArgsArgs'] logging: Configure logging.
         """
         pulumi.set(__self__, "aws_region", aws_region)
         pulumi.set(__self__, "cluster_name", cluster_name)
-        if metrics is not None:
-            pulumi.set(__self__, "metrics", metrics)
+        if logging is not None:
+            pulumi.set(__self__, "logging", logging)
 
     @property
     @pulumi.getter(name="awsRegion")
@@ -58,49 +58,51 @@ class AdotApplicationArgs:
 
     @property
     @pulumi.getter
-    def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]:
+    def logging(self) -> Optional[pulumi.Input['FluentbitLoggingArgsArgs']]:
         """
-        Configure metrics.
+        Configure logging.
         """
-        return pulumi.get(self, "metrics")
+        return pulumi.get(self, "logging")
 
-    @metrics.setter
-    def metrics(self, value: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]):
-        pulumi.set(self, "metrics", value)
+    @logging.setter
+    def logging(self, value: Optional[pulumi.Input['FluentbitLoggingArgsArgs']]):
+        pulumi.set(self, "logging", value)
 
 
-class AdotApplication(pulumi.ComponentResource):
+class Fluentbit(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
                  __props__=None):
         """
-        Create a AdotApplication resource with the given unique name, props, and options.
+        Fluentbit is a component that deploy the Fluentbit component to send logs to AWS CloudWatch.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] aws_region: The AWS Region.
         :param pulumi.Input[str] cluster_name: The cluster name.
-        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure metrics.
+        :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']] logging: Configure logging.
         """
         ...
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: AdotApplicationArgs,
+                 args: FluentbitArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a AdotApplication resource with the given unique name, props, and options.
+        Fluentbit is a component that deploy the Fluentbit component to send logs to AWS CloudWatch.
+
         :param str resource_name: The name of the resource.
-        :param AdotApplicationArgs args: The arguments to use to populate this resource's properties.
+        :param FluentbitArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
         """
         ...
     def __init__(__self__, resource_name: str, *args, **kwargs):
-        resource_args, opts = _utilities.get_resource_args_opts(AdotApplicationArgs, pulumi.ResourceOptions, *args, **kwargs)
+        resource_args, opts = _utilities.get_resource_args_opts(FluentbitArgs, pulumi.ResourceOptions, *args, **kwargs)
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
@@ -111,7 +113,7 @@ class AdotApplication(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -121,7 +123,7 @@ class AdotApplication(pulumi.ComponentResource):
         else:
             if __props__ is not None:
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
-            __props__ = AdotApplicationArgs.__new__(AdotApplicationArgs)
+            __props__ = FluentbitArgs.__new__(FluentbitArgs)
 
             if aws_region is None and not opts.urn:
                 raise TypeError("Missing required property 'aws_region'")
@@ -129,13 +131,15 @@ class AdotApplication(pulumi.ComponentResource):
             if cluster_name is None and not opts.urn:
                 raise TypeError("Missing required property 'cluster_name'")
             __props__.__dict__["cluster_name"] = cluster_name
-            __props__.__dict__["metrics"] = metrics
+            __props__.__dict__["logging"] = logging
             __props__.__dict__["application"] = None
             __props__.__dict__["irsa"] = None
-            __props__.__dict__["log_group_metrics"] = None
+            __props__.__dict__["log_group_application_log"] = None
+            __props__.__dict__["log_group_dataplane_log"] = None
+            __props__.__dict__["log_group_host_log"] = None
             __props__.__dict__["namespace"] = None
-        super(AdotApplication, __self__).__init__(
-            'cloud-toolkit-aws:kubernetes:AdotApplication',
+        super(Fluentbit, __self__).__init__(
+            'cloud-toolkit-aws:kubernetes:Fluentbit',
             resource_name,
             __props__,
             opts,
@@ -143,21 +147,46 @@ class AdotApplication(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def application(self) -> pulumi.Output['pulumi_kubernetes.apiextensions.CustomResource']:
+    def application(self) -> pulumi.Output[Optional['pulumi_kubernetes.apiextensions.CustomResource']]:
         return pulumi.get(self, "application")
 
     @property
     @pulumi.getter
     def irsa(self) -> pulumi.Output[Optional['Irsa']]:
+        """
+        IRSA for Fluentbit component
+        """
         return pulumi.get(self, "irsa")
 
     @property
-    @pulumi.getter(name="logGroupMetrics")
-    def log_group_metrics(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
-        return pulumi.get(self, "log_group_metrics")
+    @pulumi.getter(name="logGroupApplicationLog")
+    def log_group_application_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        """
+        The AWS CloudWatch LogGroup where application logs are stored.
+        """
+        return pulumi.get(self, "log_group_application_log")
+
+    @property
+    @pulumi.getter(name="logGroupDataplaneLog")
+    def log_group_dataplane_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        """
+        The AWS CloudWatch LogGroup where dataplane logs are stored.
+        """
+        return pulumi.get(self, "log_group_dataplane_log")
+
+    @property
+    @pulumi.getter(name="logGroupHostLog")
+    def log_group_host_log(self) -> pulumi.Output[Optional['pulumi_aws.cloudwatch.LogGroup']]:
+        """
+        The AWS CloudWatch LogGroup where Hosts logs are stored.
+        """
+        return pulumi.get(self, "log_group_host_log")
 
     @property
     @pulumi.getter
     def namespace(self) -> pulumi.Output[Optional['pulumi_kubernetes.core.v1.Namespace']]:
+        """
+        The Namespace used to deploy the component.
+        """
         return pulumi.get(self, "namespace")
 
