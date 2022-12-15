@@ -87,6 +87,8 @@ export class Bucket extends pulumi.ComponentResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
+            resourceInputs["bucketName"] = args ? args.bucketName : undefined;
+            resourceInputs["bucketNamePrefix"] = args ? args.bucketNamePrefix : undefined;
             resourceInputs["encryption"] = args ? args.encryption : undefined;
             resourceInputs["public"] = args ? args.public : undefined;
             resourceInputs["replication"] = args ? args.replication : undefined;
@@ -126,6 +128,14 @@ export class Bucket extends pulumi.ComponentResource {
  * The set of arguments for constructing a Bucket resource.
  */
 export interface BucketArgs {
+    /**
+     * Configures bucket name in AWS.
+     */
+    bucketName?: pulumi.Input<string>;
+    /**
+     * Configures a random bucket name in AWS but specifying a prefix name.
+     */
+    bucketNamePrefix?: pulumi.Input<string>;
     /**
      * Configures encryption parameters for the bucket
      */

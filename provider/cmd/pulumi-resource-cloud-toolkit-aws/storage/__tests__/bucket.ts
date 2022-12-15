@@ -88,6 +88,13 @@ describe("Full configuration", function () {
     component = await import("../index");
   });
 
+  test("It should configure bucket name", async function () {
+    const componentName = "test";
+    const instance = new component.Bucket(componentName, fullConfiguration, {});
+
+    expect(await GetValue(instance.bucket.bucket)).toBe(fullConfiguration.bucketName);
+  });
+
   test("It should encrypt our bucket", async function () {
     const componentName = "test";
     const instance = new component.Bucket(componentName, fullConfiguration, {});
