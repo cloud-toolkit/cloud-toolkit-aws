@@ -17,6 +17,8 @@ __all__ = ['BucketArgs', 'Bucket']
 @pulumi.input_type
 class BucketArgs:
     def __init__(__self__, *,
+                 bucket_name: Optional[pulumi.Input[str]] = None,
+                 bucket_name_prefix: Optional[pulumi.Input[str]] = None,
                  encryption: Optional[pulumi.Input['BucketEncryptionArgsArgs']] = None,
                  public: Optional[pulumi.Input[bool]] = None,
                  replication: Optional[pulumi.Input['BucketReplicationArgsArgs']] = None,
@@ -24,12 +26,18 @@ class BucketArgs:
                  website: Optional[pulumi.Input['BucketWebsiteArgsArgs']] = None):
         """
         The set of arguments for constructing a Bucket resource.
+        :param pulumi.Input[str] bucket_name: Configures bucket name in AWS.
+        :param pulumi.Input[str] bucket_name_prefix: Configures a random bucket name in AWS but specifying a prefix name.
         :param pulumi.Input['BucketEncryptionArgsArgs'] encryption: Configures encryption parameters for the bucket
         :param pulumi.Input[bool] public: Set to true to allow policies that may provide access to anyone.
         :param pulumi.Input['BucketReplicationArgsArgs'] replication: Configures replication parameters for the bucket
         :param pulumi.Input['BucketVersioningStateArgs'] versioning: Set a certain versioning mode for bucket objects
         :param pulumi.Input['BucketWebsiteArgsArgs'] website: Configures a static webpage using bucket files
         """
+        if bucket_name is not None:
+            pulumi.set(__self__, "bucket_name", bucket_name)
+        if bucket_name_prefix is not None:
+            pulumi.set(__self__, "bucket_name_prefix", bucket_name_prefix)
         if encryption is not None:
             pulumi.set(__self__, "encryption", encryption)
         if public is not None:
@@ -40,6 +48,30 @@ class BucketArgs:
             pulumi.set(__self__, "versioning", versioning)
         if website is not None:
             pulumi.set(__self__, "website", website)
+
+    @property
+    @pulumi.getter(name="bucketName")
+    def bucket_name(self) -> Optional[pulumi.Input[str]]:
+        """
+        Configures bucket name in AWS.
+        """
+        return pulumi.get(self, "bucket_name")
+
+    @bucket_name.setter
+    def bucket_name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "bucket_name", value)
+
+    @property
+    @pulumi.getter(name="bucketNamePrefix")
+    def bucket_name_prefix(self) -> Optional[pulumi.Input[str]]:
+        """
+        Configures a random bucket name in AWS but specifying a prefix name.
+        """
+        return pulumi.get(self, "bucket_name_prefix")
+
+    @bucket_name_prefix.setter
+    def bucket_name_prefix(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "bucket_name_prefix", value)
 
     @property
     @pulumi.getter
@@ -107,6 +139,8 @@ class Bucket(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 bucket_name: Optional[pulumi.Input[str]] = None,
+                 bucket_name_prefix: Optional[pulumi.Input[str]] = None,
                  encryption: Optional[pulumi.Input[pulumi.InputType['BucketEncryptionArgsArgs']]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
                  replication: Optional[pulumi.Input[pulumi.InputType['BucketReplicationArgsArgs']]] = None,
@@ -118,6 +152,8 @@ class Bucket(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] bucket_name: Configures bucket name in AWS.
+        :param pulumi.Input[str] bucket_name_prefix: Configures a random bucket name in AWS but specifying a prefix name.
         :param pulumi.Input[pulumi.InputType['BucketEncryptionArgsArgs']] encryption: Configures encryption parameters for the bucket
         :param pulumi.Input[bool] public: Set to true to allow policies that may provide access to anyone.
         :param pulumi.Input[pulumi.InputType['BucketReplicationArgsArgs']] replication: Configures replication parameters for the bucket
@@ -148,6 +184,8 @@ class Bucket(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 bucket_name: Optional[pulumi.Input[str]] = None,
+                 bucket_name_prefix: Optional[pulumi.Input[str]] = None,
                  encryption: Optional[pulumi.Input[pulumi.InputType['BucketEncryptionArgsArgs']]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
                  replication: Optional[pulumi.Input[pulumi.InputType['BucketReplicationArgsArgs']]] = None,
@@ -164,6 +202,8 @@ class Bucket(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = BucketArgs.__new__(BucketArgs)
 
+            __props__.__dict__["bucket_name"] = bucket_name
+            __props__.__dict__["bucket_name_prefix"] = bucket_name_prefix
             __props__.__dict__["encryption"] = encryption
             __props__.__dict__["public"] = public
             __props__.__dict__["replication"] = replication

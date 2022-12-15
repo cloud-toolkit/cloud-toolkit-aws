@@ -1434,6 +1434,12 @@ types:
       - domainRecord
   cloud-toolkit-aws:storage:BucketArgs:
     properties:
+      bucketName:
+        description: Configures bucket name in AWS.
+        type: string
+      bucketNamePrefix:
+        description: Configures a random bucket name in AWS but specifying a prefix name.
+        type: string
       public:
         description: Set to true to allow policies that may provide access to anyone.
         type: boolean
@@ -3150,6 +3156,12 @@ resources:
       - readOnlyBucketPolicy
       - writeBucketPolicy
     inputProperties:
+      bucketName:
+        description: Configures bucket name in AWS.
+        type: string
+      bucketNamePrefix:
+        description: Configures a random bucket name in AWS but specifying a prefix name.
+        type: string
       public:
         description: Set to true to allow policies that may provide access to anyone.
         type: boolean
