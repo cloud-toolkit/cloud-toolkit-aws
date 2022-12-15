@@ -309,7 +309,9 @@ export class Bucket extends pulumi.ComponentResource {
     return new aws.s3.BucketV2(
       this.name,
       {
-        forceDestroy: true,
+        bucket: this.config.bucketName,
+        bucketPrefix: this.config.bucketNamePrefix,
+        forceDestroy: true
       },
       opts
     );

@@ -5,6 +5,17 @@ import defaultsDeep from "lodash.defaultsdeep";
  * Arguments to create a Cloud Toolkit Bucket component.
  */
 export interface BucketArgs {
+
+  /**
+   * Configures bucket name in AWS.
+  */
+  bucketName?: pulumi.Input<string>;
+
+  /**
+   * Configures a random bucket name in AWS but specifying a prefix name.
+  */
+  bucketNamePrefix?: pulumi.Input<string>;
+
   /**
    * Set to true to allow policies that may provide access to anyone.
   */
