@@ -911,7 +911,7 @@ types:
         description: The cluster resources to be assigned to the project.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ProjectResourcesArgs"
       kubeconfig:
-        description: Kubernetes provider used by Pulumi.
+        description: The kubeconfig to access the kubernetes cluster.
         type: string
       namespace:
         description: The Namespace name where the addon will be installed.
@@ -948,7 +948,7 @@ types:
   cloud-toolkit-aws:kubernetes:ProjectResourcesArgs:
     properties:
       cpu:
-        description: Amount of reserverd CPU.
+        description: Amount of reserved CPU.
         type: string
       memory:
         description: Amount of reserved Memory.
@@ -2218,7 +2218,7 @@ resources:
     type: object
   cloud-toolkit-aws:kubernetes:ClusterAdmins:
     description: ClusterAdmins is a component that create the resources in the
-      Cluster for a set of AWS IAM Users and Roles, manging the access with the
+      Cluster for a set of AWS IAM Users and Roles, managing the access with the
       integration with AWS IAM.
     properties:
       provider:
@@ -2640,7 +2640,7 @@ resources:
     type: object
   cloud-toolkit-aws:kubernetes:Project:
     description: Project is a component that create the resources in the Cluster for
-      a set of AWS IAM Users and Roles, manging the access with the integration
+      a set of AWS IAM Users and Roles, managing the access with the integration
       with AWS IAM.
     properties:
       provider:
@@ -2685,7 +2685,7 @@ resources:
         description: The cluster resources to be assigned to the project.
         $ref: "#/types/cloud-toolkit-aws:kubernetes:ProjectResourcesArgs"
       kubeconfig:
-        description: Kubernetes provider used by Pulumi.
+        description: The kubeconfig to access the kubernetes cluster.
         type: string
       namespace:
         description: The Namespace name where the addon will be installed.

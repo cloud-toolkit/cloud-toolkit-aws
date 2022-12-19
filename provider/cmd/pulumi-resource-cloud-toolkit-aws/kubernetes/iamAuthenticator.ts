@@ -99,6 +99,9 @@ export class IamAuthenticator extends pulumi.ComponentResource {
     return args;
   }
 
+  /**
+   * Return the AWS IAM Role used by cluster admins.
+   */
   private setupClusterAdminRole(opts: pulumi.ResourceOptions): aws.iam.Role {
     const assumePolicy = aws.iam.getPolicyDocumentOutput({
       statements: [
@@ -122,6 +125,9 @@ export class IamAuthenticator extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Return the AWS IAM RolePolicy used by cluster admins to access EKS from AWS Console.
+   */
   private setupClusterAdminRolePolicy(opts: pulumi.ResourceOptions): aws.iam.RolePolicy {
     const policyDocument = aws.iam.getPolicyDocumentOutput({
       statements: [
@@ -179,6 +185,9 @@ export class IamAuthenticator extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Return the AWS IAM Group Policy used by the cluster admin AWS IAM Group.
+   */
   private setupClusterAdminGroupPolicy(opts: pulumi.ResourceOptions): aws.iam.GroupPolicy {
     const name =`${this.name}-cluster-admin`;
     const groupPolicyDocument = aws.iam.getPolicyDocumentOutput({
@@ -230,6 +239,9 @@ export class IamAuthenticator extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Return the AWS IAM Group used by cluster admins.
+   */
   private setupClusterAdminGroup(opts: pulumi.ResourceOptions): aws.iam.Group {
     return new aws.iam.Group(
       `${this.name}-cluster-admin`,
@@ -240,18 +252,24 @@ export class IamAuthenticator extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Return the list of AWS IAM User Group Membership for cluster admins.
+   */
   private setupClusterAdminUserGroupMemberships(opts: pulumi.ResourceOptions): aws.iam.UserGroupMembership[] {
     const list: aws.iam.UserGroupMembership[] = [];
     for (const clusterAdmin of this.args.clusterAdmins || []) {
       const membership = new aws.iam.UserGroupMembership(`${this.name}-${clusterAdmin}`, {
         user: clusterAdmin,
         groups: [this.clusterAdminGroup.name],
-      });
+      }, opts);
       list.push(membership);
     }
     return list;
   }
 
+  /**
+   * Return the AWS IAM Policy for all cluster users.
+   */
   private setupClusterUserPolicy(opts: pulumi.ResourceOptions): aws.iam.Policy {
     const policyDocument = aws.iam.getPolicyDocumentOutput({
       statements: [
@@ -273,9 +291,10 @@ export class IamAuthenticator extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Return the AWS IAM Policy Attachment used by cluster users.
+   */
   private setupClusterUserPolicyAttachment(opts: pulumi.ResourceOptions): aws.iam.PolicyAttachment | undefined {
-    const name =`${this.name}-cluster-user`;
-
     let roles: string[] = [];
     if (this.args.roles !== undefined) {
       roles = this.args.roles.map(m => {
@@ -313,6 +332,9 @@ export class IamAuthenticator extends pulumi.ComponentResource {
     );
   }
 
+  /**
+   * Return the Kubernetes ConfigMap used by EKS to manage authentication.
+   */
   private setupConfigMap(opts: pulumi.ResourceOptions): kubernetes.core.v1.ConfigMap {
     const adminRole = {
       rolearn: this.clusterAdminRole.arn,

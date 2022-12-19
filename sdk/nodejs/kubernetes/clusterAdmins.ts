@@ -7,7 +7,7 @@ import * as utilities from "../utilities";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
 /**
- * ClusterAdmins is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, manging the access with the integration with AWS IAM.
+ * ClusterAdmins is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, managing the access with the integration with AWS IAM.
  */
 export class ClusterAdmins extends pulumi.ComponentResource {
     /** @internal */
