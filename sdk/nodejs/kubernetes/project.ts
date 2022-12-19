@@ -10,7 +10,7 @@ import * as utilities from "../utilities";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
 /**
- * Project is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, manging the access with the integration with AWS IAM.
+ * Project is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, managing the access with the integration with AWS IAM.
  */
 export class Project extends pulumi.ComponentResource {
     /** @internal */
@@ -122,7 +122,7 @@ export interface ProjectArgs {
      */
     editUserArns?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * Kubernetes provider used by Pulumi.
+     * The kubeconfig to access the kubernetes cluster.
      */
     kubeconfig: pulumi.Input<string>;
     /**

@@ -1,5 +1,4 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as aws from "@pulumi/aws";
 import * as kubernetes from "@pulumi/kubernetes";
 import defaultsDeep from "lodash.defaultsdeep";
 import {
@@ -10,7 +9,7 @@ import {
 export { ProjectArgs };
 
 /**
- * Project is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, manging the access with the integration with AWS IAM.
+ * Project is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, managing the access with the integration with AWS IAM.
  */
 export class Project extends pulumi.ComponentResource {
   private args: ProjectArgs;
@@ -31,8 +30,6 @@ export class Project extends pulumi.ComponentResource {
    * ResourceQuota for the provisioned Namespace.
    */
   public readonly resourceQuota: kubernetes.core.v1.ResourceQuota;
-
-  //public readonly awsRole: aws.iam.Role;
 
   /**
    * The Kubernetes ClusterRole used to grant minimal access to the cluster.

@@ -243,7 +243,7 @@ export interface IngressNginxTlsArgsArgs {
 
 export interface ProjectResourcesArgsArgs {
     /**
-     * Amount of reserverd CPU.
+     * Amount of reserved CPU.
      */
     cpu?: pulumi.Input<string>;
     /**

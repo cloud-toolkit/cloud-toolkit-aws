@@ -75,7 +75,7 @@ class ClusterAdmins(pulumi.ComponentResource):
                  user_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         """
-        ClusterAdmins is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, manging the access with the integration with AWS IAM.
+        ClusterAdmins is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, managing the access with the integration with AWS IAM.
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -90,7 +90,7 @@ class ClusterAdmins(pulumi.ComponentResource):
                  args: ClusterAdminsArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        ClusterAdmins is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, manging the access with the integration with AWS IAM.
+        ClusterAdmins is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, managing the access with the integration with AWS IAM.
 
         :param str resource_name: The name of the resource.
         :param ClusterAdminsArgs args: The arguments to use to populate this resource's properties.
