@@ -25,7 +25,7 @@ class ProjectArgs:
                  view_user_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
         The set of arguments for constructing a Project resource.
-        :param pulumi.Input[str] kubeconfig: Kubernetes provider used by Pulumi.
+        :param pulumi.Input[str] kubeconfig: The kubeconfig to access the kubernetes cluster.
         :param pulumi.Input[str] name: The Project name.
         :param pulumi.Input[str] namespace: The Namespace name where the addon will be installed.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] admin_user_arns: The list of AWS IAM User arns that can access to this project with 'admin' role.
@@ -49,7 +49,7 @@ class ProjectArgs:
     @pulumi.getter
     def kubeconfig(self) -> pulumi.Input[str]:
         """
-        Kubernetes provider used by Pulumi.
+        The kubeconfig to access the kubernetes cluster.
         """
         return pulumi.get(self, "kubeconfig")
 
@@ -144,13 +144,13 @@ class Project(pulumi.ComponentResource):
                  view_user_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         """
-        Project is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, manging the access with the integration with AWS IAM.
+        Project is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, managing the access with the integration with AWS IAM.
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] admin_user_arns: The list of AWS IAM User arns that can access to this project with 'admin' role.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] edit_user_arns: The list of AWS IAM User arns that can access to this project with 'edit' role.
-        :param pulumi.Input[str] kubeconfig: Kubernetes provider used by Pulumi.
+        :param pulumi.Input[str] kubeconfig: The kubeconfig to access the kubernetes cluster.
         :param pulumi.Input[str] name: The Project name.
         :param pulumi.Input[str] namespace: The Namespace name where the addon will be installed.
         :param pulumi.Input[pulumi.InputType['ProjectResourcesArgsArgs']] resources: The cluster resources to be assigned to the project.
@@ -163,7 +163,7 @@ class Project(pulumi.ComponentResource):
                  args: ProjectArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Project is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, manging the access with the integration with AWS IAM.
+        Project is a component that create the resources in the Cluster for a set of AWS IAM Users and Roles, managing the access with the integration with AWS IAM.
 
         :param str resource_name: The name of the resource.
         :param ProjectArgs args: The arguments to use to populate this resource's properties.

@@ -864,7 +864,7 @@ class ProjectResourcesArgsArgs:
                  limit_memory: Optional[pulumi.Input[str]] = None,
                  memory: Optional[pulumi.Input[str]] = None):
         """
-        :param pulumi.Input[str] cpu: Amount of reserverd CPU.
+        :param pulumi.Input[str] cpu: Amount of reserved CPU.
         :param pulumi.Input[str] limit_cpu: Amount of CPU limit.
         :param pulumi.Input[str] limit_memory: Amount of Memory limit.
         :param pulumi.Input[str] memory: Amount of reserved Memory.
@@ -882,7 +882,7 @@ class ProjectResourcesArgsArgs:
     @pulumi.getter
     def cpu(self) -> Optional[pulumi.Input[str]]:
         """
-        Amount of reserverd CPU.
+        Amount of reserved CPU.
         """
         return pulumi.get(self, "cpu")
 

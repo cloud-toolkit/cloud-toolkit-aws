@@ -12,7 +12,7 @@ export interface ProjectArgs {
   resources?: ProjectResourcesArgs;
 
   /**
-   * Kubernetes provider used by Pulumi.
+   * The kubeconfig to access the kubernetes cluster.
    */
   kubeconfig: pulumi.Input<string>;
 
@@ -39,7 +39,7 @@ export interface ProjectArgs {
 
 export interface ProjectResourcesArgs {
   /**
-   * Amount of reserverd CPU.
+   * Amount of reserved CPU.
    */
   cpu?: string;
 
