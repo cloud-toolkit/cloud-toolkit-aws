@@ -84,8 +84,17 @@ pip install -e <path-to-this-repo>/sdk/python/bin
 
 ### Integration tests
 
+To execute the tests you need to specify the route of the provider in your `PATH` variable:
+
+```bash
+export PATH=$PATH:$(pwd)/bin
+```
+
 Run integration tests with the following command:
 
 ```bash
 make integration_tests
 ```
+
+You can also execute the tests manually as usual with `go test`. 
+You will still need to have the provider in the PATH.
