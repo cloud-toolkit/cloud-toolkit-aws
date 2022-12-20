@@ -16,6 +16,9 @@ func TestQueue(t *testing.T) {
 		Dir:          path.Join(cwd, "queue"),
 		Config:       map[string]string{},
 		Dependencies: []string{"@cloudtoolkit/aws"},
+		ExtraRuntimeValidation: func(t *testing.T, stack integration.RuntimeValidationStackInfo) {
+			testQueueBehaviour(t, stack)
+		},
 	}
 	integration.ProgramTest(t, opts)
 }
