@@ -5,4 +5,4 @@ const config = new pulumi.Config();
 const name = pulumi.getStack();
 const retention = config.getNumber("retention");
 const queue = new ct.serverless.Queue(name, {messageRetentionSeconds: retention});
-
+export const queueURL = queue.sqsQueue.url

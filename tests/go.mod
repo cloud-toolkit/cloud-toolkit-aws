@@ -33,14 +33,15 @@ require (
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/emirpasic/gods v1.12.0 // indirect
 	github.com/form3tech-oss/jwt-go v3.2.2+incompatible // indirect
+	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/gofrs/flock v0.7.1 // indirect
 	github.com/gofrs/uuid v3.3.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
-	github.com/golang/protobuf v1.4.3 // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.2 // indirect
-	github.com/google/go-cmp v0.5.4 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/google/wire v0.4.0 // indirect
@@ -101,31 +102,36 @@ require (
 	go.uber.org/atomic v1.6.0 // indirect
 	gocloud.dev v0.22.0 // indirect
 	gocloud.dev/secrets/hashivault v0.22.0 // indirect
-	golang.org/x/crypto v0.0.0-20201203163018-be400aefbc4c // indirect
+	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
-	golang.org/x/mod v0.4.0 // indirect
-	golang.org/x/net v0.0.0-20201202161906-c7110b5ffcbb // indirect
+	golang.org/x/mod v0.7.0 // indirect
+	golang.org/x/net v0.4.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20201203001011-0b49973bad19 // indirect
-	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9 // indirect
-	golang.org/x/sys v0.0.0-20201202213521-69691e467435 // indirect
-	golang.org/x/term v0.0.0-20201117132131-f5c789dd3221 // indirect
-	golang.org/x/text v0.3.4 // indirect
+	golang.org/x/sync v0.1.0 // indirect
+	golang.org/x/sys v0.3.0 // indirect
+	golang.org/x/term v0.3.0 // indirect
+	golang.org/x/text v0.5.0 // indirect
 	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e // indirect
-	golang.org/x/tools v0.0.0-20201203202102-a1a1cbeaa516 // indirect
+	golang.org/x/tools v0.4.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/api v0.36.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20201203001206-6486ece9c497 // indirect
 	google.golang.org/grpc v1.34.0 // indirect
-	google.golang.org/protobuf v1.25.0 // indirect
+	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/AlecAivazis/survey.v1 v1.8.9-0.20200217094205-6773bdf39b7f // indirect
-	gopkg.in/airbrake/gobrake.v2 v2.0.9 // indirect
-	gopkg.in/gemnasium/logrus-airbrake-hook.v2 v2.1.2 // indirect
 	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
 	gopkg.in/src-d/go-billy.v4 v4.3.2 // indirect
 	gopkg.in/src-d/go-git.v4 v4.13.1 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
-	gopkg.in/yaml.v2 v2.2.8 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 	sourcegraph.com/sourcegraph/appdash v0.0.0-20190731080439-ebfcffb1b5c0 // indirect
+)
+
+require (
+	github.com/onsi/ginkgo/v2 v2.6.1
+	github.com/onsi/gomega v1.24.2
+	gopkg.in/airbrake/gobrake.v2 v2.0.9 // indirect
+	gopkg.in/gemnasium/logrus-airbrake-hook.v2 v2.1.2 // indirect
 )
