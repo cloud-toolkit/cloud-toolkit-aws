@@ -1,0 +1,18 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A Bucket simple configuration
+  important: true
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-east-1
+    public: 
+      description: Enables public visibility of bucket
+      default: false
+    encryption:
+      description: Enables bucket encryption
+      default: false
+  
+
