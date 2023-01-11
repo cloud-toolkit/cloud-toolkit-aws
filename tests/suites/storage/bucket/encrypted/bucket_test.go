@@ -11,11 +11,12 @@ import (
 )
 
 var program *integration.ProgramTester
+var stackInfo *integration.RuntimeValidationStackInfo = &integration.RuntimeValidationStackInfo{}
 
 func Test(t *testing.T) {
 	RegisterFailHandler(Fail)
 
-	opts := stack.GetProgramOpts()
+	opts := stack.NewProgramOpts(stackInfo)
 	program = integration.ProgramTestManualLifeCycle(t, &opts)
 	RunSpecs(t, "Storage - Bucket - Encrypted")
 }
@@ -25,7 +26,7 @@ var _ = Describe("Using encrypted configuration,", func() {
 
 	Describe("the AWS bucket", func() {
 		It("should have encryption enabled", func() {
-			bucketName := stack.GetStackOutput(program, "bucketName")
+			bucketName := stack.GetStackOutput(stackInfo, "bucketName")
 			isEncrypted, err := aws.IsBucketEncryptedWithServerSideEncryption(bucketName)
 			Expect(err).To(BeNil())
 			Expect(isEncrypted).To(BeTrue())
