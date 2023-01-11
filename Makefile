@@ -83,10 +83,9 @@ version::
 	@echo ${VERSION}
 
 integration_tests_nodejs::
-	rm -rf ~/.config/yarn/link/@cloud-toolkit/${PACK}
-	cd sdk/nodejs/bin && \
-		yarn link
-	cd tests/serverless && \
-		go test -v
+	rm -rf ~/.config/yarn/link/@cloud-toolkit/${PACK} && \
+		(cd sdk/nodejs/bin && yarn link) && \
+		go install github.com/onsi/ginkgo/v2/ginkgo@v2.6.1 && \
+		ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result ./tests/suites
 
 integration_tests:: integration_tests_nodejs

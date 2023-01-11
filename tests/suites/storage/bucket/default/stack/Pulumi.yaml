@@ -1,0 +1,3 @@
+name: tests-bucket
+description: A tests for bucket
+runtime: nodejs
