@@ -11,11 +11,12 @@ import (
 )
 
 var program *integration.ProgramTester
+var stackInfo *integration.RuntimeValidationStackInfo = &integration.RuntimeValidationStackInfo{}
 
 func Test(t *testing.T) {
 	RegisterFailHandler(Fail)
 
-	opts := stack.GetProgramOpts()
+	opts := stack.NewProgramOpts(stackInfo)
 	program = integration.ProgramTestManualLifeCycle(t, &opts)
 	RunSpecs(t, "Storage - Bucket - Public")
 }
@@ -25,7 +26,7 @@ var _ = Describe("Using public configuration,", func() {
 
 	Describe("the AWS bucket", func() {
 		It("should be public", func() {
-			bucketName := stack.GetStackOutput(program, "bucketName")
+			bucketName := stack.GetStackOutput(stackInfo, "bucketName")
 			isPublic, err := aws.IsPublicBucket(bucketName)
 
 			Expect(err).To(BeNil())

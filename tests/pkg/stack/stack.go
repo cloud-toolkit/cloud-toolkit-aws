@@ -27,26 +27,30 @@ func SetupStack(program *integration.ProgramTester) func() {
 	}
 }
 
-func GetStackOutputMap(program *integration.ProgramTester) map[string]interface{} {
-	Expect(program).To(Not(BeNil()))
-	Expect(program.StackInfo).To(Not(BeNil()))
-	Expect(program.StackInfo.Outputs).To(Not(BeNil()))
-	return program.StackInfo.Outputs
+func GetStackOutput(stackInfo *integration.RuntimeValidationStackInfo, name string) string {
+	outputMap := stackInfo.Outputs
+	Expect(outputMap).To(Not(BeNil()))
+
+	output, ok := outputMap[name].(string)
+	Expect(ok).To(BeTrue())
+
+	return output
 }
 
-func GetStackOutput(program *integration.ProgramTester, name string) string {
-	outputMap := GetStackOutputMap(program)
-	return outputMap[name].(string)
-}
-
-func GetProgramOpts() integration.ProgramTestOptions {
+func NewProgramOpts(stackInfo *integration.RuntimeValidationStackInfo) integration.ProgramTestOptions {
 	cwd, _ := os.Getwd()
 	return integration.ProgramTestOptions{
-		NoParallel:             true,
-		Quick:                  true,
-		SkipRefresh:            true,
-		SkipPreview:            true,
-		Dir:                    path.Join(cwd, "stack"),
-		ExtraRuntimeValidation: func(t *testing.T, stack integration.RuntimeValidationStackInfo) {},
+		NoParallel:  true,
+		Quick:       true,
+		SkipRefresh: true,
+		SkipPreview: true,
+		Dir:         path.Join(cwd, "stack"),
+		ExtraRuntimeValidation: func(t *testing.T, stack integration.RuntimeValidationStackInfo) {
+			stackInfo.Deployment = stack.Deployment
+			stackInfo.Events = stack.Events
+			stackInfo.Outputs = stack.Outputs
+			stackInfo.RootResource = stack.RootResource
+			stackInfo.StackName = stack.StackName
+		},
 	}
 }
