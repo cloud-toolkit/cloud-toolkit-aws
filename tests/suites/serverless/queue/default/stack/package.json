@@ -5,7 +5,7 @@
         "@types/node": "^14"
     },
     "dependencies": {
-        "@cloudtoolkit/aws": "v0.5.3",
+        "@cloudtoolkit/aws": "^0.6.0",
         "@pulumi/aws": "^5.16.0",
         "@pulumi/pulumi": "^3.0.0"
     }
