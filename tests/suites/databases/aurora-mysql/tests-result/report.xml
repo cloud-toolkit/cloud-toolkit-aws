@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <testsuites tests="5" disabled="0" errors="0" failures="1" time="1631.491786584">
+      <testsuite name="Databases - AuroraMysql - Default configuration" package="/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default" tests="5" disabled="0" skipped="0" errors="0" failures="1" time="1631.491786584" timestamp="2023-01-26T16:30:48">
+          <properties>
+              <property name="SuiteSucceeded" value="false"></property>
+              <property name="SuiteHasProgrammaticFocus" value="false"></property>
+              <property name="SpecialSuiteFailureReason" value=""></property>
+              <property name="SuiteLabels" value="[]"></property>
+              <property name="RandomSeed" value="1674747041"></property>
+              <property name="RandomizeAllSpecs" value="false"></property>
+              <property name="LabelFilter" value=""></property>
+              <property name="FocusStrings" value=""></property>
+              <property name="SkipStrings" value=""></property>
+              <property name="FocusFiles" value=""></property>
+              <property name="SkipFiles" value=""></property>
+              <property name="FailOnPending" value="false"></property>
+              <property name="FailFast" value="false"></property>
+              <property name="FlakeAttempts" value="0"></property>
+              <property name="DryRun" value="false"></property>
+              <property name="ParallelTotal" value="1"></property>
+              <property name="OutputInterceptorMode" value=""></property>
+          </properties>
+          <testcase name="[It] Using default configuration, the stack should be prepared" classname="Databases - AuroraMysql - Default configuration" status="passed" time="41.658977125">
+              <system-err>&gt; Enter [It] should be prepared - /Volumes/workspace/ct/tests/pkg/stack/stack.go:18 @ 01/26/23 16:30:48.398&#xA;&lt; Exit [It] should be prepared - /Volumes/workspace/ct/tests/pkg/stack/stack.go:18 @ 01/26/23 16:31:30.056 (41.658s)&#xA;</system-err>
+          </testcase>
+          <testcase name="[It] Using default configuration, the stack should be initalized" classname="Databases - AuroraMysql - Default configuration" status="passed" time="0.503386916">
+              <system-err>&gt; Enter [It] should be initalized - /Volumes/workspace/ct/tests/pkg/stack/stack.go:22 @ 01/26/23 16:31:30.057&#xA;&lt; Exit [It] should be initalized - /Volumes/workspace/ct/tests/pkg/stack/stack.go:22 @ 01/26/23 16:31:30.56 (503ms)&#xA;</system-err>
+          </testcase>
+          <testcase name="[It] Using default configuration, the stack should be previewed, updated and edit" classname="Databases - AuroraMysql - Default configuration" status="passed" time="1045.523590709">
+              <system-err>&gt; Enter [It] should be previewed, updated and edit - /Volumes/workspace/ct/tests/pkg/stack/stack.go:26 @ 01/26/23 16:31:30.561&#xA;&lt; Exit [It] should be previewed, updated and edit - /Volumes/workspace/ct/tests/pkg/stack/stack.go:26 @ 01/26/23 16:48:56.07 (17m25.524s)&#xA;</system-err>
+          </testcase>
+          <testcase name="[It] Using default configuration, the password should be composed of 14 chars" classname="Databases - AuroraMysql - Default configuration" status="failed" time="0.001000333">
+              <failure message="Expected&#xA;    &lt;bool&gt;: false&#xA;to be true" type="failed">[FAILED] Expected&#xA;    &lt;bool&gt;: false&#xA;to be true&#xA;In [It] at: /Volumes/workspace/ct/tests/pkg/stack/stack.go:38 @ 01/26/23 16:48:56.071&#xA;</failure>
+              <system-err>&gt; Enter [It] should be composed of 14 chars - /Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go:27 @ 01/26/23 16:48:56.07&#xA;[FAILED] Expected&#xA;    &lt;bool&gt;: false&#xA;to be true&#xA;In [It] at: /Volumes/workspace/ct/tests/pkg/stack/stack.go:38 @ 01/26/23 16:48:56.071&#xA;&lt; Exit [It] should be composed of 14 chars - /Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go:27 @ 01/26/23 16:48:56.071 (1ms)&#xA;</system-err>
+          </testcase>
+          <testcase name="[It] Using default configuration, the stack should be destroyed" classname="Databases - AuroraMysql - Default configuration" status="passed" time="543.803653126">
+              <system-err>&gt; Enter [It] should be destroyed - /Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go:57 @ 01/26/23 16:48:56.072&#xA;&lt; Exit [It] should be destroyed - /Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go:57 @ 01/26/23 17:02:04.338 (9m3.804s)&#xA;</system-err>
+          </testcase>
+      </testsuite>
+  </testsuites>

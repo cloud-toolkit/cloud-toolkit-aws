@@ -8,17 +8,14 @@ import (
 	"github.com/cloud-toolkit/cloud-toolkit-aws/tests/pkg/stack"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 )
 
-var program *integration.ProgramTester
-var stackInfo *integration.RuntimeValidationStackInfo = &integration.RuntimeValidationStackInfo{}
+var s stack.Stack
 
 func Test(t *testing.T) {
 	RegisterFailHandler(Fail)
 
-	opts := stack.NewProgramOpts(stackInfo)
-	program = integration.ProgramTestManualLifeCycle(t, &opts)
+	s = stack.NewStack(t)
 	RunSpecs(t, "Serverless - Queue - Default")
 }
 
@@ -27,12 +24,12 @@ const msg = "This is a message"
 var sendMessageOutput *sqs.SendMessageOutput
 
 var _ = Describe("Using default configuration,", func() {
-	Describe("the stack", stack.SetupStack(program))
+	Describe("the stack", s.Setup())
 
 	Describe("the feature", func() {
 
 		It("send a message should work", func() {
-			qUrl := stack.GetStackOutput(stackInfo, "queueURL")
+			qUrl := s.GetOutput("queueURL")
 
 			c := aws.CreateSQSClient()
 			rs, err := aws.SendSQSMessage(c, msg, qUrl)
@@ -41,7 +38,7 @@ var _ = Describe("Using default configuration,", func() {
 		})
 
 		It("read the message previously sent should work", func() {
-			qUrl := stack.GetStackOutput(stackInfo, "queueURL")
+			qUrl := s.GetOutput("queueURL")
 
 			c := aws.CreateSQSClient()
 			rc, err := aws.ReceiveSQSMessage(c, qUrl)
@@ -52,10 +49,5 @@ var _ = Describe("Using default configuration,", func() {
 		})
 	})
 
-	Describe("the stack", func() {
-		It("should be destroyed", func() {
-			err := program.TestLifeCycleDestroy()
-			Expect(err).To(BeNil())
-		})
-	})
+	Describe("the stack", s.Destroy())
 })
