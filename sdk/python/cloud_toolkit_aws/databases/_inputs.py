@@ -11,11 +11,273 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
+    'AuroraMysqlBackupArgsArgs',
+    'AuroraMysqlDatabaseArgsArgs',
+    'AuroraMysqlLoggingArgsArgs',
+    'AuroraMysqlMonitoringArgsArgs',
+    'AuroraMysqlNetworkingArgsArgs',
     'MysqlBackupArgsArgs',
     'MysqlDatabaseArgsArgs',
     'MysqlNetworkingArgsArgs',
     'MysqlStorageArgsArgs',
 ]
+
+@pulumi.input_type
+class AuroraMysqlBackupArgsArgs:
+    def __init__(__self__, *,
+                 preferred_window: Optional[pulumi.Input[str]] = None,
+                 retention_days: Optional[pulumi.Input[float]] = None):
+        """
+        :param pulumi.Input[str] preferred_window: Time window in which backups should be taken
+        :param pulumi.Input[float] retention_days: Retention days for backups
+        """
+        if preferred_window is not None:
+            pulumi.set(__self__, "preferred_window", preferred_window)
+        if retention_days is not None:
+            pulumi.set(__self__, "retention_days", retention_days)
+
+    @property
+    @pulumi.getter(name="preferredWindow")
+    def preferred_window(self) -> Optional[pulumi.Input[str]]:
+        """
+        Time window in which backups should be taken
+        """
+        return pulumi.get(self, "preferred_window")
+
+    @preferred_window.setter
+    def preferred_window(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "preferred_window", value)
+
+    @property
+    @pulumi.getter(name="retentionDays")
+    def retention_days(self) -> Optional[pulumi.Input[float]]:
+        """
+        Retention days for backups
+        """
+        return pulumi.get(self, "retention_days")
+
+    @retention_days.setter
+    def retention_days(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "retention_days", value)
+
+
+@pulumi.input_type
+class AuroraMysqlDatabaseArgsArgs:
+    def __init__(__self__, *,
+                 name: Optional[pulumi.Input[str]] = None,
+                 password_length: Optional[pulumi.Input[float]] = None,
+                 username: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[str] name: The name of the database to create when the DB instance is created
+        :param pulumi.Input[float] password_length: Password length to login in the database instance
+        :param pulumi.Input[str] username: Username for database admin user
+        """
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if password_length is not None:
+            pulumi.set(__self__, "password_length", password_length)
+        if username is not None:
+            pulumi.set(__self__, "username", username)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        """
+        The name of the database to create when the DB instance is created
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter(name="passwordLength")
+    def password_length(self) -> Optional[pulumi.Input[float]]:
+        """
+        Password length to login in the database instance
+        """
+        return pulumi.get(self, "password_length")
+
+    @password_length.setter
+    def password_length(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "password_length", value)
+
+    @property
+    @pulumi.getter
+    def username(self) -> Optional[pulumi.Input[str]]:
+        """
+        Username for database admin user
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "username", value)
+
+
+@pulumi.input_type
+class AuroraMysqlLoggingArgsArgs:
+    def __init__(__self__, *,
+                 audit: Optional[pulumi.Input[bool]] = None,
+                 error: Optional[pulumi.Input[bool]] = None,
+                 general: Optional[pulumi.Input[bool]] = None,
+                 slowquery: Optional[pulumi.Input[bool]] = None):
+        if audit is not None:
+            pulumi.set(__self__, "audit", audit)
+        if error is not None:
+            pulumi.set(__self__, "error", error)
+        if general is not None:
+            pulumi.set(__self__, "general", general)
+        if slowquery is not None:
+            pulumi.set(__self__, "slowquery", slowquery)
+
+    @property
+    @pulumi.getter
+    def audit(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "audit")
+
+    @audit.setter
+    def audit(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "audit", value)
+
+    @property
+    @pulumi.getter
+    def error(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "error")
+
+    @error.setter
+    def error(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "error", value)
+
+    @property
+    @pulumi.getter
+    def general(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "general")
+
+    @general.setter
+    def general(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "general", value)
+
+    @property
+    @pulumi.getter
+    def slowquery(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "slowquery")
+
+    @slowquery.setter
+    def slowquery(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "slowquery", value)
+
+
+@pulumi.input_type
+class AuroraMysqlMonitoringArgsArgs:
+    def __init__(__self__, *,
+                 emails: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 enabled: Optional[pulumi.Input[bool]] = None):
+        """
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] emails: Emails that will receive the alerts
+        :param pulumi.Input[bool] enabled: Enable cluster alerting with CloudWatch
+        """
+        if emails is not None:
+            pulumi.set(__self__, "emails", emails)
+        if enabled is not None:
+            pulumi.set(__self__, "enabled", enabled)
+
+    @property
+    @pulumi.getter
+    def emails(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        Emails that will receive the alerts
+        """
+        return pulumi.get(self, "emails")
+
+    @emails.setter
+    def emails(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "emails", value)
+
+    @property
+    @pulumi.getter
+    def enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable cluster alerting with CloudWatch
+        """
+        return pulumi.get(self, "enabled")
+
+    @enabled.setter
+    def enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "enabled", value)
+
+
+@pulumi.input_type
+class AuroraMysqlNetworkingArgsArgs:
+    def __init__(__self__, *,
+                 allow_internet: Optional[pulumi.Input[bool]] = None,
+                 allowed_cidr: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 vpc: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[bool] allow_internet: Allow traffic from Internet
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] allowed_cidr: Allowed CIDRs that connect to the database instance
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] subnet_ids: Subnets belonging to a Virtual Private Cloud where cluster must be deployed
+        :param pulumi.Input[str] vpc: Virtual Private Cloud where database instance must be deployed
+        """
+        if allow_internet is not None:
+            pulumi.set(__self__, "allow_internet", allow_internet)
+        if allowed_cidr is not None:
+            pulumi.set(__self__, "allowed_cidr", allowed_cidr)
+        if subnet_ids is not None:
+            pulumi.set(__self__, "subnet_ids", subnet_ids)
+        if vpc is not None:
+            pulumi.set(__self__, "vpc", vpc)
+
+    @property
+    @pulumi.getter(name="allowInternet")
+    def allow_internet(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Allow traffic from Internet
+        """
+        return pulumi.get(self, "allow_internet")
+
+    @allow_internet.setter
+    def allow_internet(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "allow_internet", value)
+
+    @property
+    @pulumi.getter(name="allowedCidr")
+    def allowed_cidr(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        Allowed CIDRs that connect to the database instance
+        """
+        return pulumi.get(self, "allowed_cidr")
+
+    @allowed_cidr.setter
+    def allowed_cidr(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "allowed_cidr", value)
+
+    @property
+    @pulumi.getter(name="subnetIds")
+    def subnet_ids(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        Subnets belonging to a Virtual Private Cloud where cluster must be deployed
+        """
+        return pulumi.get(self, "subnet_ids")
+
+    @subnet_ids.setter
+    def subnet_ids(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "subnet_ids", value)
+
+    @property
+    @pulumi.getter
+    def vpc(self) -> Optional[pulumi.Input[str]]:
+        """
+        Virtual Private Cloud where database instance must be deployed
+        """
+        return pulumi.get(self, "vpc")
+
+    @vpc.setter
+    def vpc(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "vpc", value)
+
 
 @pulumi.input_type
 class MysqlBackupArgsArgs:

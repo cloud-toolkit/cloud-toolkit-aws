@@ -5,6 +5,11 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "../utilities";
 
 // Export members:
+export { AuroraMysqlArgs } from "./auroraMysql";
+export type AuroraMysql = import("./auroraMysql").AuroraMysql;
+export const AuroraMysql: typeof import("./auroraMysql").AuroraMysql = null as any;
+utilities.lazyLoad(exports, ["AuroraMysql"], () => require("./auroraMysql"));
+
 export { MysqlArgs } from "./mysql";
 export type Mysql = import("./mysql").Mysql;
 export const Mysql: typeof import("./mysql").Mysql = null as any;
@@ -18,6 +23,8 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
+            case "cloud-toolkit-aws:databases:AuroraMysql":
+                return new AuroraMysql(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:databases:Mysql":
                 return new Mysql(name, <any>undefined, { urn })
             default:

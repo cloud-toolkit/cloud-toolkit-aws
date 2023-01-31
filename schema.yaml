@@ -11,6 +11,16 @@ keywords:
   - kind/component
 pluginDownloadURL: github://api.github.com/cloud-toolkit/cloud-toolkit-aws
 types:
+  cloud-toolkit-aws:databases:AuroraMysqlVersion:
+    description: Set of allowed versions for the database
+    type: string
+    enum:
+      - name: V8_0
+        value: "8.0"
+      - name: V5_7
+        value: "5.7"
+      - name: V5_6
+        value: "5.6"
   cloud-toolkit-aws:databases:MysqlVersion:
     description: Set of allowed versions for the database instance
     type: string
@@ -85,6 +95,110 @@ types:
         value: Disabled
       - name: Suspended
         value: Suspended
+  cloud-toolkit-aws:databases:AuroraMysqlArgs:
+    properties:
+      version:
+        description: Version for database
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlVersion"
+      database:
+        description: Configuration parameters for the database
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlDatabaseArgs"
+      instanceType:
+        description: The instance type for the cluster
+        type: string
+      instancesCount:
+        description: The number of instances to be created for Aurora cluster
+        type: number
+      logging:
+        description: Logging configuration parameters for Aurora cluster
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlLoggingArgs"
+      monitoring:
+        description: Monitoring configuration parameters for Aurora cluster
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlMonitoringArgs"
+      networking:
+        description: Networking configuration parameters for Aurora cluster
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlNetworkingArgs"
+      backup:
+        description: Backup configuration parameters for Aurora cluster
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlBackupArgs"
+    type: object
+    required: []
+  cloud-toolkit-aws:databases:AuroraMysqlDatabaseArgs:
+    properties:
+      name:
+        description: The name of the database to create when the DB instance is created
+        type: string
+      username:
+        description: Username for database admin user
+        type: string
+      passwordLength:
+        description: Password length to login in the database
+        type: number
+    type: object
+    required: []
+  cloud-toolkit-aws:databases:AuroraMysqlBackupArgs:
+    properties:
+      preferredWindow:
+        description: Time window in which backups should be taken
+        type: string
+      retentionDays:
+        description: Retention days for backups
+        type: number
+    type: object
+    required: []
+  cloud-toolkit-aws:databases:AuroraMysqlLoggingArgs:
+    properties:
+      audit:
+        description: Enable audit logging
+        type: boolean
+      error:
+        description: Enable error logging
+        type: boolean
+      general:
+        description: Enable general logging
+        type: boolean
+      slowquery:
+        description: Enable slowquery logging
+        type: boolean
+    type: object
+    required: []
+  cloud-toolkit-aws:databases:AuroraMysqlMonitoringArgs:
+    properties:
+      enabled:
+        description: Enable cluster alerting with CloudWatch
+        type: boolean
+      emails:
+        description: Emails that will receive the alerts
+        type: array
+        items:
+          description: Emails that will receive the alerts
+          type: string
+    type: object
+    required: []
+  cloud-toolkit-aws:databases:AuroraMysqlNetworkingArgs:
+    properties:
+      allowedCidr:
+        description: Allowed CIDRs that connect to the cluster
+        type: array
+        items:
+          description: Allowed CIDRs that connect to the cluster
+          type: string
+      allowInternet:
+        description: Allow traffic from Internet
+        type: boolean
+      subnetIds:
+        description: Subnets belonging to a Virtual Private Cloud where cluster must be
+          deployed
+        type: array
+        items:
+          description: Subnets belonging to a Virtual Private Cloud where cluster must be
+            deployed
+          type: string
+      vpc:
+        description: Virtual Private Cloud where instances must be deployed
+        type: string
+    type: object
+    required: []
   cloud-toolkit-aws:databases:MysqlArgs:
     properties:
       instance:
@@ -1543,6 +1657,90 @@ resources:
     requiredInputs:
       - domain
       - zoneId
+    isComponent: true
+    type: object
+  cloud-toolkit-aws:databases:AuroraMysql:
+    description: ""
+    properties:
+      cluster:
+        description: The RDS Cluster
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:rds%2fcluster:Cluster
+      password:
+        description: Random password generated for admin user
+        $ref: /random/v4.8.2/schema.json#/resources/random:index/randomPassword:RandomPassword
+      secret:
+        description: Component that protects and stores admin password in AWS
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:secretsmanager%2fsecret:Secret
+      secretVersion:
+        description: Component that protects and stores admin password in AWS
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:secretsmanager%2fsecretVersion:SecretVersion
+      instances:
+        description: Cluster instances associated to the cluster
+        type: array
+        items:
+          description: Cluster instances associated to the cluster
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:rds%2fclusterInstance:ClusterInstance
+      alarms:
+        description: CloudWatch alarms that monitor the RDS Cluter
+        type: array
+        items:
+          description: CloudWatch alarms that monitor the RDS Cluter
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:cloudwatch%2fmetricAlarm:MetricAlarm
+      topic:
+        description: SNS Topic used for CloudWatch alerts
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:sns%2ftopic:Topic
+      topicSubscriptions:
+        description: TopicSubscriptions to alerts by email
+        type: array
+        items:
+          description: TopicSubscriptions to alerts by email
+          $ref: /aws/v5.10.0/schema.json#/resources/aws:sns%2ftopicSubscription:TopicSubscription
+      subnetGroup:
+        description: The SubnetGroup that reprents the list of subnets where the cluster
+          is deployed
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:rds%2fsubnetGroup:SubnetGroup
+      securityGroup:
+        description: The SecurityGroup associated to the cluster to manage traffic
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2fsecurityGroup:SecurityGroup
+      securityGroupRule:
+        description: The rules associated SecurityGroup to allow incoming traffic
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:ec2%2fsecurityGroupRule:SecurityGroupRule
+    required:
+      - cluster
+      - password
+      - secret
+      - secretVersion
+      - instances
+      - alarms
+      - topicSubscriptions
+      - securityGroup
+      - securityGroupRule
+    inputProperties:
+      version:
+        description: Version for database
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlVersion"
+      database:
+        description: Configuration parameters for the database
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlDatabaseArgs"
+      instanceType:
+        description: The instance type for the cluster
+        type: string
+      instancesCount:
+        description: The number of instances to be created for Aurora cluster
+        type: number
+      logging:
+        description: Logging configuration parameters for Aurora cluster
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlLoggingArgs"
+      monitoring:
+        description: Monitoring configuration parameters for Aurora cluster
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlMonitoringArgs"
+      networking:
+        description: Networking configuration parameters for Aurora cluster
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlNetworkingArgs"
+      backup:
+        description: Backup configuration parameters for Aurora cluster
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlBackupArgs"
+    requiredInputs: []
     isComponent: true
     type: object
   cloud-toolkit-aws:databases:Mysql:
