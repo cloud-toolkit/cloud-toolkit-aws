@@ -2,12 +2,12 @@ import * as pulumi from "@pulumi/pulumi";
 
 export interface AuroraMysqlArgs {
   /**
-   * Version for database instance
+   * Version for database
   */
   version?: AuroraMysqlVersion;
  
   /**
-  * Configuration parameters for the database instance
+  * Configuration parameters for the database
   */
   database?: AuroraMysqlDatabaseArgs;
  
@@ -43,7 +43,7 @@ export interface AuroraMysqlArgs {
 }
 
 /**
-* Set of allowed versions for the database instance
+* Set of allowed versions for the database
 */
 export enum AuroraMysqlVersion {
     V8_0 = "8.0",
@@ -66,7 +66,7 @@ export interface AuroraMysqlDatabaseArgs {
     username?: pulumi.Input<string>;
 
     /**
-    * Password length to login in the database instance
+    * Password length to login in the database
     */
     passwordLength?: number;
 }
@@ -90,10 +90,25 @@ export interface AuroraMysqlBackupArgs {
 * Configure cluster logging 
 */
 export interface AuroraMysqlLoggingArgs {
-    audit?: boolean;
-    error?: boolean;
-    general?: boolean;
-    slowquery?: boolean;
+  /**
+   * Enable audit logging
+   */
+  audit?: boolean;
+
+  /**
+   * Enable error logging
+   */
+  error?: boolean;
+
+  /**
+   * Enable general logging
+   */
+  general?: boolean;
+
+  /**
+   * Enable slowquery logging
+   */
+  slowquery?: boolean;
 }
 
 /**
@@ -116,7 +131,7 @@ export interface AuroraMysqlMonitoringArgs {
  */
 export interface AuroraMysqlNetworkingArgs {
   /**
-  * Allowed CIDRs that connect to the database instance
+  * Allowed CIDRs that connect to the cluster
   */
   allowedCidr?: pulumi.Input<string>[];   
 
@@ -131,7 +146,7 @@ export interface AuroraMysqlNetworkingArgs {
   subnetIds?: pulumi.Input<string>[];
 
   /**
-  * Virtual Private Cloud where database instance must be deployed
+  * Virtual Private Cloud where instances must be deployed
   */
   vpc?: pulumi.Input<string>
 }
