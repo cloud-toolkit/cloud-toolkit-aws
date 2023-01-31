@@ -48,6 +48,7 @@ _utilities.register(
   "mod": "databases",
   "fqn": "cloud_toolkit_aws.databases",
   "classes": {
+   "cloud-toolkit-aws:databases:AuroraMysql": "AuroraMysql",
    "cloud-toolkit-aws:databases:Mysql": "Mysql"
   }
  },

@@ -19,6 +19,7 @@
     "files": [
         "commons/certificate.ts",
         "commons/index.ts",
+        "databases/auroraMysql.ts",
         "databases/index.ts",
         "databases/mysql.ts",
         "email/emailSender.ts",

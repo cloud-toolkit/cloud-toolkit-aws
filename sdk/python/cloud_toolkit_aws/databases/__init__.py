@@ -6,5 +6,6 @@ from .. import _utilities
 import typing
 # Export this package's modules as members:
 from ._enums import *
+from .aurora_mysql import *
 from .mysql import *
 from ._inputs import *
