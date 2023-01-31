@@ -1,0 +1,3 @@
+name: tests-aurora-mysql
+description: A tests for AuroraMysql
+runtime: nodejs

@@ -1,0 +1,390 @@
+[
+  {
+    "SuitePath": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default",
+    "SuiteDescription": "Databases - AuroraMysql - Default configuration",
+    "SuiteLabels": [],
+    "SuiteSucceeded": false,
+    "SuiteHasProgrammaticFocus": false,
+    "SpecialSuiteFailureReasons": null,
+    "PreRunStats": {
+      "TotalSpecs": 5,
+      "SpecsThatWillRun": 5
+    },
+    "StartTime": "2023-01-26T16:30:48.397953+01:00",
+    "EndTime": "2023-01-26T17:02:04.338418+01:00",
+    "RunTime": 1631491786584,
+    "SuiteConfig": {
+      "RandomSeed": 1674747041,
+      "RandomizeAllSpecs": false,
+      "FocusStrings": null,
+      "SkipStrings": null,
+      "FocusFiles": null,
+      "SkipFiles": null,
+      "LabelFilter": "",
+      "FailOnPending": false,
+      "FailFast": false,
+      "FlakeAttempts": 0,
+      "DryRun": false,
+      "PollProgressAfter": 0,
+      "PollProgressInterval": 0,
+      "Timeout": 3595256849917,
+      "OutputInterceptorMode": "",
+      "SourceRoots": null,
+      "GracePeriod": 30000000000,
+      "ParallelProcess": 1,
+      "ParallelTotal": 1,
+      "ParallelHost": ""
+    },
+    "SpecReports": [
+      {
+        "ContainerHierarchyTexts": [
+          "Using default configuration,",
+          "the stack"
+        ],
+        "ContainerHierarchyLocations": [
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 23
+          },
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 24
+          }
+        ],
+        "ContainerHierarchyLabels": [
+          [],
+          []
+        ],
+        "LeafNodeType": "It",
+        "LeafNodeLocation": {
+          "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+          "LineNumber": 18
+        },
+        "LeafNodeLabels": [],
+        "LeafNodeText": "should be prepared",
+        "State": "passed",
+        "StartTime": "2023-01-26T16:30:48.398058+01:00",
+        "EndTime": "2023-01-26T16:31:30.057266+01:00",
+        "RunTime": 41658977125,
+        "ParallelProcess": 1,
+        "NumAttempts": 1,
+        "MaxFlakeAttempts": 0,
+        "MaxMustPassRepeatedly": 0,
+        "SpecEvents": [
+          {
+            "SpecEventType": "Node",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+              "LineNumber": 18
+            },
+            "TimelineLocation": {
+              "Order": 1,
+              "Time": "2023-01-26T16:30:48.398116+01:00"
+            },
+            "Message": "should be prepared",
+            "NodeType": "It"
+          },
+          {
+            "SpecEventType": "Node (End)",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+              "LineNumber": 18
+            },
+            "TimelineLocation": {
+              "Order": 3,
+              "Time": "2023-01-26T16:31:30.056837+01:00"
+            },
+            "Message": "should be prepared",
+            "Duration": 41658490708,
+            "NodeType": "It"
+          }
+        ]
+      },
+      {
+        "ContainerHierarchyTexts": [
+          "Using default configuration,",
+          "the stack"
+        ],
+        "ContainerHierarchyLocations": [
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 23
+          },
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 24
+          }
+        ],
+        "ContainerHierarchyLabels": [
+          [],
+          []
+        ],
+        "LeafNodeType": "It",
+        "LeafNodeLocation": {
+          "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+          "LineNumber": 22
+        },
+        "LeafNodeLabels": [],
+        "LeafNodeText": "should be initalized",
+        "State": "passed",
+        "StartTime": "2023-01-26T16:31:30.057506+01:00",
+        "EndTime": "2023-01-26T16:31:30.560896+01:00",
+        "RunTime": 503386916,
+        "ParallelProcess": 1,
+        "NumAttempts": 1,
+        "MaxFlakeAttempts": 0,
+        "MaxMustPassRepeatedly": 0,
+        "SpecEvents": [
+          {
+            "SpecEventType": "Node",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+              "LineNumber": 22
+            },
+            "TimelineLocation": {
+              "Order": 4,
+              "Time": "2023-01-26T16:31:30.057509+01:00"
+            },
+            "Message": "should be initalized",
+            "NodeType": "It"
+          },
+          {
+            "SpecEventType": "Node (End)",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+              "LineNumber": 22
+            },
+            "TimelineLocation": {
+              "Order": 6,
+              "Time": "2023-01-26T16:31:30.560871+01:00"
+            },
+            "Message": "should be initalized",
+            "Duration": 503359000,
+            "NodeType": "It"
+          }
+        ]
+      },
+      {
+        "ContainerHierarchyTexts": [
+          "Using default configuration,",
+          "the stack"
+        ],
+        "ContainerHierarchyLocations": [
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 23
+          },
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 24
+          }
+        ],
+        "ContainerHierarchyLabels": [
+          [],
+          []
+        ],
+        "LeafNodeType": "It",
+        "LeafNodeLocation": {
+          "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+          "LineNumber": 26
+        },
+        "LeafNodeLabels": [],
+        "LeafNodeText": "should be previewed, updated and edit",
+        "State": "passed",
+        "StartTime": "2023-01-26T16:31:30.561035+01:00",
+        "EndTime": "2023-01-26T16:48:56.070649+01:00",
+        "RunTime": 1045523590709,
+        "ParallelProcess": 1,
+        "NumAttempts": 1,
+        "MaxFlakeAttempts": 0,
+        "MaxMustPassRepeatedly": 0,
+        "SpecEvents": [
+          {
+            "SpecEventType": "Node",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+              "LineNumber": 26
+            },
+            "TimelineLocation": {
+              "Order": 7,
+              "Time": "2023-01-26T16:31:30.561057+01:00"
+            },
+            "Message": "should be previewed, updated and edit",
+            "NodeType": "It"
+          },
+          {
+            "SpecEventType": "Node (End)",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+              "LineNumber": 26
+            },
+            "TimelineLocation": {
+              "Order": 9,
+              "Time": "2023-01-26T16:48:56.070632+01:00"
+            },
+            "Message": "should be previewed, updated and edit",
+            "Duration": 1045523551417,
+            "NodeType": "It"
+          }
+        ]
+      },
+      {
+        "ContainerHierarchyTexts": [
+          "Using default configuration,",
+          "the password"
+        ],
+        "ContainerHierarchyLocations": [
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 23
+          },
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 26
+          }
+        ],
+        "ContainerHierarchyLabels": [
+          [],
+          []
+        ],
+        "LeafNodeType": "It",
+        "LeafNodeLocation": {
+          "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+          "LineNumber": 27
+        },
+        "LeafNodeLabels": [],
+        "LeafNodeText": "should be composed of 14 chars",
+        "State": "failed",
+        "StartTime": "2023-01-26T16:48:56.070728+01:00",
+        "EndTime": "2023-01-26T16:48:56.071729+01:00",
+        "RunTime": 1000333,
+        "ParallelProcess": 1,
+        "Failure": {
+          "Message": "Expected\n    \u003cbool\u003e: false\nto be true",
+          "Location": {
+            "FileName": "/Volumes/workspace/ct/tests/pkg/stack/stack.go",
+            "LineNumber": 38,
+            "FullStackTrace": "github.com/cloud-toolkit/cloud-toolkit-aws/tests/pkg/stack.GetStackOutput(0x114d0da?, {0x2992713, 0x8})\n\t/Volumes/workspace/ct/tests/pkg/stack/stack.go:38 +0x123\ngithub.com/cloud-toolkit/cloud-toolkit-aws/tests/suites/databases/aurora-mysql/default.glob..func1.1.1()\n\t/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go:28 +0x30"
+          },
+          "TimelineLocation": {
+            "Order": 11,
+            "Time": "2023-01-26T16:48:56.0717+01:00"
+          },
+          "FailureNodeContext": "leaf-node",
+          "FailureNodeType": "It",
+          "FailureNodeLocation": {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 27
+          },
+          "ProgressReport": {
+            "LeafNodeLocation": {},
+            "SpecStartTime": "0001-01-01T00:00:00Z",
+            "CurrentNodeLocation": {},
+            "CurrentNodeStartTime": "0001-01-01T00:00:00Z",
+            "CurrentStepLocation": {},
+            "CurrentStepStartTime": "0001-01-01T00:00:00Z",
+            "TimelineLocation": {
+              "Time": "0001-01-01T00:00:00Z"
+            }
+          }
+        },
+        "NumAttempts": 1,
+        "MaxFlakeAttempts": 0,
+        "MaxMustPassRepeatedly": 0,
+        "SpecEvents": [
+          {
+            "SpecEventType": "Node",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+              "LineNumber": 27
+            },
+            "TimelineLocation": {
+              "Order": 10,
+              "Time": "2023-01-26T16:48:56.070734+01:00"
+            },
+            "Message": "should be composed of 14 chars",
+            "NodeType": "It"
+          },
+          {
+            "SpecEventType": "Node (End)",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+              "LineNumber": 27
+            },
+            "TimelineLocation": {
+              "Order": 12,
+              "Time": "2023-01-26T16:48:56.07172+01:00"
+            },
+            "Message": "should be composed of 14 chars",
+            "Duration": 985291,
+            "NodeType": "It"
+          }
+        ]
+      },
+      {
+        "ContainerHierarchyTexts": [
+          "Using default configuration,",
+          "the stack"
+        ],
+        "ContainerHierarchyLocations": [
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 23
+          },
+          {
+            "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+            "LineNumber": 56
+          }
+        ],
+        "ContainerHierarchyLabels": [
+          [],
+          []
+        ],
+        "LeafNodeType": "It",
+        "LeafNodeLocation": {
+          "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+          "LineNumber": 57
+        },
+        "LeafNodeLabels": [],
+        "LeafNodeText": "should be destroyed",
+        "State": "passed",
+        "StartTime": "2023-01-26T16:48:56.072096+01:00",
+        "EndTime": "2023-01-26T17:02:04.338171+01:00",
+        "RunTime": 543803653126,
+        "ParallelProcess": 1,
+        "NumAttempts": 1,
+        "MaxFlakeAttempts": 0,
+        "MaxMustPassRepeatedly": 0,
+        "SpecEvents": [
+          {
+            "SpecEventType": "Node",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+              "LineNumber": 57
+            },
+            "TimelineLocation": {
+              "Order": 13,
+              "Time": "2023-01-26T16:48:56.072098+01:00"
+            },
+            "Message": "should be destroyed",
+            "NodeType": "It"
+          },
+          {
+            "SpecEventType": "Node (End)",
+            "CodeLocation": {
+              "FileName": "/Volumes/workspace/ct/tests/suites/databases/aurora-mysql/default/aurora_mysql_test.go",
+              "LineNumber": 57
+            },
+            "TimelineLocation": {
+              "Order": 15,
+              "Time": "2023-01-26T17:02:04.338145+01:00"
+            },
+            "Message": "should be destroyed",
+            "Duration": 543803625583,
+            "NodeType": "It"
+          }
+        ]
+      }
+    ]
+  }
+]
