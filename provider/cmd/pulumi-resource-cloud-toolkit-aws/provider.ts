@@ -54,7 +54,12 @@ import {
   Organization,
   OrganizationArgs,
 } from "./landingzone";
-import { Mysql, MysqlArgs} from "./databases/mysql";
+import {
+  AuroraMysql,
+  AuroraMysqlArgs,
+  Mysql,
+  MysqlArgs,
+} from "./databases";
 import { Calico, CalicoArgs } from "./kubernetes/calico";
 import { Dashboard, DashboardArgs } from "./kubernetes/dashboard";
 import { AwsEbsCsiDriver, AwsEbsCsiDriverArgs } from "./kubernetes/ebsCsiDriver";
@@ -132,6 +137,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructBucket(name, inputs, options);
       case "cloud-toolkit-aws:databases:Mysql":
         return await constructMysql(name, inputs, options);
+      case "cloud-toolkit-aws:databases:AuroraMysql":
+        return await constructAuroraMysql(name, inputs, options);
       default:
         throw new Error(`unknown resource type ${type}`);
     }
@@ -704,6 +711,26 @@ async function constructMysql(
       securityGroup: mysqldb.securityGroup,
       instance: mysqldb.instance,
       ingressSecurityGroupRules: mysqldb.ingressSecurityGroupRules
+    },
+  };
+}
+
+async function constructAuroraMysql(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const auroraMysql = new AuroraMysql(name, inputs as AuroraMysqlArgs, options);
+
+  return {
+    urn: auroraMysql.urn,
+    state: {
+      cluster: auroraMysql.cluster,
+      password: auroraMysql.password,
+      secret: auroraMysql.secret,
+      secretVersion: auroraMysql.secretVersion,
+      instances: auroraMysql.instances,
+      alarms: auroraMysql.alarms,
     },
   };
 }
