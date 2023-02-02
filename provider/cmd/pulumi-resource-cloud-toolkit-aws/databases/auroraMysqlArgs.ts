@@ -48,7 +48,6 @@ export interface AuroraMysqlArgs {
 export enum AuroraMysqlVersion {
     V8_0 = "8.0",
     V5_7 = "5.7",
-    V5_6 = "5.6"
 }
 
 /**
