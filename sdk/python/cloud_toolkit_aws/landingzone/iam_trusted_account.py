@@ -17,7 +17,7 @@ __all__ = ['IamTrustedAccountArgs', 'IamTrustedAccount']
 @pulumi.input_type
 class IamTrustedAccountArgs:
     def __init__(__self__, *,
-                 roles: pulumi.Input[Sequence[pulumi.Input['IamTrustedAccountRoleArgsArgs']]],
+                 roles: pulumi.Input[Sequence[pulumi.Input['IamTrustedAccountRoleArgs']]],
                  trusting_account_id: pulumi.Input[str],
                  trusting_account_name: pulumi.Input[str]):
         """
@@ -29,11 +29,11 @@ class IamTrustedAccountArgs:
 
     @property
     @pulumi.getter
-    def roles(self) -> pulumi.Input[Sequence[pulumi.Input['IamTrustedAccountRoleArgsArgs']]]:
+    def roles(self) -> pulumi.Input[Sequence[pulumi.Input['IamTrustedAccountRoleArgs']]]:
         return pulumi.get(self, "roles")
 
     @roles.setter
-    def roles(self, value: pulumi.Input[Sequence[pulumi.Input['IamTrustedAccountRoleArgsArgs']]]):
+    def roles(self, value: pulumi.Input[Sequence[pulumi.Input['IamTrustedAccountRoleArgs']]]):
         pulumi.set(self, "roles", value)
 
     @property
@@ -60,7 +60,7 @@ class IamTrustedAccount(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamTrustedAccountRoleArgsArgs']]]]] = None,
+                 roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamTrustedAccountRoleArgs']]]]] = None,
                  trusting_account_id: Optional[pulumi.Input[str]] = None,
                  trusting_account_name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
@@ -92,7 +92,7 @@ class IamTrustedAccount(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamTrustedAccountRoleArgsArgs']]]]] = None,
+                 roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamTrustedAccountRoleArgs']]]]] = None,
                  trusting_account_id: Optional[pulumi.Input[str]] = None,
                  trusting_account_name: Optional[pulumi.Input[str]] = None,
                  __props__=None):

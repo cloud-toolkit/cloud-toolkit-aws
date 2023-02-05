@@ -18,7 +18,7 @@ __all__ = ['IamTrustingAccountArgs', 'IamTrustingAccount']
 class IamTrustingAccountArgs:
     def __init__(__self__, *,
                  delegated_account_ids: pulumi.Input[Sequence[pulumi.Input[str]]],
-                 delegated_roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamTrustingAccountRoleArgsArgs']]]] = None):
+                 delegated_roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamTrustingAccountRoleArgs']]]] = None):
         """
         The set of arguments for constructing a IamTrustingAccount resource.
         """
@@ -37,11 +37,11 @@ class IamTrustingAccountArgs:
 
     @property
     @pulumi.getter(name="delegatedRoles")
-    def delegated_roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamTrustingAccountRoleArgsArgs']]]]:
+    def delegated_roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamTrustingAccountRoleArgs']]]]:
         return pulumi.get(self, "delegated_roles")
 
     @delegated_roles.setter
-    def delegated_roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamTrustingAccountRoleArgsArgs']]]]):
+    def delegated_roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamTrustingAccountRoleArgs']]]]):
         pulumi.set(self, "delegated_roles", value)
 
 
@@ -51,7 +51,7 @@ class IamTrustingAccount(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  delegated_account_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 delegated_roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamTrustingAccountRoleArgsArgs']]]]] = None,
+                 delegated_roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamTrustingAccountRoleArgs']]]]] = None,
                  __props__=None):
         """
         Create a IamTrustingAccount resource with the given unique name, props, and options.
@@ -82,7 +82,7 @@ class IamTrustingAccount(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  delegated_account_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 delegated_roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamTrustingAccountRoleArgsArgs']]]]] = None,
+                 delegated_roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamTrustingAccountRoleArgs']]]]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):

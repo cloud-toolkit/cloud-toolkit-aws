@@ -5,11 +5,11 @@
 from enum import Enum
 
 __all__ = [
-    'BucketVersioningStateArgs',
+    'BucketVersioningState',
 ]
 
 
-class BucketVersioningStateArgs(str, Enum):
+class BucketVersioningState(str, Enum):
     """
     Versioning object mode that is selected for the bucket.
     Enabled - Bucket keeps track of object versioning.

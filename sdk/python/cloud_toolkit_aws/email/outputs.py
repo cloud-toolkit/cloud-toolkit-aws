@@ -11,12 +11,12 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
-    'AdditionalQueueArgs',
-    'DnsDkimRecordArgs',
+    'AdditionalQueue',
+    'DnsDkimRecord',
 ]
 
 @pulumi.output_type
-class AdditionalQueueArgs(dict):
+class AdditionalQueue(dict):
     def __init__(__self__, *,
                  arn: str,
                  url: str):
@@ -45,7 +45,7 @@ class AdditionalQueueArgs(dict):
 
 
 @pulumi.output_type
-class DnsDkimRecordArgs(dict):
+class DnsDkimRecord(dict):
     def __init__(__self__, *,
                  name: str,
                  token: str):

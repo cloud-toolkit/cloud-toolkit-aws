@@ -2,7 +2,7 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 
-export const BucketVersioningStateArgs = {
+export const BucketVersioningState = {
     Enabled: "Enabled",
     Disabled: "Disabled",
     Suspended: "Suspended",
@@ -14,4 +14,4 @@ export const BucketVersioningStateArgs = {
  * Disabled - Bucket does not keep track of object versioning. Once versioning is Enabled we cannot Disabled versioning.
  * Suspended - Once versioning is Enabled, this feature can be suspended
  */
-export type BucketVersioningStateArgs = (typeof BucketVersioningStateArgs)[keyof typeof BucketVersioningStateArgs];
+export type BucketVersioningState = (typeof BucketVersioningState)[keyof typeof BucketVersioningState];

@@ -136,7 +136,7 @@ export interface AuditLoggingArgs {
     /**
      * Store the audit logs in CloudWatch to enable easy searching.
      */
-    cloudwatch?: pulumi.Input<inputs.landingzone.AuditLoggingCloudWatchArgsArgs>;
+    cloudwatch?: pulumi.Input<inputs.landingzone.AuditLoggingCloudWatchArgs>;
     /**
      * The region to be used to store the data.
      */

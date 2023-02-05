@@ -17,9 +17,9 @@ __all__ = ['LandingZoneArgs', 'LandingZone']
 @pulumi.input_type
 class LandingZoneArgs:
     def __init__(__self__, *,
-                 audit: Optional[pulumi.Input['LandingZoneAuditArgsArgs']] = None,
-                 iam: Optional[pulumi.Input['LandingZoneIamArgsArgs']] = None,
-                 organization: Optional[pulumi.Input['OrganizationArgsArgs']] = None):
+                 audit: Optional[pulumi.Input['LandingZoneAuditArgs']] = None,
+                 iam: Optional[pulumi.Input['LandingZoneIamArgs']] = None,
+                 organization: Optional[pulumi.Input['OrganizationArgs']] = None):
         """
         The set of arguments for constructing a LandingZone resource.
         """
@@ -32,29 +32,29 @@ class LandingZoneArgs:
 
     @property
     @pulumi.getter
-    def audit(self) -> Optional[pulumi.Input['LandingZoneAuditArgsArgs']]:
+    def audit(self) -> Optional[pulumi.Input['LandingZoneAuditArgs']]:
         return pulumi.get(self, "audit")
 
     @audit.setter
-    def audit(self, value: Optional[pulumi.Input['LandingZoneAuditArgsArgs']]):
+    def audit(self, value: Optional[pulumi.Input['LandingZoneAuditArgs']]):
         pulumi.set(self, "audit", value)
 
     @property
     @pulumi.getter
-    def iam(self) -> Optional[pulumi.Input['LandingZoneIamArgsArgs']]:
+    def iam(self) -> Optional[pulumi.Input['LandingZoneIamArgs']]:
         return pulumi.get(self, "iam")
 
     @iam.setter
-    def iam(self, value: Optional[pulumi.Input['LandingZoneIamArgsArgs']]):
+    def iam(self, value: Optional[pulumi.Input['LandingZoneIamArgs']]):
         pulumi.set(self, "iam", value)
 
     @property
     @pulumi.getter
-    def organization(self) -> Optional[pulumi.Input['OrganizationArgsArgs']]:
+    def organization(self) -> Optional[pulumi.Input['OrganizationArgs']]:
         return pulumi.get(self, "organization")
 
     @organization.setter
-    def organization(self, value: Optional[pulumi.Input['OrganizationArgsArgs']]):
+    def organization(self, value: Optional[pulumi.Input['OrganizationArgs']]):
         pulumi.set(self, "organization", value)
 
 
@@ -63,9 +63,9 @@ class LandingZone(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 audit: Optional[pulumi.Input[pulumi.InputType['LandingZoneAuditArgsArgs']]] = None,
-                 iam: Optional[pulumi.Input[pulumi.InputType['LandingZoneIamArgsArgs']]] = None,
-                 organization: Optional[pulumi.Input[pulumi.InputType['OrganizationArgsArgs']]] = None,
+                 audit: Optional[pulumi.Input[pulumi.InputType['LandingZoneAuditArgs']]] = None,
+                 iam: Optional[pulumi.Input[pulumi.InputType['LandingZoneIamArgs']]] = None,
+                 organization: Optional[pulumi.Input[pulumi.InputType['OrganizationArgs']]] = None,
                  __props__=None):
         """
         Create a Landing Zone with the Organization, the AuditLogging, the AWS Accounts and the
@@ -97,9 +97,9 @@ class LandingZone(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 audit: Optional[pulumi.Input[pulumi.InputType['LandingZoneAuditArgsArgs']]] = None,
-                 iam: Optional[pulumi.Input[pulumi.InputType['LandingZoneIamArgsArgs']]] = None,
-                 organization: Optional[pulumi.Input[pulumi.InputType['OrganizationArgsArgs']]] = None,
+                 audit: Optional[pulumi.Input[pulumi.InputType['LandingZoneAuditArgs']]] = None,
+                 iam: Optional[pulumi.Input[pulumi.InputType['LandingZoneIamArgs']]] = None,
+                 organization: Optional[pulumi.Input[pulumi.InputType['OrganizationArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):

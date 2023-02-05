@@ -82,5 +82,5 @@ export interface AdotApplicationArgs {
     /**
      * Configure metrics.
      */
-    metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgsArgs>;
+    metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgs>;
 }

@@ -11,17 +11,17 @@ from .. import _utilities
 from ._inputs import *
 import pulumi_aws
 
-__all__ = ['AccountIamArgs', 'AccountIam']
+__all__ = ['AccountIamInitArgs', 'AccountIam']
 
 @pulumi.input_type
-class AccountIamArgs:
+class AccountIamInitArgs:
     def __init__(__self__, *,
                  alias: Optional[pulumi.Input[str]] = None,
-                 password_policy: Optional[pulumi.Input['AccountPasswordPolicyArgsArgs']] = None):
+                 password_policy: Optional[pulumi.Input['AccountPasswordPolicyArgs']] = None):
         """
         The set of arguments for constructing a AccountIam resource.
         :param pulumi.Input[str] alias: The alias to be used for IAM.
-        :param pulumi.Input['AccountPasswordPolicyArgsArgs'] password_policy: The IAM password policy configuration.
+        :param pulumi.Input['AccountPasswordPolicyArgs'] password_policy: The IAM password policy configuration.
         """
         if alias is not None:
             pulumi.set(__self__, "alias", alias)
@@ -42,14 +42,14 @@ class AccountIamArgs:
 
     @property
     @pulumi.getter(name="passwordPolicy")
-    def password_policy(self) -> Optional[pulumi.Input['AccountPasswordPolicyArgsArgs']]:
+    def password_policy(self) -> Optional[pulumi.Input['AccountPasswordPolicyArgs']]:
         """
         The IAM password policy configuration.
         """
         return pulumi.get(self, "password_policy")
 
     @password_policy.setter
-    def password_policy(self, value: Optional[pulumi.Input['AccountPasswordPolicyArgsArgs']]):
+    def password_policy(self, value: Optional[pulumi.Input['AccountPasswordPolicyArgs']]):
         pulumi.set(self, "password_policy", value)
 
 
@@ -59,7 +59,7 @@ class AccountIam(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  alias: Optional[pulumi.Input[str]] = None,
-                 password_policy: Optional[pulumi.Input[pulumi.InputType['AccountPasswordPolicyArgsArgs']]] = None,
+                 password_policy: Optional[pulumi.Input[pulumi.InputType['AccountPasswordPolicyArgs']]] = None,
                  __props__=None):
         """
         Cluster is a component that configure the IAM service for a given account.
@@ -67,24 +67,24 @@ class AccountIam(pulumi.ComponentResource):
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] alias: The alias to be used for IAM.
-        :param pulumi.Input[pulumi.InputType['AccountPasswordPolicyArgsArgs']] password_policy: The IAM password policy configuration.
+        :param pulumi.Input[pulumi.InputType['AccountPasswordPolicyArgs']] password_policy: The IAM password policy configuration.
         """
         ...
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: Optional[AccountIamArgs] = None,
+                 args: Optional[AccountIamInitArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Cluster is a component that configure the IAM service for a given account.
 
         :param str resource_name: The name of the resource.
-        :param AccountIamArgs args: The arguments to use to populate this resource's properties.
+        :param AccountIamInitArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
         """
         ...
     def __init__(__self__, resource_name: str, *args, **kwargs):
-        resource_args, opts = _utilities.get_resource_args_opts(AccountIamArgs, pulumi.ResourceOptions, *args, **kwargs)
+        resource_args, opts = _utilities.get_resource_args_opts(AccountIamInitArgs, pulumi.ResourceOptions, *args, **kwargs)
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
@@ -94,7 +94,7 @@ class AccountIam(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  alias: Optional[pulumi.Input[str]] = None,
-                 password_policy: Optional[pulumi.Input[pulumi.InputType['AccountPasswordPolicyArgsArgs']]] = None,
+                 password_policy: Optional[pulumi.Input[pulumi.InputType['AccountPasswordPolicyArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -104,7 +104,7 @@ class AccountIam(pulumi.ComponentResource):
         else:
             if __props__ is not None:
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
-            __props__ = AccountIamArgs.__new__(AccountIamArgs)
+            __props__ = AccountIamInitArgs.__new__(AccountIamInitArgs)
 
             __props__.__dict__["alias"] = alias
             __props__.__dict__["password_policy"] = password_policy

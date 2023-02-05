@@ -20,12 +20,12 @@ class FluentbitArgs:
     def __init__(__self__, *,
                  aws_region: pulumi.Input[str],
                  cluster_name: pulumi.Input[str],
-                 logging: Optional[pulumi.Input['FluentbitLoggingArgsArgs']] = None):
+                 logging: Optional[pulumi.Input['FluentbitLoggingArgs']] = None):
         """
         The set of arguments for constructing a Fluentbit resource.
         :param pulumi.Input[str] aws_region: The AWS Region.
         :param pulumi.Input[str] cluster_name: The cluster name.
-        :param pulumi.Input['FluentbitLoggingArgsArgs'] logging: Configure logging.
+        :param pulumi.Input['FluentbitLoggingArgs'] logging: Configure logging.
         """
         pulumi.set(__self__, "aws_region", aws_region)
         pulumi.set(__self__, "cluster_name", cluster_name)
@@ -58,14 +58,14 @@ class FluentbitArgs:
 
     @property
     @pulumi.getter
-    def logging(self) -> Optional[pulumi.Input['FluentbitLoggingArgsArgs']]:
+    def logging(self) -> Optional[pulumi.Input['FluentbitLoggingArgs']]:
         """
         Configure logging.
         """
         return pulumi.get(self, "logging")
 
     @logging.setter
-    def logging(self, value: Optional[pulumi.Input['FluentbitLoggingArgsArgs']]):
+    def logging(self, value: Optional[pulumi.Input['FluentbitLoggingArgs']]):
         pulumi.set(self, "logging", value)
 
 
@@ -76,7 +76,7 @@ class Fluentbit(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']]] = None,
                  __props__=None):
         """
         Fluentbit is a component that deploy the Fluentbit component to send logs to AWS CloudWatch.
@@ -85,7 +85,7 @@ class Fluentbit(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] aws_region: The AWS Region.
         :param pulumi.Input[str] cluster_name: The cluster name.
-        :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']] logging: Configure logging.
+        :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']] logging: Configure logging.
         """
         ...
     @overload
@@ -113,7 +113,7 @@ class Fluentbit(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):

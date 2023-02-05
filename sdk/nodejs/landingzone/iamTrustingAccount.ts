@@ -58,5 +58,5 @@ export class IamTrustingAccount extends pulumi.ComponentResource {
  */
 export interface IamTrustingAccountArgs {
     delegatedAccountIds: pulumi.Input<pulumi.Input<string>[]>;
-    delegatedRoles?: pulumi.Input<pulumi.Input<inputs.landingzone.IamTrustingAccountRoleArgsArgs>[]>;
+    delegatedRoles?: pulumi.Input<pulumi.Input<inputs.landingzone.IamTrustingAccountRoleArgs>[]>;
 }

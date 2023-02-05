@@ -157,35 +157,35 @@ export interface ClusterArgs {
     /**
      * The addons installed in the cluster.
      */
-    addons?: pulumi.Input<inputs.kubernetes.AddonsArgsArgs>;
+    addons?: pulumi.Input<inputs.kubernetes.AddonsArgs>;
     /**
      * Configure the Kubernetes cluster API.
      */
-    api?: pulumi.Input<inputs.kubernetes.ClusterApiArgsArgs>;
+    api?: pulumi.Input<inputs.kubernetes.ClusterApiArgs>;
     /**
      * Configure authentication integrated with AWS IAM.
      */
-    authentication?: pulumi.Input<inputs.kubernetes.ClusterAuthenticationArgsArgs>;
+    authentication?: pulumi.Input<inputs.kubernetes.ClusterAuthenticationArgs>;
     /**
      * Configure the cluster observability for logging.
      */
-    logging?: pulumi.Input<inputs.kubernetes.FluentbitLoggingArgsArgs>;
+    logging?: pulumi.Input<inputs.kubernetes.FluentbitLoggingArgs>;
     /**
      * Configure the cluster observability for metrics.
      */
-    metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgsArgs>;
+    metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgs>;
     /**
      * Configure the cluster networking.
      */
-    networking?: pulumi.Input<inputs.kubernetes.ClusterNetworkingArgsArgs>;
+    networking?: pulumi.Input<inputs.kubernetes.ClusterNetworkingArgs>;
     /**
      * The NodeGroups to be assigned to this cluster.
      */
-    nodeGroups?: pulumi.Input<pulumi.Input<inputs.kubernetes.ClusterNodeGroupArgsArgs>[]>;
+    nodeGroups?: pulumi.Input<pulumi.Input<inputs.kubernetes.ClusterNodeGroupArgs>[]>;
     /**
      * The OIDC Providers configuration.
      */
-    oidcProviders?: pulumi.Input<inputs.kubernetes.ClusterOidcProvidersArgsArgs>;
+    oidcProviders?: pulumi.Input<inputs.kubernetes.ClusterOidcProvidersArgs>;
     /**
      * The list of private subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
      */

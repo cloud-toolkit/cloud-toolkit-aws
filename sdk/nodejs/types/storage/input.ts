@@ -10,16 +10,16 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface BucketEncryptionArgsArgs {
+export interface BucketEncryptionArgs {
     customKeyId?: pulumi.Input<string>;
     enabled: pulumi.Input<boolean>;
 }
 
-export interface BucketReplicationArgsArgs {
+export interface BucketReplicationArgs {
     bucketArn: pulumi.Input<string>;
 }
 
-export interface BucketWebsiteArgsArgs {
+export interface BucketWebsiteArgs {
     errorDocument: pulumi.Input<string>;
     indexDocument: pulumi.Input<string>;
 }

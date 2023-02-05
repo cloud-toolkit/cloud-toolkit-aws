@@ -11,28 +11,28 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
-    'AddonsArgsArgs',
-    'AdotApplicationMetricsArgsArgs',
-    'ClusterAddonsIngressArgsArgs',
-    'ClusterAddonsIngressItemArgsArgs',
-    'ClusterApiArgsArgs',
-    'ClusterAuthenticationArgsArgs',
-    'ClusterNetworkingArgsArgs',
-    'ClusterNetworkingIngressArgsArgs',
-    'ClusterNodeGroupArgsArgs',
-    'ClusterOidcProvidersArgsArgs',
-    'ClusterPrivateApiArgsArgs',
-    'ClusterPublicApiArgsArgs',
-    'FluentbitLoggingArgsArgs',
-    'FluentbitLoggingItemArgsArgs',
-    'IamAuthenticatorRoleArgsArgs',
-    'IamAuthenticatorUserArgsArgs',
-    'IngressNginxTlsArgsArgs',
-    'ProjectResourcesArgsArgs',
+    'AddonsArgs',
+    'AdotApplicationMetricsArgs',
+    'ClusterAddonsIngressItemArgs',
+    'ClusterAddonsIngressArgs',
+    'ClusterApiArgs',
+    'ClusterAuthenticationArgs',
+    'ClusterNetworkingIngressArgs',
+    'ClusterNetworkingArgs',
+    'ClusterNodeGroupArgs',
+    'ClusterOidcProvidersArgs',
+    'ClusterPrivateApiArgs',
+    'ClusterPublicApiArgs',
+    'FluentbitLoggingItemArgs',
+    'FluentbitLoggingArgs',
+    'IamAuthenticatorRoleArgs',
+    'IamAuthenticatorUserArgs',
+    'IngressNginxTlsArgs',
+    'ProjectResourcesArgs',
 ]
 
 @pulumi.input_type
-class AddonsArgsArgs:
+class AddonsArgs:
     def __init__(__self__, *,
                  enabled: pulumi.Input[bool]):
         """
@@ -54,7 +54,7 @@ class AddonsArgsArgs:
 
 
 @pulumi.input_type
-class AdotApplicationMetricsArgsArgs:
+class AdotApplicationMetricsArgs:
     def __init__(__self__, *,
                  data_retention: Optional[pulumi.Input[float]] = None,
                  enabled: Optional[pulumi.Input[bool]] = None):
@@ -93,46 +93,7 @@ class AdotApplicationMetricsArgsArgs:
 
 
 @pulumi.input_type
-class ClusterAddonsIngressArgsArgs:
-    def __init__(__self__, *,
-                 admin: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None,
-                 default: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']] = None):
-        """
-        :param pulumi.Input['ClusterAddonsIngressItemArgsArgs'] admin: Configure the admin IngressController.
-        :param pulumi.Input['ClusterAddonsIngressItemArgsArgs'] default: Configure the default IngressController.
-        """
-        if admin is not None:
-            pulumi.set(__self__, "admin", admin)
-        if default is not None:
-            pulumi.set(__self__, "default", default)
-
-    @property
-    @pulumi.getter
-    def admin(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]:
-        """
-        Configure the admin IngressController.
-        """
-        return pulumi.get(self, "admin")
-
-    @admin.setter
-    def admin(self, value: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]):
-        pulumi.set(self, "admin", value)
-
-    @property
-    @pulumi.getter
-    def default(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]:
-        """
-        Configure the default IngressController.
-        """
-        return pulumi.get(self, "default")
-
-    @default.setter
-    def default(self, value: Optional[pulumi.Input['ClusterAddonsIngressItemArgsArgs']]):
-        pulumi.set(self, "default", value)
-
-
-@pulumi.input_type
-class ClusterAddonsIngressItemArgsArgs:
+class ClusterAddonsIngressItemArgs:
     def __init__(__self__, *,
                  domain: Optional[pulumi.Input[str]] = None,
                  enable_tls_termination: Optional[pulumi.Input[bool]] = None,
@@ -203,13 +164,52 @@ class ClusterAddonsIngressItemArgsArgs:
 
 
 @pulumi.input_type
-class ClusterApiArgsArgs:
+class ClusterAddonsIngressArgs:
     def __init__(__self__, *,
-                 private: Optional[pulumi.Input['ClusterPrivateApiArgsArgs']] = None,
-                 public: Optional[pulumi.Input['ClusterPublicApiArgsArgs']] = None):
+                 admin: Optional[pulumi.Input['ClusterAddonsIngressItemArgs']] = None,
+                 default: Optional[pulumi.Input['ClusterAddonsIngressItemArgs']] = None):
         """
-        :param pulumi.Input['ClusterPrivateApiArgsArgs'] private: Configure the private endpoint for the Kubernetes API.
-        :param pulumi.Input['ClusterPublicApiArgsArgs'] public: Configure the public endpoint for the Kubernetes API.
+        :param pulumi.Input['ClusterAddonsIngressItemArgs'] admin: Configure the admin IngressController.
+        :param pulumi.Input['ClusterAddonsIngressItemArgs'] default: Configure the default IngressController.
+        """
+        if admin is not None:
+            pulumi.set(__self__, "admin", admin)
+        if default is not None:
+            pulumi.set(__self__, "default", default)
+
+    @property
+    @pulumi.getter
+    def admin(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgs']]:
+        """
+        Configure the admin IngressController.
+        """
+        return pulumi.get(self, "admin")
+
+    @admin.setter
+    def admin(self, value: Optional[pulumi.Input['ClusterAddonsIngressItemArgs']]):
+        pulumi.set(self, "admin", value)
+
+    @property
+    @pulumi.getter
+    def default(self) -> Optional[pulumi.Input['ClusterAddonsIngressItemArgs']]:
+        """
+        Configure the default IngressController.
+        """
+        return pulumi.get(self, "default")
+
+    @default.setter
+    def default(self, value: Optional[pulumi.Input['ClusterAddonsIngressItemArgs']]):
+        pulumi.set(self, "default", value)
+
+
+@pulumi.input_type
+class ClusterApiArgs:
+    def __init__(__self__, *,
+                 private: Optional[pulumi.Input['ClusterPrivateApiArgs']] = None,
+                 public: Optional[pulumi.Input['ClusterPublicApiArgs']] = None):
+        """
+        :param pulumi.Input['ClusterPrivateApiArgs'] private: Configure the private endpoint for the Kubernetes API.
+        :param pulumi.Input['ClusterPublicApiArgs'] public: Configure the public endpoint for the Kubernetes API.
         """
         if private is not None:
             pulumi.set(__self__, "private", private)
@@ -218,41 +218,41 @@ class ClusterApiArgsArgs:
 
     @property
     @pulumi.getter
-    def private(self) -> Optional[pulumi.Input['ClusterPrivateApiArgsArgs']]:
+    def private(self) -> Optional[pulumi.Input['ClusterPrivateApiArgs']]:
         """
         Configure the private endpoint for the Kubernetes API.
         """
         return pulumi.get(self, "private")
 
     @private.setter
-    def private(self, value: Optional[pulumi.Input['ClusterPrivateApiArgsArgs']]):
+    def private(self, value: Optional[pulumi.Input['ClusterPrivateApiArgs']]):
         pulumi.set(self, "private", value)
 
     @property
     @pulumi.getter
-    def public(self) -> Optional[pulumi.Input['ClusterPublicApiArgsArgs']]:
+    def public(self) -> Optional[pulumi.Input['ClusterPublicApiArgs']]:
         """
         Configure the public endpoint for the Kubernetes API.
         """
         return pulumi.get(self, "public")
 
     @public.setter
-    def public(self, value: Optional[pulumi.Input['ClusterPublicApiArgsArgs']]):
+    def public(self, value: Optional[pulumi.Input['ClusterPublicApiArgs']]):
         pulumi.set(self, "public", value)
 
 
 @pulumi.input_type
-class ClusterAuthenticationArgsArgs:
+class ClusterAuthenticationArgs:
     def __init__(__self__, *,
                  accounts: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  cluster_admins: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]] = None,
-                 users: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]] = None):
+                 roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]] = None,
+                 users: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgs']]]] = None):
         """
         :param pulumi.Input[Sequence[pulumi.Input[str]]] accounts: The list of AWS Accounts that can authenticate with the API Server.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] cluster_admins: The list of AWS IAM Users names to be configured as cluster-admin.
-        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]] roles: The list of AWS IAM Roles that can authenticate with the API server.
-        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]] users: The list of AWS IAM Users that can authenticate with the API server.
+        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]] roles: The list of AWS IAM Roles that can authenticate with the API server.
+        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgs']]] users: The list of AWS IAM Users that can authenticate with the API server.
         """
         if accounts is not None:
             pulumi.set(__self__, "accounts", accounts)
@@ -289,70 +289,31 @@ class ClusterAuthenticationArgsArgs:
 
     @property
     @pulumi.getter
-    def roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]]:
+    def roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]]:
         """
         The list of AWS IAM Roles that can authenticate with the API server.
         """
         return pulumi.get(self, "roles")
 
     @roles.setter
-    def roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]]):
+    def roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]]):
         pulumi.set(self, "roles", value)
 
     @property
     @pulumi.getter
-    def users(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]]:
+    def users(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgs']]]]:
         """
         The list of AWS IAM Users that can authenticate with the API server.
         """
         return pulumi.get(self, "users")
 
     @users.setter
-    def users(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]]):
+    def users(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgs']]]]):
         pulumi.set(self, "users", value)
 
 
 @pulumi.input_type
-class ClusterNetworkingArgsArgs:
-    def __init__(__self__, *,
-                 admin: Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']] = None,
-                 default: Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']] = None):
-        """
-        :param pulumi.Input['ClusterNetworkingIngressArgsArgs'] admin: Configure the access to admin applications.
-        :param pulumi.Input['ClusterNetworkingIngressArgsArgs'] default: Configure the access to applications.
-        """
-        if admin is not None:
-            pulumi.set(__self__, "admin", admin)
-        if default is not None:
-            pulumi.set(__self__, "default", default)
-
-    @property
-    @pulumi.getter
-    def admin(self) -> Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']]:
-        """
-        Configure the access to admin applications.
-        """
-        return pulumi.get(self, "admin")
-
-    @admin.setter
-    def admin(self, value: Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']]):
-        pulumi.set(self, "admin", value)
-
-    @property
-    @pulumi.getter
-    def default(self) -> Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']]:
-        """
-        Configure the access to applications.
-        """
-        return pulumi.get(self, "default")
-
-    @default.setter
-    def default(self, value: Optional[pulumi.Input['ClusterNetworkingIngressArgsArgs']]):
-        pulumi.set(self, "default", value)
-
-
-@pulumi.input_type
-class ClusterNetworkingIngressArgsArgs:
+class ClusterNetworkingIngressArgs:
     def __init__(__self__, *,
                  domain: pulumi.Input[str],
                  enable_tls_termination: Optional[pulumi.Input[bool]] = None,
@@ -422,7 +383,46 @@ class ClusterNetworkingIngressArgsArgs:
 
 
 @pulumi.input_type
-class ClusterNodeGroupArgsArgs:
+class ClusterNetworkingArgs:
+    def __init__(__self__, *,
+                 admin: Optional[pulumi.Input['ClusterNetworkingIngressArgs']] = None,
+                 default: Optional[pulumi.Input['ClusterNetworkingIngressArgs']] = None):
+        """
+        :param pulumi.Input['ClusterNetworkingIngressArgs'] admin: Configure the access to admin applications.
+        :param pulumi.Input['ClusterNetworkingIngressArgs'] default: Configure the access to applications.
+        """
+        if admin is not None:
+            pulumi.set(__self__, "admin", admin)
+        if default is not None:
+            pulumi.set(__self__, "default", default)
+
+    @property
+    @pulumi.getter
+    def admin(self) -> Optional[pulumi.Input['ClusterNetworkingIngressArgs']]:
+        """
+        Configure the access to admin applications.
+        """
+        return pulumi.get(self, "admin")
+
+    @admin.setter
+    def admin(self, value: Optional[pulumi.Input['ClusterNetworkingIngressArgs']]):
+        pulumi.set(self, "admin", value)
+
+    @property
+    @pulumi.getter
+    def default(self) -> Optional[pulumi.Input['ClusterNetworkingIngressArgs']]:
+        """
+        Configure the access to applications.
+        """
+        return pulumi.get(self, "default")
+
+    @default.setter
+    def default(self, value: Optional[pulumi.Input['ClusterNetworkingIngressArgs']]):
+        pulumi.set(self, "default", value)
+
+
+@pulumi.input_type
+class ClusterNodeGroupArgs:
     def __init__(__self__, *,
                  max_count: pulumi.Input[float],
                  max_unavailable: pulumi.Input[float],
@@ -521,7 +521,7 @@ class ClusterNodeGroupArgsArgs:
 
 
 @pulumi.input_type
-class ClusterOidcProvidersArgsArgs:
+class ClusterOidcProvidersArgs:
     def __init__(__self__, *,
                  enable_default_provider: pulumi.Input[bool]):
         """
@@ -543,7 +543,7 @@ class ClusterOidcProvidersArgsArgs:
 
 
 @pulumi.input_type
-class ClusterPrivateApiArgsArgs:
+class ClusterPrivateApiArgs:
     def __init__(__self__, *,
                  enabled: Optional[pulumi.Input[bool]] = None):
         """
@@ -566,7 +566,7 @@ class ClusterPrivateApiArgsArgs:
 
 
 @pulumi.input_type
-class ClusterPublicApiArgsArgs:
+class ClusterPublicApiArgs:
     def __init__(__self__, *,
                  enabled: Optional[pulumi.Input[bool]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
@@ -605,62 +605,7 @@ class ClusterPublicApiArgsArgs:
 
 
 @pulumi.input_type
-class FluentbitLoggingArgsArgs:
-    def __init__(__self__, *,
-                 applications: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None,
-                 dataplane: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None,
-                 host: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']] = None):
-        """
-        :param pulumi.Input['FluentbitLoggingItemArgsArgs'] applications: Configure applications logging.
-        :param pulumi.Input['FluentbitLoggingItemArgsArgs'] dataplane: Configure data plane logging.
-        :param pulumi.Input['FluentbitLoggingItemArgsArgs'] host: Configure host logging.
-        """
-        if applications is not None:
-            pulumi.set(__self__, "applications", applications)
-        if dataplane is not None:
-            pulumi.set(__self__, "dataplane", dataplane)
-        if host is not None:
-            pulumi.set(__self__, "host", host)
-
-    @property
-    @pulumi.getter
-    def applications(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]:
-        """
-        Configure applications logging.
-        """
-        return pulumi.get(self, "applications")
-
-    @applications.setter
-    def applications(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]):
-        pulumi.set(self, "applications", value)
-
-    @property
-    @pulumi.getter
-    def dataplane(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]:
-        """
-        Configure data plane logging.
-        """
-        return pulumi.get(self, "dataplane")
-
-    @dataplane.setter
-    def dataplane(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]):
-        pulumi.set(self, "dataplane", value)
-
-    @property
-    @pulumi.getter
-    def host(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]:
-        """
-        Configure host logging.
-        """
-        return pulumi.get(self, "host")
-
-    @host.setter
-    def host(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgsArgs']]):
-        pulumi.set(self, "host", value)
-
-
-@pulumi.input_type
-class FluentbitLoggingItemArgsArgs:
+class FluentbitLoggingItemArgs:
     def __init__(__self__, *,
                  enabled: pulumi.Input[bool],
                  data_retention: Optional[pulumi.Input[float]] = None):
@@ -698,7 +643,62 @@ class FluentbitLoggingItemArgsArgs:
 
 
 @pulumi.input_type
-class IamAuthenticatorRoleArgsArgs:
+class FluentbitLoggingArgs:
+    def __init__(__self__, *,
+                 applications: Optional[pulumi.Input['FluentbitLoggingItemArgs']] = None,
+                 dataplane: Optional[pulumi.Input['FluentbitLoggingItemArgs']] = None,
+                 host: Optional[pulumi.Input['FluentbitLoggingItemArgs']] = None):
+        """
+        :param pulumi.Input['FluentbitLoggingItemArgs'] applications: Configure applications logging.
+        :param pulumi.Input['FluentbitLoggingItemArgs'] dataplane: Configure data plane logging.
+        :param pulumi.Input['FluentbitLoggingItemArgs'] host: Configure host logging.
+        """
+        if applications is not None:
+            pulumi.set(__self__, "applications", applications)
+        if dataplane is not None:
+            pulumi.set(__self__, "dataplane", dataplane)
+        if host is not None:
+            pulumi.set(__self__, "host", host)
+
+    @property
+    @pulumi.getter
+    def applications(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgs']]:
+        """
+        Configure applications logging.
+        """
+        return pulumi.get(self, "applications")
+
+    @applications.setter
+    def applications(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgs']]):
+        pulumi.set(self, "applications", value)
+
+    @property
+    @pulumi.getter
+    def dataplane(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgs']]:
+        """
+        Configure data plane logging.
+        """
+        return pulumi.get(self, "dataplane")
+
+    @dataplane.setter
+    def dataplane(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgs']]):
+        pulumi.set(self, "dataplane", value)
+
+    @property
+    @pulumi.getter
+    def host(self) -> Optional[pulumi.Input['FluentbitLoggingItemArgs']]:
+        """
+        Configure host logging.
+        """
+        return pulumi.get(self, "host")
+
+    @host.setter
+    def host(self, value: Optional[pulumi.Input['FluentbitLoggingItemArgs']]):
+        pulumi.set(self, "host", value)
+
+
+@pulumi.input_type
+class IamAuthenticatorRoleArgs:
     def __init__(__self__, *,
                  rolearn: pulumi.Input[str],
                  username: pulumi.Input[str],
@@ -751,7 +751,7 @@ class IamAuthenticatorRoleArgsArgs:
 
 
 @pulumi.input_type
-class IamAuthenticatorUserArgsArgs:
+class IamAuthenticatorUserArgs:
     def __init__(__self__, *,
                  userarn: pulumi.Input[str],
                  username: pulumi.Input[str],
@@ -804,7 +804,7 @@ class IamAuthenticatorUserArgsArgs:
 
 
 @pulumi.input_type
-class IngressNginxTlsArgsArgs:
+class IngressNginxTlsArgs:
     def __init__(__self__, *,
                  domain: pulumi.Input[str],
                  zone_id: pulumi.Input[str],
@@ -857,7 +857,7 @@ class IngressNginxTlsArgsArgs:
 
 
 @pulumi.input_type
-class ProjectResourcesArgsArgs:
+class ProjectResourcesArgs:
     def __init__(__self__, *,
                  cpu: Optional[pulumi.Input[str]] = None,
                  limit_cpu: Optional[pulumi.Input[str]] = None,

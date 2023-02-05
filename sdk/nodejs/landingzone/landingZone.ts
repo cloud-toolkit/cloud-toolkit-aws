@@ -64,7 +64,7 @@ export class LandingZone extends pulumi.ComponentResource {
  * The set of arguments for constructing a LandingZone resource.
  */
 export interface LandingZoneArgs {
-    audit?: pulumi.Input<inputs.landingzone.LandingZoneAuditArgsArgs>;
-    iam?: pulumi.Input<inputs.landingzone.LandingZoneIamArgsArgs>;
-    organization?: pulumi.Input<inputs.landingzone.OrganizationArgsArgs>;
+    audit?: pulumi.Input<inputs.landingzone.LandingZoneAuditArgs>;
+    iam?: pulumi.Input<inputs.landingzone.LandingZoneIamArgs>;
+    organization?: pulumi.Input<inputs.landingzone.OrganizationArgs>;
 }

@@ -93,7 +93,7 @@ export interface IngressNginxArgs {
     /**
      * The domain associated to the IngressController.
      */
-    tls?: pulumi.Input<inputs.kubernetes.IngressNginxTlsArgsArgs>;
+    tls?: pulumi.Input<inputs.kubernetes.IngressNginxTlsArgs>;
     /**
      * The whitelist of CIDR to access to the Ingress Controller.
      */

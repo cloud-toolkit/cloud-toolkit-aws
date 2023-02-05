@@ -106,5 +106,5 @@ export interface FluentbitArgs {
     /**
      * Configure logging.
      */
-    logging?: pulumi.Input<inputs.kubernetes.FluentbitLoggingArgsArgs>;
+    logging?: pulumi.Input<inputs.kubernetes.FluentbitLoggingArgs>;
 }

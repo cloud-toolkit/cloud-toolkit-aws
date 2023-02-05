@@ -108,11 +108,11 @@ export interface MysqlArgs {
     /**
      * Backup configuration parameters for the database instance
      */
-    backup?: pulumi.Input<inputs.databases.MysqlBackupArgsArgs>;
+    backup?: pulumi.Input<inputs.databases.MysqlBackupArgs>;
     /**
      * Configuration parameters for the database instance
      */
-    database: pulumi.Input<inputs.databases.MysqlDatabaseArgsArgs>;
+    database: pulumi.Input<inputs.databases.MysqlDatabaseArgs>;
     /**
      * Instance type to run the database instance
      */
@@ -120,11 +120,11 @@ export interface MysqlArgs {
     /**
      * Network configuration parameters for the database instance
      */
-    networking?: pulumi.Input<inputs.databases.MysqlNetworkingArgsArgs>;
+    networking?: pulumi.Input<inputs.databases.MysqlNetworkingArgs>;
     /**
      * Storage configuration parameters for the database instance
      */
-    storage?: pulumi.Input<inputs.databases.MysqlStorageArgsArgs>;
+    storage?: pulumi.Input<inputs.databases.MysqlStorageArgs>;
     /**
      * Version for database instance
      */

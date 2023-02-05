@@ -19,20 +19,20 @@ class BucketArgs:
     def __init__(__self__, *,
                  bucket_name: Optional[pulumi.Input[str]] = None,
                  bucket_name_prefix: Optional[pulumi.Input[str]] = None,
-                 encryption: Optional[pulumi.Input['BucketEncryptionArgsArgs']] = None,
+                 encryption: Optional[pulumi.Input['BucketEncryptionArgs']] = None,
                  public: Optional[pulumi.Input[bool]] = None,
-                 replication: Optional[pulumi.Input['BucketReplicationArgsArgs']] = None,
-                 versioning: Optional[pulumi.Input['BucketVersioningStateArgs']] = None,
-                 website: Optional[pulumi.Input['BucketWebsiteArgsArgs']] = None):
+                 replication: Optional[pulumi.Input['BucketReplicationArgs']] = None,
+                 versioning: Optional[pulumi.Input['BucketVersioningState']] = None,
+                 website: Optional[pulumi.Input['BucketWebsiteArgs']] = None):
         """
         The set of arguments for constructing a Bucket resource.
         :param pulumi.Input[str] bucket_name: Configures bucket name in AWS.
         :param pulumi.Input[str] bucket_name_prefix: Configures a random bucket name in AWS but specifying a prefix name.
-        :param pulumi.Input['BucketEncryptionArgsArgs'] encryption: Configures encryption parameters for the bucket
+        :param pulumi.Input['BucketEncryptionArgs'] encryption: Configures encryption parameters for the bucket
         :param pulumi.Input[bool] public: Set to true to allow policies that may provide access to anyone.
-        :param pulumi.Input['BucketReplicationArgsArgs'] replication: Configures replication parameters for the bucket
-        :param pulumi.Input['BucketVersioningStateArgs'] versioning: Set a certain versioning mode for bucket objects
-        :param pulumi.Input['BucketWebsiteArgsArgs'] website: Configures a static webpage using bucket files
+        :param pulumi.Input['BucketReplicationArgs'] replication: Configures replication parameters for the bucket
+        :param pulumi.Input['BucketVersioningState'] versioning: Set a certain versioning mode for bucket objects
+        :param pulumi.Input['BucketWebsiteArgs'] website: Configures a static webpage using bucket files
         """
         if bucket_name is not None:
             pulumi.set(__self__, "bucket_name", bucket_name)
@@ -75,14 +75,14 @@ class BucketArgs:
 
     @property
     @pulumi.getter
-    def encryption(self) -> Optional[pulumi.Input['BucketEncryptionArgsArgs']]:
+    def encryption(self) -> Optional[pulumi.Input['BucketEncryptionArgs']]:
         """
         Configures encryption parameters for the bucket
         """
         return pulumi.get(self, "encryption")
 
     @encryption.setter
-    def encryption(self, value: Optional[pulumi.Input['BucketEncryptionArgsArgs']]):
+    def encryption(self, value: Optional[pulumi.Input['BucketEncryptionArgs']]):
         pulumi.set(self, "encryption", value)
 
     @property
@@ -99,38 +99,38 @@ class BucketArgs:
 
     @property
     @pulumi.getter
-    def replication(self) -> Optional[pulumi.Input['BucketReplicationArgsArgs']]:
+    def replication(self) -> Optional[pulumi.Input['BucketReplicationArgs']]:
         """
         Configures replication parameters for the bucket
         """
         return pulumi.get(self, "replication")
 
     @replication.setter
-    def replication(self, value: Optional[pulumi.Input['BucketReplicationArgsArgs']]):
+    def replication(self, value: Optional[pulumi.Input['BucketReplicationArgs']]):
         pulumi.set(self, "replication", value)
 
     @property
     @pulumi.getter
-    def versioning(self) -> Optional[pulumi.Input['BucketVersioningStateArgs']]:
+    def versioning(self) -> Optional[pulumi.Input['BucketVersioningState']]:
         """
         Set a certain versioning mode for bucket objects
         """
         return pulumi.get(self, "versioning")
 
     @versioning.setter
-    def versioning(self, value: Optional[pulumi.Input['BucketVersioningStateArgs']]):
+    def versioning(self, value: Optional[pulumi.Input['BucketVersioningState']]):
         pulumi.set(self, "versioning", value)
 
     @property
     @pulumi.getter
-    def website(self) -> Optional[pulumi.Input['BucketWebsiteArgsArgs']]:
+    def website(self) -> Optional[pulumi.Input['BucketWebsiteArgs']]:
         """
         Configures a static webpage using bucket files
         """
         return pulumi.get(self, "website")
 
     @website.setter
-    def website(self, value: Optional[pulumi.Input['BucketWebsiteArgsArgs']]):
+    def website(self, value: Optional[pulumi.Input['BucketWebsiteArgs']]):
         pulumi.set(self, "website", value)
 
 
@@ -141,11 +141,11 @@ class Bucket(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  bucket_name: Optional[pulumi.Input[str]] = None,
                  bucket_name_prefix: Optional[pulumi.Input[str]] = None,
-                 encryption: Optional[pulumi.Input[pulumi.InputType['BucketEncryptionArgsArgs']]] = None,
+                 encryption: Optional[pulumi.Input[pulumi.InputType['BucketEncryptionArgs']]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
-                 replication: Optional[pulumi.Input[pulumi.InputType['BucketReplicationArgsArgs']]] = None,
-                 versioning: Optional[pulumi.Input['BucketVersioningStateArgs']] = None,
-                 website: Optional[pulumi.Input[pulumi.InputType['BucketWebsiteArgsArgs']]] = None,
+                 replication: Optional[pulumi.Input[pulumi.InputType['BucketReplicationArgs']]] = None,
+                 versioning: Optional[pulumi.Input['BucketVersioningState']] = None,
+                 website: Optional[pulumi.Input[pulumi.InputType['BucketWebsiteArgs']]] = None,
                  __props__=None):
         """
         Cloud Toolkit component for Bcukets. Creates a Simple Bucket for object storage
@@ -154,11 +154,11 @@ class Bucket(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] bucket_name: Configures bucket name in AWS.
         :param pulumi.Input[str] bucket_name_prefix: Configures a random bucket name in AWS but specifying a prefix name.
-        :param pulumi.Input[pulumi.InputType['BucketEncryptionArgsArgs']] encryption: Configures encryption parameters for the bucket
+        :param pulumi.Input[pulumi.InputType['BucketEncryptionArgs']] encryption: Configures encryption parameters for the bucket
         :param pulumi.Input[bool] public: Set to true to allow policies that may provide access to anyone.
-        :param pulumi.Input[pulumi.InputType['BucketReplicationArgsArgs']] replication: Configures replication parameters for the bucket
-        :param pulumi.Input['BucketVersioningStateArgs'] versioning: Set a certain versioning mode for bucket objects
-        :param pulumi.Input[pulumi.InputType['BucketWebsiteArgsArgs']] website: Configures a static webpage using bucket files
+        :param pulumi.Input[pulumi.InputType['BucketReplicationArgs']] replication: Configures replication parameters for the bucket
+        :param pulumi.Input['BucketVersioningState'] versioning: Set a certain versioning mode for bucket objects
+        :param pulumi.Input[pulumi.InputType['BucketWebsiteArgs']] website: Configures a static webpage using bucket files
         """
         ...
     @overload
@@ -186,11 +186,11 @@ class Bucket(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  bucket_name: Optional[pulumi.Input[str]] = None,
                  bucket_name_prefix: Optional[pulumi.Input[str]] = None,
-                 encryption: Optional[pulumi.Input[pulumi.InputType['BucketEncryptionArgsArgs']]] = None,
+                 encryption: Optional[pulumi.Input[pulumi.InputType['BucketEncryptionArgs']]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
-                 replication: Optional[pulumi.Input[pulumi.InputType['BucketReplicationArgsArgs']]] = None,
-                 versioning: Optional[pulumi.Input['BucketVersioningStateArgs']] = None,
-                 website: Optional[pulumi.Input[pulumi.InputType['BucketWebsiteArgsArgs']]] = None,
+                 replication: Optional[pulumi.Input[pulumi.InputType['BucketReplicationArgs']]] = None,
+                 versioning: Optional[pulumi.Input['BucketVersioningState']] = None,
+                 website: Optional[pulumi.Input[pulumi.InputType['BucketWebsiteArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):

@@ -11,19 +11,19 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
-    'AuroraMysqlBackupArgsArgs',
-    'AuroraMysqlDatabaseArgsArgs',
-    'AuroraMysqlLoggingArgsArgs',
-    'AuroraMysqlMonitoringArgsArgs',
-    'AuroraMysqlNetworkingArgsArgs',
-    'MysqlBackupArgsArgs',
-    'MysqlDatabaseArgsArgs',
-    'MysqlNetworkingArgsArgs',
-    'MysqlStorageArgsArgs',
+    'AuroraMysqlBackupArgs',
+    'AuroraMysqlDatabaseArgs',
+    'AuroraMysqlLoggingArgs',
+    'AuroraMysqlMonitoringArgs',
+    'AuroraMysqlNetworkingArgs',
+    'MysqlBackupArgs',
+    'MysqlDatabaseArgs',
+    'MysqlNetworkingArgs',
+    'MysqlStorageArgs',
 ]
 
 @pulumi.input_type
-class AuroraMysqlBackupArgsArgs:
+class AuroraMysqlBackupArgs:
     def __init__(__self__, *,
                  preferred_window: Optional[pulumi.Input[str]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None):
@@ -62,14 +62,14 @@ class AuroraMysqlBackupArgsArgs:
 
 
 @pulumi.input_type
-class AuroraMysqlDatabaseArgsArgs:
+class AuroraMysqlDatabaseArgs:
     def __init__(__self__, *,
                  name: Optional[pulumi.Input[str]] = None,
                  password_length: Optional[pulumi.Input[float]] = None,
                  username: Optional[pulumi.Input[str]] = None):
         """
         :param pulumi.Input[str] name: The name of the database to create when the DB instance is created
-        :param pulumi.Input[float] password_length: Password length to login in the database instance
+        :param pulumi.Input[float] password_length: Password length to login in the database
         :param pulumi.Input[str] username: Username for database admin user
         """
         if name is not None:
@@ -95,7 +95,7 @@ class AuroraMysqlDatabaseArgsArgs:
     @pulumi.getter(name="passwordLength")
     def password_length(self) -> Optional[pulumi.Input[float]]:
         """
-        Password length to login in the database instance
+        Password length to login in the database
         """
         return pulumi.get(self, "password_length")
 
@@ -117,12 +117,18 @@ class AuroraMysqlDatabaseArgsArgs:
 
 
 @pulumi.input_type
-class AuroraMysqlLoggingArgsArgs:
+class AuroraMysqlLoggingArgs:
     def __init__(__self__, *,
                  audit: Optional[pulumi.Input[bool]] = None,
                  error: Optional[pulumi.Input[bool]] = None,
                  general: Optional[pulumi.Input[bool]] = None,
                  slowquery: Optional[pulumi.Input[bool]] = None):
+        """
+        :param pulumi.Input[bool] audit: Enable audit logging
+        :param pulumi.Input[bool] error: Enable error logging
+        :param pulumi.Input[bool] general: Enable general logging
+        :param pulumi.Input[bool] slowquery: Enable slowquery logging
+        """
         if audit is not None:
             pulumi.set(__self__, "audit", audit)
         if error is not None:
@@ -135,6 +141,9 @@ class AuroraMysqlLoggingArgsArgs:
     @property
     @pulumi.getter
     def audit(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable audit logging
+        """
         return pulumi.get(self, "audit")
 
     @audit.setter
@@ -144,6 +153,9 @@ class AuroraMysqlLoggingArgsArgs:
     @property
     @pulumi.getter
     def error(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable error logging
+        """
         return pulumi.get(self, "error")
 
     @error.setter
@@ -153,6 +165,9 @@ class AuroraMysqlLoggingArgsArgs:
     @property
     @pulumi.getter
     def general(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable general logging
+        """
         return pulumi.get(self, "general")
 
     @general.setter
@@ -162,6 +177,9 @@ class AuroraMysqlLoggingArgsArgs:
     @property
     @pulumi.getter
     def slowquery(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enable slowquery logging
+        """
         return pulumi.get(self, "slowquery")
 
     @slowquery.setter
@@ -170,7 +188,7 @@ class AuroraMysqlLoggingArgsArgs:
 
 
 @pulumi.input_type
-class AuroraMysqlMonitoringArgsArgs:
+class AuroraMysqlMonitoringArgs:
     def __init__(__self__, *,
                  emails: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  enabled: Optional[pulumi.Input[bool]] = None):
@@ -209,7 +227,7 @@ class AuroraMysqlMonitoringArgsArgs:
 
 
 @pulumi.input_type
-class AuroraMysqlNetworkingArgsArgs:
+class AuroraMysqlNetworkingArgs:
     def __init__(__self__, *,
                  allow_internet: Optional[pulumi.Input[bool]] = None,
                  allowed_cidr: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -217,9 +235,9 @@ class AuroraMysqlNetworkingArgsArgs:
                  vpc: Optional[pulumi.Input[str]] = None):
         """
         :param pulumi.Input[bool] allow_internet: Allow traffic from Internet
-        :param pulumi.Input[Sequence[pulumi.Input[str]]] allowed_cidr: Allowed CIDRs that connect to the database instance
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] allowed_cidr: Allowed CIDRs that connect to the cluster
         :param pulumi.Input[Sequence[pulumi.Input[str]]] subnet_ids: Subnets belonging to a Virtual Private Cloud where cluster must be deployed
-        :param pulumi.Input[str] vpc: Virtual Private Cloud where database instance must be deployed
+        :param pulumi.Input[str] vpc: Virtual Private Cloud where instances must be deployed
         """
         if allow_internet is not None:
             pulumi.set(__self__, "allow_internet", allow_internet)
@@ -246,7 +264,7 @@ class AuroraMysqlNetworkingArgsArgs:
     @pulumi.getter(name="allowedCidr")
     def allowed_cidr(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
         """
-        Allowed CIDRs that connect to the database instance
+        Allowed CIDRs that connect to the cluster
         """
         return pulumi.get(self, "allowed_cidr")
 
@@ -270,7 +288,7 @@ class AuroraMysqlNetworkingArgsArgs:
     @pulumi.getter
     def vpc(self) -> Optional[pulumi.Input[str]]:
         """
-        Virtual Private Cloud where database instance must be deployed
+        Virtual Private Cloud where instances must be deployed
         """
         return pulumi.get(self, "vpc")
 
@@ -280,7 +298,7 @@ class AuroraMysqlNetworkingArgsArgs:
 
 
 @pulumi.input_type
-class MysqlBackupArgsArgs:
+class MysqlBackupArgs:
     def __init__(__self__, *,
                  preferred_window: Optional[pulumi.Input[str]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None):
@@ -319,7 +337,7 @@ class MysqlBackupArgsArgs:
 
 
 @pulumi.input_type
-class MysqlDatabaseArgsArgs:
+class MysqlDatabaseArgs:
     def __init__(__self__, *,
                  name: pulumi.Input[str],
                  username: pulumi.Input[str],
@@ -372,7 +390,7 @@ class MysqlDatabaseArgsArgs:
 
 
 @pulumi.input_type
-class MysqlNetworkingArgsArgs:
+class MysqlNetworkingArgs:
     def __init__(__self__, *,
                  allowed_cidr: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -427,13 +445,13 @@ class MysqlNetworkingArgsArgs:
 
 
 @pulumi.input_type
-class MysqlStorageArgsArgs:
+class MysqlStorageArgs:
     def __init__(__self__, *,
                  size: Optional[pulumi.Input[float]] = None,
-                 type: Optional[pulumi.Input['MysqlStorageTypeArgs']] = None):
+                 type: Optional[pulumi.Input['MysqlStorageType']] = None):
         """
         :param pulumi.Input[float] size: Storage size allocated for database instance
-        :param pulumi.Input['MysqlStorageTypeArgs'] type: Storage type class for database instance
+        :param pulumi.Input['MysqlStorageType'] type: Storage type class for database instance
         """
         if size is not None:
             pulumi.set(__self__, "size", size)
@@ -454,14 +472,14 @@ class MysqlStorageArgsArgs:
 
     @property
     @pulumi.getter
-    def type(self) -> Optional[pulumi.Input['MysqlStorageTypeArgs']]:
+    def type(self) -> Optional[pulumi.Input['MysqlStorageType']]:
         """
         Storage type class for database instance
         """
         return pulumi.get(self, "type")
 
     @type.setter
-    def type(self, value: Optional[pulumi.Input['MysqlStorageTypeArgs']]):
+    def type(self, value: Optional[pulumi.Input['MysqlStorageType']]):
         pulumi.set(self, "type", value)
 
 

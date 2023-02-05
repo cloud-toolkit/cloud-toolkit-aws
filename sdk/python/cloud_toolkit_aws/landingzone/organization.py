@@ -12,24 +12,24 @@ from . import outputs
 from ._inputs import *
 import pulumi_aws
 
-__all__ = ['OrganizationArgs', 'Organization']
+__all__ = ['OrganizationInitArgs', 'Organization']
 
 @pulumi.input_type
-class OrganizationArgs:
+class OrganizationInitArgs:
     def __init__(__self__, *,
-                 accounts: Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgsArgs']]]] = None,
+                 accounts: Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgs']]]] = None,
                  enabled_policies: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  feature_set: Optional[pulumi.Input[str]] = None,
                  organization_id: Optional[pulumi.Input[str]] = None,
-                 policies: Optional[pulumi.Input['OrganizationPoliciesArgsArgs']] = None,
+                 policies: Optional[pulumi.Input['OrganizationPoliciesArgs']] = None,
                  services: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
         The set of arguments for constructing a Organization resource.
-        :param pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgsArgs']]] accounts: The list of AWS Account to be configured in the Organization.
+        :param pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgs']]] accounts: The list of AWS Account to be configured in the Organization.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] enabled_policies: The list of enabled Organizations Policies in the organization.
         :param pulumi.Input[str] feature_set: The FeatureSet in the Organization..
         :param pulumi.Input[str] organization_id: The organization ID to import the Organization in the stack. If not set a new AWS Organization will be created. Defaults to undefined.
-        :param pulumi.Input['OrganizationPoliciesArgsArgs'] policies: The Organization policies to be applied.
+        :param pulumi.Input['OrganizationPoliciesArgs'] policies: The Organization policies to be applied.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] services: The list of AWS Service Access Principals enabled in the organization.
         """
         if accounts is not None:
@@ -47,14 +47,14 @@ class OrganizationArgs:
 
     @property
     @pulumi.getter
-    def accounts(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgsArgs']]]]:
+    def accounts(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgs']]]]:
         """
         The list of AWS Account to be configured in the Organization.
         """
         return pulumi.get(self, "accounts")
 
     @accounts.setter
-    def accounts(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgsArgs']]]]):
+    def accounts(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['OrganizationAccountArgs']]]]):
         pulumi.set(self, "accounts", value)
 
     @property
@@ -95,14 +95,14 @@ class OrganizationArgs:
 
     @property
     @pulumi.getter
-    def policies(self) -> Optional[pulumi.Input['OrganizationPoliciesArgsArgs']]:
+    def policies(self) -> Optional[pulumi.Input['OrganizationPoliciesArgs']]:
         """
         The Organization policies to be applied.
         """
         return pulumi.get(self, "policies")
 
     @policies.setter
-    def policies(self, value: Optional[pulumi.Input['OrganizationPoliciesArgsArgs']]):
+    def policies(self, value: Optional[pulumi.Input['OrganizationPoliciesArgs']]):
         pulumi.set(self, "policies", value)
 
     @property
@@ -123,11 +123,11 @@ class Organization(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 accounts: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['OrganizationAccountArgsArgs']]]]] = None,
+                 accounts: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['OrganizationAccountArgs']]]]] = None,
                  enabled_policies: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  feature_set: Optional[pulumi.Input[str]] = None,
                  organization_id: Optional[pulumi.Input[str]] = None,
-                 policies: Optional[pulumi.Input[pulumi.InputType['OrganizationPoliciesArgsArgs']]] = None,
+                 policies: Optional[pulumi.Input[pulumi.InputType['OrganizationPoliciesArgs']]] = None,
                  services: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         """
@@ -135,29 +135,29 @@ class Organization(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['OrganizationAccountArgsArgs']]]] accounts: The list of AWS Account to be configured in the Organization.
+        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['OrganizationAccountArgs']]]] accounts: The list of AWS Account to be configured in the Organization.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] enabled_policies: The list of enabled Organizations Policies in the organization.
         :param pulumi.Input[str] feature_set: The FeatureSet in the Organization..
         :param pulumi.Input[str] organization_id: The organization ID to import the Organization in the stack. If not set a new AWS Organization will be created. Defaults to undefined.
-        :param pulumi.Input[pulumi.InputType['OrganizationPoliciesArgsArgs']] policies: The Organization policies to be applied.
+        :param pulumi.Input[pulumi.InputType['OrganizationPoliciesArgs']] policies: The Organization policies to be applied.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] services: The list of AWS Service Access Principals enabled in the organization.
         """
         ...
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: Optional[OrganizationArgs] = None,
+                 args: Optional[OrganizationInitArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Organization is the component that configure the AWS Orgazination, AWS Accounts and AWS Organization Policies.
 
         :param str resource_name: The name of the resource.
-        :param OrganizationArgs args: The arguments to use to populate this resource's properties.
+        :param OrganizationInitArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
         """
         ...
     def __init__(__self__, resource_name: str, *args, **kwargs):
-        resource_args, opts = _utilities.get_resource_args_opts(OrganizationArgs, pulumi.ResourceOptions, *args, **kwargs)
+        resource_args, opts = _utilities.get_resource_args_opts(OrganizationInitArgs, pulumi.ResourceOptions, *args, **kwargs)
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
@@ -166,11 +166,11 @@ class Organization(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 accounts: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['OrganizationAccountArgsArgs']]]]] = None,
+                 accounts: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['OrganizationAccountArgs']]]]] = None,
                  enabled_policies: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  feature_set: Optional[pulumi.Input[str]] = None,
                  organization_id: Optional[pulumi.Input[str]] = None,
-                 policies: Optional[pulumi.Input[pulumi.InputType['OrganizationPoliciesArgsArgs']]] = None,
+                 policies: Optional[pulumi.Input[pulumi.InputType['OrganizationPoliciesArgs']]] = None,
                  services: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
@@ -181,7 +181,7 @@ class Organization(pulumi.ComponentResource):
         else:
             if __props__ is not None:
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
-            __props__ = OrganizationArgs.__new__(OrganizationArgs)
+            __props__ = OrganizationInitArgs.__new__(OrganizationInitArgs)
 
             __props__.__dict__["accounts"] = accounts
             __props__.__dict__["enabled_policies"] = enabled_policies
@@ -219,7 +219,7 @@ class Organization(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def accounts(self) -> pulumi.Output[Sequence['outputs.AccountMappingArgs']]:
+    def accounts(self) -> pulumi.Output[Sequence['outputs.AccountMapping']]:
         """
         The list of Accounts.
         """

@@ -21,28 +21,28 @@ __all__ = ['ClusterArgs', 'Cluster']
 @pulumi.input_type
 class ClusterArgs:
     def __init__(__self__, *,
-                 addons: Optional[pulumi.Input['AddonsArgsArgs']] = None,
-                 api: Optional[pulumi.Input['ClusterApiArgsArgs']] = None,
-                 authentication: Optional[pulumi.Input['ClusterAuthenticationArgsArgs']] = None,
-                 logging: Optional[pulumi.Input['FluentbitLoggingArgsArgs']] = None,
-                 metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None,
-                 networking: Optional[pulumi.Input['ClusterNetworkingArgsArgs']] = None,
-                 node_groups: Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]]] = None,
-                 oidc_providers: Optional[pulumi.Input['ClusterOidcProvidersArgsArgs']] = None,
+                 addons: Optional[pulumi.Input['AddonsArgs']] = None,
+                 api: Optional[pulumi.Input['ClusterApiArgs']] = None,
+                 authentication: Optional[pulumi.Input['ClusterAuthenticationArgs']] = None,
+                 logging: Optional[pulumi.Input['FluentbitLoggingArgs']] = None,
+                 metrics: Optional[pulumi.Input['AdotApplicationMetricsArgs']] = None,
+                 networking: Optional[pulumi.Input['ClusterNetworkingArgs']] = None,
+                 node_groups: Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgs']]]] = None,
+                 oidc_providers: Optional[pulumi.Input['ClusterOidcProvidersArgs']] = None,
                  private_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  public_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  version: Optional[pulumi.Input[str]] = None,
                  vpc_id: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Cluster resource.
-        :param pulumi.Input['AddonsArgsArgs'] addons: The addons installed in the cluster.
-        :param pulumi.Input['ClusterApiArgsArgs'] api: Configure the Kubernetes cluster API.
-        :param pulumi.Input['ClusterAuthenticationArgsArgs'] authentication: Configure authentication integrated with AWS IAM.
-        :param pulumi.Input['FluentbitLoggingArgsArgs'] logging: Configure the cluster observability for logging.
-        :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure the cluster observability for metrics.
-        :param pulumi.Input['ClusterNetworkingArgsArgs'] networking: Configure the cluster networking.
-        :param pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]] node_groups: The NodeGroups to be assigned to this cluster.
-        :param pulumi.Input['ClusterOidcProvidersArgsArgs'] oidc_providers: The OIDC Providers configuration.
+        :param pulumi.Input['AddonsArgs'] addons: The addons installed in the cluster.
+        :param pulumi.Input['ClusterApiArgs'] api: Configure the Kubernetes cluster API.
+        :param pulumi.Input['ClusterAuthenticationArgs'] authentication: Configure authentication integrated with AWS IAM.
+        :param pulumi.Input['FluentbitLoggingArgs'] logging: Configure the cluster observability for logging.
+        :param pulumi.Input['AdotApplicationMetricsArgs'] metrics: Configure the cluster observability for metrics.
+        :param pulumi.Input['ClusterNetworkingArgs'] networking: Configure the cluster networking.
+        :param pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgs']]] node_groups: The NodeGroups to be assigned to this cluster.
+        :param pulumi.Input['ClusterOidcProvidersArgs'] oidc_providers: The OIDC Providers configuration.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_subnet_ids: The list of private subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] public_subnet_ids: The list of public subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
         :param pulumi.Input[str] version: Desired Kubernetes version for control plane. Defaults to '1.22'.
@@ -75,98 +75,98 @@ class ClusterArgs:
 
     @property
     @pulumi.getter
-    def addons(self) -> Optional[pulumi.Input['AddonsArgsArgs']]:
+    def addons(self) -> Optional[pulumi.Input['AddonsArgs']]:
         """
         The addons installed in the cluster.
         """
         return pulumi.get(self, "addons")
 
     @addons.setter
-    def addons(self, value: Optional[pulumi.Input['AddonsArgsArgs']]):
+    def addons(self, value: Optional[pulumi.Input['AddonsArgs']]):
         pulumi.set(self, "addons", value)
 
     @property
     @pulumi.getter
-    def api(self) -> Optional[pulumi.Input['ClusterApiArgsArgs']]:
+    def api(self) -> Optional[pulumi.Input['ClusterApiArgs']]:
         """
         Configure the Kubernetes cluster API.
         """
         return pulumi.get(self, "api")
 
     @api.setter
-    def api(self, value: Optional[pulumi.Input['ClusterApiArgsArgs']]):
+    def api(self, value: Optional[pulumi.Input['ClusterApiArgs']]):
         pulumi.set(self, "api", value)
 
     @property
     @pulumi.getter
-    def authentication(self) -> Optional[pulumi.Input['ClusterAuthenticationArgsArgs']]:
+    def authentication(self) -> Optional[pulumi.Input['ClusterAuthenticationArgs']]:
         """
         Configure authentication integrated with AWS IAM.
         """
         return pulumi.get(self, "authentication")
 
     @authentication.setter
-    def authentication(self, value: Optional[pulumi.Input['ClusterAuthenticationArgsArgs']]):
+    def authentication(self, value: Optional[pulumi.Input['ClusterAuthenticationArgs']]):
         pulumi.set(self, "authentication", value)
 
     @property
     @pulumi.getter
-    def logging(self) -> Optional[pulumi.Input['FluentbitLoggingArgsArgs']]:
+    def logging(self) -> Optional[pulumi.Input['FluentbitLoggingArgs']]:
         """
         Configure the cluster observability for logging.
         """
         return pulumi.get(self, "logging")
 
     @logging.setter
-    def logging(self, value: Optional[pulumi.Input['FluentbitLoggingArgsArgs']]):
+    def logging(self, value: Optional[pulumi.Input['FluentbitLoggingArgs']]):
         pulumi.set(self, "logging", value)
 
     @property
     @pulumi.getter
-    def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]:
+    def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgs']]:
         """
         Configure the cluster observability for metrics.
         """
         return pulumi.get(self, "metrics")
 
     @metrics.setter
-    def metrics(self, value: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]):
+    def metrics(self, value: Optional[pulumi.Input['AdotApplicationMetricsArgs']]):
         pulumi.set(self, "metrics", value)
 
     @property
     @pulumi.getter
-    def networking(self) -> Optional[pulumi.Input['ClusterNetworkingArgsArgs']]:
+    def networking(self) -> Optional[pulumi.Input['ClusterNetworkingArgs']]:
         """
         Configure the cluster networking.
         """
         return pulumi.get(self, "networking")
 
     @networking.setter
-    def networking(self, value: Optional[pulumi.Input['ClusterNetworkingArgsArgs']]):
+    def networking(self, value: Optional[pulumi.Input['ClusterNetworkingArgs']]):
         pulumi.set(self, "networking", value)
 
     @property
     @pulumi.getter(name="nodeGroups")
-    def node_groups(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]]]:
+    def node_groups(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgs']]]]:
         """
         The NodeGroups to be assigned to this cluster.
         """
         return pulumi.get(self, "node_groups")
 
     @node_groups.setter
-    def node_groups(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgsArgs']]]]):
+    def node_groups(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ClusterNodeGroupArgs']]]]):
         pulumi.set(self, "node_groups", value)
 
     @property
     @pulumi.getter(name="oidcProviders")
-    def oidc_providers(self) -> Optional[pulumi.Input['ClusterOidcProvidersArgsArgs']]:
+    def oidc_providers(self) -> Optional[pulumi.Input['ClusterOidcProvidersArgs']]:
         """
         The OIDC Providers configuration.
         """
         return pulumi.get(self, "oidc_providers")
 
     @oidc_providers.setter
-    def oidc_providers(self, value: Optional[pulumi.Input['ClusterOidcProvidersArgsArgs']]):
+    def oidc_providers(self, value: Optional[pulumi.Input['ClusterOidcProvidersArgs']]):
         pulumi.set(self, "oidc_providers", value)
 
     @property
@@ -223,14 +223,14 @@ class Cluster(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
-                 api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
-                 authentication: Optional[pulumi.Input[pulumi.InputType['ClusterAuthenticationArgsArgs']]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
-                 networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
-                 node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]]] = None,
-                 oidc_providers: Optional[pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']]] = None,
+                 addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgs']]] = None,
+                 api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgs']]] = None,
+                 authentication: Optional[pulumi.Input[pulumi.InputType['ClusterAuthenticationArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']]] = None,
+                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']]] = None,
+                 networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgs']]] = None,
+                 node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgs']]]]] = None,
+                 oidc_providers: Optional[pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgs']]] = None,
                  private_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  public_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  version: Optional[pulumi.Input[str]] = None,
@@ -241,14 +241,14 @@ class Cluster(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[pulumi.InputType['AddonsArgsArgs']] addons: The addons installed in the cluster.
-        :param pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']] api: Configure the Kubernetes cluster API.
-        :param pulumi.Input[pulumi.InputType['ClusterAuthenticationArgsArgs']] authentication: Configure authentication integrated with AWS IAM.
-        :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']] logging: Configure the cluster observability for logging.
-        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure the cluster observability for metrics.
-        :param pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']] networking: Configure the cluster networking.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]] node_groups: The NodeGroups to be assigned to this cluster.
-        :param pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']] oidc_providers: The OIDC Providers configuration.
+        :param pulumi.Input[pulumi.InputType['AddonsArgs']] addons: The addons installed in the cluster.
+        :param pulumi.Input[pulumi.InputType['ClusterApiArgs']] api: Configure the Kubernetes cluster API.
+        :param pulumi.Input[pulumi.InputType['ClusterAuthenticationArgs']] authentication: Configure authentication integrated with AWS IAM.
+        :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']] logging: Configure the cluster observability for logging.
+        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']] metrics: Configure the cluster observability for metrics.
+        :param pulumi.Input[pulumi.InputType['ClusterNetworkingArgs']] networking: Configure the cluster networking.
+        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgs']]]] node_groups: The NodeGroups to be assigned to this cluster.
+        :param pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgs']] oidc_providers: The OIDC Providers configuration.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_subnet_ids: The list of private subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] public_subnet_ids: The list of public subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
         :param pulumi.Input[str] version: Desired Kubernetes version for control plane. Defaults to '1.22'.
@@ -278,14 +278,14 @@ class Cluster(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgsArgs']]] = None,
-                 api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgsArgs']]] = None,
-                 authentication: Optional[pulumi.Input[pulumi.InputType['ClusterAuthenticationArgsArgs']]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
-                 networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgsArgs']]] = None,
-                 node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgsArgs']]]]] = None,
-                 oidc_providers: Optional[pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgsArgs']]] = None,
+                 addons: Optional[pulumi.Input[pulumi.InputType['AddonsArgs']]] = None,
+                 api: Optional[pulumi.Input[pulumi.InputType['ClusterApiArgs']]] = None,
+                 authentication: Optional[pulumi.Input[pulumi.InputType['ClusterAuthenticationArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']]] = None,
+                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']]] = None,
+                 networking: Optional[pulumi.Input[pulumi.InputType['ClusterNetworkingArgs']]] = None,
+                 node_groups: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ClusterNodeGroupArgs']]]]] = None,
+                 oidc_providers: Optional[pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgs']]] = None,
                  private_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  public_subnet_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  version: Optional[pulumi.Input[str]] = None,

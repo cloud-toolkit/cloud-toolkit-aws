@@ -184,7 +184,7 @@ export interface ClusterAddonsArgs {
     /**
      * The configuration for Ingress Controller.
      */
-    ingress?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressArgsArgs>;
+    ingress?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressArgs>;
     /**
      * The OIDC Identity Provider url.
      */
@@ -196,9 +196,9 @@ export interface ClusterAddonsArgs {
     /**
      * Configure the cluster observability for logging.
      */
-    logging?: pulumi.Input<inputs.kubernetes.FluentbitLoggingArgsArgs>;
+    logging?: pulumi.Input<inputs.kubernetes.FluentbitLoggingArgs>;
     /**
      * Configure the cluster observability for metrics.
      */
-    metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgsArgs>;
+    metrics?: pulumi.Input<inputs.kubernetes.AdotApplicationMetricsArgs>;
 }

@@ -10,7 +10,7 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface AccountIamArgsArgs {
+export interface AccountIamArgs {
     /**
      * The alias to be used for IAM.
      */
@@ -18,10 +18,10 @@ export interface AccountIamArgsArgs {
     /**
      * The IAM password policy configuration.
      */
-    passwordPolicy?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyArgsArgs>;
+    passwordPolicy?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyArgs>;
 }
 
-export interface AccountPasswordPolicyArgsArgs {
+export interface AccountPasswordPolicyArgs {
     /**
      * Enable the creation of IAM Password Policy. Defaults to 'true'.
      */
@@ -29,10 +29,10 @@ export interface AccountPasswordPolicyArgsArgs {
     /**
      * The rules to be applied to the IAM Password Policy
      */
-    rules?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyRulesArgsArgs>;
+    rules?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyRulesArgs>;
 }
 
-export interface AccountPasswordPolicyRulesArgsArgs {
+export interface AccountPasswordPolicyRulesArgs {
     /**
      * Whether to allow users to change their own password. Defaults to 'true'.
      */
@@ -71,7 +71,7 @@ export interface AccountPasswordPolicyRulesArgsArgs {
     requireUppercaseCharacters?: pulumi.Input<boolean>;
 }
 
-export interface AuditLoggingCloudWatchArgsArgs {
+export interface AuditLoggingCloudWatchArgs {
     /**
      * Enable storing audit logs in CloudWatch. Defaults to 'false'.
      */
@@ -82,16 +82,16 @@ export interface AuditLoggingCloudWatchArgsArgs {
     retentionDays?: pulumi.Input<number>;
 }
 
-export interface IamTrustedAccountRoleArgsArgs {
+export interface IamTrustedAccountRoleArgs {
     name: pulumi.Input<string>;
 }
 
-export interface IamTrustingAccountRoleArgsArgs {
+export interface IamTrustingAccountRoleArgs {
     name: pulumi.Input<string>;
     policyNames: pulumi.Input<pulumi.Input<string>[]>;
 }
 
-export interface LandingZoneAuditArgsArgs {
+export interface LandingZoneAuditArgs {
     /**
      * Select the Organization account to be used to store the audit logs.
      */
@@ -99,7 +99,7 @@ export interface LandingZoneAuditArgsArgs {
     /**
      * Store the audit logs in CloudWatch to enable easy searching.
      */
-    cloudwatch?: pulumi.Input<inputs.landingzone.LandingZoneAuditCloudWatchArgsArgs>;
+    cloudwatch?: pulumi.Input<inputs.landingzone.LandingZoneAuditCloudWatchArgs>;
     /**
      * Enable audit logging. Defaults to 'true'.
      */
@@ -110,7 +110,7 @@ export interface LandingZoneAuditArgsArgs {
     retentionDays?: pulumi.Input<number>;
 }
 
-export interface LandingZoneAuditCloudWatchArgsArgs {
+export interface LandingZoneAuditCloudWatchArgs {
     /**
      * Enable storing audit logs in CloudWatch. Defaults to 'false'.
      */
@@ -121,49 +121,21 @@ export interface LandingZoneAuditCloudWatchArgsArgs {
     retentionDays?: pulumi.Input<number>;
 }
 
-export interface LandingZoneIamArgsArgs {
+export interface LandingZoneIamArgs {
     accountName?: pulumi.Input<string>;
-    roles?: pulumi.Input<pulumi.Input<inputs.landingzone.LandingZoneIamRoleArgsArgs>[]>;
+    roles?: pulumi.Input<pulumi.Input<inputs.landingzone.LandingZoneIamRoleArgs>[]>;
 }
 
-export interface LandingZoneIamRoleArgsArgs {
+export interface LandingZoneIamRoleArgs {
     name: pulumi.Input<string>;
     policyNames: pulumi.Input<pulumi.Input<string>[]>;
 }
 
-export interface OrganizationAccountArgsArgs {
-    /**
-     * The AWS Account ID to be used to import the Account in the Organization. If not set, a new AWS Account will be created.
-     */
-    accountId?: pulumi.Input<string>;
-    /**
-     * Admin role for the IAM Account.
-     */
-    adminRoleName?: pulumi.Input<string>;
-    /**
-     * The email associated to the IAM Account.
-     */
-    email: pulumi.Input<string>;
-    /**
-     * The configuration for IAM.
-     */
-    iam: pulumi.Input<inputs.landingzone.AccountIamArgsArgs>;
-    /**
-     * The name of the IAM Account.
-     */
-    name: pulumi.Input<string>;
-    ou?: pulumi.Input<string>;
-    /**
-     * The parentId of the imported account.
-     */
-    parentId?: pulumi.Input<string>;
-}
-
-export interface OrganizationArgsArgs {
+export interface OrganizationArgs {
     /**
      * The list of AWS Account to be configured in the Organization.
      */
-    accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgsArgs>[]>;
+    accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgs>[]>;
     /**
      * The list of enabled Organizations Policies in the organization.
      */
@@ -179,21 +151,49 @@ export interface OrganizationArgsArgs {
     /**
      * The Organization policies to be applied.
      */
-    policies?: pulumi.Input<inputs.landingzone.OrganizationPoliciesArgsArgs>;
+    policies?: pulumi.Input<inputs.landingzone.OrganizationPoliciesArgs>;
     /**
      * The list of AWS Service Access Principals enabled in the organization.
      */
     services?: pulumi.Input<pulumi.Input<string>[]>;
 }
 
-export interface OrganizationPoliciesArgsArgs {
+export interface OrganizationAccountArgs {
+    /**
+     * The AWS Account ID to be used to import the Account in the Organization. If not set, a new AWS Account will be created.
+     */
+    accountId?: pulumi.Input<string>;
+    /**
+     * Admin role for the IAM Account.
+     */
+    adminRoleName?: pulumi.Input<string>;
+    /**
+     * The email associated to the IAM Account.
+     */
+    email: pulumi.Input<string>;
+    /**
+     * The configuration for IAM.
+     */
+    iam: pulumi.Input<inputs.landingzone.AccountIamArgs>;
+    /**
+     * The name of the IAM Account.
+     */
+    name: pulumi.Input<string>;
+    ou?: pulumi.Input<string>;
+    /**
+     * The parentId of the imported account.
+     */
+    parentId?: pulumi.Input<string>;
+}
+
+export interface OrganizationPoliciesArgs {
     /**
      * Deny IAM Account to leave the organization. Enabled by default.
      */
-    denyLeaveOrganization?: pulumi.Input<inputs.landingzone.OrganizationPolicyArgsArgs>;
+    denyLeaveOrganization?: pulumi.Input<inputs.landingzone.OrganizationPolicyArgs>;
 }
 
-export interface OrganizationPolicyArgsArgs {
+export interface OrganizationPolicyArgs {
     /**
      * Enable the policy/
      */

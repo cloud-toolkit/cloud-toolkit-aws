@@ -32,18 +32,18 @@ class ClusterAddonsArgs:
                  identity_providers_arn: pulumi.Input[Sequence[pulumi.Input[str]]],
                  issuer_url: pulumi.Input[str],
                  k8s_provider: pulumi.Input['pulumi_kubernetes.Provider'],
-                 ingress: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']] = None,
-                 logging: Optional[pulumi.Input['FluentbitLoggingArgsArgs']] = None,
-                 metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None):
+                 ingress: Optional[pulumi.Input['ClusterAddonsIngressArgs']] = None,
+                 logging: Optional[pulumi.Input['FluentbitLoggingArgs']] = None,
+                 metrics: Optional[pulumi.Input['AdotApplicationMetricsArgs']] = None):
         """
         The set of arguments for constructing a ClusterAddons resource.
         :param pulumi.Input[str] cluster_name: The EKS Cluster name.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn.
         :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
         :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
-        :param pulumi.Input['ClusterAddonsIngressArgsArgs'] ingress: The configuration for Ingress Controller.
-        :param pulumi.Input['FluentbitLoggingArgsArgs'] logging: Configure the cluster observability for logging.
-        :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure the cluster observability for metrics.
+        :param pulumi.Input['ClusterAddonsIngressArgs'] ingress: The configuration for Ingress Controller.
+        :param pulumi.Input['FluentbitLoggingArgs'] logging: Configure the cluster observability for logging.
+        :param pulumi.Input['AdotApplicationMetricsArgs'] metrics: Configure the cluster observability for metrics.
         """
         pulumi.set(__self__, "cluster_name", cluster_name)
         pulumi.set(__self__, "identity_providers_arn", identity_providers_arn)
@@ -106,38 +106,38 @@ class ClusterAddonsArgs:
 
     @property
     @pulumi.getter
-    def ingress(self) -> Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']]:
+    def ingress(self) -> Optional[pulumi.Input['ClusterAddonsIngressArgs']]:
         """
         The configuration for Ingress Controller.
         """
         return pulumi.get(self, "ingress")
 
     @ingress.setter
-    def ingress(self, value: Optional[pulumi.Input['ClusterAddonsIngressArgsArgs']]):
+    def ingress(self, value: Optional[pulumi.Input['ClusterAddonsIngressArgs']]):
         pulumi.set(self, "ingress", value)
 
     @property
     @pulumi.getter
-    def logging(self) -> Optional[pulumi.Input['FluentbitLoggingArgsArgs']]:
+    def logging(self) -> Optional[pulumi.Input['FluentbitLoggingArgs']]:
         """
         Configure the cluster observability for logging.
         """
         return pulumi.get(self, "logging")
 
     @logging.setter
-    def logging(self, value: Optional[pulumi.Input['FluentbitLoggingArgsArgs']]):
+    def logging(self, value: Optional[pulumi.Input['FluentbitLoggingArgs']]):
         pulumi.set(self, "logging", value)
 
     @property
     @pulumi.getter
-    def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]:
+    def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgs']]:
         """
         Configure the cluster observability for metrics.
         """
         return pulumi.get(self, "metrics")
 
     @metrics.setter
-    def metrics(self, value: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]):
+    def metrics(self, value: Optional[pulumi.Input['AdotApplicationMetricsArgs']]):
         pulumi.set(self, "metrics", value)
 
 
@@ -148,11 +148,11 @@ class ClusterAddons(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
                  identity_providers_arn: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']]] = None,
+                 ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgs']]] = None,
                  issuer_url: Optional[pulumi.Input[str]] = None,
                  k8s_provider: Optional[pulumi.Input['pulumi_kubernetes.Provider']] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']]] = None,
+                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']]] = None,
                  __props__=None):
         """
         ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -161,11 +161,11 @@ class ClusterAddons(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] cluster_name: The EKS Cluster name.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] identity_providers_arn: The OIDC Identity Provider arn.
-        :param pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']] ingress: The configuration for Ingress Controller.
+        :param pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgs']] ingress: The configuration for Ingress Controller.
         :param pulumi.Input[str] issuer_url: The OIDC Identity Provider url.
         :param pulumi.Input['pulumi_kubernetes.Provider'] k8s_provider: The Pulumi provider used for Kubernetes resources.
-        :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']] logging: Configure the cluster observability for logging.
-        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure the cluster observability for metrics.
+        :param pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']] logging: Configure the cluster observability for logging.
+        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']] metrics: Configure the cluster observability for metrics.
         """
         ...
     @overload
@@ -193,11 +193,11 @@ class ClusterAddons(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
                  identity_providers_arn: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgsArgs']]] = None,
+                 ingress: Optional[pulumi.Input[pulumi.InputType['ClusterAddonsIngressArgs']]] = None,
                  issuer_url: Optional[pulumi.Input[str]] = None,
                  k8s_provider: Optional[pulumi.Input['pulumi_kubernetes.Provider']] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgsArgs']]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['FluentbitLoggingArgs']]] = None,
+                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):

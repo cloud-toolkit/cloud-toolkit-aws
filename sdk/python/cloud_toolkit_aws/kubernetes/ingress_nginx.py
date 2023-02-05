@@ -20,14 +20,14 @@ class IngressNginxArgs:
                  class_name: pulumi.Input[str],
                  default: Optional[pulumi.Input[bool]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
-                 tls: Optional[pulumi.Input['IngressNginxTlsArgsArgs']] = None,
+                 tls: Optional[pulumi.Input['IngressNginxTlsArgs']] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
         The set of arguments for constructing a IngressNginx resource.
         :param pulumi.Input[str] class_name: The Ingress class name.
         :param pulumi.Input[bool] default: Set this IngressController with the defaul IngressClass.
         :param pulumi.Input[bool] public: Expose the IngressController with a public Load Balancer.
-        :param pulumi.Input['IngressNginxTlsArgsArgs'] tls: The domain associated to the IngressController.
+        :param pulumi.Input['IngressNginxTlsArgs'] tls: The domain associated to the IngressController.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: The whitelist of CIDR to access to the Ingress Controller.
         """
         pulumi.set(__self__, "class_name", class_name)
@@ -78,14 +78,14 @@ class IngressNginxArgs:
 
     @property
     @pulumi.getter
-    def tls(self) -> Optional[pulumi.Input['IngressNginxTlsArgsArgs']]:
+    def tls(self) -> Optional[pulumi.Input['IngressNginxTlsArgs']]:
         """
         The domain associated to the IngressController.
         """
         return pulumi.get(self, "tls")
 
     @tls.setter
-    def tls(self, value: Optional[pulumi.Input['IngressNginxTlsArgsArgs']]):
+    def tls(self, value: Optional[pulumi.Input['IngressNginxTlsArgs']]):
         pulumi.set(self, "tls", value)
 
     @property
@@ -109,7 +109,7 @@ class IngressNginx(pulumi.ComponentResource):
                  class_name: Optional[pulumi.Input[str]] = None,
                  default: Optional[pulumi.Input[bool]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
-                 tls: Optional[pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']]] = None,
+                 tls: Optional[pulumi.Input[pulumi.InputType['IngressNginxTlsArgs']]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         """
@@ -120,7 +120,7 @@ class IngressNginx(pulumi.ComponentResource):
         :param pulumi.Input[str] class_name: The Ingress class name.
         :param pulumi.Input[bool] default: Set this IngressController with the defaul IngressClass.
         :param pulumi.Input[bool] public: Expose the IngressController with a public Load Balancer.
-        :param pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']] tls: The domain associated to the IngressController.
+        :param pulumi.Input[pulumi.InputType['IngressNginxTlsArgs']] tls: The domain associated to the IngressController.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] whitelist: The whitelist of CIDR to access to the Ingress Controller.
         """
         ...
@@ -150,7 +150,7 @@ class IngressNginx(pulumi.ComponentResource):
                  class_name: Optional[pulumi.Input[str]] = None,
                  default: Optional[pulumi.Input[bool]] = None,
                  public: Optional[pulumi.Input[bool]] = None,
-                 tls: Optional[pulumi.Input[pulumi.InputType['IngressNginxTlsArgsArgs']]] = None,
+                 tls: Optional[pulumi.Input[pulumi.InputType['IngressNginxTlsArgs']]] = None,
                  whitelist: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)

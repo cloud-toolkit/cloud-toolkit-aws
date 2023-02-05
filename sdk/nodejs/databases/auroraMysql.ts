@@ -125,11 +125,11 @@ export interface AuroraMysqlArgs {
     /**
      * Backup configuration parameters for Aurora cluster
      */
-    backup?: pulumi.Input<inputs.databases.AuroraMysqlBackupArgsArgs>;
+    backup?: pulumi.Input<inputs.databases.AuroraMysqlBackupArgs>;
     /**
-     * Configuration parameters for the database instance
+     * Configuration parameters for the database
      */
-    database?: pulumi.Input<inputs.databases.AuroraMysqlDatabaseArgsArgs>;
+    database?: pulumi.Input<inputs.databases.AuroraMysqlDatabaseArgs>;
     /**
      * The instance type for the cluster
      */
@@ -141,17 +141,17 @@ export interface AuroraMysqlArgs {
     /**
      * Logging configuration parameters for Aurora cluster
      */
-    logging?: pulumi.Input<inputs.databases.AuroraMysqlLoggingArgsArgs>;
+    logging?: pulumi.Input<inputs.databases.AuroraMysqlLoggingArgs>;
     /**
      * Monitoring configuration parameters for Aurora cluster
      */
-    monitoring?: pulumi.Input<inputs.databases.AuroraMysqlMonitoringArgsArgs>;
+    monitoring?: pulumi.Input<inputs.databases.AuroraMysqlMonitoringArgs>;
     /**
      * Networking configuration parameters for Aurora cluster
      */
-    networking?: pulumi.Input<inputs.databases.AuroraMysqlNetworkingArgsArgs>;
+    networking?: pulumi.Input<inputs.databases.AuroraMysqlNetworkingArgs>;
     /**
-     * Version for database instance
+     * Version for database
      */
     version?: pulumi.Input<enums.databases.AuroraMysqlVersion>;
 }

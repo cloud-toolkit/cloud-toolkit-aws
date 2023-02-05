@@ -10,7 +10,7 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface AuroraMysqlBackupArgsArgs {
+export interface AuroraMysqlBackupArgs {
     /**
      * Time window in which backups should be taken
      */
@@ -21,13 +21,13 @@ export interface AuroraMysqlBackupArgsArgs {
     retentionDays?: pulumi.Input<number>;
 }
 
-export interface AuroraMysqlDatabaseArgsArgs {
+export interface AuroraMysqlDatabaseArgs {
     /**
      * The name of the database to create when the DB instance is created
      */
     name?: pulumi.Input<string>;
     /**
-     * Password length to login in the database instance
+     * Password length to login in the database
      */
     passwordLength?: pulumi.Input<number>;
     /**
@@ -36,14 +36,26 @@ export interface AuroraMysqlDatabaseArgsArgs {
     username?: pulumi.Input<string>;
 }
 
-export interface AuroraMysqlLoggingArgsArgs {
+export interface AuroraMysqlLoggingArgs {
+    /**
+     * Enable audit logging
+     */
     audit?: pulumi.Input<boolean>;
+    /**
+     * Enable error logging
+     */
     error?: pulumi.Input<boolean>;
+    /**
+     * Enable general logging
+     */
     general?: pulumi.Input<boolean>;
+    /**
+     * Enable slowquery logging
+     */
     slowquery?: pulumi.Input<boolean>;
 }
 
-export interface AuroraMysqlMonitoringArgsArgs {
+export interface AuroraMysqlMonitoringArgs {
     /**
      * Emails that will receive the alerts
      */
@@ -54,13 +66,13 @@ export interface AuroraMysqlMonitoringArgsArgs {
     enabled?: pulumi.Input<boolean>;
 }
 
-export interface AuroraMysqlNetworkingArgsArgs {
+export interface AuroraMysqlNetworkingArgs {
     /**
      * Allow traffic from Internet
      */
     allowInternet?: pulumi.Input<boolean>;
     /**
-     * Allowed CIDRs that connect to the database instance
+     * Allowed CIDRs that connect to the cluster
      */
     allowedCidr?: pulumi.Input<pulumi.Input<string>[]>;
     /**
@@ -68,12 +80,12 @@ export interface AuroraMysqlNetworkingArgsArgs {
      */
     subnetIds?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * Virtual Private Cloud where database instance must be deployed
+     * Virtual Private Cloud where instances must be deployed
      */
     vpc?: pulumi.Input<string>;
 }
 
-export interface MysqlBackupArgsArgs {
+export interface MysqlBackupArgs {
     /**
      * Time window in which backups should be taken
      */
@@ -84,7 +96,7 @@ export interface MysqlBackupArgsArgs {
     retentionDays?: pulumi.Input<number>;
 }
 
-export interface MysqlDatabaseArgsArgs {
+export interface MysqlDatabaseArgs {
     /**
      * The name of the database to create when the DB instance is created
      */
@@ -99,7 +111,7 @@ export interface MysqlDatabaseArgsArgs {
     username: pulumi.Input<string>;
 }
 
-export interface MysqlNetworkingArgsArgs {
+export interface MysqlNetworkingArgs {
     /**
      * Allowed CIDRs that connect to the database instance
      */
@@ -114,7 +126,7 @@ export interface MysqlNetworkingArgsArgs {
     vpc?: pulumi.Input<string>;
 }
 
-export interface MysqlStorageArgsArgs {
+export interface MysqlStorageArgs {
     /**
      * Storage size allocated for database instance
      */
@@ -122,5 +134,5 @@ export interface MysqlStorageArgsArgs {
     /**
      * Storage type class for database instance
      */
-    type?: pulumi.Input<enums.databases.MysqlStorageTypeArgs>;
+    type?: pulumi.Input<enums.databases.MysqlStorageType>;
 }

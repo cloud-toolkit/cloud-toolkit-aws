@@ -10,7 +10,7 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface AccountMappingArgs {
+export interface AccountMapping {
     account: pulumiAws.organizations.Account;
     accountName: string;
 }

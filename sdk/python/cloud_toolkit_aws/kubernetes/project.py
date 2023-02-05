@@ -21,7 +21,7 @@ class ProjectArgs:
                  namespace: pulumi.Input[str],
                  admin_user_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  edit_user_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 resources: Optional[pulumi.Input['ProjectResourcesArgsArgs']] = None,
+                 resources: Optional[pulumi.Input['ProjectResourcesArgs']] = None,
                  view_user_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
         """
         The set of arguments for constructing a Project resource.
@@ -30,7 +30,7 @@ class ProjectArgs:
         :param pulumi.Input[str] namespace: The Namespace name where the addon will be installed.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] admin_user_arns: The list of AWS IAM User arns that can access to this project with 'admin' role.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] edit_user_arns: The list of AWS IAM User arns that can access to this project with 'edit' role.
-        :param pulumi.Input['ProjectResourcesArgsArgs'] resources: The cluster resources to be assigned to the project.
+        :param pulumi.Input['ProjectResourcesArgs'] resources: The cluster resources to be assigned to the project.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] view_user_arns: The list of AWS IAM User arns that can access to this project with 'view' role.
         """
         pulumi.set(__self__, "kubeconfig", kubeconfig)
@@ -107,14 +107,14 @@ class ProjectArgs:
 
     @property
     @pulumi.getter
-    def resources(self) -> Optional[pulumi.Input['ProjectResourcesArgsArgs']]:
+    def resources(self) -> Optional[pulumi.Input['ProjectResourcesArgs']]:
         """
         The cluster resources to be assigned to the project.
         """
         return pulumi.get(self, "resources")
 
     @resources.setter
-    def resources(self, value: Optional[pulumi.Input['ProjectResourcesArgsArgs']]):
+    def resources(self, value: Optional[pulumi.Input['ProjectResourcesArgs']]):
         pulumi.set(self, "resources", value)
 
     @property
@@ -140,7 +140,7 @@ class Project(pulumi.ComponentResource):
                  kubeconfig: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  namespace: Optional[pulumi.Input[str]] = None,
-                 resources: Optional[pulumi.Input[pulumi.InputType['ProjectResourcesArgsArgs']]] = None,
+                 resources: Optional[pulumi.Input[pulumi.InputType['ProjectResourcesArgs']]] = None,
                  view_user_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         """
@@ -153,7 +153,7 @@ class Project(pulumi.ComponentResource):
         :param pulumi.Input[str] kubeconfig: The kubeconfig to access the kubernetes cluster.
         :param pulumi.Input[str] name: The Project name.
         :param pulumi.Input[str] namespace: The Namespace name where the addon will be installed.
-        :param pulumi.Input[pulumi.InputType['ProjectResourcesArgsArgs']] resources: The cluster resources to be assigned to the project.
+        :param pulumi.Input[pulumi.InputType['ProjectResourcesArgs']] resources: The cluster resources to be assigned to the project.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] view_user_arns: The list of AWS IAM User arns that can access to this project with 'view' role.
         """
         ...
@@ -185,7 +185,7 @@ class Project(pulumi.ComponentResource):
                  kubeconfig: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  namespace: Optional[pulumi.Input[str]] = None,
-                 resources: Optional[pulumi.Input[pulumi.InputType['ProjectResourcesArgsArgs']]] = None,
+                 resources: Optional[pulumi.Input[pulumi.InputType['ProjectResourcesArgs']]] = None,
                  view_user_arns: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)

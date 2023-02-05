@@ -10,21 +10,21 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface CdnCacheArgsArgs {
+export interface CdnCacheArgs {
     /**
      * Cloud Front distribution cache time to live
      */
     ttl: pulumi.Input<number>;
 }
 
-export interface CdnDnsArgsArgs {
+export interface CdnDnsArgs {
     /**
      * DNS time to live
      */
     ttl: pulumi.Input<number>;
 }
 
-export interface DeadLetterQueueTypeArgsArgs {
+export interface DeadLetterQueueTypeArgs {
     /**
      * Enables the feature.
      */
@@ -43,11 +43,11 @@ export interface DeadLetterQueueTypeArgsArgs {
     type: pulumi.Input<enums.serverless.DeadLetterQueueTypes>;
 }
 
-export interface QueueArgsArgs {
+export interface QueueArgs {
     /**
      * Dead Letter Queue attached to the component to create.
      */
-    DeadLetterQueueTypeArgs?: pulumi.Input<inputs.serverless.DeadLetterQueueTypeArgsArgs>;
+    DeadLetterQueueTypeArgs?: pulumi.Input<inputs.serverless.DeadLetterQueueTypeArgs>;
     /**
      * Set to true to create the Queue as FiFo. False for a Standard Queue.
      */
