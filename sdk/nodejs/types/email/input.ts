@@ -10,7 +10,7 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface AdditionalQueueArgsArgs {
+export interface AdditionalQueueArgs {
     /**
      * Amazon Resource Name for the Queue component.
      */
@@ -21,7 +21,7 @@ export interface AdditionalQueueArgsArgs {
     url: pulumi.Input<string>;
 }
 
-export interface NotificationTypeArgsArgs {
+export interface NotificationTypeArgs {
     /**
      * Enables the feature.
      */
@@ -34,18 +34,18 @@ export interface NotificationTypeArgsArgs {
      * Arguments to configure the Queues subscribed to the Notification Type Topic.
      * If left blank, a default standard, non-fifo, Queue and a Dead Letter Queue that is attached to the former will be created.
      */
-    queues?: pulumi.Input<inputs.email.NotificationTypeQueuesArgsArgs>;
+    queues?: pulumi.Input<inputs.email.NotificationTypeQueuesArgs>;
 }
 
-export interface NotificationTypeQueuesArgsArgs {
+export interface NotificationTypeQueuesArgs {
     /**
      * Arguments to include Queues built and implemented outside of the Email Sender Component. Useful when subscribing a single Queue to two or more Topics or when migrating existing ones.
      */
-    additionalQueues: pulumi.Input<pulumi.Input<inputs.email.AdditionalQueueArgsArgs>[]>;
+    additionalQueues: pulumi.Input<pulumi.Input<inputs.email.AdditionalQueueArgs>[]>;
     /**
      * Configuration for the Default Queues. If left blank, Queues created for this Notification Type will be standard, non-fifo, with a Dead Letter Queue attached to them.
      */
-    defaultQueuesConfig?: pulumi.Input<inputs.serverless.QueueArgsArgs>;
+    defaultQueuesConfig?: pulumi.Input<inputs.serverless.QueueArgs>;
     /**
      * Number of default Queues that will be created and attached to a Topic.
      */

@@ -12,19 +12,19 @@ from ._enums import *
 from ._inputs import *
 import pulumi_aws
 
-__all__ = ['QueueArgs', 'Queue']
+__all__ = ['QueueInitArgs', 'Queue']
 
 @pulumi.input_type
-class QueueArgs:
+class QueueInitArgs:
     def __init__(__self__, *,
-                 dead_letter_queue_type_args: Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']] = None,
+                 dead_letter_queue_type_args: Optional[pulumi.Input['DeadLetterQueueTypeArgs']] = None,
                  is_fifo: Optional[pulumi.Input[bool]] = None,
                  max_message_size: Optional[pulumi.Input[float]] = None,
                  message_retention_seconds: Optional[pulumi.Input[float]] = None,
                  policy: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Queue resource.
-        :param pulumi.Input['DeadLetterQueueTypeArgsArgs'] dead_letter_queue_type_args: Dead Letter Queue attached to the component to create.
+        :param pulumi.Input['DeadLetterQueueTypeArgs'] dead_letter_queue_type_args: Dead Letter Queue attached to the component to create.
         :param pulumi.Input[bool] is_fifo: Set to true to create the Queue as FiFo. False for a Standard Queue.
         :param pulumi.Input[float] max_message_size: The limit for a Queue message size in bytes. Minimum is 1 byte (1 character) and Maximum 262,144 bytes (256 KiB). By default a message can be 256 KiB large.
         :param pulumi.Input[float] message_retention_seconds: The amount of time that a message will be stored in the Queue without being deleted. Minimum is 60 seconds (1 minutes) and Maximum 1,209,600 (14 days) seconds. By default a message is retained 4 days.
@@ -43,14 +43,14 @@ class QueueArgs:
 
     @property
     @pulumi.getter(name="DeadLetterQueueTypeArgs")
-    def dead_letter_queue_type_args(self) -> Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']]:
+    def dead_letter_queue_type_args(self) -> Optional[pulumi.Input['DeadLetterQueueTypeArgs']]:
         """
         Dead Letter Queue attached to the component to create.
         """
         return pulumi.get(self, "dead_letter_queue_type_args")
 
     @dead_letter_queue_type_args.setter
-    def dead_letter_queue_type_args(self, value: Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']]):
+    def dead_letter_queue_type_args(self, value: Optional[pulumi.Input['DeadLetterQueueTypeArgs']]):
         pulumi.set(self, "dead_letter_queue_type_args", value)
 
     @property
@@ -107,7 +107,7 @@ class Queue(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 dead_letter_queue_type_args: Optional[pulumi.Input[pulumi.InputType['DeadLetterQueueTypeArgsArgs']]] = None,
+                 dead_letter_queue_type_args: Optional[pulumi.Input[pulumi.InputType['DeadLetterQueueTypeArgs']]] = None,
                  is_fifo: Optional[pulumi.Input[bool]] = None,
                  max_message_size: Optional[pulumi.Input[float]] = None,
                  message_retention_seconds: Optional[pulumi.Input[float]] = None,
@@ -118,7 +118,7 @@ class Queue(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[pulumi.InputType['DeadLetterQueueTypeArgsArgs']] dead_letter_queue_type_args: Dead Letter Queue attached to the component to create.
+        :param pulumi.Input[pulumi.InputType['DeadLetterQueueTypeArgs']] dead_letter_queue_type_args: Dead Letter Queue attached to the component to create.
         :param pulumi.Input[bool] is_fifo: Set to true to create the Queue as FiFo. False for a Standard Queue.
         :param pulumi.Input[float] max_message_size: The limit for a Queue message size in bytes. Minimum is 1 byte (1 character) and Maximum 262,144 bytes (256 KiB). By default a message can be 256 KiB large.
         :param pulumi.Input[float] message_retention_seconds: The amount of time that a message will be stored in the Queue without being deleted. Minimum is 60 seconds (1 minutes) and Maximum 1,209,600 (14 days) seconds. By default a message is retained 4 days.
@@ -128,18 +128,18 @@ class Queue(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: Optional[QueueArgs] = None,
+                 args: Optional[QueueInitArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Cloud Toolkit component for Queues. Creates a Simple Queue Service Queue alongside a Dead Letter Queue for faulty message deliveries.
 
         :param str resource_name: The name of the resource.
-        :param QueueArgs args: The arguments to use to populate this resource's properties.
+        :param QueueInitArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
         """
         ...
     def __init__(__self__, resource_name: str, *args, **kwargs):
-        resource_args, opts = _utilities.get_resource_args_opts(QueueArgs, pulumi.ResourceOptions, *args, **kwargs)
+        resource_args, opts = _utilities.get_resource_args_opts(QueueInitArgs, pulumi.ResourceOptions, *args, **kwargs)
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
@@ -148,7 +148,7 @@ class Queue(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 dead_letter_queue_type_args: Optional[pulumi.Input[pulumi.InputType['DeadLetterQueueTypeArgsArgs']]] = None,
+                 dead_letter_queue_type_args: Optional[pulumi.Input[pulumi.InputType['DeadLetterQueueTypeArgs']]] = None,
                  is_fifo: Optional[pulumi.Input[bool]] = None,
                  max_message_size: Optional[pulumi.Input[float]] = None,
                  message_retention_seconds: Optional[pulumi.Input[float]] = None,
@@ -162,7 +162,7 @@ class Queue(pulumi.ComponentResource):
         else:
             if __props__ is not None:
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
-            __props__ = QueueArgs.__new__(QueueArgs)
+            __props__ = QueueInitArgs.__new__(QueueInitArgs)
 
             __props__.__dict__["dead_letter_queue_type_args"] = dead_letter_queue_type_args
             __props__.__dict__["is_fifo"] = is_fifo

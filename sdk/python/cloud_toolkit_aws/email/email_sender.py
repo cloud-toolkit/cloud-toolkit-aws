@@ -21,10 +21,10 @@ __all__ = ['EmailSenderArgs', 'EmailSender']
 class EmailSenderArgs:
     def __init__(__self__, *,
                  identity: pulumi.Input[str],
-                 bounce: Optional[pulumi.Input['NotificationTypeArgsArgs']] = None,
-                 complaint: Optional[pulumi.Input['NotificationTypeArgsArgs']] = None,
+                 bounce: Optional[pulumi.Input['NotificationTypeArgs']] = None,
+                 complaint: Optional[pulumi.Input['NotificationTypeArgs']] = None,
                  configure_dns: Optional[pulumi.Input[bool]] = None,
-                 delivery: Optional[pulumi.Input['NotificationTypeArgsArgs']] = None):
+                 delivery: Optional[pulumi.Input['NotificationTypeArgs']] = None):
         """
         The set of arguments for constructing a EmailSender resource.
         :param pulumi.Input[str] identity: Address of the Domain or Email used to send the emails through Email Sender.
@@ -32,11 +32,11 @@ class EmailSenderArgs:
                Else, if a Domain address is configured, Email Sender will create a Simple Email Service Domain Identity. 
                By default, it will attempt to verify the Domain by looking the Route 53 Domain Registry in the AWS account that is applying the infrastructure changes.
                If the Domain is registered elsewhere, verification needs to be manual.
-        :param pulumi.Input['NotificationTypeArgsArgs'] bounce: Arguments to manage incoming Bounce notifications.
-        :param pulumi.Input['NotificationTypeArgsArgs'] complaint: Arguments to manage incoming Complaint notifications.
+        :param pulumi.Input['NotificationTypeArgs'] bounce: Arguments to manage incoming Bounce notifications.
+        :param pulumi.Input['NotificationTypeArgs'] complaint: Arguments to manage incoming Complaint notifications.
         :param pulumi.Input[bool] configure_dns: In the case of a Domain Identity, enables automatic verification by creating DKIM DNS Records in the domain registration on Route 53.
                If the domain is not registered in the Route 53 on the same AWS account that is applying the infrastructure changes, the process will fail unless this flag is set to False.
-        :param pulumi.Input['NotificationTypeArgsArgs'] delivery: Arguments to manage incoming Delivery notifications.
+        :param pulumi.Input['NotificationTypeArgs'] delivery: Arguments to manage incoming Delivery notifications.
         """
         pulumi.set(__self__, "identity", identity)
         if bounce is not None:
@@ -66,26 +66,26 @@ class EmailSenderArgs:
 
     @property
     @pulumi.getter
-    def bounce(self) -> Optional[pulumi.Input['NotificationTypeArgsArgs']]:
+    def bounce(self) -> Optional[pulumi.Input['NotificationTypeArgs']]:
         """
         Arguments to manage incoming Bounce notifications.
         """
         return pulumi.get(self, "bounce")
 
     @bounce.setter
-    def bounce(self, value: Optional[pulumi.Input['NotificationTypeArgsArgs']]):
+    def bounce(self, value: Optional[pulumi.Input['NotificationTypeArgs']]):
         pulumi.set(self, "bounce", value)
 
     @property
     @pulumi.getter
-    def complaint(self) -> Optional[pulumi.Input['NotificationTypeArgsArgs']]:
+    def complaint(self) -> Optional[pulumi.Input['NotificationTypeArgs']]:
         """
         Arguments to manage incoming Complaint notifications.
         """
         return pulumi.get(self, "complaint")
 
     @complaint.setter
-    def complaint(self, value: Optional[pulumi.Input['NotificationTypeArgsArgs']]):
+    def complaint(self, value: Optional[pulumi.Input['NotificationTypeArgs']]):
         pulumi.set(self, "complaint", value)
 
     @property
@@ -103,14 +103,14 @@ class EmailSenderArgs:
 
     @property
     @pulumi.getter
-    def delivery(self) -> Optional[pulumi.Input['NotificationTypeArgsArgs']]:
+    def delivery(self) -> Optional[pulumi.Input['NotificationTypeArgs']]:
         """
         Arguments to manage incoming Delivery notifications.
         """
         return pulumi.get(self, "delivery")
 
     @delivery.setter
-    def delivery(self, value: Optional[pulumi.Input['NotificationTypeArgsArgs']]):
+    def delivery(self, value: Optional[pulumi.Input['NotificationTypeArgs']]):
         pulumi.set(self, "delivery", value)
 
 
@@ -119,10 +119,10 @@ class EmailSender(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 bounce: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']]] = None,
-                 complaint: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']]] = None,
+                 bounce: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgs']]] = None,
+                 complaint: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgs']]] = None,
                  configure_dns: Optional[pulumi.Input[bool]] = None,
-                 delivery: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']]] = None,
+                 delivery: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgs']]] = None,
                  identity: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
@@ -131,11 +131,11 @@ class EmailSender(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']] bounce: Arguments to manage incoming Bounce notifications.
-        :param pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']] complaint: Arguments to manage incoming Complaint notifications.
+        :param pulumi.Input[pulumi.InputType['NotificationTypeArgs']] bounce: Arguments to manage incoming Bounce notifications.
+        :param pulumi.Input[pulumi.InputType['NotificationTypeArgs']] complaint: Arguments to manage incoming Complaint notifications.
         :param pulumi.Input[bool] configure_dns: In the case of a Domain Identity, enables automatic verification by creating DKIM DNS Records in the domain registration on Route 53.
                If the domain is not registered in the Route 53 on the same AWS account that is applying the infrastructure changes, the process will fail unless this flag is set to False.
-        :param pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']] delivery: Arguments to manage incoming Delivery notifications.
+        :param pulumi.Input[pulumi.InputType['NotificationTypeArgs']] delivery: Arguments to manage incoming Delivery notifications.
         :param pulumi.Input[str] identity: Address of the Domain or Email used to send the emails through Email Sender.
                If an Email address is provided, Email Sender will set a Simple Email Service Email Identity. Verification will need to be manual.
                Else, if a Domain address is configured, Email Sender will create a Simple Email Service Domain Identity. 
@@ -167,10 +167,10 @@ class EmailSender(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 bounce: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']]] = None,
-                 complaint: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']]] = None,
+                 bounce: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgs']]] = None,
+                 complaint: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgs']]] = None,
                  configure_dns: Optional[pulumi.Input[bool]] = None,
-                 delivery: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgsArgs']]] = None,
+                 delivery: Optional[pulumi.Input[pulumi.InputType['NotificationTypeArgs']]] = None,
                  identity: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
@@ -235,7 +235,7 @@ class EmailSender(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="bounceAdditionalQueues")
-    def bounce_additional_queues(self) -> pulumi.Output[Sequence['outputs.AdditionalQueueArgs']]:
+    def bounce_additional_queues(self) -> pulumi.Output[Sequence['outputs.AdditionalQueue']]:
         """
         Additional SQS Queues subscribed to the SNS Topic that receives bounced emails. These Queues were created outside the Email Sender component.
         """
@@ -283,7 +283,7 @@ class EmailSender(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="complaintAdditionalQueues")
-    def complaint_additional_queues(self) -> pulumi.Output[Sequence['outputs.AdditionalQueueArgs']]:
+    def complaint_additional_queues(self) -> pulumi.Output[Sequence['outputs.AdditionalQueue']]:
         """
         Additional SQS Queues subscribed to the SNS Topic that receives complained emails. These Queues were created outside the Email Sender component.
         """
@@ -331,7 +331,7 @@ class EmailSender(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="deliveryAdditionalQueues")
-    def delivery_additional_queues(self) -> pulumi.Output[Sequence['outputs.AdditionalQueueArgs']]:
+    def delivery_additional_queues(self) -> pulumi.Output[Sequence['outputs.AdditionalQueue']]:
         """
         Additional SQS Queues subscribed to the SNS Topic that receives delivered emails. These Queues were created outside the Email Sender component.
         """
@@ -379,7 +379,7 @@ class EmailSender(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="dnsDkimRecords")
-    def dns_dkim_records(self) -> pulumi.Output[Sequence['outputs.DnsDkimRecordArgs']]:
+    def dns_dkim_records(self) -> pulumi.Output[Sequence['outputs.DnsDkimRecord']]:
         """
         DNS DKIM Records. Only applies for Domain Identities.
         """

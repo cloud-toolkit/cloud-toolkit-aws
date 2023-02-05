@@ -18,17 +18,17 @@ __all__ = ['StaticWebArgs', 'StaticWeb']
 @pulumi.input_type
 class StaticWebArgs:
     def __init__(__self__, *,
-                 cache: Optional[pulumi.Input['CdnCacheArgsArgs']] = None,
+                 cache: Optional[pulumi.Input['CdnCacheArgs']] = None,
                  configure_dns: Optional[pulumi.Input[bool]] = None,
-                 dns: Optional[pulumi.Input['CdnDnsArgsArgs']] = None,
+                 dns: Optional[pulumi.Input['CdnDnsArgs']] = None,
                  domain: Optional[pulumi.Input[str]] = None,
                  include_www: Optional[pulumi.Input[bool]] = None,
                  price_class: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a StaticWeb resource.
-        :param pulumi.Input['CdnCacheArgsArgs'] cache: Cloud Front distribution cache
+        :param pulumi.Input['CdnCacheArgs'] cache: Cloud Front distribution cache
         :param pulumi.Input[bool] configure_dns: Set to true to configure DNS
-        :param pulumi.Input['CdnDnsArgsArgs'] dns: DNS configuration
+        :param pulumi.Input['CdnDnsArgs'] dns: DNS configuration
         :param pulumi.Input[str] domain: Set to true to add an alias to wwww.<domain>
         :param pulumi.Input[bool] include_www: Set to true to add an alias to wwww.<domain>
         :param pulumi.Input[str] price_class: Cloud Front distribution priceClass
@@ -48,14 +48,14 @@ class StaticWebArgs:
 
     @property
     @pulumi.getter
-    def cache(self) -> Optional[pulumi.Input['CdnCacheArgsArgs']]:
+    def cache(self) -> Optional[pulumi.Input['CdnCacheArgs']]:
         """
         Cloud Front distribution cache
         """
         return pulumi.get(self, "cache")
 
     @cache.setter
-    def cache(self, value: Optional[pulumi.Input['CdnCacheArgsArgs']]):
+    def cache(self, value: Optional[pulumi.Input['CdnCacheArgs']]):
         pulumi.set(self, "cache", value)
 
     @property
@@ -72,14 +72,14 @@ class StaticWebArgs:
 
     @property
     @pulumi.getter
-    def dns(self) -> Optional[pulumi.Input['CdnDnsArgsArgs']]:
+    def dns(self) -> Optional[pulumi.Input['CdnDnsArgs']]:
         """
         DNS configuration
         """
         return pulumi.get(self, "dns")
 
     @dns.setter
-    def dns(self, value: Optional[pulumi.Input['CdnDnsArgsArgs']]):
+    def dns(self, value: Optional[pulumi.Input['CdnDnsArgs']]):
         pulumi.set(self, "dns", value)
 
     @property
@@ -124,9 +124,9 @@ class StaticWeb(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 cache: Optional[pulumi.Input[pulumi.InputType['CdnCacheArgsArgs']]] = None,
+                 cache: Optional[pulumi.Input[pulumi.InputType['CdnCacheArgs']]] = None,
                  configure_dns: Optional[pulumi.Input[bool]] = None,
-                 dns: Optional[pulumi.Input[pulumi.InputType['CdnDnsArgsArgs']]] = None,
+                 dns: Optional[pulumi.Input[pulumi.InputType['CdnDnsArgs']]] = None,
                  domain: Optional[pulumi.Input[str]] = None,
                  include_www: Optional[pulumi.Input[bool]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
@@ -135,9 +135,9 @@ class StaticWeb(pulumi.ComponentResource):
         Create a StaticWeb resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[pulumi.InputType['CdnCacheArgsArgs']] cache: Cloud Front distribution cache
+        :param pulumi.Input[pulumi.InputType['CdnCacheArgs']] cache: Cloud Front distribution cache
         :param pulumi.Input[bool] configure_dns: Set to true to configure DNS
-        :param pulumi.Input[pulumi.InputType['CdnDnsArgsArgs']] dns: DNS configuration
+        :param pulumi.Input[pulumi.InputType['CdnDnsArgs']] dns: DNS configuration
         :param pulumi.Input[str] domain: Set to true to add an alias to wwww.<domain>
         :param pulumi.Input[bool] include_www: Set to true to add an alias to wwww.<domain>
         :param pulumi.Input[str] price_class: Cloud Front distribution priceClass
@@ -165,9 +165,9 @@ class StaticWeb(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 cache: Optional[pulumi.Input[pulumi.InputType['CdnCacheArgsArgs']]] = None,
+                 cache: Optional[pulumi.Input[pulumi.InputType['CdnCacheArgs']]] = None,
                  configure_dns: Optional[pulumi.Input[bool]] = None,
-                 dns: Optional[pulumi.Input[pulumi.InputType['CdnDnsArgsArgs']]] = None,
+                 dns: Optional[pulumi.Input[pulumi.InputType['CdnDnsArgs']]] = None,
                  domain: Optional[pulumi.Input[str]] = None,
                  include_www: Optional[pulumi.Input[bool]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
@@ -209,7 +209,7 @@ class StaticWeb(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="DNSRecords")
-    def dns_records(self) -> pulumi.Output[Optional['outputs.DNSRecordsArgs']]:
+    def dns_records(self) -> pulumi.Output[Optional['outputs.DNSRecords']]:
         """
         DNS Records to expose staticweb
         """
@@ -217,7 +217,7 @@ class StaticWeb(pulumi.ComponentResource):
 
     @property
     @pulumi.getter(name="DNSRecordsForValidation")
-    def dns_records_for_validation(self) -> pulumi.Output[Optional['outputs.DNSRecordsArgs']]:
+    def dns_records_for_validation(self) -> pulumi.Output[Optional['outputs.DNSRecords']]:
         """
         DNS Records to validate the certificate
         """

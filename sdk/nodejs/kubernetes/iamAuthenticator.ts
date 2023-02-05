@@ -137,13 +137,13 @@ export interface IamAuthenticatorArgs {
     /**
      * The list of AWS IAM Roles for NodeGroups to generate the aws-auth ConfigMap.
      */
-    nodeGroupRoles?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorRoleArgsArgs>[]>;
+    nodeGroupRoles?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorRoleArgs>[]>;
     /**
      * The list of AWS IAM Roles to generate the aws-auth ConfigMap.
      */
-    roles?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorRoleArgsArgs>[]>;
+    roles?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorRoleArgs>[]>;
     /**
      * The list of AWS IAM Users to generate the aws-auth ConfigMap.
      */
-    users?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorUserArgsArgs>[]>;
+    users?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorUserArgs>[]>;
 }

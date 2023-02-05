@@ -139,7 +139,7 @@ export interface BucketArgs {
     /**
      * Configures encryption parameters for the bucket
      */
-    encryption?: pulumi.Input<inputs.storage.BucketEncryptionArgsArgs>;
+    encryption?: pulumi.Input<inputs.storage.BucketEncryptionArgs>;
     /**
      * Set to true to allow policies that may provide access to anyone.
      */
@@ -147,13 +147,13 @@ export interface BucketArgs {
     /**
      * Configures replication parameters for the bucket
      */
-    replication?: pulumi.Input<inputs.storage.BucketReplicationArgsArgs>;
+    replication?: pulumi.Input<inputs.storage.BucketReplicationArgs>;
     /**
      * Set a certain versioning mode for bucket objects
      */
-    versioning?: pulumi.Input<enums.storage.BucketVersioningStateArgs>;
+    versioning?: pulumi.Input<enums.storage.BucketVersioningState>;
     /**
      * Configures a static webpage using bucket files
      */
-    website?: pulumi.Input<inputs.storage.BucketWebsiteArgsArgs>;
+    website?: pulumi.Input<inputs.storage.BucketWebsiteArgs>;
 }

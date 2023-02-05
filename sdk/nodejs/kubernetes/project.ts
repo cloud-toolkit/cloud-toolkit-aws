@@ -136,7 +136,7 @@ export interface ProjectArgs {
     /**
      * The cluster resources to be assigned to the project.
      */
-    resources?: pulumi.Input<inputs.kubernetes.ProjectResourcesArgsArgs>;
+    resources?: pulumi.Input<inputs.kubernetes.ProjectResourcesArgs>;
     /**
      * The list of AWS IAM User arns that can access to this project with 'view' role.
      */

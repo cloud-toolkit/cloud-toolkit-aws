@@ -12,11 +12,11 @@ from ._enums import *
 import pulumi_aws
 
 __all__ = [
-    'DNSRecordsArgs',
+    'DNSRecords',
 ]
 
 @pulumi.output_type
-class DNSRecordsArgs(dict):
+class DNSRecords(dict):
     @staticmethod
     def __key_warning(key: str):
         suggest = None
@@ -26,14 +26,14 @@ class DNSRecordsArgs(dict):
             suggest = "www_domain_record"
 
         if suggest:
-            pulumi.log.warn(f"Key '{key}' not found in DNSRecordsArgs. Access the value via the '{suggest}' property getter instead.")
+            pulumi.log.warn(f"Key '{key}' not found in DNSRecords. Access the value via the '{suggest}' property getter instead.")
 
     def __getitem__(self, key: str) -> Any:
-        DNSRecordsArgs.__key_warning(key)
+        DNSRecords.__key_warning(key)
         return super().__getitem__(key)
 
     def get(self, key: str, default = None) -> Any:
-        DNSRecordsArgs.__key_warning(key)
+        DNSRecords.__key_warning(key)
         return super().get(key, default)
 
     def __init__(__self__, *,

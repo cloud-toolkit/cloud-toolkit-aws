@@ -18,20 +18,20 @@ __all__ = ['MysqlArgs', 'Mysql']
 @pulumi.input_type
 class MysqlArgs:
     def __init__(__self__, *,
-                 database: pulumi.Input['MysqlDatabaseArgsArgs'],
+                 database: pulumi.Input['MysqlDatabaseArgs'],
                  version: pulumi.Input['MysqlVersion'],
-                 backup: Optional[pulumi.Input['MysqlBackupArgsArgs']] = None,
+                 backup: Optional[pulumi.Input['MysqlBackupArgs']] = None,
                  instance: Optional[pulumi.Input[str]] = None,
-                 networking: Optional[pulumi.Input['MysqlNetworkingArgsArgs']] = None,
-                 storage: Optional[pulumi.Input['MysqlStorageArgsArgs']] = None):
+                 networking: Optional[pulumi.Input['MysqlNetworkingArgs']] = None,
+                 storage: Optional[pulumi.Input['MysqlStorageArgs']] = None):
         """
         The set of arguments for constructing a Mysql resource.
-        :param pulumi.Input['MysqlDatabaseArgsArgs'] database: Configuration parameters for the database instance
+        :param pulumi.Input['MysqlDatabaseArgs'] database: Configuration parameters for the database instance
         :param pulumi.Input['MysqlVersion'] version: Version for database instance
-        :param pulumi.Input['MysqlBackupArgsArgs'] backup: Backup configuration parameters for the database instance
+        :param pulumi.Input['MysqlBackupArgs'] backup: Backup configuration parameters for the database instance
         :param pulumi.Input[str] instance: Instance type to run the database instance
-        :param pulumi.Input['MysqlNetworkingArgsArgs'] networking: Network configuration parameters for the database instance
-        :param pulumi.Input['MysqlStorageArgsArgs'] storage: Storage configuration parameters for the database instance
+        :param pulumi.Input['MysqlNetworkingArgs'] networking: Network configuration parameters for the database instance
+        :param pulumi.Input['MysqlStorageArgs'] storage: Storage configuration parameters for the database instance
         """
         pulumi.set(__self__, "database", database)
         pulumi.set(__self__, "version", version)
@@ -46,14 +46,14 @@ class MysqlArgs:
 
     @property
     @pulumi.getter
-    def database(self) -> pulumi.Input['MysqlDatabaseArgsArgs']:
+    def database(self) -> pulumi.Input['MysqlDatabaseArgs']:
         """
         Configuration parameters for the database instance
         """
         return pulumi.get(self, "database")
 
     @database.setter
-    def database(self, value: pulumi.Input['MysqlDatabaseArgsArgs']):
+    def database(self, value: pulumi.Input['MysqlDatabaseArgs']):
         pulumi.set(self, "database", value)
 
     @property
@@ -70,14 +70,14 @@ class MysqlArgs:
 
     @property
     @pulumi.getter
-    def backup(self) -> Optional[pulumi.Input['MysqlBackupArgsArgs']]:
+    def backup(self) -> Optional[pulumi.Input['MysqlBackupArgs']]:
         """
         Backup configuration parameters for the database instance
         """
         return pulumi.get(self, "backup")
 
     @backup.setter
-    def backup(self, value: Optional[pulumi.Input['MysqlBackupArgsArgs']]):
+    def backup(self, value: Optional[pulumi.Input['MysqlBackupArgs']]):
         pulumi.set(self, "backup", value)
 
     @property
@@ -94,26 +94,26 @@ class MysqlArgs:
 
     @property
     @pulumi.getter
-    def networking(self) -> Optional[pulumi.Input['MysqlNetworkingArgsArgs']]:
+    def networking(self) -> Optional[pulumi.Input['MysqlNetworkingArgs']]:
         """
         Network configuration parameters for the database instance
         """
         return pulumi.get(self, "networking")
 
     @networking.setter
-    def networking(self, value: Optional[pulumi.Input['MysqlNetworkingArgsArgs']]):
+    def networking(self, value: Optional[pulumi.Input['MysqlNetworkingArgs']]):
         pulumi.set(self, "networking", value)
 
     @property
     @pulumi.getter
-    def storage(self) -> Optional[pulumi.Input['MysqlStorageArgsArgs']]:
+    def storage(self) -> Optional[pulumi.Input['MysqlStorageArgs']]:
         """
         Storage configuration parameters for the database instance
         """
         return pulumi.get(self, "storage")
 
     @storage.setter
-    def storage(self, value: Optional[pulumi.Input['MysqlStorageArgsArgs']]):
+    def storage(self, value: Optional[pulumi.Input['MysqlStorageArgs']]):
         pulumi.set(self, "storage", value)
 
 
@@ -122,11 +122,11 @@ class Mysql(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 backup: Optional[pulumi.Input[pulumi.InputType['MysqlBackupArgsArgs']]] = None,
-                 database: Optional[pulumi.Input[pulumi.InputType['MysqlDatabaseArgsArgs']]] = None,
+                 backup: Optional[pulumi.Input[pulumi.InputType['MysqlBackupArgs']]] = None,
+                 database: Optional[pulumi.Input[pulumi.InputType['MysqlDatabaseArgs']]] = None,
                  instance: Optional[pulumi.Input[str]] = None,
-                 networking: Optional[pulumi.Input[pulumi.InputType['MysqlNetworkingArgsArgs']]] = None,
-                 storage: Optional[pulumi.Input[pulumi.InputType['MysqlStorageArgsArgs']]] = None,
+                 networking: Optional[pulumi.Input[pulumi.InputType['MysqlNetworkingArgs']]] = None,
+                 storage: Optional[pulumi.Input[pulumi.InputType['MysqlStorageArgs']]] = None,
                  version: Optional[pulumi.Input['MysqlVersion']] = None,
                  __props__=None):
         """
@@ -134,11 +134,11 @@ class Mysql(pulumi.ComponentResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[pulumi.InputType['MysqlBackupArgsArgs']] backup: Backup configuration parameters for the database instance
-        :param pulumi.Input[pulumi.InputType['MysqlDatabaseArgsArgs']] database: Configuration parameters for the database instance
+        :param pulumi.Input[pulumi.InputType['MysqlBackupArgs']] backup: Backup configuration parameters for the database instance
+        :param pulumi.Input[pulumi.InputType['MysqlDatabaseArgs']] database: Configuration parameters for the database instance
         :param pulumi.Input[str] instance: Instance type to run the database instance
-        :param pulumi.Input[pulumi.InputType['MysqlNetworkingArgsArgs']] networking: Network configuration parameters for the database instance
-        :param pulumi.Input[pulumi.InputType['MysqlStorageArgsArgs']] storage: Storage configuration parameters for the database instance
+        :param pulumi.Input[pulumi.InputType['MysqlNetworkingArgs']] networking: Network configuration parameters for the database instance
+        :param pulumi.Input[pulumi.InputType['MysqlStorageArgs']] storage: Storage configuration parameters for the database instance
         :param pulumi.Input['MysqlVersion'] version: Version for database instance
         """
         ...
@@ -165,11 +165,11 @@ class Mysql(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 backup: Optional[pulumi.Input[pulumi.InputType['MysqlBackupArgsArgs']]] = None,
-                 database: Optional[pulumi.Input[pulumi.InputType['MysqlDatabaseArgsArgs']]] = None,
+                 backup: Optional[pulumi.Input[pulumi.InputType['MysqlBackupArgs']]] = None,
+                 database: Optional[pulumi.Input[pulumi.InputType['MysqlDatabaseArgs']]] = None,
                  instance: Optional[pulumi.Input[str]] = None,
-                 networking: Optional[pulumi.Input[pulumi.InputType['MysqlNetworkingArgsArgs']]] = None,
-                 storage: Optional[pulumi.Input[pulumi.InputType['MysqlStorageArgsArgs']]] = None,
+                 networking: Optional[pulumi.Input[pulumi.InputType['MysqlNetworkingArgs']]] = None,
+                 storage: Optional[pulumi.Input[pulumi.InputType['MysqlStorageArgs']]] = None,
                  version: Optional[pulumi.Input['MysqlVersion']] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)

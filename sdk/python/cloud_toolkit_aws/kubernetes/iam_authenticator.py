@@ -21,18 +21,18 @@ class IamAuthenticatorArgs:
                  kubeconfig: pulumi.Input[str],
                  accounts: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  cluster_admins: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-                 node_group_roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]] = None,
-                 roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]] = None,
-                 users: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]] = None):
+                 node_group_roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]] = None,
+                 roles: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]] = None,
+                 users: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgs']]]] = None):
         """
         The set of arguments for constructing a IamAuthenticator resource.
         :param pulumi.Input[str] cluster_arn: The EKS Cluster ARN.
         :param pulumi.Input[str] kubeconfig: The Kubeconfig to access to the cluster.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] accounts: List of AWS Accounts allowed to authenticate in the cluster.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] cluster_admins: The list of AWS IAM Users names to be configured as cluster-admin.
-        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]] node_group_roles: The list of AWS IAM Roles for NodeGroups to generate the aws-auth ConfigMap.
-        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]] roles: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
-        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]] users: The list of AWS IAM Users to generate the aws-auth ConfigMap.
+        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]] node_group_roles: The list of AWS IAM Roles for NodeGroups to generate the aws-auth ConfigMap.
+        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]] roles: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
+        :param pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgs']]] users: The list of AWS IAM Users to generate the aws-auth ConfigMap.
         """
         pulumi.set(__self__, "cluster_arn", cluster_arn)
         pulumi.set(__self__, "kubeconfig", kubeconfig)
@@ -97,38 +97,38 @@ class IamAuthenticatorArgs:
 
     @property
     @pulumi.getter(name="nodeGroupRoles")
-    def node_group_roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]]:
+    def node_group_roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]]:
         """
         The list of AWS IAM Roles for NodeGroups to generate the aws-auth ConfigMap.
         """
         return pulumi.get(self, "node_group_roles")
 
     @node_group_roles.setter
-    def node_group_roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]]):
+    def node_group_roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]]):
         pulumi.set(self, "node_group_roles", value)
 
     @property
     @pulumi.getter
-    def roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]]:
+    def roles(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]]:
         """
         The list of AWS IAM Roles to generate the aws-auth ConfigMap.
         """
         return pulumi.get(self, "roles")
 
     @roles.setter
-    def roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgsArgs']]]]):
+    def roles(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorRoleArgs']]]]):
         pulumi.set(self, "roles", value)
 
     @property
     @pulumi.getter
-    def users(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]]:
+    def users(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgs']]]]:
         """
         The list of AWS IAM Users to generate the aws-auth ConfigMap.
         """
         return pulumi.get(self, "users")
 
     @users.setter
-    def users(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgsArgs']]]]):
+    def users(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['IamAuthenticatorUserArgs']]]]):
         pulumi.set(self, "users", value)
 
 
@@ -141,9 +141,9 @@ class IamAuthenticator(pulumi.ComponentResource):
                  cluster_admins: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  cluster_arn: Optional[pulumi.Input[str]] = None,
                  kubeconfig: Optional[pulumi.Input[str]] = None,
-                 node_group_roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgsArgs']]]]] = None,
-                 roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgsArgs']]]]] = None,
-                 users: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorUserArgsArgs']]]]] = None,
+                 node_group_roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgs']]]]] = None,
+                 roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgs']]]]] = None,
+                 users: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorUserArgs']]]]] = None,
                  __props__=None):
         """
         IamAuthenticator is a component that integrates the AWS IAM service with the Kubernetes authentication system. He receives a list of AWS IAM users and roles to enable their authentication to the cluster.
@@ -154,9 +154,9 @@ class IamAuthenticator(pulumi.ComponentResource):
         :param pulumi.Input[Sequence[pulumi.Input[str]]] cluster_admins: The list of AWS IAM Users names to be configured as cluster-admin.
         :param pulumi.Input[str] cluster_arn: The EKS Cluster ARN.
         :param pulumi.Input[str] kubeconfig: The Kubeconfig to access to the cluster.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgsArgs']]]] node_group_roles: The list of AWS IAM Roles for NodeGroups to generate the aws-auth ConfigMap.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgsArgs']]]] roles: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorUserArgsArgs']]]] users: The list of AWS IAM Users to generate the aws-auth ConfigMap.
+        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgs']]]] node_group_roles: The list of AWS IAM Roles for NodeGroups to generate the aws-auth ConfigMap.
+        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgs']]]] roles: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
+        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorUserArgs']]]] users: The list of AWS IAM Users to generate the aws-auth ConfigMap.
         """
         ...
     @overload
@@ -186,9 +186,9 @@ class IamAuthenticator(pulumi.ComponentResource):
                  cluster_admins: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  cluster_arn: Optional[pulumi.Input[str]] = None,
                  kubeconfig: Optional[pulumi.Input[str]] = None,
-                 node_group_roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgsArgs']]]]] = None,
-                 roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgsArgs']]]]] = None,
-                 users: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorUserArgsArgs']]]]] = None,
+                 node_group_roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgs']]]]] = None,
+                 roles: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorRoleArgs']]]]] = None,
+                 users: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['IamAuthenticatorUserArgs']]]]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):

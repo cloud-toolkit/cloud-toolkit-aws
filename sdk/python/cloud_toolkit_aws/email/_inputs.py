@@ -13,13 +13,13 @@ from .. import serverless as _serverless
 from ._enums import *
 
 __all__ = [
-    'AdditionalQueueArgsArgs',
-    'NotificationTypeArgsArgs',
-    'NotificationTypeQueuesArgsArgs',
+    'AdditionalQueueArgs',
+    'NotificationTypeQueuesArgs',
+    'NotificationTypeArgs',
 ]
 
 @pulumi.input_type
-class AdditionalQueueArgsArgs:
+class AdditionalQueueArgs:
     def __init__(__self__, *,
                  arn: pulumi.Input[str],
                  url: pulumi.Input[str]):
@@ -56,15 +56,68 @@ class AdditionalQueueArgsArgs:
 
 
 @pulumi.input_type
-class NotificationTypeArgsArgs:
+class NotificationTypeQueuesArgs:
+    def __init__(__self__, *,
+                 additional_queues: pulumi.Input[Sequence[pulumi.Input['AdditionalQueueArgs']]],
+                 number_of_default_queues: pulumi.Input[float],
+                 default_queues_config: Optional[pulumi.Input['_serverless.QueueArgs']] = None):
+        """
+        :param pulumi.Input[Sequence[pulumi.Input['AdditionalQueueArgs']]] additional_queues: Arguments to include Queues built and implemented outside of the Email Sender Component. Useful when subscribing a single Queue to two or more Topics or when migrating existing ones.
+        :param pulumi.Input[float] number_of_default_queues: Number of default Queues that will be created and attached to a Topic.
+        :param pulumi.Input['_serverless.QueueArgs'] default_queues_config: Configuration for the Default Queues. If left blank, Queues created for this Notification Type will be standard, non-fifo, with a Dead Letter Queue attached to them.
+        """
+        pulumi.set(__self__, "additional_queues", additional_queues)
+        pulumi.set(__self__, "number_of_default_queues", number_of_default_queues)
+        if default_queues_config is not None:
+            pulumi.set(__self__, "default_queues_config", default_queues_config)
+
+    @property
+    @pulumi.getter(name="additionalQueues")
+    def additional_queues(self) -> pulumi.Input[Sequence[pulumi.Input['AdditionalQueueArgs']]]:
+        """
+        Arguments to include Queues built and implemented outside of the Email Sender Component. Useful when subscribing a single Queue to two or more Topics or when migrating existing ones.
+        """
+        return pulumi.get(self, "additional_queues")
+
+    @additional_queues.setter
+    def additional_queues(self, value: pulumi.Input[Sequence[pulumi.Input['AdditionalQueueArgs']]]):
+        pulumi.set(self, "additional_queues", value)
+
+    @property
+    @pulumi.getter(name="numberOfDefaultQueues")
+    def number_of_default_queues(self) -> pulumi.Input[float]:
+        """
+        Number of default Queues that will be created and attached to a Topic.
+        """
+        return pulumi.get(self, "number_of_default_queues")
+
+    @number_of_default_queues.setter
+    def number_of_default_queues(self, value: pulumi.Input[float]):
+        pulumi.set(self, "number_of_default_queues", value)
+
+    @property
+    @pulumi.getter(name="defaultQueuesConfig")
+    def default_queues_config(self) -> Optional[pulumi.Input['_serverless.QueueArgs']]:
+        """
+        Configuration for the Default Queues. If left blank, Queues created for this Notification Type will be standard, non-fifo, with a Dead Letter Queue attached to them.
+        """
+        return pulumi.get(self, "default_queues_config")
+
+    @default_queues_config.setter
+    def default_queues_config(self, value: Optional[pulumi.Input['_serverless.QueueArgs']]):
+        pulumi.set(self, "default_queues_config", value)
+
+
+@pulumi.input_type
+class NotificationTypeArgs:
     def __init__(__self__, *,
                  enabled: pulumi.Input[bool],
                  include_original_headers: Optional[pulumi.Input[bool]] = None,
-                 queues: Optional[pulumi.Input['NotificationTypeQueuesArgsArgs']] = None):
+                 queues: Optional[pulumi.Input['NotificationTypeQueuesArgs']] = None):
         """
         :param pulumi.Input[bool] enabled: Enables the feature.
         :param pulumi.Input[bool] include_original_headers: Include original headers on the stored messages in the Queue(s).
-        :param pulumi.Input['NotificationTypeQueuesArgsArgs'] queues: Arguments to configure the Queues subscribed to the Notification Type Topic.
+        :param pulumi.Input['NotificationTypeQueuesArgs'] queues: Arguments to configure the Queues subscribed to the Notification Type Topic.
                If left blank, a default standard, non-fifo, Queue and a Dead Letter Queue that is attached to the former will be created.
         """
         pulumi.set(__self__, "enabled", enabled)
@@ -99,7 +152,7 @@ class NotificationTypeArgsArgs:
 
     @property
     @pulumi.getter
-    def queues(self) -> Optional[pulumi.Input['NotificationTypeQueuesArgsArgs']]:
+    def queues(self) -> Optional[pulumi.Input['NotificationTypeQueuesArgs']]:
         """
         Arguments to configure the Queues subscribed to the Notification Type Topic.
         If left blank, a default standard, non-fifo, Queue and a Dead Letter Queue that is attached to the former will be created.
@@ -107,60 +160,7 @@ class NotificationTypeArgsArgs:
         return pulumi.get(self, "queues")
 
     @queues.setter
-    def queues(self, value: Optional[pulumi.Input['NotificationTypeQueuesArgsArgs']]):
+    def queues(self, value: Optional[pulumi.Input['NotificationTypeQueuesArgs']]):
         pulumi.set(self, "queues", value)
-
-
-@pulumi.input_type
-class NotificationTypeQueuesArgsArgs:
-    def __init__(__self__, *,
-                 additional_queues: pulumi.Input[Sequence[pulumi.Input['AdditionalQueueArgsArgs']]],
-                 number_of_default_queues: pulumi.Input[float],
-                 default_queues_config: Optional[pulumi.Input['_serverless.QueueArgsArgs']] = None):
-        """
-        :param pulumi.Input[Sequence[pulumi.Input['AdditionalQueueArgsArgs']]] additional_queues: Arguments to include Queues built and implemented outside of the Email Sender Component. Useful when subscribing a single Queue to two or more Topics or when migrating existing ones.
-        :param pulumi.Input[float] number_of_default_queues: Number of default Queues that will be created and attached to a Topic.
-        :param pulumi.Input['_serverless.QueueArgsArgs'] default_queues_config: Configuration for the Default Queues. If left blank, Queues created for this Notification Type will be standard, non-fifo, with a Dead Letter Queue attached to them.
-        """
-        pulumi.set(__self__, "additional_queues", additional_queues)
-        pulumi.set(__self__, "number_of_default_queues", number_of_default_queues)
-        if default_queues_config is not None:
-            pulumi.set(__self__, "default_queues_config", default_queues_config)
-
-    @property
-    @pulumi.getter(name="additionalQueues")
-    def additional_queues(self) -> pulumi.Input[Sequence[pulumi.Input['AdditionalQueueArgsArgs']]]:
-        """
-        Arguments to include Queues built and implemented outside of the Email Sender Component. Useful when subscribing a single Queue to two or more Topics or when migrating existing ones.
-        """
-        return pulumi.get(self, "additional_queues")
-
-    @additional_queues.setter
-    def additional_queues(self, value: pulumi.Input[Sequence[pulumi.Input['AdditionalQueueArgsArgs']]]):
-        pulumi.set(self, "additional_queues", value)
-
-    @property
-    @pulumi.getter(name="numberOfDefaultQueues")
-    def number_of_default_queues(self) -> pulumi.Input[float]:
-        """
-        Number of default Queues that will be created and attached to a Topic.
-        """
-        return pulumi.get(self, "number_of_default_queues")
-
-    @number_of_default_queues.setter
-    def number_of_default_queues(self, value: pulumi.Input[float]):
-        pulumi.set(self, "number_of_default_queues", value)
-
-    @property
-    @pulumi.getter(name="defaultQueuesConfig")
-    def default_queues_config(self) -> Optional[pulumi.Input['_serverless.QueueArgsArgs']]:
-        """
-        Configuration for the Default Queues. If left blank, Queues created for this Notification Type will be standard, non-fifo, with a Dead Letter Queue attached to them.
-        """
-        return pulumi.get(self, "default_queues_config")
-
-    @default_queues_config.setter
-    def default_queues_config(self, value: Optional[pulumi.Input['_serverless.QueueArgsArgs']]):
-        pulumi.set(self, "default_queues_config", value)
 
 

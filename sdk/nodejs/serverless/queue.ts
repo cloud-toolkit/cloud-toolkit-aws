@@ -70,7 +70,7 @@ export interface QueueArgs {
     /**
      * Dead Letter Queue attached to the component to create.
      */
-    DeadLetterQueueTypeArgs?: pulumi.Input<inputs.serverless.DeadLetterQueueTypeArgsArgs>;
+    DeadLetterQueueTypeArgs?: pulumi.Input<inputs.serverless.DeadLetterQueueTypeArgs>;
     /**
      * Set to true to create the Queue as FiFo. False for a Standard Queue.
      */

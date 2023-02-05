@@ -27,7 +27,7 @@ types:
         value: "8.0"
       - name: V5_7
         value: "5.7"
-  cloud-toolkit-aws:databases:MysqlStorageTypeArgs:
+  cloud-toolkit-aws:databases:MysqlStorageType:
     description: Set of storage type classes for database instance
     type: string
     enum:
@@ -76,7 +76,7 @@ types:
         value: permissive
       - name: RESTRICTIVE
         value: restrictive
-  cloud-toolkit-aws:storage:BucketVersioningStateArgs:
+  cloud-toolkit-aws:storage:BucketVersioningState:
     description: >-
       Versioning object mode that is selected for the bucket.
 
@@ -93,14 +93,14 @@ types:
         value: Disabled
       - name: Suspended
         value: Suspended
-  cloud-toolkit-aws:databases:AuroraMysqlArgs:
+  cloud-toolkit-aws:databases:AuroraMysql:
     properties:
       version:
         description: Version for database
         $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlVersion"
       database:
         description: Configuration parameters for the database
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlDatabaseArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlDatabase"
       instanceType:
         description: The instance type for the cluster
         type: string
@@ -109,19 +109,19 @@ types:
         type: number
       logging:
         description: Logging configuration parameters for Aurora cluster
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlLogging"
       monitoring:
         description: Monitoring configuration parameters for Aurora cluster
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlMonitoringArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlMonitoring"
       networking:
         description: Networking configuration parameters for Aurora cluster
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlNetworkingArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlNetworking"
       backup:
         description: Backup configuration parameters for Aurora cluster
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlBackupArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlBackup"
     type: object
     required: []
-  cloud-toolkit-aws:databases:AuroraMysqlDatabaseArgs:
+  cloud-toolkit-aws:databases:AuroraMysqlDatabase:
     properties:
       name:
         description: The name of the database to create when the DB instance is created
@@ -134,7 +134,7 @@ types:
         type: number
     type: object
     required: []
-  cloud-toolkit-aws:databases:AuroraMysqlBackupArgs:
+  cloud-toolkit-aws:databases:AuroraMysqlBackup:
     properties:
       preferredWindow:
         description: Time window in which backups should be taken
@@ -144,7 +144,7 @@ types:
         type: number
     type: object
     required: []
-  cloud-toolkit-aws:databases:AuroraMysqlLoggingArgs:
+  cloud-toolkit-aws:databases:AuroraMysqlLogging:
     properties:
       audit:
         description: Enable audit logging
@@ -160,7 +160,7 @@ types:
         type: boolean
     type: object
     required: []
-  cloud-toolkit-aws:databases:AuroraMysqlMonitoringArgs:
+  cloud-toolkit-aws:databases:AuroraMysqlMonitoring:
     properties:
       enabled:
         description: Enable cluster alerting with CloudWatch
@@ -173,7 +173,7 @@ types:
           type: string
     type: object
     required: []
-  cloud-toolkit-aws:databases:AuroraMysqlNetworkingArgs:
+  cloud-toolkit-aws:databases:AuroraMysqlNetworking:
     properties:
       allowedCidr:
         description: Allowed CIDRs that connect to the cluster
@@ -197,7 +197,7 @@ types:
         type: string
     type: object
     required: []
-  cloud-toolkit-aws:databases:MysqlArgs:
+  cloud-toolkit-aws:databases:Mysql:
     properties:
       instance:
         description: Instance type to run the database instance
@@ -207,21 +207,21 @@ types:
         $ref: "#/types/cloud-toolkit-aws:databases:MysqlVersion"
       database:
         description: Configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabase"
       storage:
         description: Storage configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorage"
       networking:
         description: Network configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworkingArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworking"
       backup:
         description: Backup configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackup"
     type: object
     required:
       - version
       - database
-  cloud-toolkit-aws:databases:MysqlDatabaseArgs:
+  cloud-toolkit-aws:databases:MysqlDatabase:
     properties:
       name:
         description: The name of the database to create when the DB instance is created
@@ -236,7 +236,7 @@ types:
     required:
       - name
       - username
-  cloud-toolkit-aws:databases:MysqlBackupArgs:
+  cloud-toolkit-aws:databases:MysqlBackup:
     properties:
       preferredWindow:
         description: Time window in which backups should be taken
@@ -246,17 +246,17 @@ types:
         type: number
     type: object
     required: []
-  cloud-toolkit-aws:databases:MysqlStorageArgs:
+  cloud-toolkit-aws:databases:MysqlStorage:
     properties:
       size:
         description: Storage size allocated for database instance
         type: number
       type:
         description: Storage type class for database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageType"
     type: object
     required: []
-  cloud-toolkit-aws:databases:MysqlNetworkingArgs:
+  cloud-toolkit-aws:databases:MysqlNetworking:
     properties:
       vpc:
         description: Virtual Private Cloud where database instance must be deployed
@@ -277,7 +277,7 @@ types:
           type: string
     type: object
     required: []
-  cloud-toolkit-aws:email:AdditionalQueueArgs:
+  cloud-toolkit-aws:email:AdditionalQueue:
     properties:
       arn:
         description: Amazon Resource Name for the Queue component.
@@ -289,7 +289,7 @@ types:
     required:
       - arn
       - url
-  cloud-toolkit-aws:email:NotificationTypeQueuesArgs:
+  cloud-toolkit-aws:email:NotificationTypeQueues:
     properties:
       numberOfDefaultQueues:
         description: Number of default Queues that will be created and attached to a Topic.
@@ -298,7 +298,7 @@ types:
         description: Configuration for the Default Queues. If left blank, Queues created
           for this Notification Type will be standard, non-fifo, with a Dead
           Letter Queue attached to them.
-        $ref: "#/types/cloud-toolkit-aws:serverless:QueueArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:Queue"
       additionalQueues:
         description: Arguments to include Queues built and implemented outside of the
           Email Sender Component. Useful when subscribing a single Queue to two
@@ -308,12 +308,12 @@ types:
           description: Arguments to include Queues built and implemented outside of the
             Email Sender Component. Useful when subscribing a single Queue to
             two or more Topics or when migrating existing ones.
-          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
+          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueue"
     type: object
     required:
       - numberOfDefaultQueues
       - additionalQueues
-  cloud-toolkit-aws:email:NotificationTypeArgs:
+  cloud-toolkit-aws:email:NotificationType:
     properties:
       enabled:
         description: Enables the feature.
@@ -327,11 +327,11 @@ types:
           Type Topic.
 
           If left blank, a default standard, non-fifo, Queue and a Dead Letter Queue that is attached to the former will be created.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeQueuesArgs"
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeQueues"
     type: object
     required:
       - enabled
-  cloud-toolkit-aws:email:EmailSenderArgs:
+  cloud-toolkit-aws:email:EmailSender:
     properties:
       identity:
         description: >-
@@ -355,17 +355,17 @@ types:
         type: boolean
       bounce:
         description: Arguments to manage incoming Bounce notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationType"
       complaint:
         description: Arguments to manage incoming Complaint notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationType"
       delivery:
         description: Arguments to manage incoming Delivery notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationType"
     type: object
     required:
       - identity
-  cloud-toolkit-aws:email:DnsDkimRecordArgs:
+  cloud-toolkit-aws:email:DnsDkimRecord:
     properties:
       name:
         description: Name of the Record.
@@ -377,7 +377,7 @@ types:
     required:
       - name
       - token
-  cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItemArgs:
+  cloud-toolkit-aws:kubernetes:AdotApplicationLoggingItem:
     properties:
       dataRetention:
         description: Data retention expressed in days.
@@ -385,7 +385,7 @@ types:
     type: object
     required:
       - dataRetention
-  cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs:
+  cloud-toolkit-aws:kubernetes:AdotApplicationMetrics:
     properties:
       enabled:
         description: Enable metrics.
@@ -395,11 +395,11 @@ types:
         type: number
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:AdotApplicationArgs:
+  cloud-toolkit-aws:kubernetes:AdotApplication:
     properties:
       metrics:
         description: Configure metrics.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetrics"
       clusterName:
         description: The cluster name.
         type: string
@@ -410,11 +410,11 @@ types:
     required:
       - clusterName
       - awsRegion
-  cloud-toolkit-aws:kubernetes:AdotOperatorArgs:
+  cloud-toolkit-aws:kubernetes:AdotOperator:
     properties: {}
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ApplicationAddonArgs:
+  cloud-toolkit-aws:kubernetes:ApplicationAddon:
     properties:
       k8sProvider:
         description: Kubernetes provider used by Pulumi.
@@ -433,7 +433,7 @@ types:
       - k8sProvider
       - name
       - namespace
-  cloud-toolkit-aws:kubernetes:IrsaApplicationAddonArgs:
+  cloud-toolkit-aws:kubernetes:IrsaApplicationAddon:
     properties:
       identityProvidersArn:
         description: The OIDC Identity Provider arn used by the IRSA.
@@ -452,14 +452,14 @@ types:
       - identityProvidersArn
       - issuerUrl
       - serviceAccountName
-  cloud-toolkit-aws:kubernetes:ArgoCDArgs:
+  cloud-toolkit-aws:kubernetes:ArgoCD:
     properties:
       hostname:
         description: The hostname to be used to expose ArgoCD with an Ingress.
         type: string
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:AwsLoadBalancerControllerArgs:
+  cloud-toolkit-aws:kubernetes:AwsLoadBalancerController:
     properties:
       clusterName:
         description: The Cluster name.
@@ -467,11 +467,11 @@ types:
     type: object
     required:
       - clusterName
-  cloud-toolkit-aws:kubernetes:CalicoArgs:
+  cloud-toolkit-aws:kubernetes:Calico:
     properties: {}
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:CertManagerArgs:
+  cloud-toolkit-aws:kubernetes:CertManager:
     properties:
       zoneArns:
         description: The list of DNS Zone arn to be used by CertManager.
@@ -482,7 +482,7 @@ types:
     type: object
     required:
       - zoneArns
-  cloud-toolkit-aws:kubernetes:ClusterAddonsArgs:
+  cloud-toolkit-aws:kubernetes:ClusterAddons:
     properties:
       k8sProvider:
         description: The Pulumi provider used for Kubernetes resources.
@@ -501,30 +501,30 @@ types:
         type: string
       logging:
         description: Configure the cluster observability for logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLogging"
       metrics:
         description: Configure the cluster observability for metrics.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetrics"
       ingress:
         description: The configuration for Ingress Controller.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngress"
     type: object
     required:
       - k8sProvider
       - clusterName
       - identityProvidersArn
       - issuerUrl
-  cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs:
+  cloud-toolkit-aws:kubernetes:ClusterAddonsIngress:
     properties:
       admin:
         description: Configure the admin IngressController.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItem"
       default:
         description: Configure the default IngressController.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItem"
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItemArgs:
+  cloud-toolkit-aws:kubernetes:ClusterAddonsIngressItem:
     properties:
       public:
         description: Use a public Load Balancer to expose the IngressController.
@@ -543,7 +543,7 @@ types:
         type: boolean
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ClusterAdminsArgs:
+  cloud-toolkit-aws:kubernetes:ClusterAdmins:
     properties:
       name:
         description: The name for the group of Cluster Admins.
@@ -562,7 +562,7 @@ types:
       - name
       - kubeconfig
       - userArns
-  cloud-toolkit-aws:kubernetes:ClusterArgs:
+  cloud-toolkit-aws:kubernetes:Cluster:
     properties:
       vpcId:
         description: The VPC ID where the cluster will be deployed
@@ -588,34 +588,34 @@ types:
         type: string
       api:
         description: Configure the Kubernetes cluster API.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterApiArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterApi"
       nodeGroups:
         description: The NodeGroups to be assigned to this cluster.
         type: array
         items:
           description: The NodeGroups to be assigned to this cluster.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNodeGroup"
       oidcProviders:
         description: The OIDC Providers configuration.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProviders"
       addons:
         description: The addons installed in the cluster.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:Addons"
       networking:
         description: Configure the cluster networking.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworking"
       logging:
         description: Configure the cluster observability for logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLogging"
       metrics:
         description: Configure the cluster observability for metrics.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetrics"
       authentication:
         description: Configure authentication integrated with AWS IAM.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAuthenticationArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAuthentication"
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ClusterAuthenticationArgs:
+  cloud-toolkit-aws:kubernetes:ClusterAuthentication:
     properties:
       accounts:
         description: The list of AWS Accounts that can authenticate with the API Server.
@@ -634,26 +634,26 @@ types:
         type: array
         items:
           description: The list of AWS IAM Roles that can authenticate with the API server.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRole"
       users:
         description: The list of AWS IAM Users that can authenticate with the API server.
         type: array
         items:
           description: The list of AWS IAM Users that can authenticate with the API server.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUserArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUser"
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs:
+  cloud-toolkit-aws:kubernetes:ClusterNetworking:
     properties:
       admin:
         description: Configure the access to admin applications.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingIngressArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingIngress"
       default:
         description: Configure the access to applications.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingIngressArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingIngress"
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ClusterNetworkingIngressArgs:
+  cloud-toolkit-aws:kubernetes:ClusterNetworkingIngress:
     properties:
       public:
         description: Use a public Load Balancer to expose the IngressController.
@@ -673,7 +673,7 @@ types:
     type: object
     required:
       - domain
-  cloud-toolkit-aws:kubernetes:AddonsArgs:
+  cloud-toolkit-aws:kubernetes:Addons:
     properties:
       enabled:
         description: Enable the ClusterAddons.
@@ -681,17 +681,17 @@ types:
     type: object
     required:
       - enabled
-  cloud-toolkit-aws:kubernetes:ClusterApiArgs:
+  cloud-toolkit-aws:kubernetes:ClusterApi:
     properties:
       public:
         description: Configure the public endpoint for the Kubernetes API.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPublicApiArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPublicApi"
       private:
         description: Configure the private endpoint for the Kubernetes API.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPrivateApiArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterPrivateApi"
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ClusterPublicApiArgs:
+  cloud-toolkit-aws:kubernetes:ClusterPublicApi:
     properties:
       enabled:
         description: Enable the public endpoint for Kubernetes API.
@@ -706,14 +706,14 @@ types:
           type: string
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ClusterPrivateApiArgs:
+  cloud-toolkit-aws:kubernetes:ClusterPrivateApi:
     properties:
       enabled:
         description: Enable the private endpoint for Kubernetes API.
         type: boolean
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs:
+  cloud-toolkit-aws:kubernetes:ClusterNodeGroup:
     properties:
       name:
         description: The Node Group name.
@@ -740,7 +740,7 @@ types:
       - minCount
       - maxCount
       - maxUnavailable
-  cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs:
+  cloud-toolkit-aws:kubernetes:ClusterOidcProviders:
     properties:
       enableDefaultProvider:
         description: Enable the default OIDC Provider that is used in the cluster to let
@@ -749,7 +749,7 @@ types:
     type: object
     required:
       - enableDefaultProvider
-  cloud-toolkit-aws:kubernetes:ClusterAutoscalerArgs:
+  cloud-toolkit-aws:kubernetes:ClusterAutoscaler:
     properties:
       clusterName:
         description: The Cluster name.
@@ -757,18 +757,18 @@ types:
     type: object
     required:
       - clusterName
-  cloud-toolkit-aws:kubernetes:DashboardArgs:
+  cloud-toolkit-aws:kubernetes:Dashboard:
     properties:
       hostname:
         description: The hostname associated with the dashboard.
         type: string
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:AwsEbsCsiDriverArgs:
+  cloud-toolkit-aws:kubernetes:AwsEbsCsiDriver:
     properties: {}
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:ExternalDnsArgs:
+  cloud-toolkit-aws:kubernetes:ExternalDns:
     properties:
       zoneArns:
         description: The list of DNS Zone arn to be used by ExternalDns.
@@ -779,7 +779,7 @@ types:
     type: object
     required:
       - zoneArns
-  cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs:
+  cloud-toolkit-aws:kubernetes:FluentbitLoggingItem:
     properties:
       dataRetention:
         description: Data retention expressed in days.
@@ -790,24 +790,24 @@ types:
     type: object
     required:
       - enabled
-  cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs:
+  cloud-toolkit-aws:kubernetes:FluentbitLogging:
     properties:
       applications:
         description: Configure applications logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItem"
       dataplane:
         description: Configure data plane logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItem"
       host:
         description: Configure host logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItemArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingItem"
     type: object
     required: []
-  cloud-toolkit-aws:kubernetes:FluentbitArgs:
+  cloud-toolkit-aws:kubernetes:Fluentbit:
     properties:
       logging:
         description: Configure logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLogging"
       clusterName:
         description: The cluster name.
         type: string
@@ -818,7 +818,7 @@ types:
     required:
       - clusterName
       - awsRegion
-  cloud-toolkit-aws:kubernetes:IamAuthenticatorArgs:
+  cloud-toolkit-aws:kubernetes:IamAuthenticator:
     properties:
       accounts:
         description: List of AWS Accounts allowed to authenticate in the cluster.
@@ -837,7 +837,7 @@ types:
         type: array
         items:
           description: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRole"
       nodeGroupRoles:
         description: The list of AWS IAM Roles for NodeGroups to generate the aws-auth
           ConfigMap.
@@ -845,13 +845,13 @@ types:
         items:
           description: The list of AWS IAM Roles for NodeGroups to generate the aws-auth
             ConfigMap.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRole"
       users:
         description: The list of AWS IAM Users to generate the aws-auth ConfigMap.
         type: array
         items:
           description: The list of AWS IAM Users to generate the aws-auth ConfigMap.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUserArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUser"
       clusterAdmins:
         description: The list of AWS IAM Users names to be configured as cluster-admin.
         type: array
@@ -862,7 +862,7 @@ types:
     required:
       - clusterArn
       - kubeconfig
-  cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs:
+  cloud-toolkit-aws:kubernetes:IamAuthenticatorRole:
     properties:
       rolearn:
         description: The AWS IAM Role arn.
@@ -880,7 +880,7 @@ types:
     required:
       - rolearn
       - username
-  cloud-toolkit-aws:kubernetes:IamAuthenticatorUserArgs:
+  cloud-toolkit-aws:kubernetes:IamAuthenticatorUser:
     properties:
       userarn:
         description: The AWS IAM User arn.
@@ -898,11 +898,11 @@ types:
     required:
       - userarn
       - username
-  cloud-toolkit-aws:kubernetes:IngressNginxArgs:
+  cloud-toolkit-aws:kubernetes:IngressNginx:
     properties:
       tls:
         description: The domain associated to the IngressController.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginxTlsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginxTls"
       className:
         description: The Ingress class name.
         type: string
@@ -921,7 +921,7 @@ types:
     type: object
     required:
       - className
-  cloud-toolkit-aws:kubernetes:IngressNginxTlsArgs:
+  cloud-toolkit-aws:kubernetes:IngressNginxTls:
     properties:
       enabled:
         description: Enable the signed Certificate.
@@ -936,7 +936,7 @@ types:
     required:
       - domain
       - zoneId
-  cloud-toolkit-aws:kubernetes:IrsaArgs:
+  cloud-toolkit-aws:kubernetes:Irsa:
     properties:
       identityProvidersArn:
         description: The OIDC Identity Provider arn used by the IRSA.
@@ -970,7 +970,7 @@ types:
       - namespace
       - serviceAccountName
       - policies
-  cloud-toolkit-aws:kubernetes:NodeGroupArgs:
+  cloud-toolkit-aws:kubernetes:NodeGroup:
     properties:
       name:
         description: The name that identies the resource.
@@ -1014,14 +1014,14 @@ types:
       - clusterCA
       - clusterName
       - subnetIds
-  cloud-toolkit-aws:kubernetes:ProjectArgs:
+  cloud-toolkit-aws:kubernetes:Project:
     properties:
       name:
         description: The Project name.
         type: string
       resources:
         description: The cluster resources to be assigned to the project.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ProjectResourcesArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ProjectResources"
       kubeconfig:
         description: The kubeconfig to access the kubernetes cluster.
         type: string
@@ -1057,7 +1057,7 @@ types:
       - name
       - kubeconfig
       - namespace
-  cloud-toolkit-aws:kubernetes:ProjectResourcesArgs:
+  cloud-toolkit-aws:kubernetes:ProjectResources:
     properties:
       cpu:
         description: Amount of reserved CPU.
@@ -1073,27 +1073,27 @@ types:
         type: string
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:AccountIamArgs:
+  cloud-toolkit-aws:landingzone:AccountIam:
     properties:
       alias:
         description: The alias to be used for IAM.
         type: string
       passwordPolicy:
         description: The IAM password policy configuration.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicy"
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:AccountPasswordPolicyArgs:
+  cloud-toolkit-aws:landingzone:AccountPasswordPolicy:
     properties:
       enabled:
         description: Enable the creation of IAM Password Policy. Defaults to 'true'.
         type: boolean
       rules:
         description: The rules to be applied to the IAM Password Policy
-        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyRulesArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyRules"
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:AccountPasswordPolicyRulesArgs:
+  cloud-toolkit-aws:landingzone:AccountPasswordPolicyRules:
     properties:
       allowUsersToChangePassword:
         description: Whether to allow users to change their own password. Defaults to
@@ -1130,7 +1130,7 @@ types:
         type: boolean
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:AuditLoggingArgs:
+  cloud-toolkit-aws:landingzone:AuditLogging:
     properties:
       retentionDays:
         description: The data retention in days. Defaults to '7'.
@@ -1143,10 +1143,10 @@ types:
         $ref: /aws/v5.10.0/schema.json#/provider
       cloudwatch:
         description: Store the audit logs in CloudWatch to enable easy searching.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:AuditLoggingCloudWatchArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AuditLoggingCloudWatch"
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:AuditLoggingCloudWatchArgs:
+  cloud-toolkit-aws:landingzone:AuditLoggingCloudWatch:
     properties:
       enabled:
         description: Enable storing audit logs in CloudWatch. Defaults to 'false'.
@@ -1157,14 +1157,14 @@ types:
     type: object
     required:
       - enabled
-  cloud-toolkit-aws:landingzone:IamTrustedAccountArgs:
+  cloud-toolkit-aws:landingzone:IamTrustedAccount:
     properties:
       roles:
         description: ""
         type: array
         items:
           description: ""
-          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustedAccountRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustedAccountRole"
       trustingAccountId:
         description: ""
         type: string
@@ -1176,7 +1176,7 @@ types:
       - roles
       - trustingAccountId
       - trustingAccountName
-  cloud-toolkit-aws:landingzone:IamTrustedAccountRoleArgs:
+  cloud-toolkit-aws:landingzone:IamTrustedAccountRole:
     properties:
       name:
         description: ""
@@ -1208,7 +1208,7 @@ types:
     required:
       - roleName
       - groupPolicy
-  cloud-toolkit-aws:landingzone:IamTrustingAccountArgs:
+  cloud-toolkit-aws:landingzone:IamTrustingAccount:
     properties:
       delegatedAccountIds:
         description: ""
@@ -1221,11 +1221,11 @@ types:
         type: array
         items:
           description: ""
-          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRole"
     type: object
     required:
       - delegatedAccountIds
-  cloud-toolkit-aws:landingzone:IamTrustingAccountRoleArgs:
+  cloud-toolkit-aws:landingzone:IamTrustingAccountRole:
     properties:
       name:
         description: ""
@@ -1267,20 +1267,20 @@ types:
     required:
       - roleName
       - rolePolicyAttachment
-  cloud-toolkit-aws:landingzone:LandingZoneArgs:
+  cloud-toolkit-aws:landingzone:LandingZone:
     properties:
       organization:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:Organization"
       audit:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAuditArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAudit"
       iam:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIam"
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:LandingZoneAuditArgs:
+  cloud-toolkit-aws:landingzone:LandingZoneAudit:
     properties:
       enabled:
         description: Enable audit logging. Defaults to 'true'.
@@ -1293,10 +1293,10 @@ types:
         type: number
       cloudwatch:
         description: Store the audit logs in CloudWatch to enable easy searching.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAuditCloudWatchArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAuditCloudWatch"
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:LandingZoneAuditCloudWatchArgs:
+  cloud-toolkit-aws:landingzone:LandingZoneAuditCloudWatch:
     properties:
       enabled:
         description: Enable storing audit logs in CloudWatch. Defaults to 'false'.
@@ -1307,7 +1307,7 @@ types:
     type: object
     required:
       - enabled
-  cloud-toolkit-aws:landingzone:LandingZoneIamArgs:
+  cloud-toolkit-aws:landingzone:LandingZoneIam:
     properties:
       accountName:
         description: ""
@@ -1317,10 +1317,10 @@ types:
         type: array
         items:
           description: ""
-          $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamRole"
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:LandingZoneIamRoleArgs:
+  cloud-toolkit-aws:landingzone:LandingZoneIamRole:
     properties:
       name:
         description: ""
@@ -1335,7 +1335,7 @@ types:
     required:
       - name
       - policyNames
-  cloud-toolkit-aws:landingzone:OrganizationArgs:
+  cloud-toolkit-aws:landingzone:Organization:
     properties:
       organizationId:
         description: The organization ID to import the Organization in the stack. If not
@@ -1343,13 +1343,13 @@ types:
         type: string
       policies:
         description: The Organization policies to be applied.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPoliciesArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPolicies"
       accounts:
         description: The list of AWS Account to be configured in the Organization.
         type: array
         items:
           description: The list of AWS Account to be configured in the Organization.
-          $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccountArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccount"
       services:
         description: The list of AWS Service Access Principals enabled in the organization.
         type: array
@@ -1368,14 +1368,14 @@ types:
         type: string
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:OrganizationPoliciesArgs:
+  cloud-toolkit-aws:landingzone:OrganizationPolicies:
     properties:
       denyLeaveOrganization:
         description: Deny IAM Account to leave the organization. Enabled by default.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPolicyArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPolicy"
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:OrganizationPolicyArgs:
+  cloud-toolkit-aws:landingzone:OrganizationPolicy:
     properties:
       enabled:
         description: Enable the policy/
@@ -1385,7 +1385,7 @@ types:
         type: string
     type: object
     required: []
-  cloud-toolkit-aws:landingzone:OrganizationAccountArgs:
+  cloud-toolkit-aws:landingzone:OrganizationAccount:
     properties:
       name:
         description: The name of the IAM Account.
@@ -1408,7 +1408,7 @@ types:
         type: string
       iam:
         description: The configuration for IAM.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountIamArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountIam"
     type: object
     required:
       - name
@@ -1438,7 +1438,7 @@ types:
     required:
       - accountName
       - provider
-  cloud-toolkit-aws:landingzone:AccountMappingArgs:
+  cloud-toolkit-aws:landingzone:AccountMapping:
     properties:
       accountName:
         description: ""
@@ -1450,7 +1450,7 @@ types:
     required:
       - accountName
       - account
-  cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs:
+  cloud-toolkit-aws:serverless:DeadLetterQueueType:
     properties:
       enable:
         description: Enables the feature.
@@ -1472,14 +1472,14 @@ types:
     required:
       - enable
       - type
-  cloud-toolkit-aws:serverless:QueueArgs:
+  cloud-toolkit-aws:serverless:Queue:
     properties:
       isFifo:
         description: Set to true to create the Queue as FiFo. False for a Standard Queue.
         type: boolean
       DeadLetterQueueTypeArgs:
         description: Dead Letter Queue attached to the component to create.
-        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueType"
       maxMessageSize:
         description: The limit for a Queue message size in bytes. Minimum is 1 byte (1
           character) and Maximum 262,144 bytes (256 KiB). By default a message
@@ -1495,7 +1495,7 @@ types:
         type: string
     type: object
     required: []
-  cloud-toolkit-aws:serverless:StaticWebArgs:
+  cloud-toolkit-aws:serverless:StaticWeb:
     properties:
       domain:
         description: Set to true to add an alias to wwww.<domain>
@@ -1508,16 +1508,16 @@ types:
         type: boolean
       cache:
         description: Cloud Front distribution cache
-        $ref: "#/types/cloud-toolkit-aws:serverless:CdnCacheArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:CdnCache"
       dns:
         description: DNS configuration
-        $ref: "#/types/cloud-toolkit-aws:serverless:CdnDnsArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:CdnDns"
       priceClass:
         description: Cloud Front distribution priceClass
         type: string
     type: object
     required: []
-  cloud-toolkit-aws:serverless:CdnCacheArgs:
+  cloud-toolkit-aws:serverless:CdnCache:
     properties:
       ttl:
         description: Cloud Front distribution cache time to live
@@ -1525,7 +1525,7 @@ types:
     type: object
     required:
       - ttl
-  cloud-toolkit-aws:serverless:CdnDnsArgs:
+  cloud-toolkit-aws:serverless:CdnDns:
     properties:
       ttl:
         description: DNS time to live
@@ -1533,7 +1533,7 @@ types:
     type: object
     required:
       - ttl
-  cloud-toolkit-aws:serverless:DNSRecordsArgs:
+  cloud-toolkit-aws:serverless:DNSRecords:
     properties:
       domainRecord:
         description: ""
@@ -1544,7 +1544,7 @@ types:
     type: object
     required:
       - domainRecord
-  cloud-toolkit-aws:storage:BucketArgs:
+  cloud-toolkit-aws:storage:Bucket:
     properties:
       bucketName:
         description: Configures bucket name in AWS.
@@ -1557,19 +1557,19 @@ types:
         type: boolean
       versioning:
         description: Set a certain versioning mode for bucket objects
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningState"
       encryption:
         description: Configures encryption parameters for the bucket
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryption"
       replication:
         description: Configures replication parameters for the bucket
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplication"
       website:
         description: Configures a static webpage using bucket files
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsite"
     type: object
     required: []
-  cloud-toolkit-aws:storage:BucketEncryptionArgs:
+  cloud-toolkit-aws:storage:BucketEncryption:
     properties:
       enabled:
         description: ""
@@ -1580,7 +1580,7 @@ types:
     type: object
     required:
       - enabled
-  cloud-toolkit-aws:storage:BucketReplicationArgs:
+  cloud-toolkit-aws:storage:BucketReplication:
     properties:
       bucketArn:
         description: ""
@@ -1588,7 +1588,7 @@ types:
     type: object
     required:
       - bucketArn
-  cloud-toolkit-aws:storage:BucketWebsiteArgs:
+  cloud-toolkit-aws:storage:BucketWebsite:
     properties:
       errorDocument:
         description: ""
@@ -1600,7 +1600,7 @@ types:
     required:
       - errorDocument
       - indexDocument
-  cloud-toolkit-aws:commons:CertificateArgs:
+  cloud-toolkit-aws:commons:Certificate:
     properties:
       domain:
         description: ""
@@ -1719,7 +1719,7 @@ resources:
         $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlVersion"
       database:
         description: Configuration parameters for the database
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlDatabaseArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlDatabase"
       instanceType:
         description: The instance type for the cluster
         type: string
@@ -1728,16 +1728,16 @@ resources:
         type: number
       logging:
         description: Logging configuration parameters for Aurora cluster
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlLogging"
       monitoring:
         description: Monitoring configuration parameters for Aurora cluster
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlMonitoringArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlMonitoring"
       networking:
         description: Networking configuration parameters for Aurora cluster
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlNetworkingArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlNetworking"
       backup:
         description: Backup configuration parameters for Aurora cluster
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlBackupArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlBackup"
     requiredInputs: []
     isComponent: true
     type: object
@@ -1786,16 +1786,16 @@ resources:
         $ref: "#/types/cloud-toolkit-aws:databases:MysqlVersion"
       database:
         description: Configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabaseArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlDatabase"
       storage:
         description: Storage configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorageArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlStorage"
       networking:
         description: Network configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworkingArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlNetworking"
       backup:
         description: Backup configuration parameters for the database instance
-        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackupArgs"
+        $ref: "#/types/cloud-toolkit-aws:databases:MysqlBackup"
     requiredInputs:
       - version
       - database
@@ -1837,7 +1837,7 @@ resources:
         type: array
         items:
           description: DNS DKIM Records. Only applies for Domain Identities.
-          $ref: "#/types/cloud-toolkit-aws:email:DnsDkimRecordArgs"
+          $ref: "#/types/cloud-toolkit-aws:email:DnsDkimRecord"
       dnsZoneId:
         description: DNS zone identifier in Route 53 for the Domain. Only applies for
           Domain Identities that are registered using Route 53.
@@ -1875,7 +1875,7 @@ resources:
           description: Additional SQS Queues subscribed to the SNS Topic that receives
             bounced emails. These Queues were created outside the Email Sender
             component.
-          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
+          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueue"
       bounceAdditionalQueuesPolicies:
         description: Queue Policies attached to the externally provided Bounce SQS Queues.
         type: array
@@ -1913,7 +1913,7 @@ resources:
           description: Additional SQS Queues subscribed to the SNS Topic that receives
             complained emails. These Queues were created outside the Email
             Sender component.
-          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
+          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueue"
       complaintAdditionalQueuesPolicies:
         description: Queue Policies attached to the externally provided Complaint SQS
           Queues.
@@ -1953,7 +1953,7 @@ resources:
           description: Additional SQS Queues subscribed to the SNS Topic that receives
             delivered emails. These Queues were created outside the Email Sender
             component.
-          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueueArgs"
+          $ref: "#/types/cloud-toolkit-aws:email:AdditionalQueue"
       deliveryAdditionalQueuesPolicies:
         description: Queue Policies attached to the externally provided Delivery SQS Queues.
         type: array
@@ -2016,13 +2016,13 @@ resources:
         type: boolean
       bounce:
         description: Arguments to manage incoming Bounce notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationType"
       complaint:
         description: Arguments to manage incoming Complaint notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationType"
       delivery:
         description: Arguments to manage incoming Delivery notifications.
-        $ref: "#/types/cloud-toolkit-aws:email:NotificationTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:email:NotificationType"
     requiredInputs:
       - identity
     isComponent: true
@@ -2047,7 +2047,7 @@ resources:
     inputProperties:
       metrics:
         description: Configure metrics.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetrics"
       clusterName:
         description: The cluster name.
         type: string
@@ -2289,31 +2289,31 @@ resources:
         type: string
       api:
         description: Configure the Kubernetes cluster API.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterApiArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterApi"
       nodeGroups:
         description: The NodeGroups to be assigned to this cluster.
         type: array
         items:
           description: The NodeGroups to be assigned to this cluster.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNodeGroupArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNodeGroup"
       oidcProviders:
         description: The OIDC Providers configuration.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProvidersArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterOidcProviders"
       addons:
         description: The addons installed in the cluster.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AddonsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:Addons"
       networking:
         description: Configure the cluster networking.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworkingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterNetworking"
       logging:
         description: Configure the cluster observability for logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLogging"
       metrics:
         description: Configure the cluster observability for metrics.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetrics"
       authentication:
         description: Configure authentication integrated with AWS IAM.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAuthenticationArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAuthentication"
     requiredInputs: []
     isComponent: true
     type: object
@@ -2403,13 +2403,13 @@ resources:
         type: string
       logging:
         description: Configure the cluster observability for logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLogging"
       metrics:
         description: Configure the cluster observability for metrics.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetricsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:AdotApplicationMetrics"
       ingress:
         description: The configuration for Ingress Controller.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngressArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ClusterAddonsIngress"
     requiredInputs:
       - k8sProvider
       - clusterName
@@ -2564,7 +2564,7 @@ resources:
     inputProperties:
       logging:
         description: Configure logging.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLoggingArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:FluentbitLogging"
       clusterName:
         description: The cluster name.
         type: string
@@ -2640,7 +2640,7 @@ resources:
         type: array
         items:
           description: The list of AWS IAM Roles to generate the aws-auth ConfigMap.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRole"
       nodeGroupRoles:
         description: The list of AWS IAM Roles for NodeGroups to generate the aws-auth
           ConfigMap.
@@ -2648,13 +2648,13 @@ resources:
         items:
           description: The list of AWS IAM Roles for NodeGroups to generate the aws-auth
             ConfigMap.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorRole"
       users:
         description: The list of AWS IAM Users to generate the aws-auth ConfigMap.
         type: array
         items:
           description: The list of AWS IAM Users to generate the aws-auth ConfigMap.
-          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUserArgs"
+          $ref: "#/types/cloud-toolkit-aws:kubernetes:IamAuthenticatorUser"
       clusterAdmins:
         description: The list of AWS IAM Users names to be configured as cluster-admin.
         type: array
@@ -2684,7 +2684,7 @@ resources:
     inputProperties:
       tls:
         description: The domain associated to the IngressController.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginxTlsArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:IngressNginxTls"
       className:
         description: The Ingress class name.
         type: string
@@ -2884,7 +2884,7 @@ resources:
         type: string
       resources:
         description: The cluster resources to be assigned to the project.
-        $ref: "#/types/cloud-toolkit-aws:kubernetes:ProjectResourcesArgs"
+        $ref: "#/types/cloud-toolkit-aws:kubernetes:ProjectResources"
       kubeconfig:
         description: The kubeconfig to access the kubernetes cluster.
         type: string
@@ -2937,7 +2937,7 @@ resources:
         type: string
       passwordPolicy:
         description: The IAM password policy configuration.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicyArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AccountPasswordPolicy"
     requiredInputs: []
     isComponent: true
     type: object
@@ -3006,7 +3006,7 @@ resources:
         $ref: /aws/v5.10.0/schema.json#/provider
       cloudwatch:
         description: Store the audit logs in CloudWatch to enable easy searching.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:AuditLoggingCloudWatchArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:AuditLoggingCloudWatch"
     requiredInputs: []
     isComponent: true
     type: object
@@ -3035,7 +3035,7 @@ resources:
         type: array
         items:
           description: ""
-          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustedAccountRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustedAccountRole"
       trustingAccountId:
         description: ""
         type: string
@@ -3079,7 +3079,7 @@ resources:
         type: array
         items:
           description: ""
-          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRoleArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:IamTrustingAccountRole"
     requiredInputs:
       - delegatedAccountIds
     isComponent: true
@@ -3099,13 +3099,13 @@ resources:
     inputProperties:
       organization:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:Organization"
       audit:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAuditArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneAudit"
       iam:
         description: ""
-        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIamArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:LandingZoneIam"
     requiredInputs: []
     isComponent: true
     type: object
@@ -3145,7 +3145,7 @@ resources:
         type: array
         items:
           description: The list of Accounts.
-          $ref: "#/types/cloud-toolkit-aws:landingzone:AccountMappingArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:AccountMapping"
       accountProviders:
         description: The list of AWS Provider for the managed accounts by this component.
         type: array
@@ -3167,13 +3167,13 @@ resources:
         type: string
       policies:
         description: The Organization policies to be applied.
-        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPoliciesArgs"
+        $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationPolicies"
       accounts:
         description: The list of AWS Account to be configured in the Organization.
         type: array
         items:
           description: The list of AWS Account to be configured in the Organization.
-          $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccountArgs"
+          $ref: "#/types/cloud-toolkit-aws:landingzone:OrganizationAccount"
       services:
         description: The list of AWS Service Access Principals enabled in the organization.
         type: array
@@ -3212,7 +3212,7 @@ resources:
         type: boolean
       DeadLetterQueueTypeArgs:
         description: Dead Letter Queue attached to the component to create.
-        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueTypeArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:DeadLetterQueueType"
       maxMessageSize:
         description: The limit for a Queue message size in bytes. Minimum is 1 byte (1
           character) and Maximum 262,144 bytes (256 KiB). By default a message
@@ -3268,10 +3268,10 @@ resources:
         $ref: /aws/v5.10.0/schema.json#/resources/aws:acm%2fcertificateValidation:CertificateValidation
       DNSRecords:
         description: DNS Records to expose staticweb
-        $ref: "#/types/cloud-toolkit-aws:serverless:DNSRecordsArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:DNSRecords"
       DNSRecordsForValidation:
         description: DNS Records to validate the certificate
-        $ref: "#/types/cloud-toolkit-aws:serverless:DNSRecordsArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:DNSRecords"
     required:
       - name
       - eastRegion
@@ -3292,10 +3292,10 @@ resources:
         type: boolean
       cache:
         description: Cloud Front distribution cache
-        $ref: "#/types/cloud-toolkit-aws:serverless:CdnCacheArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:CdnCache"
       dns:
         description: DNS configuration
-        $ref: "#/types/cloud-toolkit-aws:serverless:CdnDnsArgs"
+        $ref: "#/types/cloud-toolkit-aws:serverless:CdnDns"
       priceClass:
         description: Cloud Front distribution priceClass
         type: string
@@ -3363,16 +3363,16 @@ resources:
         type: boolean
       versioning:
         description: Set a certain versioning mode for bucket objects
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningStateArgs"
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketVersioningState"
       encryption:
         description: Configures encryption parameters for the bucket
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryptionArgs"
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketEncryption"
       replication:
         description: Configures replication parameters for the bucket
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplicationArgs"
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketReplication"
       website:
         description: Configures a static webpage using bucket files
-        $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsiteArgs"
+        $ref: "#/types/cloud-toolkit-aws:storage:BucketWebsite"
     requiredInputs: []
     isComponent: true
     type: object

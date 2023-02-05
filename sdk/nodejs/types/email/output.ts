@@ -10,7 +10,7 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface AdditionalQueueArgs {
+export interface AdditionalQueue {
     /**
      * Amazon Resource Name for the Queue component.
      */
@@ -21,7 +21,7 @@ export interface AdditionalQueueArgs {
     url: string;
 }
 
-export interface DnsDkimRecordArgs {
+export interface DnsDkimRecord {
     /**
      * Name of the Record.
      */

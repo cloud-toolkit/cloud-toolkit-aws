@@ -20,12 +20,12 @@ class AdotApplicationArgs:
     def __init__(__self__, *,
                  aws_region: pulumi.Input[str],
                  cluster_name: pulumi.Input[str],
-                 metrics: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']] = None):
+                 metrics: Optional[pulumi.Input['AdotApplicationMetricsArgs']] = None):
         """
         The set of arguments for constructing a AdotApplication resource.
         :param pulumi.Input[str] aws_region: The AWS Region.
         :param pulumi.Input[str] cluster_name: The cluster name.
-        :param pulumi.Input['AdotApplicationMetricsArgsArgs'] metrics: Configure metrics.
+        :param pulumi.Input['AdotApplicationMetricsArgs'] metrics: Configure metrics.
         """
         pulumi.set(__self__, "aws_region", aws_region)
         pulumi.set(__self__, "cluster_name", cluster_name)
@@ -58,14 +58,14 @@ class AdotApplicationArgs:
 
     @property
     @pulumi.getter
-    def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]:
+    def metrics(self) -> Optional[pulumi.Input['AdotApplicationMetricsArgs']]:
         """
         Configure metrics.
         """
         return pulumi.get(self, "metrics")
 
     @metrics.setter
-    def metrics(self, value: Optional[pulumi.Input['AdotApplicationMetricsArgsArgs']]):
+    def metrics(self, value: Optional[pulumi.Input['AdotApplicationMetricsArgs']]):
         pulumi.set(self, "metrics", value)
 
 
@@ -76,7 +76,7 @@ class AdotApplication(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
+                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']]] = None,
                  __props__=None):
         """
         Create a AdotApplication resource with the given unique name, props, and options.
@@ -84,7 +84,7 @@ class AdotApplication(pulumi.ComponentResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] aws_region: The AWS Region.
         :param pulumi.Input[str] cluster_name: The cluster name.
-        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']] metrics: Configure metrics.
+        :param pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']] metrics: Configure metrics.
         """
         ...
     @overload
@@ -111,7 +111,7 @@ class AdotApplication(pulumi.ComponentResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  aws_region: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
-                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgsArgs']]] = None,
+                 metrics: Optional[pulumi.Input[pulumi.InputType['AdotApplicationMetricsArgs']]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):

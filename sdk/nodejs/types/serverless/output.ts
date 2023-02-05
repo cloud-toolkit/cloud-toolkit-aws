@@ -10,7 +10,7 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface DNSRecordsArgs {
+export interface DNSRecords {
     domainRecord: pulumiAws.route53.Record;
     wwwDomainRecord?: pulumiAws.route53.Record;
 }

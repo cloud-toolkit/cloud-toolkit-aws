@@ -17,13 +17,13 @@ __all__ = ['AuditLoggingArgs', 'AuditLogging']
 class AuditLoggingArgs:
     def __init__(__self__, *,
                  bucket_provider: Optional[pulumi.Input['pulumi_aws.Provider']] = None,
-                 cloudwatch: Optional[pulumi.Input['AuditLoggingCloudWatchArgsArgs']] = None,
+                 cloudwatch: Optional[pulumi.Input['AuditLoggingCloudWatchArgs']] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None):
         """
         The set of arguments for constructing a AuditLogging resource.
         :param pulumi.Input['pulumi_aws.Provider'] bucket_provider: The AWS provider to used to create the Bucket.
-        :param pulumi.Input['AuditLoggingCloudWatchArgsArgs'] cloudwatch: Store the audit logs in CloudWatch to enable easy searching.
+        :param pulumi.Input['AuditLoggingCloudWatchArgs'] cloudwatch: Store the audit logs in CloudWatch to enable easy searching.
         :param pulumi.Input[str] region: The region to be used to store the data.
         :param pulumi.Input[float] retention_days: The data retention in days. Defaults to '7'.
         """
@@ -50,14 +50,14 @@ class AuditLoggingArgs:
 
     @property
     @pulumi.getter
-    def cloudwatch(self) -> Optional[pulumi.Input['AuditLoggingCloudWatchArgsArgs']]:
+    def cloudwatch(self) -> Optional[pulumi.Input['AuditLoggingCloudWatchArgs']]:
         """
         Store the audit logs in CloudWatch to enable easy searching.
         """
         return pulumi.get(self, "cloudwatch")
 
     @cloudwatch.setter
-    def cloudwatch(self, value: Optional[pulumi.Input['AuditLoggingCloudWatchArgsArgs']]):
+    def cloudwatch(self, value: Optional[pulumi.Input['AuditLoggingCloudWatchArgs']]):
         pulumi.set(self, "cloudwatch", value)
 
     @property
@@ -91,7 +91,7 @@ class AuditLogging(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  bucket_provider: Optional[pulumi.Input['pulumi_aws.Provider']] = None,
-                 cloudwatch: Optional[pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgsArgs']]] = None,
+                 cloudwatch: Optional[pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgs']]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None,
                  __props__=None):
@@ -100,7 +100,7 @@ class AuditLogging(pulumi.ComponentResource):
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input['pulumi_aws.Provider'] bucket_provider: The AWS provider to used to create the Bucket.
-        :param pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgsArgs']] cloudwatch: Store the audit logs in CloudWatch to enable easy searching.
+        :param pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgs']] cloudwatch: Store the audit logs in CloudWatch to enable easy searching.
         :param pulumi.Input[str] region: The region to be used to store the data.
         :param pulumi.Input[float] retention_days: The data retention in days. Defaults to '7'.
         """
@@ -128,7 +128,7 @@ class AuditLogging(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  bucket_provider: Optional[pulumi.Input['pulumi_aws.Provider']] = None,
-                 cloudwatch: Optional[pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgsArgs']]] = None,
+                 cloudwatch: Optional[pulumi.Input[pulumi.InputType['AuditLoggingCloudWatchArgs']]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  retention_days: Optional[pulumi.Input[float]] = None,
                  __props__=None):

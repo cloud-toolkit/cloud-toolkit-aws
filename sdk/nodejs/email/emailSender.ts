@@ -37,7 +37,7 @@ export class EmailSender extends pulumi.ComponentResource {
     /**
      * Additional SQS Queues subscribed to the SNS Topic that receives bounced emails. These Queues were created outside the Email Sender component.
      */
-    public /*out*/ readonly bounceAdditionalQueues!: pulumi.Output<outputs.email.AdditionalQueueArgs[]>;
+    public /*out*/ readonly bounceAdditionalQueues!: pulumi.Output<outputs.email.AdditionalQueue[]>;
     /**
      * Queue Policies attached to the externally provided Bounce SQS Queues.
      */
@@ -61,7 +61,7 @@ export class EmailSender extends pulumi.ComponentResource {
     /**
      * Additional SQS Queues subscribed to the SNS Topic that receives complained emails. These Queues were created outside the Email Sender component.
      */
-    public /*out*/ readonly complaintAdditionalQueues!: pulumi.Output<outputs.email.AdditionalQueueArgs[]>;
+    public /*out*/ readonly complaintAdditionalQueues!: pulumi.Output<outputs.email.AdditionalQueue[]>;
     /**
      * Queue Policies attached to the externally provided Complaint SQS Queues.
      */
@@ -85,7 +85,7 @@ export class EmailSender extends pulumi.ComponentResource {
     /**
      * Additional SQS Queues subscribed to the SNS Topic that receives delivered emails. These Queues were created outside the Email Sender component.
      */
-    public /*out*/ readonly deliveryAdditionalQueues!: pulumi.Output<outputs.email.AdditionalQueueArgs[]>;
+    public /*out*/ readonly deliveryAdditionalQueues!: pulumi.Output<outputs.email.AdditionalQueue[]>;
     /**
      * Queue Policies attached to the externally provided Delivery SQS Queues.
      */
@@ -109,7 +109,7 @@ export class EmailSender extends pulumi.ComponentResource {
     /**
      * DNS DKIM Records. Only applies for Domain Identities.
      */
-    public /*out*/ readonly dnsDkimRecords!: pulumi.Output<outputs.email.DnsDkimRecordArgs[]>;
+    public /*out*/ readonly dnsDkimRecords!: pulumi.Output<outputs.email.DnsDkimRecord[]>;
     /**
      * DNS records stored in the Domain registration in Route 53. Only applies for Domain Identities that are registered using Route 53.
      */
@@ -232,11 +232,11 @@ export interface EmailSenderArgs {
     /**
      * Arguments to manage incoming Bounce notifications.
      */
-    bounce?: pulumi.Input<inputs.email.NotificationTypeArgsArgs>;
+    bounce?: pulumi.Input<inputs.email.NotificationTypeArgs>;
     /**
      * Arguments to manage incoming Complaint notifications.
      */
-    complaint?: pulumi.Input<inputs.email.NotificationTypeArgsArgs>;
+    complaint?: pulumi.Input<inputs.email.NotificationTypeArgs>;
     /**
      * In the case of a Domain Identity, enables automatic verification by creating DKIM DNS Records in the domain registration on Route 53.
      * If the domain is not registered in the Route 53 on the same AWS account that is applying the infrastructure changes, the process will fail unless this flag is set to False.
@@ -245,7 +245,7 @@ export interface EmailSenderArgs {
     /**
      * Arguments to manage incoming Delivery notifications.
      */
-    delivery?: pulumi.Input<inputs.email.NotificationTypeArgsArgs>;
+    delivery?: pulumi.Input<inputs.email.NotificationTypeArgs>;
     /**
      * Address of the Domain or Email used to send the emails through Email Sender.
      * If an Email address is provided, Email Sender will set a Simple Email Service Email Identity. Verification will need to be manual.

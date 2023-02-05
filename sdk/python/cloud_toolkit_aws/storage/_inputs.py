@@ -11,13 +11,13 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
-    'BucketEncryptionArgsArgs',
-    'BucketReplicationArgsArgs',
-    'BucketWebsiteArgsArgs',
+    'BucketEncryptionArgs',
+    'BucketReplicationArgs',
+    'BucketWebsiteArgs',
 ]
 
 @pulumi.input_type
-class BucketEncryptionArgsArgs:
+class BucketEncryptionArgs:
     def __init__(__self__, *,
                  enabled: pulumi.Input[bool],
                  custom_key_id: Optional[pulumi.Input[str]] = None):
@@ -45,7 +45,7 @@ class BucketEncryptionArgsArgs:
 
 
 @pulumi.input_type
-class BucketReplicationArgsArgs:
+class BucketReplicationArgs:
     def __init__(__self__, *,
                  bucket_arn: pulumi.Input[str]):
         pulumi.set(__self__, "bucket_arn", bucket_arn)
@@ -61,7 +61,7 @@ class BucketReplicationArgsArgs:
 
 
 @pulumi.input_type
-class BucketWebsiteArgsArgs:
+class BucketWebsiteArgs:
     def __init__(__self__, *,
                  error_document: pulumi.Input[str],
                  index_document: pulumi.Input[str]):

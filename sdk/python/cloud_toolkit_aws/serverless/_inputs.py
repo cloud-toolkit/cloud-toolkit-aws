@@ -11,14 +11,14 @@ from .. import _utilities
 from ._enums import *
 
 __all__ = [
-    'CdnCacheArgsArgs',
-    'CdnDnsArgsArgs',
-    'DeadLetterQueueTypeArgsArgs',
-    'QueueArgsArgs',
+    'CdnCacheArgs',
+    'CdnDnsArgs',
+    'DeadLetterQueueTypeArgs',
+    'QueueArgs',
 ]
 
 @pulumi.input_type
-class CdnCacheArgsArgs:
+class CdnCacheArgs:
     def __init__(__self__, *,
                  ttl: pulumi.Input[float]):
         """
@@ -40,7 +40,7 @@ class CdnCacheArgsArgs:
 
 
 @pulumi.input_type
-class CdnDnsArgsArgs:
+class CdnDnsArgs:
     def __init__(__self__, *,
                  ttl: pulumi.Input[float]):
         """
@@ -62,7 +62,7 @@ class CdnDnsArgsArgs:
 
 
 @pulumi.input_type
-class DeadLetterQueueTypeArgsArgs:
+class DeadLetterQueueTypeArgs:
     def __init__(__self__, *,
                  enable: pulumi.Input[bool],
                  type: pulumi.Input['DeadLetterQueueTypes'],
@@ -131,15 +131,15 @@ class DeadLetterQueueTypeArgsArgs:
 
 
 @pulumi.input_type
-class QueueArgsArgs:
+class QueueArgs:
     def __init__(__self__, *,
-                 dead_letter_queue_type_args: Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']] = None,
+                 dead_letter_queue_type_args: Optional[pulumi.Input['DeadLetterQueueTypeArgs']] = None,
                  is_fifo: Optional[pulumi.Input[bool]] = None,
                  max_message_size: Optional[pulumi.Input[float]] = None,
                  message_retention_seconds: Optional[pulumi.Input[float]] = None,
                  policy: Optional[pulumi.Input[str]] = None):
         """
-        :param pulumi.Input['DeadLetterQueueTypeArgsArgs'] dead_letter_queue_type_args: Dead Letter Queue attached to the component to create.
+        :param pulumi.Input['DeadLetterQueueTypeArgs'] dead_letter_queue_type_args: Dead Letter Queue attached to the component to create.
         :param pulumi.Input[bool] is_fifo: Set to true to create the Queue as FiFo. False for a Standard Queue.
         :param pulumi.Input[float] max_message_size: The limit for a Queue message size in bytes. Minimum is 1 byte (1 character) and Maximum 262,144 bytes (256 KiB). By default a message can be 256 KiB large.
         :param pulumi.Input[float] message_retention_seconds: The amount of time that a message will be stored in the Queue without being deleted. Minimum is 60 seconds (1 minutes) and Maximum 1,209,600 (14 days) seconds. By default a message is retained 4 days.
@@ -158,14 +158,14 @@ class QueueArgsArgs:
 
     @property
     @pulumi.getter(name="DeadLetterQueueTypeArgs")
-    def dead_letter_queue_type_args(self) -> Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']]:
+    def dead_letter_queue_type_args(self) -> Optional[pulumi.Input['DeadLetterQueueTypeArgs']]:
         """
         Dead Letter Queue attached to the component to create.
         """
         return pulumi.get(self, "dead_letter_queue_type_args")
 
     @dead_letter_queue_type_args.setter
-    def dead_letter_queue_type_args(self, value: Optional[pulumi.Input['DeadLetterQueueTypeArgsArgs']]):
+    def dead_letter_queue_type_args(self, value: Optional[pulumi.Input['DeadLetterQueueTypeArgs']]):
         pulumi.set(self, "dead_letter_queue_type_args", value)
 
     @property

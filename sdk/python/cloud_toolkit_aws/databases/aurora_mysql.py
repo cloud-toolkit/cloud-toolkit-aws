@@ -18,24 +18,24 @@ __all__ = ['AuroraMysqlArgs', 'AuroraMysql']
 @pulumi.input_type
 class AuroraMysqlArgs:
     def __init__(__self__, *,
-                 backup: Optional[pulumi.Input['AuroraMysqlBackupArgsArgs']] = None,
-                 database: Optional[pulumi.Input['AuroraMysqlDatabaseArgsArgs']] = None,
+                 backup: Optional[pulumi.Input['AuroraMysqlBackupArgs']] = None,
+                 database: Optional[pulumi.Input['AuroraMysqlDatabaseArgs']] = None,
                  instance_type: Optional[pulumi.Input[str]] = None,
                  instances_count: Optional[pulumi.Input[float]] = None,
-                 logging: Optional[pulumi.Input['AuroraMysqlLoggingArgsArgs']] = None,
-                 monitoring: Optional[pulumi.Input['AuroraMysqlMonitoringArgsArgs']] = None,
-                 networking: Optional[pulumi.Input['AuroraMysqlNetworkingArgsArgs']] = None,
+                 logging: Optional[pulumi.Input['AuroraMysqlLoggingArgs']] = None,
+                 monitoring: Optional[pulumi.Input['AuroraMysqlMonitoringArgs']] = None,
+                 networking: Optional[pulumi.Input['AuroraMysqlNetworkingArgs']] = None,
                  version: Optional[pulumi.Input['AuroraMysqlVersion']] = None):
         """
         The set of arguments for constructing a AuroraMysql resource.
-        :param pulumi.Input['AuroraMysqlBackupArgsArgs'] backup: Backup configuration parameters for Aurora cluster
-        :param pulumi.Input['AuroraMysqlDatabaseArgsArgs'] database: Configuration parameters for the database instance
+        :param pulumi.Input['AuroraMysqlBackupArgs'] backup: Backup configuration parameters for Aurora cluster
+        :param pulumi.Input['AuroraMysqlDatabaseArgs'] database: Configuration parameters for the database
         :param pulumi.Input[str] instance_type: The instance type for the cluster
         :param pulumi.Input[float] instances_count: The number of instances to be created for Aurora cluster
-        :param pulumi.Input['AuroraMysqlLoggingArgsArgs'] logging: Logging configuration parameters for Aurora cluster
-        :param pulumi.Input['AuroraMysqlMonitoringArgsArgs'] monitoring: Monitoring configuration parameters for Aurora cluster
-        :param pulumi.Input['AuroraMysqlNetworkingArgsArgs'] networking: Networking configuration parameters for Aurora cluster
-        :param pulumi.Input['AuroraMysqlVersion'] version: Version for database instance
+        :param pulumi.Input['AuroraMysqlLoggingArgs'] logging: Logging configuration parameters for Aurora cluster
+        :param pulumi.Input['AuroraMysqlMonitoringArgs'] monitoring: Monitoring configuration parameters for Aurora cluster
+        :param pulumi.Input['AuroraMysqlNetworkingArgs'] networking: Networking configuration parameters for Aurora cluster
+        :param pulumi.Input['AuroraMysqlVersion'] version: Version for database
         """
         if backup is not None:
             pulumi.set(__self__, "backup", backup)
@@ -56,26 +56,26 @@ class AuroraMysqlArgs:
 
     @property
     @pulumi.getter
-    def backup(self) -> Optional[pulumi.Input['AuroraMysqlBackupArgsArgs']]:
+    def backup(self) -> Optional[pulumi.Input['AuroraMysqlBackupArgs']]:
         """
         Backup configuration parameters for Aurora cluster
         """
         return pulumi.get(self, "backup")
 
     @backup.setter
-    def backup(self, value: Optional[pulumi.Input['AuroraMysqlBackupArgsArgs']]):
+    def backup(self, value: Optional[pulumi.Input['AuroraMysqlBackupArgs']]):
         pulumi.set(self, "backup", value)
 
     @property
     @pulumi.getter
-    def database(self) -> Optional[pulumi.Input['AuroraMysqlDatabaseArgsArgs']]:
+    def database(self) -> Optional[pulumi.Input['AuroraMysqlDatabaseArgs']]:
         """
-        Configuration parameters for the database instance
+        Configuration parameters for the database
         """
         return pulumi.get(self, "database")
 
     @database.setter
-    def database(self, value: Optional[pulumi.Input['AuroraMysqlDatabaseArgsArgs']]):
+    def database(self, value: Optional[pulumi.Input['AuroraMysqlDatabaseArgs']]):
         pulumi.set(self, "database", value)
 
     @property
@@ -104,45 +104,45 @@ class AuroraMysqlArgs:
 
     @property
     @pulumi.getter
-    def logging(self) -> Optional[pulumi.Input['AuroraMysqlLoggingArgsArgs']]:
+    def logging(self) -> Optional[pulumi.Input['AuroraMysqlLoggingArgs']]:
         """
         Logging configuration parameters for Aurora cluster
         """
         return pulumi.get(self, "logging")
 
     @logging.setter
-    def logging(self, value: Optional[pulumi.Input['AuroraMysqlLoggingArgsArgs']]):
+    def logging(self, value: Optional[pulumi.Input['AuroraMysqlLoggingArgs']]):
         pulumi.set(self, "logging", value)
 
     @property
     @pulumi.getter
-    def monitoring(self) -> Optional[pulumi.Input['AuroraMysqlMonitoringArgsArgs']]:
+    def monitoring(self) -> Optional[pulumi.Input['AuroraMysqlMonitoringArgs']]:
         """
         Monitoring configuration parameters for Aurora cluster
         """
         return pulumi.get(self, "monitoring")
 
     @monitoring.setter
-    def monitoring(self, value: Optional[pulumi.Input['AuroraMysqlMonitoringArgsArgs']]):
+    def monitoring(self, value: Optional[pulumi.Input['AuroraMysqlMonitoringArgs']]):
         pulumi.set(self, "monitoring", value)
 
     @property
     @pulumi.getter
-    def networking(self) -> Optional[pulumi.Input['AuroraMysqlNetworkingArgsArgs']]:
+    def networking(self) -> Optional[pulumi.Input['AuroraMysqlNetworkingArgs']]:
         """
         Networking configuration parameters for Aurora cluster
         """
         return pulumi.get(self, "networking")
 
     @networking.setter
-    def networking(self, value: Optional[pulumi.Input['AuroraMysqlNetworkingArgsArgs']]):
+    def networking(self, value: Optional[pulumi.Input['AuroraMysqlNetworkingArgs']]):
         pulumi.set(self, "networking", value)
 
     @property
     @pulumi.getter
     def version(self) -> Optional[pulumi.Input['AuroraMysqlVersion']]:
         """
-        Version for database instance
+        Version for database
         """
         return pulumi.get(self, "version")
 
@@ -156,27 +156,27 @@ class AuroraMysql(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 backup: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlBackupArgsArgs']]] = None,
-                 database: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlDatabaseArgsArgs']]] = None,
+                 backup: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlBackupArgs']]] = None,
+                 database: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlDatabaseArgs']]] = None,
                  instance_type: Optional[pulumi.Input[str]] = None,
                  instances_count: Optional[pulumi.Input[float]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgsArgs']]] = None,
-                 monitoring: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgsArgs']]] = None,
-                 networking: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgs']]] = None,
+                 monitoring: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgs']]] = None,
+                 networking: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgs']]] = None,
                  version: Optional[pulumi.Input['AuroraMysqlVersion']] = None,
                  __props__=None):
         """
         Create a AuroraMysql resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[pulumi.InputType['AuroraMysqlBackupArgsArgs']] backup: Backup configuration parameters for Aurora cluster
-        :param pulumi.Input[pulumi.InputType['AuroraMysqlDatabaseArgsArgs']] database: Configuration parameters for the database instance
+        :param pulumi.Input[pulumi.InputType['AuroraMysqlBackupArgs']] backup: Backup configuration parameters for Aurora cluster
+        :param pulumi.Input[pulumi.InputType['AuroraMysqlDatabaseArgs']] database: Configuration parameters for the database
         :param pulumi.Input[str] instance_type: The instance type for the cluster
         :param pulumi.Input[float] instances_count: The number of instances to be created for Aurora cluster
-        :param pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgsArgs']] logging: Logging configuration parameters for Aurora cluster
-        :param pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgsArgs']] monitoring: Monitoring configuration parameters for Aurora cluster
-        :param pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgsArgs']] networking: Networking configuration parameters for Aurora cluster
-        :param pulumi.Input['AuroraMysqlVersion'] version: Version for database instance
+        :param pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgs']] logging: Logging configuration parameters for Aurora cluster
+        :param pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgs']] monitoring: Monitoring configuration parameters for Aurora cluster
+        :param pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgs']] networking: Networking configuration parameters for Aurora cluster
+        :param pulumi.Input['AuroraMysqlVersion'] version: Version for database
         """
         ...
     @overload
@@ -201,13 +201,13 @@ class AuroraMysql(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 backup: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlBackupArgsArgs']]] = None,
-                 database: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlDatabaseArgsArgs']]] = None,
+                 backup: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlBackupArgs']]] = None,
+                 database: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlDatabaseArgs']]] = None,
                  instance_type: Optional[pulumi.Input[str]] = None,
                  instances_count: Optional[pulumi.Input[float]] = None,
-                 logging: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgsArgs']]] = None,
-                 monitoring: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgsArgs']]] = None,
-                 networking: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgsArgs']]] = None,
+                 logging: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgs']]] = None,
+                 monitoring: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgs']]] = None,
+                 networking: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgs']]] = None,
                  version: Optional[pulumi.Input['AuroraMysqlVersion']] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)

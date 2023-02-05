@@ -10,14 +10,14 @@ import * as utilities from "../../utilities";
 import * as pulumiAws from "@pulumi/aws";
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-export interface AddonsArgsArgs {
+export interface AddonsArgs {
     /**
      * Enable the ClusterAddons.
      */
     enabled: pulumi.Input<boolean>;
 }
 
-export interface AdotApplicationMetricsArgsArgs {
+export interface AdotApplicationMetricsArgs {
     /**
      * Data retention expressed in days.
      */
@@ -28,18 +28,18 @@ export interface AdotApplicationMetricsArgsArgs {
     enabled?: pulumi.Input<boolean>;
 }
 
-export interface ClusterAddonsIngressArgsArgs {
+export interface ClusterAddonsIngressArgs {
     /**
      * Configure the admin IngressController.
      */
-    admin?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
+    admin?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgs>;
     /**
      * Configure the default IngressController.
      */
-    default?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgsArgs>;
+    default?: pulumi.Input<inputs.kubernetes.ClusterAddonsIngressItemArgs>;
 }
 
-export interface ClusterAddonsIngressItemArgsArgs {
+export interface ClusterAddonsIngressItemArgs {
     /**
      * The domain used to expose the IngressController.
      */
@@ -58,18 +58,18 @@ export interface ClusterAddonsIngressItemArgsArgs {
     whitelist?: pulumi.Input<pulumi.Input<string>[]>;
 }
 
-export interface ClusterApiArgsArgs {
+export interface ClusterApiArgs {
     /**
      * Configure the private endpoint for the Kubernetes API.
      */
-    private?: pulumi.Input<inputs.kubernetes.ClusterPrivateApiArgsArgs>;
+    private?: pulumi.Input<inputs.kubernetes.ClusterPrivateApiArgs>;
     /**
      * Configure the public endpoint for the Kubernetes API.
      */
-    public?: pulumi.Input<inputs.kubernetes.ClusterPublicApiArgsArgs>;
+    public?: pulumi.Input<inputs.kubernetes.ClusterPublicApiArgs>;
 }
 
-export interface ClusterAuthenticationArgsArgs {
+export interface ClusterAuthenticationArgs {
     /**
      * The list of AWS Accounts that can authenticate with the API Server.
      */
@@ -81,25 +81,25 @@ export interface ClusterAuthenticationArgsArgs {
     /**
      * The list of AWS IAM Roles that can authenticate with the API server.
      */
-    roles?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorRoleArgsArgs>[]>;
+    roles?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorRoleArgs>[]>;
     /**
      * The list of AWS IAM Users that can authenticate with the API server.
      */
-    users?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorUserArgsArgs>[]>;
+    users?: pulumi.Input<pulumi.Input<inputs.kubernetes.IamAuthenticatorUserArgs>[]>;
 }
 
-export interface ClusterNetworkingArgsArgs {
+export interface ClusterNetworkingArgs {
     /**
      * Configure the access to admin applications.
      */
-    admin?: pulumi.Input<inputs.kubernetes.ClusterNetworkingIngressArgsArgs>;
+    admin?: pulumi.Input<inputs.kubernetes.ClusterNetworkingIngressArgs>;
     /**
      * Configure the access to applications.
      */
-    default?: pulumi.Input<inputs.kubernetes.ClusterNetworkingIngressArgsArgs>;
+    default?: pulumi.Input<inputs.kubernetes.ClusterNetworkingIngressArgs>;
 }
 
-export interface ClusterNetworkingIngressArgsArgs {
+export interface ClusterNetworkingIngressArgs {
     /**
      * The domain used to expose the IngressController.
      */
@@ -118,7 +118,7 @@ export interface ClusterNetworkingIngressArgsArgs {
     whitelist?: pulumi.Input<pulumi.Input<string>[]>;
 }
 
-export interface ClusterNodeGroupArgsArgs {
+export interface ClusterNodeGroupArgs {
     /**
      * The EC2 Instance Type to be used to create the Nodes.
      */
@@ -145,21 +145,21 @@ export interface ClusterNodeGroupArgsArgs {
     subnetsType?: pulumi.Input<enums.kubernetes.ClusterSubnetsType>;
 }
 
-export interface ClusterOidcProvidersArgsArgs {
+export interface ClusterOidcProvidersArgs {
     /**
      * Enable the default OIDC Provider that is used in the cluster to let Service Accounts to authenticate against AWS with a given IAM Role.
      */
     enableDefaultProvider: pulumi.Input<boolean>;
 }
 
-export interface ClusterPrivateApiArgsArgs {
+export interface ClusterPrivateApiArgs {
     /**
      * Enable the private endpoint for Kubernetes API.
      */
     enabled?: pulumi.Input<boolean>;
 }
 
-export interface ClusterPublicApiArgsArgs {
+export interface ClusterPublicApiArgs {
     /**
      * Enable the public endpoint for Kubernetes API.
      */
@@ -170,22 +170,22 @@ export interface ClusterPublicApiArgsArgs {
     whitelist?: pulumi.Input<pulumi.Input<string>[]>;
 }
 
-export interface FluentbitLoggingArgsArgs {
+export interface FluentbitLoggingArgs {
     /**
      * Configure applications logging.
      */
-    applications?: pulumi.Input<inputs.kubernetes.FluentbitLoggingItemArgsArgs>;
+    applications?: pulumi.Input<inputs.kubernetes.FluentbitLoggingItemArgs>;
     /**
      * Configure data plane logging.
      */
-    dataplane?: pulumi.Input<inputs.kubernetes.FluentbitLoggingItemArgsArgs>;
+    dataplane?: pulumi.Input<inputs.kubernetes.FluentbitLoggingItemArgs>;
     /**
      * Configure host logging.
      */
-    host?: pulumi.Input<inputs.kubernetes.FluentbitLoggingItemArgsArgs>;
+    host?: pulumi.Input<inputs.kubernetes.FluentbitLoggingItemArgs>;
 }
 
-export interface FluentbitLoggingItemArgsArgs {
+export interface FluentbitLoggingItemArgs {
     /**
      * Data retention expressed in days.
      */
@@ -196,7 +196,7 @@ export interface FluentbitLoggingItemArgsArgs {
     enabled: pulumi.Input<boolean>;
 }
 
-export interface IamAuthenticatorRoleArgsArgs {
+export interface IamAuthenticatorRoleArgs {
     /**
      * The list of Kubernetes groups to be associated with the AWS IAM Role.
      */
@@ -211,7 +211,7 @@ export interface IamAuthenticatorRoleArgsArgs {
     username: pulumi.Input<string>;
 }
 
-export interface IamAuthenticatorUserArgsArgs {
+export interface IamAuthenticatorUserArgs {
     /**
      * The list of Kubernetes groups to be associated with the AWS IAM User.
      */
@@ -226,7 +226,7 @@ export interface IamAuthenticatorUserArgsArgs {
     username: pulumi.Input<string>;
 }
 
-export interface IngressNginxTlsArgsArgs {
+export interface IngressNginxTlsArgs {
     /**
      * The domain to be used to create a signed Certificate.
      */
@@ -241,7 +241,7 @@ export interface IngressNginxTlsArgsArgs {
     zoneId: pulumi.Input<string>;
 }
 
-export interface ProjectResourcesArgsArgs {
+export interface ProjectResourcesArgs {
     /**
      * Amount of reserved CPU.
      */

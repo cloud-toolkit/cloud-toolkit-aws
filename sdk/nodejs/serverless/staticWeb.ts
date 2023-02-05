@@ -29,11 +29,11 @@ export class StaticWeb extends pulumi.ComponentResource {
     /**
      * DNS Records to expose staticweb
      */
-    public /*out*/ readonly DNSRecords!: pulumi.Output<outputs.serverless.DNSRecordsArgs | undefined>;
+    public /*out*/ readonly DNSRecords!: pulumi.Output<outputs.serverless.DNSRecords | undefined>;
     /**
      * DNS Records to validate the certificate
      */
-    public /*out*/ readonly DNSRecordsForValidation!: pulumi.Output<outputs.serverless.DNSRecordsArgs | undefined>;
+    public /*out*/ readonly DNSRecordsForValidation!: pulumi.Output<outputs.serverless.DNSRecords | undefined>;
     /**
      * CloudFront Distribution
      */
@@ -130,7 +130,7 @@ export interface StaticWebArgs {
     /**
      * Cloud Front distribution cache
      */
-    cache?: pulumi.Input<inputs.serverless.CdnCacheArgsArgs>;
+    cache?: pulumi.Input<inputs.serverless.CdnCacheArgs>;
     /**
      * Set to true to configure DNS
      */
@@ -138,7 +138,7 @@ export interface StaticWebArgs {
     /**
      * DNS configuration
      */
-    dns?: pulumi.Input<inputs.serverless.CdnDnsArgsArgs>;
+    dns?: pulumi.Input<inputs.serverless.CdnDnsArgs>;
     /**
      * Set to true to add an alias to wwww.<domain>
      */

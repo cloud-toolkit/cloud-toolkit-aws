@@ -69,5 +69,5 @@ export interface AccountIamArgs {
     /**
      * The IAM password policy configuration.
      */
-    passwordPolicy?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyArgsArgs>;
+    passwordPolicy?: pulumi.Input<inputs.landingzone.AccountPasswordPolicyArgs>;
 }

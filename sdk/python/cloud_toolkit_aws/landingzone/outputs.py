@@ -11,7 +11,7 @@ from .. import _utilities
 import pulumi_aws
 
 __all__ = [
-    'AccountMappingArgs',
+    'AccountMapping',
     'IamTrustedAccountRoleGroupMapping',
     'IamTrustedAccountRoleGroupPolicyMapping',
     'IamTrustingAccountRoleMapping',
@@ -21,7 +21,7 @@ __all__ = [
 ]
 
 @pulumi.output_type
-class AccountMappingArgs(dict):
+class AccountMapping(dict):
     @staticmethod
     def __key_warning(key: str):
         suggest = None
@@ -29,14 +29,14 @@ class AccountMappingArgs(dict):
             suggest = "account_name"
 
         if suggest:
-            pulumi.log.warn(f"Key '{key}' not found in AccountMappingArgs. Access the value via the '{suggest}' property getter instead.")
+            pulumi.log.warn(f"Key '{key}' not found in AccountMapping. Access the value via the '{suggest}' property getter instead.")
 
     def __getitem__(self, key: str) -> Any:
-        AccountMappingArgs.__key_warning(key)
+        AccountMapping.__key_warning(key)
         return super().__getitem__(key)
 
     def get(self, key: str, default = None) -> Any:
-        AccountMappingArgs.__key_warning(key)
+        AccountMapping.__key_warning(key)
         return super().get(key, default)
 
     def __init__(__self__, *,

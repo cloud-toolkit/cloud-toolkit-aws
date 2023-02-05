@@ -65,7 +65,7 @@ export class IamTrustedAccount extends pulumi.ComponentResource {
  * The set of arguments for constructing a IamTrustedAccount resource.
  */
 export interface IamTrustedAccountArgs {
-    roles: pulumi.Input<pulumi.Input<inputs.landingzone.IamTrustedAccountRoleArgsArgs>[]>;
+    roles: pulumi.Input<pulumi.Input<inputs.landingzone.IamTrustedAccountRoleArgs>[]>;
     trustingAccountId: pulumi.Input<string>;
     trustingAccountName: pulumi.Input<string>;
 }

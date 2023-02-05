@@ -38,7 +38,7 @@ export class Organization extends pulumi.ComponentResource {
     /**
      * The list of Accounts.
      */
-    public readonly accounts!: pulumi.Output<outputs.landingzone.AccountMappingArgs[]>;
+    public readonly accounts!: pulumi.Output<outputs.landingzone.AccountMapping[]>;
     /**
      * The AWS Organization.
      */
@@ -99,7 +99,7 @@ export interface OrganizationArgs {
     /**
      * The list of AWS Account to be configured in the Organization.
      */
-    accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgsArgs>[]>;
+    accounts?: pulumi.Input<pulumi.Input<inputs.landingzone.OrganizationAccountArgs>[]>;
     /**
      * The list of enabled Organizations Policies in the organization.
      */
@@ -115,7 +115,7 @@ export interface OrganizationArgs {
     /**
      * The Organization policies to be applied.
      */
-    policies?: pulumi.Input<inputs.landingzone.OrganizationPoliciesArgsArgs>;
+    policies?: pulumi.Input<inputs.landingzone.OrganizationPoliciesArgs>;
     /**
      * The list of AWS Service Access Principals enabled in the organization.
      */
