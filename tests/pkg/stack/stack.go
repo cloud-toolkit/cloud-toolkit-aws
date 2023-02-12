@@ -87,7 +87,8 @@ func (s *stack) NewProgramOpts() integration.ProgramTestOptions {
 			s.StackInfo.RootResource = stack.RootResource
 			s.StackInfo.StackName = stack.StackName
 		},
-		StackName: stackName,
+		StackName:        stackName,
+		SkipStackRemoval: false,
 	}
 }
 
