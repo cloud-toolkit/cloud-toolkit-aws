@@ -3387,4 +3387,8 @@ language:
       pulumi-random: ==4.8.2
     respectSchemaVersion: true
     packageName: cloud_toolkit_aws
-
+  go:
+    generateResourceContainerTypes: true
+    importBasePath: github.com/cloud-toolkit/cloud-toolkit-aws/sdk/go/aws
+    liftSingleValueMethodReturns: true
+    respectSchemaVersion: true

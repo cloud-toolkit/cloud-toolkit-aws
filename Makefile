@@ -9,7 +9,7 @@ CODEGEN         := pulumi-gen-${PACK}
 WORKING_DIR     := $(shell pwd)
 SCHEMA_PATH     := ${WORKING_DIR}/schema.yaml
 
-generate:: gen_nodejs_sdk gen_python_sdk
+generate:: gen_go_sdk gen_nodejs_sdk gen_python_sdk
 
 build_sdk:: build_nodejs_sdk build_python_sdk
 
@@ -29,6 +29,10 @@ install_provider:: build_provider
 	rm -rf bin && \
 	    cd provider/cmd/${PROVIDER}/ && \
         npx pkg . ${PKG_ARGS} --target node16 --output ../../../bin/${PROVIDER}
+
+gen_go_sdk::
+	rm -rf sdk/go
+	cd provider/cmd/${CODEGEN} && go run . go ../../../sdk/go ${SCHEMA_PATH}
 
 gen_nodejs_sdk::
 	rm -rf sdk/nodejs
