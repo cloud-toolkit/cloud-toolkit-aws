@@ -109,4 +109,4 @@ prepare_integration_tests::
 		go install github.com/onsi/ginkgo/v2/ginkgo@v2.6.1
 
 integration_tests:: prepare_integration_tests
-		ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result -race -trace -cover ./tests
+		ginkgo run -vv --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result -race -trace -cover ./tests

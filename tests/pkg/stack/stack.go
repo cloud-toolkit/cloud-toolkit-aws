@@ -89,6 +89,7 @@ func (s *stack) NewProgramOpts() integration.ProgramTestOptions {
 		},
 		StackName:        stackName,
 		SkipStackRemoval: false,
+		Verbose:          true,
 	}
 }
 

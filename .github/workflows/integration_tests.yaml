@@ -1,0 +1,76 @@
+name: integration-tests
+
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+jobs:
+  integration_test:
+    continue-on-error: true
+    strategy:
+      matrix:
+        suites:
+          - name: AuroraMysql with default configuration
+            path: databases/aurora-mysql/default
+          - name: Queue with default configuration
+            path: serverless/queue/default
+          - name: Bucket with default configuration
+            path: storage/bucket/default
+          - name: Bucket with public configuration
+            path: storage/bucket/public
+          - name: Bucket with encrypted configuration
+            path: storage/bucket/encrypted
+          - name: Kubernetes Cluster with ingress configuration
+            path: kubernetes/cluster/ingress
+          - name: Kubernetes Cluster with default configuration
+            path: kubernetes/cluster/default
+    name: ${{ matrix.suites.name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+      - name: Unshallow clone for tags
+        run: git fetch --prune --unshallow --tags
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.19.4'
+      - name: Install pulumictl
+        uses: jaxxstorm/action-install-gh-release@v1.9.0
+        with:
+          repo: pulumi/pulumictl
+      - run: go version
+      - name: Install Pulumi CLI
+        uses: pulumi/action-install-pulumi-cli@v2.0.0
+      - name: Build SDK
+        run: make build_sdk
+      - name: Install provider
+        run: make install_provider
+      - name: Run integration tests
+        run: |
+          pwd
+          pulumi plugin install resource cloud-toolkit-aws "$(pulumictl get version)" -f bin/pulumi-resource-cloud-toolkit-aws
+          make prepare_integration_tests
+          ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result/${{ matrix.suites.path }} -race -trace -cover ./tests/suites/${{ matrix.suites.path }}
+      - name: Archive tests result
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: tests-result
+          path: tests-result
+      - name: Archive tmp dir
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: tmp-dir
+          path: /tmp/Test**/*
