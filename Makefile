@@ -90,10 +90,23 @@ dist:: build_provider
 version::
 	@echo ${VERSION}
 
-integration_tests_nodejs::
-	rm -rf ~/.config/yarn/link/@cloud-toolkit/${PACK} && \
-		(cd sdk/nodejs/bin && yarn link) && \
-		go install github.com/onsi/ginkgo/v2/ginkgo@v2.6.1 && \
-		ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result ./tests/suites
+integration_tests_storage::
+		ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result -race -trace -cover ./tests/suites/storage
 
-integration_tests:: integration_tests_nodejs
+integration_tests_kubernetes::
+		ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result -race -trace -cover ./tests/suites/kubernetes
+
+integration_tests_serverless::
+		ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result -race -trace -cover ./tests/suites/serverless
+
+integration_tests_databases::
+		ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result -race -trace -cover ./tests/suites/databases
+
+prepare_integration_tests::
+	rm -rf ~/.config/yarn/link/@cloudtoolkit/aws && \
+		(cd sdk/nodejs/bin && yarn link) && \
+		(cd tests && go mod download) && \
+		go install github.com/onsi/ginkgo/v2/ginkgo@v2.6.1
+
+integration_tests:: prepare_integration_tests
+		ginkgo run --junit-report report.xml --json-report report.json -r --keep-going --output-dir tests-result -race -trace -cover ./tests
