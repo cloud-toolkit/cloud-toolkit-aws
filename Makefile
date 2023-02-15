@@ -48,6 +48,10 @@ build_nodejs_sdk:: gen_nodejs_sdk
 		sed -i.bak -e "s/\$${VERSION}/$(VERSION)/g" ./bin/package.json && \
 		rm ./bin/package.json.bak
 
+release_nodejs_sdk::
+	cd sdk/nodejs/bin && \
+		npm publish
+
 gen_python_sdk::
 	rm -rf sdk/python
 	cd provider/cmd/${CODEGEN} && go run . python ../../../sdk/python ${SCHEMA_PATH}
@@ -63,6 +67,10 @@ build_python_sdk:: gen_python_sdk
 		sed -i.bak -e 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' -e 's/^PLUGIN_VERSION = .*/PLUGIN_VERSION = "$(VERSION)"/g' ./bin/setup.py && \
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
+
+release_python_sdk::
+	cd sdk/python/bin && \
+		twine upload dist/*
 
 dist:: PKG_ARGS := --no-bytecode --public-packages "*" --public
 dist:: build_provider
