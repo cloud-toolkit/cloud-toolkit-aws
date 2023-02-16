@@ -95,7 +95,6 @@ jobs:
         run: make build_python_sdk
       - name: Release Python SDK
         run: make release_python_sdk
-        working-directory: ./sdk/python/bin
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
