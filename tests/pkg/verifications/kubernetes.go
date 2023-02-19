@@ -13,12 +13,15 @@ import (
 func VerifyKubernetesDeployment(clientset *kubernetes.Clientset, namespace, name string, replicas int) {
 	var deployment *appsv1.Deployment
 	var err error
-	for i := 0; i <= 60; i++ {
+
+	maxRetry := 60
+	retryInterval := 10
+	for i := 0; i <= maxRetry; i++ {
 		deployment, err = clientset.AppsV1().Deployments(namespace).Get(context.TODO(), name, metav1.GetOptions{})
 		if err == nil && deployment.Status.ReadyReplicas == int32(replicas) {
 			break
 		}
-		time.Sleep(time.Second * 10)
+		time.Sleep(time.Second * time.Duration(retryInterval))
 	}
 	Expect(err).To(BeNil())
 	Expect(deployment.Status.ReadyReplicas).To(Equal(int32(replicas)))
