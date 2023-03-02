@@ -3,6 +3,7 @@ import * as kubernetes from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import { IrsaArgs } from "./irsaArgs";
 
+export { IrsaArgs }
 /**
  * The Irsa component create an IAM roles for service accounts on AWS and Kubernetes.
  */

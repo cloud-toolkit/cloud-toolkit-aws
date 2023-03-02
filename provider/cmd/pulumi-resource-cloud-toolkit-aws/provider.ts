@@ -39,6 +39,8 @@ import {
   NodeGroupArgs,
   Project,
   ProjectArgs,
+  Irsa,
+  IrsaArgs
 } from "./kubernetes";
 import {
   AccountIam,
@@ -119,6 +121,8 @@ export class Provider implements pulumi.provider.Provider {
         return await constructKubernetesFluentbit(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:Project":
         return await constructKubernetesProject(name, inputs, options);
+      case "cloud-toolkit-aws:kubernetes:Irsa":
+        return await constructKubernetesIrsa(name, inputs, options);
       case "cloud-toolkit-aws:kubernetes:ClusterAdmins":
         return await constructKubernetesClusterAdmins(name, inputs, options);
       case "cloud-toolkit-aws:landingzone:AccountIam":
@@ -476,6 +480,24 @@ async function constructKubernetesProject(
   };
 }
 
+async function constructKubernetesIrsa(
+  name: string,
+  inputs: pulumi.Inputs,
+  options: pulumi.ComponentResourceOptions
+): Promise<pulumi.provider.ConstructResult> {
+  const resource = new Irsa(name, inputs as IrsaArgs, options);
+
+  return {
+    urn: resource.urn,
+    state: {
+      name: resource.name,
+      role: resource.role,
+      policies: resource.policies,
+      rolePolicyAttachments: resource.rolePolicyAttachments,
+      serviceAccount: resource.serviceAccount,
+    },
+  };
+}
 async function constructQueue(
   name: string,
   inputs: pulumi.Inputs,
