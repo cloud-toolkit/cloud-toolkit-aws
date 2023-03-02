@@ -9,6 +9,7 @@ import { ExternalDns, ExternalDnsArgs } from "./externalDns";
 import { IngressNginx, IngressNginxArgs } from "./ingressNginx";
 import { NodeGroup, NodeGroupArgs } from "./nodeGroup";
 import { Project, ProjectArgs } from "./project";
+import { Irsa, IrsaArgs} from "./irsa";
 
 export {
   ArgoCD,
@@ -33,4 +34,6 @@ export {
   NodeGroupArgs,
   Project,
   ProjectArgs,
+  Irsa,
+  IrsaArgs
 };
