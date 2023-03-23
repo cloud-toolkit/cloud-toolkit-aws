@@ -79,7 +79,7 @@ export class Organization extends pulumi.ComponentResource {
     args: OrganizationArgs,
     opts?: pulumi.ResourceOptions
   ) {
-    super("cloud-toolkit-aws:landingZone:Organization", name, {}, opts);
+    super("cloud-toolkit-aws:landingzone:Organization", name, {}, opts);
     this.name = name;
     this.args = this.validateArgs(args);
 

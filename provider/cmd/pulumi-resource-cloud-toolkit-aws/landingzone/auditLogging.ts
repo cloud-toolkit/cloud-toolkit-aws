@@ -81,7 +81,7 @@ export class AuditLogging extends pulumi.ComponentResource {
     args: AuditLoggingArgs,
     opts?: pulumi.ResourceOptions
   ) {
-    super("cloud-toolkit-aws:landingZone:AuditLogging", name, args, opts);
+    super("cloud-toolkit-aws:landingzone:AuditLogging", name, args, opts);
 
     this.name = name;
     this.args = this.validateArgs(args);

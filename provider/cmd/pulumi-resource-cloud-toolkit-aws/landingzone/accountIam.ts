@@ -32,7 +32,7 @@ export class AccountIam extends pulumi.ComponentResource {
   public readonly passwordPolicy?: aws.iam.AccountPasswordPolicy;
 
   constructor(name: string, args: AccountIamArgs, opts?: pulumi.ResourceOptions) {
-    super("cloud-toolkit-aws:landingZone:AccountIam", name, args, opts);
+    super("cloud-toolkit-aws:landingzone:AccountIam", name, args, opts);
     this.name = name;
     this.args = this.validateArgs(args);
 
