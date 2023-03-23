@@ -70,6 +70,7 @@ build_python_sdk:: gen_python_sdk
 
 release_python_sdk::
 	cd sdk/python/bin && \
+		pip3 install twine && \
 		twine upload dist/*
 
 dist:: PKG_ARGS := --no-bytecode --public-packages "*" --public
