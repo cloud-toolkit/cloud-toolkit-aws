@@ -50,7 +50,7 @@ export class ArgoCD extends pulumi.ComponentResource {
     const values = this.getChartValues();
     this.chart = this.deployHelmChart(
       "argo-cd",
-      "5.6.1",
+      "5.27.4",
       "https://argoproj.github.io/argo-helm",
       values,
       resourceOpts,
