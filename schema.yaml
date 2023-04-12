@@ -11,14 +11,6 @@ keywords:
   - kind/component
 pluginDownloadURL: github://api.github.com/cloud-toolkit/cloud-toolkit-aws
 types:
-  cloud-toolkit-aws:databases:AuroraMysqlVersion:
-    description: Set of allowed versions for the database
-    type: string
-    enum:
-      - name: V8_0
-        value: "8.0"
-      - name: V5_7
-        value: "5.7"
   cloud-toolkit-aws:databases:MysqlVersion:
     description: Set of allowed versions for the database instance
     type: string
@@ -97,7 +89,7 @@ types:
     properties:
       version:
         description: Version for database
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlVersion"
+        type: string
       database:
         description: Configuration parameters for the database
         $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlDatabase"
@@ -1716,7 +1708,7 @@ resources:
     inputProperties:
       version:
         description: Version for database
-        $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlVersion"
+        type: string
       database:
         description: Configuration parameters for the database
         $ref: "#/types/cloud-toolkit-aws:databases:AuroraMysqlDatabase"

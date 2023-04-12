@@ -4,7 +4,7 @@ export interface AuroraMysqlArgs {
   /**
    * Version for database
   */
-  version?: AuroraMysqlVersion;
+  version?: pulumi.Input<string>;
  
   /**
   * Configuration parameters for the database
@@ -40,14 +40,6 @@ export interface AuroraMysqlArgs {
    * Backup configuration parameters for Aurora cluster
    */
    backup?: AuroraMysqlBackupArgs;
-}
-
-/**
-* Set of allowed versions for the database
-*/
-export enum AuroraMysqlVersion {
-    V8_0 = "8.0",
-    V5_7 = "5.7",
 }
 
 /**
@@ -180,6 +172,5 @@ export const defaultArgs = {
         ],
         allowInternet: false,
     },
-    version: AuroraMysqlVersion.V8_0,
 };
 export const defaultPasswordLength = 14; 
