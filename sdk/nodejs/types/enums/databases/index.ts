@@ -2,16 +2,6 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 
-export const AuroraMysqlVersion = {
-    V8_0: "8.0",
-    V5_7: "5.7",
-} as const;
-
-/**
- * Set of allowed versions for the database
- */
-export type AuroraMysqlVersion = (typeof AuroraMysqlVersion)[keyof typeof AuroraMysqlVersion];
-
 export const MysqlStorageType = {
     Standard: "standard",
     Io1: "io1",

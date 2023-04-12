@@ -153,5 +153,5 @@ export interface AuroraMysqlArgs {
     /**
      * Version for database
      */
-    version?: pulumi.Input<enums.databases.AuroraMysqlVersion>;
+    version?: pulumi.Input<string>;
 }
