@@ -182,6 +182,7 @@ export class AuroraMysql extends pulumi.ComponentResource {
     const logs = this.getEnabledLogs();
     return new aws.rds.Cluster(this.name, {
       backupRetentionPeriod: this.args.backup?.retentionDays || defaultArgs.backup.retentionDays,
+      dbSubnetGroupName: this.subnetGroup?.name,
       clusterIdentifier: this.name,
       databaseName: this.args.database?.name,
       engine: aws.rds.AuroraMysqlEngine,
@@ -260,6 +261,7 @@ export class AuroraMysql extends pulumi.ComponentResource {
           engine: aws.rds.AuroraMysqlEngine,
           engineVersion: this.args.version,
           publiclyAccessible: this.args.networking?.allowInternet || defaultArgs.networking.allowInternet,
+          dbSubnetGroupName: this.subnetGroup?.name,
         },
         opts
       ));
