@@ -26,7 +26,7 @@ type AuroraMysqlType struct {
 	// Networking configuration parameters for Aurora cluster
 	Networking *AuroraMysqlNetworking `pulumi:"networking"`
 	// Version for database
-	Version *AuroraMysqlVersion `pulumi:"version"`
+	Version *string `pulumi:"version"`
 }
 
 type AuroraMysqlBackup struct {

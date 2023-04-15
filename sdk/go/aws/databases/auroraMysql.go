@@ -75,7 +75,7 @@ type auroraMysqlArgs struct {
 	// Networking configuration parameters for Aurora cluster
 	Networking *AuroraMysqlNetworking `pulumi:"networking"`
 	// Version for database
-	Version *AuroraMysqlVersion `pulumi:"version"`
+	Version *string `pulumi:"version"`
 }
 
 // The set of arguments for constructing a AuroraMysql resource.
@@ -95,7 +95,7 @@ type AuroraMysqlArgs struct {
 	// Networking configuration parameters for Aurora cluster
 	Networking AuroraMysqlNetworkingPtrInput
 	// Version for database
-	Version AuroraMysqlVersionPtrInput
+	Version pulumi.StringPtrInput
 }
 
 func (AuroraMysqlArgs) ElementType() reflect.Type {
