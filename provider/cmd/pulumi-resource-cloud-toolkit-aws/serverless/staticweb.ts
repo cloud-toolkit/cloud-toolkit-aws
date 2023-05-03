@@ -139,7 +139,7 @@ export class StaticWeb extends pulumi.ComponentResource {
     if (validatedArgs.configureDNS) {
       this.DNSRecords = this.createDNSRecords(validatedArgs);
     }
-
+    
     this.registerOutputs({
       contentBucket: this.contentBucket,
       logsBucket: this.logsBucket,
@@ -177,13 +177,26 @@ export class StaticWeb extends pulumi.ComponentResource {
   }
 
   createLogsBucket({ domain }: StaticWebArgs): aws.s3.Bucket {
-    return new aws.s3.Bucket(
+    const bucket = new aws.s3.Bucket(
       `${this.name}-request-logs`,
-      {
-        acl: "private",
-      },
+      {}, 
       { parent: this }
     );
+    
+    const bucketOwnershipControls = new aws.s3.BucketOwnershipControls(
+      `${this.name}-request-logs-ownership-control`,
+      {
+        bucket: bucket.id,
+        rule: {
+          objectOwnership: "BucketOwnerPreferred"
+        }
+      },
+      {
+        parent: bucket
+      }
+    )
+
+    return bucket
   }
 
   createCloudFrontOriginAccessIdentity(): aws.cloudfront.OriginAccessIdentity {
