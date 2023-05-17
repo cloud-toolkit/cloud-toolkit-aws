@@ -20,7 +20,7 @@ export interface ClusterArgs {
   publicSubnetIds?: pulumi.Input<string>[];
 
   /**
-   * Desired Kubernetes version for control plane. Defaults to '1.22'.
+   * Desired Kubernetes version for control plane. Defaults to '1.23'.
    */
   version?: string;
 
@@ -206,7 +206,7 @@ export interface ClusterOidcProvidersArgs {
   enableDefaultProvider: boolean;
 }
 
-export const defaultVersion = "1.22";
+export const defaultVersion = "1.23";
 export const defaultPublicApiEnabled = true;
 export const defaultPublicApiWhitelist = undefined;
 export const defaultPrivateApiEnabled = true;
