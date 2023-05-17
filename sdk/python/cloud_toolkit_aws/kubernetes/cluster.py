@@ -45,7 +45,7 @@ class ClusterArgs:
         :param pulumi.Input['ClusterOidcProvidersArgs'] oidc_providers: The OIDC Providers configuration.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_subnet_ids: The list of private subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] public_subnet_ids: The list of public subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
-        :param pulumi.Input[str] version: Desired Kubernetes version for control plane. Defaults to '1.22'.
+        :param pulumi.Input[str] version: Desired Kubernetes version for control plane. Defaults to '1.23'.
         :param pulumi.Input[str] vpc_id: The VPC ID where the cluster will be deployed
         """
         if addons is not None:
@@ -197,7 +197,7 @@ class ClusterArgs:
     @pulumi.getter
     def version(self) -> Optional[pulumi.Input[str]]:
         """
-        Desired Kubernetes version for control plane. Defaults to '1.22'.
+        Desired Kubernetes version for control plane. Defaults to '1.23'.
         """
         return pulumi.get(self, "version")
 
@@ -251,7 +251,7 @@ class Cluster(pulumi.ComponentResource):
         :param pulumi.Input[pulumi.InputType['ClusterOidcProvidersArgs']] oidc_providers: The OIDC Providers configuration.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_subnet_ids: The list of private subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] public_subnet_ids: The list of public subnet ids where for the EKS cluster. These subnets will be tagged for Kubernetes purposes.
-        :param pulumi.Input[str] version: Desired Kubernetes version for control plane. Defaults to '1.22'.
+        :param pulumi.Input[str] version: Desired Kubernetes version for control plane. Defaults to '1.23'.
         :param pulumi.Input[str] vpc_id: The VPC ID where the cluster will be deployed
         """
         ...

@@ -576,7 +576,7 @@ types:
             subnets will be tagged for Kubernetes purposes.
           type: string
       version:
-        description: Desired Kubernetes version for control plane. Defaults to '1.22'.
+        description: Desired Kubernetes version for control plane. Defaults to '1.23'.
         type: string
       api:
         description: Configure the Kubernetes cluster API.
@@ -2277,7 +2277,7 @@ resources:
             subnets will be tagged for Kubernetes purposes.
           type: string
       version:
-        description: Desired Kubernetes version for control plane. Defaults to '1.22'.
+        description: Desired Kubernetes version for control plane. Defaults to '1.23'.
         type: string
       api:
         description: Configure the Kubernetes cluster API.

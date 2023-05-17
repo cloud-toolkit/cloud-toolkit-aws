@@ -5,18 +5,9 @@
 from enum import Enum
 
 __all__ = [
-    'AuroraMysqlVersion',
     'MysqlStorageType',
     'MysqlVersion',
 ]
-
-
-class AuroraMysqlVersion(str, Enum):
-    """
-    Set of allowed versions for the database
-    """
-    V8_0 = "8.0"
-    V5_7 = "5.7"
 
 
 class MysqlStorageType(str, Enum):
