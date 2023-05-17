@@ -195,7 +195,7 @@ export interface ClusterArgs {
      */
     publicSubnetIds?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * Desired Kubernetes version for control plane. Defaults to '1.22'.
+     * Desired Kubernetes version for control plane. Defaults to '1.23'.
      */
     version?: pulumi.Input<string>;
     /**
