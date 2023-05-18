@@ -8,7 +8,6 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
-from ._enums import *
 from ._inputs import *
 import pulumi_aws
 import pulumi_random
@@ -25,7 +24,7 @@ class AuroraMysqlArgs:
                  logging: Optional[pulumi.Input['AuroraMysqlLoggingArgs']] = None,
                  monitoring: Optional[pulumi.Input['AuroraMysqlMonitoringArgs']] = None,
                  networking: Optional[pulumi.Input['AuroraMysqlNetworkingArgs']] = None,
-                 version: Optional[pulumi.Input['AuroraMysqlVersion']] = None):
+                 version: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a AuroraMysql resource.
         :param pulumi.Input['AuroraMysqlBackupArgs'] backup: Backup configuration parameters for Aurora cluster
@@ -35,7 +34,7 @@ class AuroraMysqlArgs:
         :param pulumi.Input['AuroraMysqlLoggingArgs'] logging: Logging configuration parameters for Aurora cluster
         :param pulumi.Input['AuroraMysqlMonitoringArgs'] monitoring: Monitoring configuration parameters for Aurora cluster
         :param pulumi.Input['AuroraMysqlNetworkingArgs'] networking: Networking configuration parameters for Aurora cluster
-        :param pulumi.Input['AuroraMysqlVersion'] version: Version for database
+        :param pulumi.Input[str] version: Version for database
         """
         if backup is not None:
             pulumi.set(__self__, "backup", backup)
@@ -140,14 +139,14 @@ class AuroraMysqlArgs:
 
     @property
     @pulumi.getter
-    def version(self) -> Optional[pulumi.Input['AuroraMysqlVersion']]:
+    def version(self) -> Optional[pulumi.Input[str]]:
         """
         Version for database
         """
         return pulumi.get(self, "version")
 
     @version.setter
-    def version(self, value: Optional[pulumi.Input['AuroraMysqlVersion']]):
+    def version(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "version", value)
 
 
@@ -163,7 +162,7 @@ class AuroraMysql(pulumi.ComponentResource):
                  logging: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgs']]] = None,
                  monitoring: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgs']]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgs']]] = None,
-                 version: Optional[pulumi.Input['AuroraMysqlVersion']] = None,
+                 version: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         Create a AuroraMysql resource with the given unique name, props, and options.
@@ -176,7 +175,7 @@ class AuroraMysql(pulumi.ComponentResource):
         :param pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgs']] logging: Logging configuration parameters for Aurora cluster
         :param pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgs']] monitoring: Monitoring configuration parameters for Aurora cluster
         :param pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgs']] networking: Networking configuration parameters for Aurora cluster
-        :param pulumi.Input['AuroraMysqlVersion'] version: Version for database
+        :param pulumi.Input[str] version: Version for database
         """
         ...
     @overload
@@ -208,7 +207,7 @@ class AuroraMysql(pulumi.ComponentResource):
                  logging: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlLoggingArgs']]] = None,
                  monitoring: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlMonitoringArgs']]] = None,
                  networking: Optional[pulumi.Input[pulumi.InputType['AuroraMysqlNetworkingArgs']]] = None,
-                 version: Optional[pulumi.Input['AuroraMysqlVersion']] = None,
+                 version: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
