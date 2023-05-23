@@ -21,6 +21,7 @@ class NodeGroupArgs:
                  cluster_version: pulumi.Input[str],
                  name: pulumi.Input[str],
                  subnet_ids: pulumi.Input[Sequence[pulumi.Input[str]]],
+                 disk_size: Optional[pulumi.Input[float]] = None,
                  instance_type: Optional[pulumi.Input[str]] = None,
                  max_count: Optional[pulumi.Input[float]] = None,
                  max_unavailable: Optional[pulumi.Input[float]] = None,
@@ -33,6 +34,7 @@ class NodeGroupArgs:
         :param pulumi.Input[str] cluster_version: The Kubernetes cluster version.
         :param pulumi.Input[str] name: The name that identies the resource.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] subnet_ids: The list of subnets ids where the nodes will be deployed.
+        :param pulumi.Input[float] disk_size: Disk size in GiB for each node. Defaults to 20.
         :param pulumi.Input[str] instance_type: The aws instance type to use for the nodes. Defaults to "t3.medium".
         :param pulumi.Input[float] max_count: The maxium number of nodes running in the node group. Defaults to 2.
         :param pulumi.Input[float] max_unavailable: The maximum number of nodes unavailable at once during a version update. Defaults to 1.
@@ -44,6 +46,8 @@ class NodeGroupArgs:
         pulumi.set(__self__, "cluster_version", cluster_version)
         pulumi.set(__self__, "name", name)
         pulumi.set(__self__, "subnet_ids", subnet_ids)
+        if disk_size is not None:
+            pulumi.set(__self__, "disk_size", disk_size)
         if instance_type is not None:
             pulumi.set(__self__, "instance_type", instance_type)
         if max_count is not None:
@@ -126,6 +130,18 @@ class NodeGroupArgs:
         pulumi.set(self, "subnet_ids", value)
 
     @property
+    @pulumi.getter(name="diskSize")
+    def disk_size(self) -> Optional[pulumi.Input[float]]:
+        """
+        Disk size in GiB for each node. Defaults to 20.
+        """
+        return pulumi.get(self, "disk_size")
+
+    @disk_size.setter
+    def disk_size(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "disk_size", value)
+
+    @property
     @pulumi.getter(name="instanceType")
     def instance_type(self) -> Optional[pulumi.Input[str]]:
         """
@@ -183,6 +199,7 @@ class NodeGroup(pulumi.ComponentResource):
                  cluster_endpoint: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
                  cluster_version: Optional[pulumi.Input[str]] = None,
+                 disk_size: Optional[pulumi.Input[float]] = None,
                  instance_type: Optional[pulumi.Input[str]] = None,
                  max_count: Optional[pulumi.Input[float]] = None,
                  max_unavailable: Optional[pulumi.Input[float]] = None,
@@ -199,6 +216,7 @@ class NodeGroup(pulumi.ComponentResource):
         :param pulumi.Input[str] cluster_endpoint: The Kubernetes cluster endpoint.
         :param pulumi.Input[str] cluster_name: The Kubernetes cluster name.
         :param pulumi.Input[str] cluster_version: The Kubernetes cluster version.
+        :param pulumi.Input[float] disk_size: Disk size in GiB for each node. Defaults to 20.
         :param pulumi.Input[str] instance_type: The aws instance type to use for the nodes. Defaults to "t3.medium".
         :param pulumi.Input[float] max_count: The maxium number of nodes running in the node group. Defaults to 2.
         :param pulumi.Input[float] max_unavailable: The maximum number of nodes unavailable at once during a version update. Defaults to 1.
@@ -234,6 +252,7 @@ class NodeGroup(pulumi.ComponentResource):
                  cluster_endpoint: Optional[pulumi.Input[str]] = None,
                  cluster_name: Optional[pulumi.Input[str]] = None,
                  cluster_version: Optional[pulumi.Input[str]] = None,
+                 disk_size: Optional[pulumi.Input[float]] = None,
                  instance_type: Optional[pulumi.Input[str]] = None,
                  max_count: Optional[pulumi.Input[float]] = None,
                  max_unavailable: Optional[pulumi.Input[float]] = None,
@@ -263,6 +282,7 @@ class NodeGroup(pulumi.ComponentResource):
             if cluster_version is None and not opts.urn:
                 raise TypeError("Missing required property 'cluster_version'")
             __props__.__dict__["cluster_version"] = cluster_version
+            __props__.__dict__["disk_size"] = disk_size
             __props__.__dict__["instance_type"] = instance_type
             __props__.__dict__["max_count"] = max_count
             __props__.__dict__["max_unavailable"] = max_unavailable

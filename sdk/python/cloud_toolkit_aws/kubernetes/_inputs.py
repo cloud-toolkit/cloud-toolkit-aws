@@ -428,6 +428,7 @@ class ClusterNodeGroupArgs:
                  max_unavailable: pulumi.Input[float],
                  min_count: pulumi.Input[float],
                  name: pulumi.Input[str],
+                 disk_size: Optional[pulumi.Input[float]] = None,
                  instance_type: Optional[pulumi.Input[str]] = None,
                  subnets_type: Optional[pulumi.Input['ClusterSubnetsType']] = None):
         """
@@ -435,6 +436,7 @@ class ClusterNodeGroupArgs:
         :param pulumi.Input[float] max_unavailable: The maximum number of nodes unavailable at once during a version update. Defaults to 1.
         :param pulumi.Input[float] min_count: The minimum number of nodes running in the node group. Defaults to 1.
         :param pulumi.Input[str] name: The Node Group name.
+        :param pulumi.Input[float] disk_size: Disk size in GiB for each node. Defaults to 20.
         :param pulumi.Input[str] instance_type: The EC2 Instance Type to be used to create the Nodes.
         :param pulumi.Input['ClusterSubnetsType'] subnets_type: The subnets type to be used to deploy the Node Groups.
         """
@@ -442,6 +444,8 @@ class ClusterNodeGroupArgs:
         pulumi.set(__self__, "max_unavailable", max_unavailable)
         pulumi.set(__self__, "min_count", min_count)
         pulumi.set(__self__, "name", name)
+        if disk_size is not None:
+            pulumi.set(__self__, "disk_size", disk_size)
         if instance_type is not None:
             pulumi.set(__self__, "instance_type", instance_type)
         if subnets_type is not None:
@@ -494,6 +498,18 @@ class ClusterNodeGroupArgs:
     @name.setter
     def name(self, value: pulumi.Input[str]):
         pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter(name="diskSize")
+    def disk_size(self) -> Optional[pulumi.Input[float]]:
+        """
+        Disk size in GiB for each node. Defaults to 20.
+        """
+        return pulumi.get(self, "disk_size")
+
+    @disk_size.setter
+    def disk_size(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "disk_size", value)
 
     @property
     @pulumi.getter(name="instanceType")

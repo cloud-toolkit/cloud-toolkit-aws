@@ -726,6 +726,9 @@ types:
         description: The maximum number of nodes unavailable at once during a version
           update. Defaults to 1.
         type: number
+      diskSize:
+        description: Disk size in GiB for each node. Defaults to 20.
+        type: number
     type: object
     required:
       - name
@@ -997,6 +1000,9 @@ types:
       maxUnavailable:
         description: The maximum number of nodes unavailable at once during a version
           update. Defaults to 1.
+        type: number
+      diskSize:
+        description: Disk size in GiB for each node. Defaults to 20.
         type: number
     type: object
     required:
@@ -2821,6 +2827,9 @@ resources:
       maxUnavailable:
         description: The maximum number of nodes unavailable at once during a version
           update. Defaults to 1.
+        type: number
+      diskSize:
+        description: Disk size in GiB for each node. Defaults to 20.
         type: number
     requiredInputs:
       - name

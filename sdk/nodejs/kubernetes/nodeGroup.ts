@@ -74,6 +74,7 @@ export class NodeGroup extends pulumi.ComponentResource {
             resourceInputs["clusterEndpoint"] = args ? args.clusterEndpoint : undefined;
             resourceInputs["clusterName"] = args ? args.clusterName : undefined;
             resourceInputs["clusterVersion"] = args ? args.clusterVersion : undefined;
+            resourceInputs["diskSize"] = args ? args.diskSize : undefined;
             resourceInputs["instanceType"] = args ? args.instanceType : undefined;
             resourceInputs["maxCount"] = args ? args.maxCount : undefined;
             resourceInputs["maxUnavailable"] = args ? args.maxUnavailable : undefined;
@@ -115,6 +116,10 @@ export interface NodeGroupArgs {
      * The Kubernetes cluster version.
      */
     clusterVersion: pulumi.Input<string>;
+    /**
+     * Disk size in GiB for each node. Defaults to 20.
+     */
+    diskSize?: pulumi.Input<number>;
     /**
      * The aws instance type to use for the nodes. Defaults to "t3.medium".
      */

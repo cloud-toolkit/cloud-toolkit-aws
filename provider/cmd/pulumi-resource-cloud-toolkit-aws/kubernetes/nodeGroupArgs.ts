@@ -42,7 +42,7 @@ export interface NodeGroupArgs {
   minCount?: number;
 
   /**
-   * The maxium number of nodes running in the node group. Defaults to 2.
+   * The maximum number of nodes running in the node group. Defaults to 2.
    */
   maxCount?: number;
 
@@ -50,6 +50,11 @@ export interface NodeGroupArgs {
    * The maximum number of nodes unavailable at once during a version update. Defaults to 1.
    */
   maxUnavailable?: number;
+
+  /**
+   * Disk size in GiB for each node. Defaults to 20.
+   */
+  diskSize?: number;
 }
 
 export const defaultNodeGroupType = "t3.medium";
@@ -58,4 +63,5 @@ export const defaultNodeGroupArgs = {
   minCount: 1,
   maxCount: 3,
   maxUnavailable: 1,
+  diskSize: 20
 };
