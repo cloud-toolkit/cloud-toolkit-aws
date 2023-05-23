@@ -120,6 +120,10 @@ export interface ClusterNetworkingIngressArgs {
 
 export interface ClusterNodeGroupArgs {
     /**
+     * Disk size in GiB for each node. Defaults to 20.
+     */
+    diskSize?: pulumi.Input<number>;
+    /**
      * The EC2 Instance Type to be used to create the Nodes.
      */
     instanceType?: pulumi.Input<string>;

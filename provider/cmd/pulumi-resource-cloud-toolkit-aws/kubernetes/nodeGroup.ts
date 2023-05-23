@@ -150,6 +150,15 @@ export class NodeGroup extends pulumi.ComponentResource {
         },
         imageId: this.getAmiId(),
         userData: this.getUserData(opts),
+        blockDeviceMappings: [
+          {
+            deviceName: "/dev/xvda",
+            ebs: {
+              volumeSize: this.args.diskSize,
+              volumeType: "gp2"
+            },
+          },
+        ],
       },
       opts
     );

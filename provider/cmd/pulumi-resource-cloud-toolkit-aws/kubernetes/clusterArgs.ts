@@ -189,6 +189,11 @@ export interface ClusterNodeGroupArgs {
    * The maximum number of nodes unavailable at once during a version update. Defaults to 1.
    */
   maxUnavailable: number;
+
+  /**
+   * Disk size in GiB for each node. Defaults to 20.
+   */
+  diskSize?: number;
 }
 
 /**
@@ -219,6 +224,7 @@ export const defaultNodeGroup = {
   minCount: 2,
   maxCount: 3,
   maxUnavailable: 1,
+  diskSize: 20
 };
 export const defaultOidcProviders = {
   enableDefaultProvider: true,
