@@ -215,12 +215,32 @@ export class AwsEbsCsiDriver extends ApplicationAddon<AwsEbsCsiDriverArgs> {
           releaseName: this.args.name,
           parameters: [
             {
-              name: "serviceAccount.create",
+              name: "controller.serviceAccount.create",
               value: "false",
             },
             {
-              name: "serviceAccount.name",
-              value: this.irsa.name,
+              name: "controller.replicaCount",
+              value: "1",
+            },
+            {
+              name: "controller.serviceAccount.name",
+              value: this.irsa.serviceAccount.metadata.name,
+            },
+            {
+              name: "storageClasses[0].name",
+              value: "ebs-sc"
+            },
+            {
+              name: "storageClasses[0].labels[0].name",
+              value: "ebs-sc"
+            },
+            {
+              name: "storageClasses[0].volumeBindingMode",
+              value: "WaitForFirstConsumer"
+            },
+            {
+              name: "storageClasses[0].reclaimPolicy",
+              value: "Delete"
             },
           ],
         },
