@@ -334,7 +334,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
       {
         name: "aws-ebs-csi-driver",
         namespace: "kube-system",
-        serviceAccountName: "ebs-csi-driver",
+        serviceAccountName: "ebs-csi-controller-sa",
         k8sProvider: this.args.k8sProvider,
         createNamespace: false,
         identityProvidersArn: this.args.identityProvidersArn,
