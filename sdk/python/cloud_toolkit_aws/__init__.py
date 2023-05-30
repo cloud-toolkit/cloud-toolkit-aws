@@ -71,6 +71,7 @@ _utilities.register(
    "cloud-toolkit-aws:kubernetes:ArgoCD": "ArgoCD",
    "cloud-toolkit-aws:kubernetes:AwsEbsCsiDriver": "AwsEbsCsiDriver",
    "cloud-toolkit-aws:kubernetes:AwsLoadBalancerController": "AwsLoadBalancerController",
+   "cloud-toolkit-aws:kubernetes:AwsSecretsStoreCsiDriver": "AwsSecretsStoreCsiDriver",
    "cloud-toolkit-aws:kubernetes:Calico": "Calico",
    "cloud-toolkit-aws:kubernetes:CertManager": "CertManager",
    "cloud-toolkit-aws:kubernetes:Cluster": "Cluster",
@@ -84,7 +85,8 @@ _utilities.register(
    "cloud-toolkit-aws:kubernetes:IngressNginx": "IngressNginx",
    "cloud-toolkit-aws:kubernetes:Irsa": "Irsa",
    "cloud-toolkit-aws:kubernetes:NodeGroup": "NodeGroup",
-   "cloud-toolkit-aws:kubernetes:Project": "Project"
+   "cloud-toolkit-aws:kubernetes:Project": "Project",
+   "cloud-toolkit-aws:kubernetes:SecretsStoreCsiDriver": "SecretsStoreCsiDriver"
   }
  },
  {

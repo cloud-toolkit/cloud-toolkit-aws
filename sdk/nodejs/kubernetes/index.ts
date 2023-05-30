@@ -35,6 +35,11 @@ export type AwsLoadBalancerController = import("./awsLoadBalancerController").Aw
 export const AwsLoadBalancerController: typeof import("./awsLoadBalancerController").AwsLoadBalancerController = null as any;
 utilities.lazyLoad(exports, ["AwsLoadBalancerController"], () => require("./awsLoadBalancerController"));
 
+export { AwsSecretsStoreCsiDriverArgs } from "./awsSecretsStoreCsiDriver";
+export type AwsSecretsStoreCsiDriver = import("./awsSecretsStoreCsiDriver").AwsSecretsStoreCsiDriver;
+export const AwsSecretsStoreCsiDriver: typeof import("./awsSecretsStoreCsiDriver").AwsSecretsStoreCsiDriver = null as any;
+utilities.lazyLoad(exports, ["AwsSecretsStoreCsiDriver"], () => require("./awsSecretsStoreCsiDriver"));
+
 export { CalicoArgs } from "./calico";
 export type Calico = import("./calico").Calico;
 export const Calico: typeof import("./calico").Calico = null as any;
@@ -105,6 +110,11 @@ export type Project = import("./project").Project;
 export const Project: typeof import("./project").Project = null as any;
 utilities.lazyLoad(exports, ["Project"], () => require("./project"));
 
+export { SecretsStoreCsiDriverArgs } from "./secretsStoreCsiDriver";
+export type SecretsStoreCsiDriver = import("./secretsStoreCsiDriver").SecretsStoreCsiDriver;
+export const SecretsStoreCsiDriver: typeof import("./secretsStoreCsiDriver").SecretsStoreCsiDriver = null as any;
+utilities.lazyLoad(exports, ["SecretsStoreCsiDriver"], () => require("./secretsStoreCsiDriver"));
+
 
 // Export enums:
 export * from "../types/enums/kubernetes";
@@ -125,6 +135,8 @@ const _module = {
                 return new AwsEbsCsiDriver(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:AwsLoadBalancerController":
                 return new AwsLoadBalancerController(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:AwsSecretsStoreCsiDriver":
+                return new AwsSecretsStoreCsiDriver(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Calico":
                 return new Calico(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:CertManager":
@@ -153,6 +165,8 @@ const _module = {
                 return new NodeGroup(name, <any>undefined, { urn })
             case "cloud-toolkit-aws:kubernetes:Project":
                 return new Project(name, <any>undefined, { urn })
+            case "cloud-toolkit-aws:kubernetes:SecretsStoreCsiDriver":
+                return new SecretsStoreCsiDriver(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }

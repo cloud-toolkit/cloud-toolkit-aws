@@ -13,6 +13,7 @@ from ..adot_operator import AdotOperator
 from ..argo_cd import ArgoCD
 from ..aws_ebs_csi_driver import AwsEbsCsiDriver
 from ..aws_load_balancer_controller import AwsLoadBalancerController
+from ..aws_secrets_store_csi_driver import AwsSecretsStoreCsiDriver
 from ..calico import Calico
 from ..cert_manager import CertManager
 from ..cluster_autoscaler import ClusterAutoscaler
@@ -20,6 +21,7 @@ from ..dashboard import Dashboard
 from ..external_dns import ExternalDns
 from ..fluentbit import Fluentbit
 from ..ingress_nginx import IngressNginx
+from ..secrets_store_csi_driver import SecretsStoreCsiDriver
 from ._inputs import *
 import pulumi_kubernetes
 
@@ -231,6 +233,7 @@ class ClusterAddons(pulumi.ComponentResource):
             __props__.__dict__["adot_operator"] = None
             __props__.__dict__["argocd"] = None
             __props__.__dict__["aws_load_balancer_controller"] = None
+            __props__.__dict__["aws_secrets_store_csi_driver"] = None
             __props__.__dict__["calico"] = None
             __props__.__dict__["cert_manager"] = None
             __props__.__dict__["cluster_autoscaler"] = None
@@ -241,6 +244,7 @@ class ClusterAddons(pulumi.ComponentResource):
             __props__.__dict__["ebs_csi_driver"] = None
             __props__.__dict__["external_dns"] = None
             __props__.__dict__["fluentbit"] = None
+            __props__.__dict__["secrets_store_csi_driver"] = None
         super(ClusterAddons, __self__).__init__(
             'cloud-toolkit-aws:kubernetes:ClusterAddons',
             resource_name,
@@ -303,6 +307,14 @@ class ClusterAddons(pulumi.ComponentResource):
         The AWS LoadBalancer Controller.
         """
         return pulumi.get(self, "aws_load_balancer_controller")
+
+    @property
+    @pulumi.getter(name="awsSecretsStoreCsiDriver")
+    def aws_secrets_store_csi_driver(self) -> pulumi.Output['AwsSecretsStoreCsiDriver']:
+        """
+        The Secrets Store CSI driver that allows retrieving secrets from AWS Secrets Manager or Systems Manager Parameter Store.
+        """
+        return pulumi.get(self, "aws_secrets_store_csi_driver")
 
     @property
     @pulumi.getter
@@ -383,4 +395,12 @@ class ClusterAddons(pulumi.ComponentResource):
         The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
         """
         return pulumi.get(self, "fluentbit")
+
+    @property
+    @pulumi.getter(name="secretsStoreCsiDriver")
+    def secrets_store_csi_driver(self) -> pulumi.Output['SecretsStoreCsiDriver']:
+        """
+        The Secrets Store CSI driver that implements the interface to retrieve secrets from a Cloud Provider.
+        """
+        return pulumi.get(self, "secrets_store_csi_driver")
 
