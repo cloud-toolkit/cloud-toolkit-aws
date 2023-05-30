@@ -263,3 +263,4 @@ export interface ProjectResourcesArgs {
      */
     memory?: pulumi.Input<string>;
 }
+

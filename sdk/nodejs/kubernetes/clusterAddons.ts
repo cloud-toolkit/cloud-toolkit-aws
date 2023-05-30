@@ -9,7 +9,7 @@ import * as utilities from "../utilities";
 
 import * as pulumiKubernetes from "@pulumi/kubernetes";
 
-import {AdotApplication, AdotOperator, ArgoCD, AwsEbsCsiDriver, AwsLoadBalancerController, Calico, CertManager, ClusterAutoscaler, Dashboard, ExternalDns, Fluentbit, IngressNginx} from "./index";
+import {AdotApplication, AdotOperator, ArgoCD, AwsEbsCsiDriver, AwsLoadBalancerController, AwsSecretsStoreCsiDriver, Calico, CertManager, ClusterAutoscaler, Dashboard, ExternalDns, Fluentbit, IngressNginx, SecretsStoreCsiDriver} from "./index";
 
 /**
  * ClusterAddons is a component that manages the Lubernetes addons to setup a production-ready cluster.
@@ -58,6 +58,10 @@ export class ClusterAddons extends pulumi.ComponentResource {
      */
     public /*out*/ readonly awsLoadBalancerController!: pulumi.Output<AwsLoadBalancerController>;
     /**
+     * The Secrets Store CSI driver that allows retrieving secrets from AWS Secrets Manager or Systems Manager Parameter Store.
+     */
+    public /*out*/ readonly awsSecretsStoreCsiDriver!: pulumi.Output<AwsSecretsStoreCsiDriver>;
+    /**
      * The Calico addon used to manage network policies.
      */
     public /*out*/ readonly calico!: pulumi.Output<Calico>;
@@ -97,6 +101,10 @@ export class ClusterAddons extends pulumi.ComponentResource {
      * The OpenTelemetry (ADOT) application that sends metrics to CloudWatch.
      */
     public /*out*/ readonly fluentbit!: pulumi.Output<Fluentbit>;
+    /**
+     * The Secrets Store CSI driver that implements the interface to retrieve secrets from a Cloud Provider.
+     */
+    public /*out*/ readonly secretsStoreCsiDriver!: pulumi.Output<SecretsStoreCsiDriver>;
 
     /**
      * Create a ClusterAddons resource with the given unique name, arguments, and options.
@@ -135,6 +143,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["adotOperator"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
+            resourceInputs["awsSecretsStoreCsiDriver"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["clusterAutoscaler"] = undefined /*out*/;
@@ -145,6 +154,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
             resourceInputs["fluentbit"] = undefined /*out*/;
+            resourceInputs["secretsStoreCsiDriver"] = undefined /*out*/;
         } else {
             resourceInputs["adminIngressNginx"] = undefined /*out*/;
             resourceInputs["adminZoneArn"] = undefined /*out*/;
@@ -153,6 +163,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["adotOperator"] = undefined /*out*/;
             resourceInputs["argocd"] = undefined /*out*/;
             resourceInputs["awsLoadBalancerController"] = undefined /*out*/;
+            resourceInputs["awsSecretsStoreCsiDriver"] = undefined /*out*/;
             resourceInputs["calico"] = undefined /*out*/;
             resourceInputs["certManager"] = undefined /*out*/;
             resourceInputs["clusterAutoscaler"] = undefined /*out*/;
@@ -163,6 +174,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
             resourceInputs["ebsCsiDriver"] = undefined /*out*/;
             resourceInputs["externalDns"] = undefined /*out*/;
             resourceInputs["fluentbit"] = undefined /*out*/;
+            resourceInputs["secretsStoreCsiDriver"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(ClusterAddons.__pulumiType, name, resourceInputs, opts, true /*remote*/);

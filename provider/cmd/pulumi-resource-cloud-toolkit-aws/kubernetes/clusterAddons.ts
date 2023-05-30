@@ -10,6 +10,8 @@ import { ExternalDns } from "./externalDns";
 import { Dashboard } from "./dashboard";
 import { Calico } from "./calico";
 import { AwsEbsCsiDriver } from "./ebsCsiDriver"
+import { SecretsStoreCsiDriver } from "./secretsStoreCsiDriver"
+import { AwsSecretsStoreCsiDriver } from "./awsSecretsStoreCsiDriver"
 import { ClusterAutoscaler } from "./clusterAutoscaler"
 import { AwsLoadBalancerController } from "./awsLoadBalancerController";
 
@@ -19,7 +21,7 @@ import {
 } from "./clusterAddonsArgs";
 import { AdotApplication } from "./adotApplication";
 import { AdotOperator } from "./adotOperator";
-import {Fluentbit} from "./fluentbit"
+import { Fluentbit } from "./fluentbit"
 
 export { ClusterAddonsArgs };
 
@@ -69,6 +71,16 @@ export class ClusterAddons extends pulumi.ComponentResource {
    * The EBS CSI driver that allows to create volumes using the block storage service of AWS.
    */
   public readonly ebsCsiDriver: AwsEbsCsiDriver;
+
+  /**
+   * The Secrets Store CSI driver that implements the interface to retrieve secrets from a Cloud Provider.
+   */
+  public readonly secretsStoreCsiDriver: SecretsStoreCsiDriver;
+
+  /**
+   * The Secrets Store CSI driver that allows retrieving secrets from AWS Secrets Manager or Systems Manager Parameter Store.
+   */
+  public readonly awsSecretsStoreCsiDriver: AwsSecretsStoreCsiDriver;
 
   /**
    * The Kubernetes ClusterAutoscaler addon.
@@ -187,6 +199,16 @@ export class ClusterAddons extends pulumi.ComponentResource {
     this.dashboard = this.setupDashboard(argocdApplicationsOpts)
     this.calico = this.setupCalico(argocdApplicationsOpts);
     this.ebsCsiDriver = this.setupAwsEbsCsiDriver(argocdApplicationsOpts)
+    this.secretsStoreCsiDriver = this.setupSecretsStoreCsiDriver(argocdApplicationsOpts)
+
+    const secretsStoreApplicationsOpts = pulumi.mergeOptions(opts, {
+      parent: this,
+      dependsOn: [
+        argocdDeployment, this.secretsStoreCsiDriver
+      ],
+    });
+    
+    this.awsSecretsStoreCsiDriver = this.setupAwsSecretsStoreCsiDriver(secretsStoreApplicationsOpts)
     this.clusterAutoscaler = this.setupClusterAutoscaler(argocdApplicationsOpts);
 
     this.adotOperator = this.setupAdotOperator(argocdApplicationsOpts);
@@ -195,6 +217,7 @@ export class ClusterAddons extends pulumi.ComponentResource {
       parent: this,
       dependsOn: [this.adotOperator],
     });
+
     this.adotApplication = this.setupAdotApplication(adotApplicationOpts);
 
     this.fluentbit = this.setupFluentbit(argocdApplicationsOpts);
@@ -467,5 +490,35 @@ export class ClusterAddons extends pulumi.ComponentResource {
     );
   }
 
+  private setupSecretsStoreCsiDriver(
+    opts?: pulumi.ResourceOptions
+  ): SecretsStoreCsiDriver {
+    return new SecretsStoreCsiDriver(
+      `${this.name}-secrets-store-csi-driver`,
+      {
+        name: "secrets-store-csi-driver",
+        namespace: "kube-system",
+        createNamespace: false,
+        k8sProvider: this.args.k8sProvider,
+        syncSecretEnabled: "true"
+      },
+      opts
+    );
+  }
+
+  private setupAwsSecretsStoreCsiDriver(
+    opts?: pulumi.ResourceOptions
+  ): AwsSecretsStoreCsiDriver {
+    return new AwsSecretsStoreCsiDriver(
+      `${this.name}-aws-secrets-store-csi-driver`,
+      {
+        name: "aws-secrets-store-csi-driver",
+        namespace: "kube-system",
+        createNamespace: false,
+        k8sProvider: this.args.k8sProvider,
+      },
+      opts
+    );
+  }
 
 }

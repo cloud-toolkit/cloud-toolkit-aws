@@ -12,6 +12,7 @@ from .application_addon import *
 from .argo_cd import *
 from .aws_ebs_csi_driver import *
 from .aws_load_balancer_controller import *
+from .aws_secrets_store_csi_driver import *
 from .calico import *
 from .cert_manager import *
 from .cluster import *
@@ -26,4 +27,5 @@ from .ingress_nginx import *
 from .irsa import *
 from .node_group import *
 from .project import *
+from .secrets_store_csi_driver import *
 from ._inputs import *
