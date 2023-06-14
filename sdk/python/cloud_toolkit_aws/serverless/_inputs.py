@@ -42,11 +42,26 @@ class CdnCacheArgs:
 @pulumi.input_type
 class CdnDnsArgs:
     def __init__(__self__, *,
+                 hosted_zone_id: pulumi.Input[str],
                  ttl: pulumi.Input[float]):
         """
+        :param pulumi.Input[str] hosted_zone_id: Hosted zone ID to store the DNS records
         :param pulumi.Input[float] ttl: DNS time to live
         """
+        pulumi.set(__self__, "hosted_zone_id", hosted_zone_id)
         pulumi.set(__self__, "ttl", ttl)
+
+    @property
+    @pulumi.getter(name="hostedZoneId")
+    def hosted_zone_id(self) -> pulumi.Input[str]:
+        """
+        Hosted zone ID to store the DNS records
+        """
+        return pulumi.get(self, "hosted_zone_id")
+
+    @hosted_zone_id.setter
+    def hosted_zone_id(self, value: pulumi.Input[str]):
+        pulumi.set(self, "hosted_zone_id", value)
 
     @property
     @pulumi.getter

@@ -48,6 +48,10 @@ export interface CdnDnsArgs {
    * DNS time to live
    */
   ttl: number;
+  /**
+   * Hosted zone ID to store the DNS records
+   */
+  hostedZoneId: string;
 }
 
 export interface DNSRecordsArgs {
