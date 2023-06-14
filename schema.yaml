@@ -1540,9 +1540,13 @@ types:
       ttl:
         description: DNS time to live
         type: number
+      hostedZoneId:
+        description: Hosted zone ID to store the DNS records
+        type: string
     type: object
     required:
       - ttl
+      - hostedZoneId
   cloud-toolkit-aws:serverless:DNSRecords:
     properties:
       domainRecord:

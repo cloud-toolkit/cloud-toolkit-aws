@@ -19,6 +19,10 @@ export interface CdnCacheArgs {
 
 export interface CdnDnsArgs {
     /**
+     * Hosted zone ID to store the DNS records
+     */
+    hostedZoneId: pulumi.Input<string>;
+    /**
      * DNS time to live
      */
     ttl: pulumi.Input<number>;

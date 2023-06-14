@@ -31,55 +31,55 @@ function getDomainAndSubdomain(domain: string): {
 export class StaticWeb extends pulumi.ComponentResource {
   /**
    * Staticweb name
-   * 
+   *
    * @type {string}
    */
   public readonly name: string;
   /**
-   * AWS eastRegion provider. It is required to create and validate certificates 
-   * 
+   * AWS eastRegion provider. It is required to create and validate certificates
+   *
    * @type {aws.Provide}
    */
   public readonly eastRegion: aws.Provider;
   /**
-   * Content bucket 
-   * 
+   * Content bucket
+   *
    * @type {Bucket}
    */
   public readonly contentBucket: Bucket;
   /**
-   * Logs bucket 
-   * 
+   * Logs bucket
+   *
    * @type {aws.s3.Bucket}
    */
   public readonly logsBucket: aws.s3.Bucket;
   /**
    * Bucket policy to connect Cloud Front distribution
-   * 
+   *
    * @type {aws.s3.BucketPolicy}
    */
   public readonly contentBucketPolicy: aws.s3.BucketPolicy;
   /**
    * OriginAccessIdentity to have access to content bucket
-   * 
+   *
    * @type {aws.cloudfront.OriginAccessIdentity}
    */
   public readonly originAccessIdentity: aws.cloudfront.OriginAccessIdentity;
   /**
    * CloudFront Distribution
-   * 
+   *
    * @type {aws.cloudfront.Distribution}
    */
   public readonly distribution: aws.cloudfront.Distribution;
   /**
    * CloudFront Distribution
-   * 
+   *
    * @type {aws.cloudfront.Distribution}
    */
   public readonly certificate?: aws.acm.Certificate;
   /**
    * CloudFront Distribution
-   * 
+   *
    * @type {aws.cloudfront.Distribution}
    */
   public readonly domainValidationOptions?: pulumi.Output<
@@ -87,25 +87,29 @@ export class StaticWeb extends pulumi.ComponentResource {
   >;
   /**
    * AWS certificate validation
-   * 
+   *
    * @type {aws.acm.CertificateValidation}
    */
   public readonly certificateValidation?: aws.acm.CertificateValidation;
 
   /**
    * DNS Records to expose staticweb
-   * 
+   *
    * @type {DNSRecordsArgs}
    */
   public readonly DNSRecords?: DNSRecordsArgs;
   /**
    * DNS Records to validate the certificate
-   * 
+   *
    * @type {DNSRecordsArgs}
    */
   public readonly DNSRecordsForValidation?: DNSRecordsArgs;
 
-  constructor(name: string, args: StaticWebArgs, opts?: pulumi.ResourceOptions) {
+  constructor(
+    name: string,
+    args: StaticWebArgs,
+    opts?: pulumi.ResourceOptions
+  ) {
     super(TYPENAME_STATICWEB, name, args, opts);
     this.name = name;
 
@@ -139,7 +143,7 @@ export class StaticWeb extends pulumi.ComponentResource {
     if (validatedArgs.configureDNS) {
       this.DNSRecords = this.createDNSRecords(validatedArgs);
     }
-    
+
     this.registerOutputs({
       contentBucket: this.contentBucket,
       logsBucket: this.logsBucket,
@@ -179,24 +183,24 @@ export class StaticWeb extends pulumi.ComponentResource {
   createLogsBucket({ domain }: StaticWebArgs): aws.s3.Bucket {
     const bucket = new aws.s3.Bucket(
       `${this.name}-request-logs`,
-      {}, 
+      {},
       { parent: this }
     );
-    
+
     const bucketOwnershipControls = new aws.s3.BucketOwnershipControls(
       `${this.name}-request-logs-ownership-control`,
       {
         bucket: bucket.id,
         rule: {
-          objectOwnership: "BucketOwnerPreferred"
-        }
+          objectOwnership: "BucketOwnerPreferred",
+        },
       },
       {
-        parent: bucket
+        parent: bucket,
       }
-    )
+    );
 
-    return bucket
+    return bucket;
   }
 
   createCloudFrontOriginAccessIdentity(): aws.cloudfront.OriginAccessIdentity {
@@ -240,7 +244,10 @@ export class StaticWeb extends pulumi.ComponentResource {
     );
   }
 
-  createCertificate({ domain, includeWWW }: StaticWebArgs): aws.acm.Certificate {
+  createCertificate({
+    domain,
+    includeWWW,
+  }: StaticWebArgs): aws.acm.Certificate {
     const certificateConfig: aws.acm.CertificateArgs = {
       domainName: domain,
       validationMethod: "DNS",
@@ -274,9 +281,16 @@ export class StaticWeb extends pulumi.ComponentResource {
 
     const domainParts = getDomainAndSubdomain(domain);
 
-    const hostedZoneId = aws.route53
-      .getZone({ name: domainParts.parentDomain }, { async: true })
-      .then((zone) => zone.zoneId);
+    var hostedZoneId: pulumi.Input<string> = "";
+
+    if (args.dns === undefined || args.dns.hostedZoneId === undefined) {
+      hostedZoneId = aws.route53
+        .getZone({ name: domainParts.parentDomain }, { async: true })
+        .then((zone) => zone.zoneId);
+    } else {
+      hostedZoneId = args.dns.hostedZoneId;
+    }
+
     const DNSRecordsForValidation: DNSRecordsArgs = {
       domainRecord: new aws.route53.Record(
         `${this.name}-${domain}-validation`,
@@ -350,9 +364,17 @@ export class StaticWeb extends pulumi.ComponentResource {
     }
 
     const domainParts = getDomainAndSubdomain(domain);
-    const hostedZoneId = aws.route53
-      .getZone({ name: domainParts.parentDomain }, { async: true })
-      .then((zone) => zone.zoneId);
+
+    var hostedZoneId: pulumi.Input<string> = "";
+
+    if (args.dns === undefined || args.dns.hostedZoneId === undefined) {
+      hostedZoneId = aws.route53
+        .getZone({ name: domainParts.parentDomain }, { async: true })
+        .then((zone) => zone.zoneId);
+    } else {
+      hostedZoneId = args.dns.hostedZoneId;
+    }
+
     const DNSRecords: DNSRecordsArgs = {
       domainRecord: new aws.route53.Record(
         `${this.name}-${domain}`,
