@@ -1,31 +1,41 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import defaultsDeep from "lodash.defaultsdeep";
-import { StaticWebArgs, DNSRecordsArgs, defaultArgs } from "./staticwebArgs";
+import {
+  StaticWebArgs,
+  DNSRecordsArgs,
+  DomainPartsArgs,
+  defaultArgs,
+} from "./staticwebArgs";
 import { Bucket, BucketArgs } from "../storage";
 
 export { StaticWebArgs, DNSRecordsArgs };
 
 export const TYPENAME_STATICWEB = "cloud-toolkit-aws:serverless:StaticWeb";
 
-function getDomainAndSubdomain(domain: string): {
-  subdomain: string;
-  parentDomain: string;
-} {
-  const parts = domain.split(".");
-  if (parts.length < 2) {
-    throw new Error(`No TLD found on ${domain}`);
-  }
-  if (parts.length === 2) {
-    return { subdomain: "", parentDomain: domain };
-  }
+function getDomainAndSubdomain(
+  domain: string,
+  domainParts: DomainPartsArgs | undefined
+): DomainPartsArgs {
 
-  const subdomain = parts[0];
-  parts.shift();
-  return {
-    subdomain,
-    parentDomain: parts.join(".") + ".",
-  };
+  if (domainParts === undefined) {
+    const parts = domain.split(".");
+    if (parts.length < 2) {
+      throw new Error(`No TLD found on ${domain}`);
+    }
+    if (parts.length === 2) {
+      return { subdomain: "", parentDomain: domain };
+    }
+
+    const subdomain = parts[0];
+    parts.shift();
+    return {
+      subdomain,
+      parentDomain: parts.join(".") + ".",
+    };
+  } else {
+    return domainParts;
+  }
 }
 
 export class StaticWeb extends pulumi.ComponentResource {
@@ -163,7 +173,13 @@ export class StaticWeb extends pulumi.ComponentResource {
 
     if (config.domain != null && !config.configureDNS) {
       throw new Error(
-        `It's not possible to config the domain ${args.domain} without configuring a DNS`
+        `It's not possible to automatically configure the domain ${config.domain} without configuring the DNS`
+      );
+    }
+
+    if (config.domainParts != null && !config.domain) {
+      throw new Error(
+        `The domain is required to configure the needed certificates. domainParts is used to manually configure the hosted zone and the DNS Records. Using domainParts requires setting domain as well`
       );
     }
 
@@ -279,9 +295,9 @@ export class StaticWeb extends pulumi.ComponentResource {
       throw new Error("Domain validation options must be defined");
     }
 
-    const domainParts = getDomainAndSubdomain(domain);
+    const domainParts = getDomainAndSubdomain(domain, args.domainParts);
 
-    var hostedZoneId: pulumi.Input<string> = "";
+    let hostedZoneId: pulumi.Input<string> = "";
 
     if (args.dns === undefined || args.dns.hostedZoneId === undefined) {
       hostedZoneId = aws.route53
@@ -363,9 +379,9 @@ export class StaticWeb extends pulumi.ComponentResource {
       throw new Error("Domain field must be defined");
     }
 
-    const domainParts = getDomainAndSubdomain(domain);
+    const domainParts = getDomainAndSubdomain(domain, args.domainParts);
 
-    var hostedZoneId: pulumi.Input<string> = "";
+    let hostedZoneId: pulumi.Input<string> = "";
 
     if (args.dns === undefined || args.dns.hostedZoneId === undefined) {
       hostedZoneId = aws.route53

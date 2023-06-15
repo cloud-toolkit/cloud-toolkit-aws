@@ -5,9 +5,18 @@ import * as aws from "@pulumi/aws";
  */
 export interface StaticWebArgs {
   /**
-   * Set to true to add an alias to wwww.<domain>
+   * Domain that will point to the Cloud Front distribution. The hosted zone is automatically extracted by removing the first subdomain.
+   * e.g. my.nice.website.com -> my - subdomain | nice.website.com - hosted zone.
+   * The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+   * configureDNS should be set to true.
    */
   domain?: string;
+  /**
+   * Subdomain and parent domain of the DNS Record. The parent domain is used to determine the hosted zone that will hold the DNS Record.
+   * The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+   * Used alongside domain. configureDNS should be set to true.
+   */
+  domainParts?: DomainPartsArgs
   /**
    * Set to true to add an alias to wwww.<domain>
    */
@@ -38,6 +47,20 @@ export interface CdnCacheArgs {
    * Cloud Front distribution cache time to live
    */
   ttl: number;
+}
+
+/**
+ * Arguments to manually configure the domain of the DNS Record that points to the CloudFront distribution
+ */
+export interface DomainPartsArgs {
+  /**
+   * Subdomain part that will be the name of the DNS Record
+   */
+  subdomain: string;
+  /**
+   * Domain used to extract the hosted zone id for the DNS Record
+   */
+  parentDomain: string;
 }
 
 /**

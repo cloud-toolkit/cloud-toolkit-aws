@@ -90,6 +90,7 @@ export class StaticWeb extends pulumi.ComponentResource {
             resourceInputs["configureDNS"] = args ? args.configureDNS : undefined;
             resourceInputs["dns"] = args ? args.dns : undefined;
             resourceInputs["domain"] = args ? args.domain : undefined;
+            resourceInputs["domainParts"] = args ? args.domainParts : undefined;
             resourceInputs["includeWWW"] = args ? args.includeWWW : undefined;
             resourceInputs["priceClass"] = args ? args.priceClass : undefined;
             resourceInputs["DNSRecords"] = undefined /*out*/;
@@ -140,9 +141,18 @@ export interface StaticWebArgs {
      */
     dns?: pulumi.Input<inputs.serverless.CdnDnsArgs>;
     /**
-     * Set to true to add an alias to wwww.<domain>
+     * Domain that will point to the Cloud Front distribution. The hosted zone is automatically extracted by removing the first subdomain.
+     * e.g. my.nice.website.com -> my - subdomain | nice.website.com - hosted zone.
+     * The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+     * configureDNS should be set to true.
      */
     domain?: pulumi.Input<string>;
+    /**
+     * Subdomain and parent domain of the DNS Record. The parent domain is used to determine the hosted zone that will hold the DNS Record.
+     * The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+     * Used alongside domain. configureDNS should be set to true.
+     */
+    domainParts?: pulumi.Input<inputs.serverless.DomainPartsArgs>;
     /**
      * Set to true to add an alias to wwww.<domain>
      */
