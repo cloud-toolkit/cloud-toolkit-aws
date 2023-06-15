@@ -14,6 +14,7 @@ __all__ = [
     'CdnCacheArgs',
     'CdnDnsArgs',
     'DeadLetterQueueTypeArgs',
+    'DomainPartsArgs',
     'QueueArgs',
 ]
 
@@ -143,6 +144,45 @@ class DeadLetterQueueTypeArgs:
     @message_retention_seconds.setter
     def message_retention_seconds(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "message_retention_seconds", value)
+
+
+@pulumi.input_type
+class DomainPartsArgs:
+    def __init__(__self__, *,
+                 parent_domain: Optional[pulumi.Input[str]] = None,
+                 subdomain: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[str] parent_domain: Domain used to extract the hosted zone id for the DNS Record
+        :param pulumi.Input[str] subdomain: Subdomain part that will be the name of the DNS Record
+        """
+        if parent_domain is not None:
+            pulumi.set(__self__, "parent_domain", parent_domain)
+        if subdomain is not None:
+            pulumi.set(__self__, "subdomain", subdomain)
+
+    @property
+    @pulumi.getter(name="parentDomain")
+    def parent_domain(self) -> Optional[pulumi.Input[str]]:
+        """
+        Domain used to extract the hosted zone id for the DNS Record
+        """
+        return pulumi.get(self, "parent_domain")
+
+    @parent_domain.setter
+    def parent_domain(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "parent_domain", value)
+
+    @property
+    @pulumi.getter
+    def subdomain(self) -> Optional[pulumi.Input[str]]:
+        """
+        Subdomain part that will be the name of the DNS Record
+        """
+        return pulumi.get(self, "subdomain")
+
+    @subdomain.setter
+    def subdomain(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "subdomain", value)
 
 
 @pulumi.input_type

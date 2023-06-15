@@ -1510,6 +1510,15 @@ types:
       domain:
         description: Set to true to add an alias to wwww.<domain>
         type: string
+      domainParts:
+        description: >-
+          Subdomain and parent domain of the DNS Record. The parent domain is
+          used to determine the hosted zone that will hold the DNS Record.
+
+          The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+
+          Used alongside domain. configureDNS should be set to true.
+        $ref: "#/types/cloud-toolkit-aws:serverless:DomainParts"
       includeWWW:
         description: Set to true to add an alias to wwww.<domain>
         type: boolean
@@ -1535,6 +1544,15 @@ types:
     type: object
     required:
       - ttl
+  cloud-toolkit-aws:serverless:DomainParts:
+    properties:
+      subdomain:
+        description: Subdomain part that will be the name of the DNS Record
+        type: string
+      parentDomain:
+        description: Domain used to extract the hosted zone id for the DNS Record
+        type: string
+    type: object
   cloud-toolkit-aws:serverless:CdnDns:
     properties:
       ttl:
@@ -3343,8 +3361,25 @@ resources:
       - distribution
     inputProperties:
       domain:
-        description: Set to true to add an alias to wwww.<domain>
+        description: >-
+          Domain that will point to the Cloud Front distribution. The hosted
+          zone is automatically extracted by removing the first subdomain.
+
+          e.g. my.nice.website.com -> my - subdomain | nice.website.com - hosted zone.
+
+          The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+
+          configureDNS should be set to true.
         type: string
+      domainParts:
+        description: >-
+          Subdomain and parent domain of the DNS Record. The parent domain is
+          used to determine the hosted zone that will hold the DNS Record.
+
+          The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+
+          Used alongside domain. configureDNS should be set to true.
+        $ref: "#/types/cloud-toolkit-aws:serverless:DomainParts"
       includeWWW:
         description: Set to true to add an alias to wwww.<domain>
         type: boolean

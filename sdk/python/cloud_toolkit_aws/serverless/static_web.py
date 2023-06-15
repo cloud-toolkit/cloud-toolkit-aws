@@ -22,6 +22,7 @@ class StaticWebArgs:
                  configure_dns: Optional[pulumi.Input[bool]] = None,
                  dns: Optional[pulumi.Input['CdnDnsArgs']] = None,
                  domain: Optional[pulumi.Input[str]] = None,
+                 domain_parts: Optional[pulumi.Input['DomainPartsArgs']] = None,
                  include_www: Optional[pulumi.Input[bool]] = None,
                  price_class: Optional[pulumi.Input[str]] = None):
         """
@@ -29,7 +30,13 @@ class StaticWebArgs:
         :param pulumi.Input['CdnCacheArgs'] cache: Cloud Front distribution cache
         :param pulumi.Input[bool] configure_dns: Set to true to configure DNS
         :param pulumi.Input['CdnDnsArgs'] dns: DNS configuration
-        :param pulumi.Input[str] domain: Set to true to add an alias to wwww.<domain>
+        :param pulumi.Input[str] domain: Domain that will point to the Cloud Front distribution. The hosted zone is automatically extracted by removing the first subdomain.
+               e.g. my.nice.website.com -> my - subdomain | nice.website.com - hosted zone.
+               The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+               configureDNS should be set to true.
+        :param pulumi.Input['DomainPartsArgs'] domain_parts: Subdomain and parent domain of the DNS Record. The parent domain is used to determine the hosted zone that will hold the DNS Record.
+               The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+               Used alongside domain. configureDNS should be set to true.
         :param pulumi.Input[bool] include_www: Set to true to add an alias to wwww.<domain>
         :param pulumi.Input[str] price_class: Cloud Front distribution priceClass
         """
@@ -41,6 +48,8 @@ class StaticWebArgs:
             pulumi.set(__self__, "dns", dns)
         if domain is not None:
             pulumi.set(__self__, "domain", domain)
+        if domain_parts is not None:
+            pulumi.set(__self__, "domain_parts", domain_parts)
         if include_www is not None:
             pulumi.set(__self__, "include_www", include_www)
         if price_class is not None:
@@ -86,13 +95,30 @@ class StaticWebArgs:
     @pulumi.getter
     def domain(self) -> Optional[pulumi.Input[str]]:
         """
-        Set to true to add an alias to wwww.<domain>
+        Domain that will point to the Cloud Front distribution. The hosted zone is automatically extracted by removing the first subdomain.
+        e.g. my.nice.website.com -> my - subdomain | nice.website.com - hosted zone.
+        The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+        configureDNS should be set to true.
         """
         return pulumi.get(self, "domain")
 
     @domain.setter
     def domain(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "domain", value)
+
+    @property
+    @pulumi.getter(name="domainParts")
+    def domain_parts(self) -> Optional[pulumi.Input['DomainPartsArgs']]:
+        """
+        Subdomain and parent domain of the DNS Record. The parent domain is used to determine the hosted zone that will hold the DNS Record.
+        The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+        Used alongside domain. configureDNS should be set to true.
+        """
+        return pulumi.get(self, "domain_parts")
+
+    @domain_parts.setter
+    def domain_parts(self, value: Optional[pulumi.Input['DomainPartsArgs']]):
+        pulumi.set(self, "domain_parts", value)
 
     @property
     @pulumi.getter(name="includeWWW")
@@ -128,6 +154,7 @@ class StaticWeb(pulumi.ComponentResource):
                  configure_dns: Optional[pulumi.Input[bool]] = None,
                  dns: Optional[pulumi.Input[pulumi.InputType['CdnDnsArgs']]] = None,
                  domain: Optional[pulumi.Input[str]] = None,
+                 domain_parts: Optional[pulumi.Input[pulumi.InputType['DomainPartsArgs']]] = None,
                  include_www: Optional[pulumi.Input[bool]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
                  __props__=None):
@@ -138,7 +165,13 @@ class StaticWeb(pulumi.ComponentResource):
         :param pulumi.Input[pulumi.InputType['CdnCacheArgs']] cache: Cloud Front distribution cache
         :param pulumi.Input[bool] configure_dns: Set to true to configure DNS
         :param pulumi.Input[pulumi.InputType['CdnDnsArgs']] dns: DNS configuration
-        :param pulumi.Input[str] domain: Set to true to add an alias to wwww.<domain>
+        :param pulumi.Input[str] domain: Domain that will point to the Cloud Front distribution. The hosted zone is automatically extracted by removing the first subdomain.
+               e.g. my.nice.website.com -> my - subdomain | nice.website.com - hosted zone.
+               The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+               configureDNS should be set to true.
+        :param pulumi.Input[pulumi.InputType['DomainPartsArgs']] domain_parts: Subdomain and parent domain of the DNS Record. The parent domain is used to determine the hosted zone that will hold the DNS Record.
+               The subdomain is used as the name of the DNS Record that points to the Cloud Front distribution.
+               Used alongside domain. configureDNS should be set to true.
         :param pulumi.Input[bool] include_www: Set to true to add an alias to wwww.<domain>
         :param pulumi.Input[str] price_class: Cloud Front distribution priceClass
         """
@@ -169,6 +202,7 @@ class StaticWeb(pulumi.ComponentResource):
                  configure_dns: Optional[pulumi.Input[bool]] = None,
                  dns: Optional[pulumi.Input[pulumi.InputType['CdnDnsArgs']]] = None,
                  domain: Optional[pulumi.Input[str]] = None,
+                 domain_parts: Optional[pulumi.Input[pulumi.InputType['DomainPartsArgs']]] = None,
                  include_www: Optional[pulumi.Input[bool]] = None,
                  price_class: Optional[pulumi.Input[str]] = None,
                  __props__=None):
@@ -186,6 +220,7 @@ class StaticWeb(pulumi.ComponentResource):
             __props__.__dict__["configure_dns"] = configure_dns
             __props__.__dict__["dns"] = dns
             __props__.__dict__["domain"] = domain
+            __props__.__dict__["domain_parts"] = domain_parts
             __props__.__dict__["include_www"] = include_www
             __props__.__dict__["price_class"] = price_class
             __props__.__dict__["dns_records"] = None

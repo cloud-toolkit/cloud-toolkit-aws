@@ -112,7 +112,7 @@ describe("Minimal configuration", function () {
     };
 
     expect(throwError).toThrow(
-      /It's\snot\spossible\sto\sconfig\sthe\sdomain\.*/
+      /It's\snot\spossible\sto\sautomatically\sconfigure\sthe\sdomain\.*/
     );
   });
 });

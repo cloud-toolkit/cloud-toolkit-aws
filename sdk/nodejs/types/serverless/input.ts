@@ -47,6 +47,17 @@ export interface DeadLetterQueueTypeArgs {
     type: pulumi.Input<enums.serverless.DeadLetterQueueTypes>;
 }
 
+export interface DomainPartsArgs {
+    /**
+     * Domain used to extract the hosted zone id for the DNS Record
+     */
+    parentDomain?: pulumi.Input<string>;
+    /**
+     * Subdomain part that will be the name of the DNS Record
+     */
+    subdomain?: pulumi.Input<string>;
+}
+
 export interface QueueArgs {
     /**
      * Dead Letter Queue attached to the component to create.
