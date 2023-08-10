@@ -187,6 +187,7 @@ async function constructKubernetesCluster(
       provisionerProvider: resource.provisionerProvider,
       role: resource.role,
       rolePolicyAttachment: resource.rolePolicyAttachment,
+      rolePolicyAttachmentService: resource.rolePolicyAttachmentService,
       securityGroup: resource.securityGroup,
       subnetTags: resource.subnetTags,
     },

@@ -79,9 +79,13 @@ export class Cluster extends pulumi.ComponentResource {
      */
     public /*out*/ readonly role!: pulumi.Output<pulumiAws.iam.Role>;
     /**
-     * The IAM Role Policy Attachment to assign the IAM Policies to the IAM Role.
+     * The IAM Role Policy Attachment to assign the AWS managed policy AmazonEKSClusterPolicy to the IAM Role.
      */
     public /*out*/ readonly rolePolicyAttachment!: pulumi.Output<pulumiAws.iam.RolePolicyAttachment>;
+    /**
+     * The IAM Role Policy Attachment to assign the AWS managed policy AmazonEKSServicePolicy to the IAM Role.
+     */
+    public /*out*/ readonly rolePolicyAttachmentService!: pulumi.Output<pulumiAws.iam.RolePolicyAttachment>;
     /**
      * The Security Group associated to the EKS Cluster.
      */
@@ -126,6 +130,7 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["provisionerRolePolicy"] = undefined /*out*/;
             resourceInputs["role"] = undefined /*out*/;
             resourceInputs["rolePolicyAttachment"] = undefined /*out*/;
+            resourceInputs["rolePolicyAttachmentService"] = undefined /*out*/;
             resourceInputs["securityGroup"] = undefined /*out*/;
             resourceInputs["subnetTags"] = undefined /*out*/;
         } else {
@@ -142,6 +147,7 @@ export class Cluster extends pulumi.ComponentResource {
             resourceInputs["provisionerRolePolicy"] = undefined /*out*/;
             resourceInputs["role"] = undefined /*out*/;
             resourceInputs["rolePolicyAttachment"] = undefined /*out*/;
+            resourceInputs["rolePolicyAttachmentService"] = undefined /*out*/;
             resourceInputs["securityGroup"] = undefined /*out*/;
             resourceInputs["subnetTags"] = undefined /*out*/;
         }
