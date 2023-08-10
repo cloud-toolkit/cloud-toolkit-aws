@@ -2263,8 +2263,12 @@ resources:
         description: The IAM Role assumed by the EKS Cluster.
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frole:Role
       rolePolicyAttachment:
-        description: The IAM Role Policy Attachment to assign the IAM Policies to the
-          IAM Role.
+        description: The IAM Role Policy Attachment to assign the AWS managed policy 
+          AmazonEKSClusterPolicy to the IAM Role.
+        $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
+      rolePolicyAttachmentService:
+        description: The IAM Role Policy Attachment to assign the AWS managed policy 
+          AmazonEKSServicePolicy to the IAM Role.
         $ref: /aws/v5.10.0/schema.json#/resources/aws:iam%2frolePolicyAttachment:RolePolicyAttachment
       securityGroup:
         description: The Security Group associated to the EKS Cluster.
@@ -2304,6 +2308,7 @@ resources:
       - provisionerProvider
       - role
       - rolePolicyAttachment
+      - rolePolicyAttachmentService
       - securityGroup
       - cluster
       - kubeconfig

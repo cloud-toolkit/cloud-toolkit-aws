@@ -325,6 +325,7 @@ class Cluster(pulumi.ComponentResource):
             __props__.__dict__["provisioner_role_policy"] = None
             __props__.__dict__["role"] = None
             __props__.__dict__["role_policy_attachment"] = None
+            __props__.__dict__["role_policy_attachment_service"] = None
             __props__.__dict__["security_group"] = None
             __props__.__dict__["subnet_tags"] = None
         super(Cluster, __self__).__init__(
@@ -434,9 +435,17 @@ class Cluster(pulumi.ComponentResource):
     @pulumi.getter(name="rolePolicyAttachment")
     def role_policy_attachment(self) -> pulumi.Output['pulumi_aws.iam.RolePolicyAttachment']:
         """
-        The IAM Role Policy Attachment to assign the IAM Policies to the IAM Role.
+        The IAM Role Policy Attachment to assign the AWS managed policy AmazonEKSClusterPolicy to the IAM Role.
         """
         return pulumi.get(self, "role_policy_attachment")
+
+    @property
+    @pulumi.getter(name="rolePolicyAttachmentService")
+    def role_policy_attachment_service(self) -> pulumi.Output['pulumi_aws.iam.RolePolicyAttachment']:
+        """
+        The IAM Role Policy Attachment to assign the AWS managed policy AmazonEKSServicePolicy to the IAM Role.
+        """
+        return pulumi.get(self, "role_policy_attachment_service")
 
     @property
     @pulumi.getter(name="securityGroup")

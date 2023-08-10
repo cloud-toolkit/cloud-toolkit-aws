@@ -52,9 +52,14 @@ export class Cluster extends pulumi.ComponentResource {
   public readonly role: aws.iam.Role;
 
   /**
-   * The IAM Role Policy Attachment to assign the IAM Policies to the IAM Role.
+   * The IAM Role Policy Attachment to assign the AWS managed policy AmazonEKSClusterPolicy to the IAM Role.
    */
   public readonly rolePolicyAttachment: aws.iam.RolePolicyAttachment;
+
+  /**
+   * The IAM Role Policy Attachment to assign the AWS managed policy AmazonEKSServicePolicy to the IAM Role.
+   */
+  public readonly rolePolicyAttachmentService: aws.iam.RolePolicyAttachment;
 
   /**
    * The Security Group associated to the EKS Cluster.
@@ -141,6 +146,7 @@ export class Cluster extends pulumi.ComponentResource {
     this.subnetTags = this.setupSubnetTags(resourceOpts);
     this.role = this.setupRole(resourceOpts);
     this.rolePolicyAttachment = this.setupRolePolicyAttachment(resourceOpts);
+    this.rolePolicyAttachmentService = this.setupRolePolicyAttachmentService(resourceOpts);
     this.securityGroup = this.setupClusterSecurityGroup(resourceOpts);
 
     const clusterOpts = pulumi.mergeOptions(resourceOpts, {
@@ -316,6 +322,19 @@ export class Cluster extends pulumi.ComponentResource {
       this.name,
       {
         policyArn: "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+        role: this.role.name,
+      },
+      opts
+    );
+  }
+
+  private setupRolePolicyAttachmentService(
+    opts: pulumi.ResourceOptions
+  ): aws.iam.RolePolicyAttachment {
+    return new aws.iam.RolePolicyAttachment(
+      `${this.name}-service`,
+      {
+        policyArn: "arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
         role: this.role.name,
       },
       opts
